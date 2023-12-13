@@ -21,6 +21,19 @@ components:
         password:
           type: string
           example: password
+    Procedure:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
+        - description
 paths:
   /users/tokens/sign_in:
     post:
@@ -39,3 +52,39 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SignInRequestBody'
+
+  /api/v1/procedures:
+    get:
+      summary: List procedures
+      tags:
+        - Procedures
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number for pagination (default is 1)
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          description: Number of items per page (default is 25)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Procedure'
+security:
+  - BearerAuth: []
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
