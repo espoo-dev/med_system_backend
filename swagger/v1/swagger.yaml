@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 servers:
-- url: http://localhost:3000
+- url: https://med-system-backend.onrender.com
 components:
   schemas:
     SignInPayload:
