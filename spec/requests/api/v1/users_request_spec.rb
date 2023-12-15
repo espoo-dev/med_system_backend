@@ -12,8 +12,8 @@ RSpec.describe "Users" do
 
         context "when data is valid" do
           before do
-            sign_in user
-            get "/api/v1/users", params: {}
+            headers = auth_token_for(user)
+            get "/api/v1/users", params: {}, headers: headers
           end
 
           it { expect(response.parsed_body.first).to have_key("id") }
@@ -23,25 +23,16 @@ RSpec.describe "Users" do
         end
 
         context "when has pagination via page and per_page" do
-          let(:do_request) { get "/api/v1/users", params: }
-
-          let(:json_response) { response.parsed_body }
-
-          let(:params) do
-            {
-              page: 2,
-              per_page: 5
-            }
-          end
+          params = { page: 2, per_page: 5 }
 
           before do
             create_list(:user, 8)
-            sign_in user
-            do_request
+            headers = auth_token_for(user)
+            get "/api/v1/users", params: params, headers: headers
           end
 
           it "returns only 4 users" do
-            expect(json_response.length).to eq(4)
+            expect(response.parsed_body.length).to eq(4)
           end
         end
       end
@@ -50,8 +41,8 @@ RSpec.describe "Users" do
         let!(:user) { create(:user) }
 
         before do
-          sign_in user
-          get "/api/v1/users", params: {}
+          headers = auth_token_for(user)
+          get "/api/v1/users", params: {}, headers: headers
         end
 
         it { expect(response).to have_http_status(:unauthorized) }
@@ -71,7 +62,7 @@ RSpec.describe "Users" do
         it { expect(response).to have_http_status(:unauthorized) }
 
         it {
-          expect(response.parsed_body["error"]).to eq("You need to sign in or sign up before continuing.")
+          expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
         }
       end
     end

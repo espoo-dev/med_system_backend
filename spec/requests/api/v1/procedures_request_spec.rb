@@ -5,10 +5,8 @@ require "rails_helper"
 RSpec.describe "Procedures" do
   describe "GET /api/v1/procedures" do
     context "when user is not authenticated" do
-      let(:do_request) { get "/api/v1/procedures" }
-
       it "returns unauthorized" do
-        get "/api/v1/procedures"
+        get "/api/v1/procedures", params: {}, headers: {}
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -16,7 +14,7 @@ RSpec.describe "Procedures" do
       it "returns error message" do
         get "/api/v1/procedures"
 
-        expect(response.parsed_body["error"]).to eq("You need to sign in or sign up before continuing.")
+        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
       end
     end
 
@@ -25,8 +23,8 @@ RSpec.describe "Procedures" do
 
       before do
         create_list(:procedure, 5)
-        sign_in user
-        get("/api/v1/procedures", params: {})
+        headers = auth_token_for(user)
+        get("/api/v1/procedures", params: {}, headers: headers)
       end
 
       it "returns ok" do
@@ -40,23 +38,15 @@ RSpec.describe "Procedures" do
 
     context "when has pagination via page and per_page" do
       let!(:user) { create(:user) }
-      let(:do_request) { get "/api/v1/procedures", params: }
-      let(:json_response) { response.parsed_body }
-      let(:params) do
-        {
-          page: 2,
-          per_page: 5
-        }
-      end
 
       before do
         create_list(:procedure, 8)
-        sign_in user
-        do_request
+        headers = auth_token_for(user)
+        get "/api/v1/procedures", params: { page: 2, per_page: 5 }, headers: headers
       end
 
       it "returns only 3 procedures" do
-        expect(json_response.length).to eq(3)
+        expect(response.parsed_body.length).to eq(3)
       end
     end
   end
