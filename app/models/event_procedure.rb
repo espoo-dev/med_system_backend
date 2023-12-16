@@ -3,6 +3,7 @@
 class EventProcedure < ApplicationRecord
   has_enumeration_for :room_type, with: EventProcedures::RoomTypes, create_helpers: true
   monetize :amount
+  ASSOCIATIONS = %i[procedure patient hospital health_insurance].freeze
 
   belongs_to :health_insurance
   belongs_to :hospital
