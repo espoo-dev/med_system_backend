@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_12_152613) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_15_190200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_12_152613) do
     t.index ["previous_refresh_token"], name: "index_devise_api_tokens_on_previous_refresh_token"
     t.index ["refresh_token"], name: "index_devise_api_tokens_on_refresh_token"
     t.index ["resource_owner_type", "resource_owner_id"], name: "index_devise_api_tokens_on_resource_owner"
+  end
+
+  create_table "event_procedures", force: :cascade do |t|
+    t.bigint "procedure_id", null: false
+    t.bigint "patient_id", null: false
+    t.bigint "hospital_id", null: false
+    t.bigint "health_insurance_id", null: false
+    t.string "patient_service_number", null: false
+    t.datetime "date", null: false
+    t.boolean "urgency", default: false, null: false
+    t.integer "amount_cents", default: 0, null: false
+    t.datetime "payd_at"
+    t.string "room_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["health_insurance_id"], name: "index_event_procedures_on_health_insurance_id"
+    t.index ["hospital_id"], name: "index_event_procedures_on_hospital_id"
+    t.index ["patient_id"], name: "index_event_procedures_on_patient_id"
+    t.index ["procedure_id"], name: "index_event_procedures_on_procedure_id"
   end
 
   create_table "health_insurances", force: :cascade do |t|
@@ -73,4 +92,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_12_152613) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "event_procedures", "health_insurances"
+  add_foreign_key "event_procedures", "hospitals"
+  add_foreign_key "event_procedures", "patients"
+  add_foreign_key "event_procedures", "procedures"
 end

@@ -97,6 +97,12 @@ gem "kaminari"
 # Minimal authorization through OO design and pure Ruby classes
 gem "pundit"
 
+# A Ruby Library for dealing with money and currency conversion.
+gem "money", "6.16.0"
+
+# Enumerations for Ruby with some magic powers!
+gem "enumerate_it", "3.2.4"
+
 group :development, :test do
   gem "bullet"
 
