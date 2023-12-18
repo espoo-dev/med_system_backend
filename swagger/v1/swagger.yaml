@@ -1,11 +1,20 @@
 ---
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: API V1
   version: v1
+
 servers:
 - url: https://med-system-backend.onrender.com
+- url: http://localhost:3000
+
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     SignInPayload:
       type: object
@@ -21,6 +30,13 @@ components:
         password:
           type: string
           example: password
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
     Procedure:
       type: object
       properties:
@@ -28,12 +44,71 @@ components:
           type: integer
         name:
           type: string
-        description:
+        code:
           type: string
       required:
         - id
         - name
-        - description
+        - code
+    EventProcedure:
+      type: object
+      properties:
+        id:
+          type: integer
+        procedure:
+          type: object
+          properties:
+            name:
+              type: string
+          required:
+            - name
+        patient:
+          type: object
+          properties:
+            name:
+              type: string
+          required:
+            - name
+        hospital:
+          type: object
+          properties:
+            name:
+              type: string
+          required:
+            - name
+        health_insurance:
+          type: object
+          properties:
+            name:
+              type: string
+          required:
+            - name
+        patient_service_number:
+          type: string
+        date:
+          type: string
+          format: date
+        room_type:
+          type: string
+        amount:
+          type: string
+        urgency:
+          type: boolean
+        payd_at:
+          type: string
+          format: date
+      required:
+        - procedure
+        - patient
+        - hospital
+        - health_insurance
+        - patient_service_number
+        - date
+        - room_type
+        - amount
+        - urgency
+        - payd_at
+
 paths:
   /users/tokens/sign_in:
     post:
@@ -53,9 +128,43 @@ paths:
             schema:
               $ref: '#/components/schemas/SignInRequestBody'
 
+  /api/v1/users:
+    get:
+      summary: List users
+      operationId: listUsers
+      security:
+        - BearerAuth: []
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number for pagination (default is 1)
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          description: Number of items per page (default is 25)
+      responses:
+        '200':
+          description: A list of users for the authenticated user (admin only)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+
   /api/v1/procedures:
     get:
       summary: List procedures
+      operationId: listProcedures
+      security:
+        - BearerAuth: []
       tags:
         - Procedures
       parameters:
@@ -69,22 +178,45 @@ paths:
           schema:
             type: integer
           description: Number of items per page (default is 25)
-      security:
-        - BearerAuth: []
       responses:
         '200':
-          description: Successful response
+          description: A list of procedures for the authenticated user
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Procedure'
-security:
-  - BearerAuth: []
+        '401':
+          description: Unauthorized
 
-securitySchemes:
-  BearerAuth:
-    type: http
-    scheme: bearer
-    bearerFormat: JWT
+  /api/v1/event_procedures:
+    get:
+      summary: List event_procedures
+      operationId: listEventProcedures
+      security:
+        - BearerAuth: []
+      tags:
+        - EventProcedures
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number for pagination (default is 1)
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          description: Number of items per page (default is 25)
+      responses:
+        '200':
+          description: A list of event_procedures for the authenticated user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventProcedure'
+        '401':
+          description: Unauthorized
