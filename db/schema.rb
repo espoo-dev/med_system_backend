@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_22_205030) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_26_165615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,7 +38,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_205030) do
     t.string "patient_service_number", null: false
     t.datetime "date", null: false
     t.boolean "urgency", default: false, null: false
-    t.integer "amount_cents", default: 0, null: false
     t.datetime "payd_at"
     t.string "room_type", null: false
     t.datetime "created_at", null: false
