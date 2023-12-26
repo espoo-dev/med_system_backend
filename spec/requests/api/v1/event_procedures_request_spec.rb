@@ -103,4 +103,62 @@ RSpec.describe "EventProcedures" do
       end
     end
   end
+
+  describe "PUT /api/v1/event_procedures/:id" do
+    context "when user is authenticated" do
+      context "with valid attributes" do
+        it "returns ok" do
+          event_procedure = create(:event_procedure)
+
+          params = {
+            procedure_id: create(:procedure).id,
+            patient_id: create(:patient).id,
+            hospital_id: create(:hospital).id,
+            health_insurance_id: create(:health_insurance).id,
+            patient_service_number: "1234567890",
+            date: Time.zone.now.to_date,
+            urgency: false,
+            room_type: EventProcedures::RoomTypes::WARD
+          }
+
+          headers = auth_token_for(create(:user))
+          put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: headers
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "with invalid attributes" do
+        it "returns unprocessable_entity" do
+          event_procedure = create(:event_procedure)
+
+          headers = auth_token_for(create(:user))
+          put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+
+    context "when user is not authenticated" do
+      it "returns unauthorized" do
+        event_procedure = create(:event_procedure)
+
+        params = {
+          procedure_id: create(:procedure).id,
+          patient_id: create(:patient).id,
+          hospital_id: create(:hospital).id,
+          health_insurance_id: create(:health_insurance).id,
+          patient_service_number: "1234567890",
+          date: Time.zone.now.to_date,
+          urgency: false,
+          room_type: EventProcedures::RoomTypes::WARD
+        }
+
+        put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: {}
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
