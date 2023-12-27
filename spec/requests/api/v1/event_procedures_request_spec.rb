@@ -161,4 +161,41 @@ RSpec.describe "EventProcedures" do
       end
     end
   end
+
+  describe "DELETE /api/v1/event_procedures/:id" do
+    context "when user is authenticated" do
+      it "returns ok" do
+        event_procedure = create(:event_procedure)
+
+        headers = auth_token_for(create(:user))
+        delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      context "when event_procedure cannot be destroyed" do
+        it "returns unprocessable_entity" do
+          event_procedure = create(:event_procedure)
+
+          allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
+          allow(event_procedure).to receive(:destroy).and_return(false)
+
+          headers = auth_token_for(create(:user))
+          delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+
+    context "when user is not authenticated" do
+      it "returns unauthorized" do
+        event_procedure = create(:event_procedure)
+
+        delete "/api/v1/event_procedures/#{event_procedure.id}", headers: {}
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

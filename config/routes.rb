@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:index]
       resources :procedures, only: [:index]
-      resources :event_procedures, only: %i[index create update]
+      resources :event_procedures, only: %i[index create update destroy]
     end
   end
 end

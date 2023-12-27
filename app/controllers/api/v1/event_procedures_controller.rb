@@ -35,6 +35,17 @@ module Api
         end
       end
 
+      def destroy
+        authorize(event_procedure)
+        result = EventProcedures::Destroy.result(id: event_procedure.id.to_s)
+
+        if result.success?
+          render json: result.event_procedure, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def event_procedure_params
