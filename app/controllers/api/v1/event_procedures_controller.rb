@@ -24,6 +24,28 @@ module Api
         end
       end
 
+      def update
+        authorize(event_procedure)
+        result = EventProcedures::Update.result(id: event_procedure.id.to_s, attributes: event_procedure_params)
+
+        if result.success?
+          render json: result.event_procedure, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        authorize(event_procedure)
+        result = EventProcedures::Destroy.result(id: event_procedure.id.to_s)
+
+        if result.success?
+          render json: result.event_procedure, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def event_procedure_params
@@ -39,6 +61,10 @@ module Api
           :payd_at,
           :room_type
         ).to_h
+      end
+
+      def event_procedure
+        @event_procedure ||= EventProcedures::Find.result(id: params[:id]).event_procedure
       end
     end
   end
