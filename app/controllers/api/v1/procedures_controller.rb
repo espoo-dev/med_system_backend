@@ -22,7 +22,33 @@ module Api
         end
       end
 
+      def update
+        authorize(procedure)
+        result = Procedures::Update.result(id: procedure.id.to_s, attributes: procedure_params)
+
+        if result.success?
+          render json: result.procedure, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        authorize(procedure)
+        result = Procedures::Destroy.result(id: procedure.id.to_s)
+
+        if result.success?
+          render json: result.procedure, status: :ok
+        else
+          render json: result.errors, status: :unprocessable_entity
+        end
+      end
+
       private
+
+      def procedure
+        @procedure ||= Procedures::Find.result(id: params[:id]).procedure
+      end
 
       def procedure_params
         params.permit(:name, :code, :amount_cents).to_h
