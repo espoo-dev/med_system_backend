@@ -50,4 +50,57 @@ RSpec.describe "Procedures" do
       end
     end
   end
+
+  describe "POST /api/v1/procedures" do
+    context "when user is not authenticated" do
+      it "returns unauthorized" do
+        post "/api/v1/procedures", params: {}, headers: {}
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "returns error message" do
+        post "/api/v1/procedures"
+
+        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
+      end
+    end
+
+    context "when user is authenticated" do
+      context "with valid params" do
+        let!(:user) { create(:user) }
+        let(:headers) { auth_token_for(user) }
+        let(:attributes) do
+          { name: "Test Procedure", code: "03.02.04.01-5", amount_cents: 1000 }
+        end
+
+        it "returns created" do
+          post "/api/v1/procedures", params: attributes, headers: headers
+
+          expect(response).to have_http_status(:created)
+        end
+      end
+
+      context "with invalid params" do
+        let!(:user) { create(:user) }
+        let(:headers) { auth_token_for(user) }
+        let(:invalid_attributes) { { name: nil, code: nil } }
+
+        it "returns unprocessable_entity" do
+          post "/api/v1/procedures", params: invalid_attributes, headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns error messages" do
+          post "/api/v1/procedures", params: invalid_attributes, headers: headers
+
+          expect(response.parsed_body.symbolize_keys).to include(
+            name: ["can't be blank"],
+            code: ["can't be blank"]
+          )
+        end
+      end
+    end
+  end
 end
