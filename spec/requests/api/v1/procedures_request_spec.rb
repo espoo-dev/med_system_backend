@@ -103,4 +103,81 @@ RSpec.describe "Procedures" do
       end
     end
   end
+
+  describe "PUT /api/v1/procedures/:id" do
+    context "when user is authenticated" do
+      context "with valid attributes" do
+        it "returns ok" do
+          procedure = create(:procedure)
+
+          params = { name: "New Procedure Name", amount_cents: 1000 }
+
+          headers = auth_token_for(create(:user))
+          put "/api/v1/procedures/#{procedure.id}", params: params, headers: headers
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "with invalid attributes" do
+        it "returns unprocessable_entity" do
+          procedure = create(:procedure)
+
+          headers = auth_token_for(create(:user))
+          put "/api/v1/procedures/#{procedure.id}", params: { name: nil }, headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+
+    context "when user is not authenticated" do
+      it "returns unauthorized" do
+        procedure = create(:procedure)
+
+        params = { name: "New Procedure Name", amount_cents: 1000 }
+
+        put "/api/v1/procedures/#{procedure.id}", params: params, headers: {}
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe "DELETE /api/v1/procedures/:id" do
+    context "when user is authenticated" do
+      it "returns ok" do
+        procedure = create(:procedure)
+
+        headers = auth_token_for(create(:user))
+        delete "/api/v1/procedures/#{procedure.id}", headers: headers
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      context "when procedure cannot be destroyed" do
+        it "returns unprocessable_entity" do
+          procedure = create(:procedure)
+
+          allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
+          allow(procedure).to receive(:destroy).and_return(false)
+
+          headers = auth_token_for(create(:user))
+          delete "/api/v1/procedures/#{procedure.id}", headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+
+    context "when user is not authenticated" do
+      it "returns unauthorized" do
+        procedure = create(:procedure)
+
+        delete "/api/v1/procedures/#{procedure.id}", headers: {}
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
