@@ -10,6 +10,23 @@ module Api
 
         render json: procedures, status: :ok
       end
+
+      def create
+        authorize(Procedure)
+        result = Procedures::Create.result(attributes: procedure_params)
+
+        if result.success?
+          render json: result.procedure, status: :created
+        else
+          render json: result.procedure.errors, status: :unprocessable_entity
+        end
+      end
+
+      private
+
+      def procedure_params
+        params.permit(:name, :code, :amount_cents).to_h
+      end
     end
   end
 end
