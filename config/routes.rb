@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index]
       resources :procedures, only: %i[index create update destroy]
       resources :event_procedures, only: %i[index create update destroy]
+      resources :patients, only: %i[index create update destroy]
     end
   end
 end
