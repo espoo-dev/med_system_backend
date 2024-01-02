@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Patients" do
-  describe "GET /patients" do
+  describe "GET ap1/v1/patients" do
     context "when user is not authenticated" do
       it "returns unauthorized" do
         get "/api/v1/patients"
@@ -68,7 +68,7 @@ RSpec.describe "Patients" do
     end
   end
 
-  describe "POST /patients" do
+  describe "POST api/v1/patients" do
     context "when user is not authenticated" do
       let(:attributes) { { name: "John" } }
 
@@ -118,6 +118,96 @@ RSpec.describe "Patients" do
           expect(response.parsed_body.symbolize_keys).to include(
             name: ["can't be blank"]
           )
+        end
+      end
+    end
+  end
+
+  describe "PUT api/v1/patients/:id" do
+    context "when user is not authenticated" do
+      let!(:patient) { create(:patient) }
+
+      it "returns unauthorized" do
+        put "/api/v1/patients/#{patient.id}", params: { name: "John" }, headers: {}
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when params are valid" do
+        let!(:patient) { create(:patient, name: "Old Name") }
+
+        before do
+          headers = auth_token_for(create(:user))
+          put "/api/v1/patients/#{patient.id}", params: { name: "New Name" }, headers: headers
+        end
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns patient" do
+          expect(response.parsed_body.symbolize_keys).to include(
+            id: patient.id,
+            name: "New Name"
+          )
+        end
+      end
+
+      context "when params are invalid" do
+        let!(:patient) { create(:patient) }
+
+        before do
+          headers = auth_token_for(create(:user))
+          put "/api/v1/patients/#{patient.id}", params: { name: nil }, headers: headers
+        end
+
+        it "returns unprocessable_entity" do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns errors" do
+          expect(response.parsed_body.symbolize_keys).to include(
+            name: ["can't be blank"]
+          )
+        end
+      end
+    end
+  end
+
+  describe "DELETE api/v1/patients/:id" do
+    context "when user is not authenticated" do
+      let!(:patient) { create(:patient) }
+
+      it "returns unauthorized" do
+        delete "/api/v1/patients/#{patient.id}", headers: {}
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      it "returns ok" do
+        patient = create(:patient)
+        headers = auth_token_for(create(:user))
+
+        delete "/api/v1/patients/#{patient.id}", headers: headers
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      context "when patient cannot be destroyed" do
+        let!(:patient) { create(:patient) }
+
+        it "returns unprocessable_entity" do
+          headers = auth_token_for(create(:user))
+          allow(Patient).to receive(:find).with(patient.id.to_s).and_return(patient)
+          allow(patient).to receive(:destroy).and_return(false)
+
+          delete "/api/v1/patients/#{patient.id}", headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
