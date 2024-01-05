@@ -69,4 +69,53 @@ RSpec.describe "Hospitals" do
       end
     end
   end
+
+  describe "POST /api/v1/hospitals" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        post "/api/v1/hospitals", params: { name: "Hospital", address: "Address" }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when params are valid" do
+        before do
+          headers = auth_token_for(create(:user))
+          post "/api/v1/hospitals", params: { name: "Hospital", address: "Address" }, headers: headers
+        end
+
+        it "returns created" do
+          expect(response).to have_http_status(:created)
+        end
+
+        it "returns hospital" do
+          expect(response.parsed_body).to include(
+            "id" => Hospital.last.id,
+            "name" => "Hospital",
+            "address" => "Address"
+          )
+        end
+      end
+
+      context "when params are invalid" do
+        before do
+          headers = auth_token_for(create(:user))
+          post "/api/v1/hospitals", params: { name: nil, address: nil }, headers: headers
+        end
+
+        it "returns unprocessable_entity" do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns errors" do
+          expect(response.parsed_body).to eq(
+            "name" => ["can't be blank"],
+            "address" => ["can't be blank"]
+          )
+        end
+      end
+    end
+  end
 end
