@@ -32,6 +32,17 @@ module Api
         end
       end
 
+      def destroy
+        authorize(hospital)
+        result = Hospitals::Destroy.result(id: hospital.id.to_s)
+
+        if result.success?
+          render json: result.hospital, status: :ok
+        else
+          render json: result.hospital.errors, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def hospital

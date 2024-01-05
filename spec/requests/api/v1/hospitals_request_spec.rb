@@ -171,4 +171,40 @@ RSpec.describe "Hospitals" do
       end
     end
   end
+
+  describe "DELETE /api/v1/hospitals/:id" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        hospital = create(:hospital)
+
+        delete "/api/v1/hospitals/#{hospital.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      it "returns ok" do
+        hospital = create(:hospital)
+        headers = auth_token_for(create(:user))
+
+        delete "/api/v1/hospitals/#{hospital.id}", headers: headers
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      context "when hospital cannot be destroyed" do
+        it "returns unprocessable_entity" do
+          hospital = create(:hospital)
+          headers = auth_token_for(create(:user))
+          allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
+          allow(hospital).to receive(:destroy).and_return(false)
+
+          delete "/api/v1/hospitals/#{hospital.id}", headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+  end
 end
