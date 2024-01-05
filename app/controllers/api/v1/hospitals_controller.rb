@@ -21,7 +21,22 @@ module Api
         end
       end
 
+      def update
+        authorize(hospital)
+        result = Hospitals::Update.result(id: hospital.id.to_s, attributes: hospital_params)
+
+        if result.success?
+          render json: result.hospital, status: :ok
+        else
+          render json: result.hospital.errors, status: :unprocessable_entity
+        end
+      end
+
       private
+
+      def hospital
+        @hospital ||= Hospitals::Find.result(id: params[:id]).hospital
+      end
 
       def hospital_params
         params.permit(:name, :address).to_h

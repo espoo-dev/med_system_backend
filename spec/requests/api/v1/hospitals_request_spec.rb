@@ -118,4 +118,57 @@ RSpec.describe "Hospitals" do
       end
     end
   end
+
+  describe "PUT /api/v1/hospitals/:id" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        hospital = create(:hospital)
+        put "/api/v1/hospitals/#{hospital.id}", params: { name: "Hospital", address: "Address" }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when params are valid" do
+        let!(:hospital) { create(:hospital, name: "Old Name") }
+
+        before do
+          headers = auth_token_for(create(:user))
+          put "/api/v1/hospitals/#{hospital.id}", params: { name: "New Name" }, headers: headers
+        end
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns hospital" do
+          expect(response.parsed_body.symbolize_keys).to include(
+            id: hospital.id,
+            name: "New Name"
+          )
+        end
+      end
+
+      context "when params are invalid" do
+        let!(:hospital) { create(:hospital, name: "Old Name") }
+
+        before do
+          headers = auth_token_for(create(:user))
+          put "/api/v1/hospitals/#{hospital.id}", params: { name: nil, address: nil }, headers: headers
+        end
+
+        it "returns unprocessable_entity" do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns errors" do
+          expect(response.parsed_body).to eq(
+            "name" => ["can't be blank"],
+            "address" => ["can't be blank"]
+          )
+        end
+      end
+    end
+  end
 end
