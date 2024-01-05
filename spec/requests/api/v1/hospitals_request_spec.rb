@@ -69,4 +69,142 @@ RSpec.describe "Hospitals" do
       end
     end
   end
+
+  describe "POST /api/v1/hospitals" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        post "/api/v1/hospitals", params: { name: "Hospital", address: "Address" }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when params are valid" do
+        before do
+          headers = auth_token_for(create(:user))
+          post "/api/v1/hospitals", params: { name: "Hospital", address: "Address" }, headers: headers
+        end
+
+        it "returns created" do
+          expect(response).to have_http_status(:created)
+        end
+
+        it "returns hospital" do
+          expect(response.parsed_body).to include(
+            "id" => Hospital.last.id,
+            "name" => "Hospital",
+            "address" => "Address"
+          )
+        end
+      end
+
+      context "when params are invalid" do
+        before do
+          headers = auth_token_for(create(:user))
+          post "/api/v1/hospitals", params: { name: nil, address: nil }, headers: headers
+        end
+
+        it "returns unprocessable_entity" do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns errors" do
+          expect(response.parsed_body).to eq(
+            "name" => ["can't be blank"],
+            "address" => ["can't be blank"]
+          )
+        end
+      end
+    end
+  end
+
+  describe "PUT /api/v1/hospitals/:id" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        hospital = create(:hospital)
+        put "/api/v1/hospitals/#{hospital.id}", params: { name: "Hospital", address: "Address" }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when params are valid" do
+        let!(:hospital) { create(:hospital, name: "Old Name") }
+
+        before do
+          headers = auth_token_for(create(:user))
+          put "/api/v1/hospitals/#{hospital.id}", params: { name: "New Name" }, headers: headers
+        end
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns hospital" do
+          expect(response.parsed_body.symbolize_keys).to include(
+            id: hospital.id,
+            name: "New Name"
+          )
+        end
+      end
+
+      context "when params are invalid" do
+        let!(:hospital) { create(:hospital, name: "Old Name") }
+
+        before do
+          headers = auth_token_for(create(:user))
+          put "/api/v1/hospitals/#{hospital.id}", params: { name: nil, address: nil }, headers: headers
+        end
+
+        it "returns unprocessable_entity" do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns errors" do
+          expect(response.parsed_body).to eq(
+            "name" => ["can't be blank"],
+            "address" => ["can't be blank"]
+          )
+        end
+      end
+    end
+  end
+
+  describe "DELETE /api/v1/hospitals/:id" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        hospital = create(:hospital)
+
+        delete "/api/v1/hospitals/#{hospital.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      it "returns ok" do
+        hospital = create(:hospital)
+        headers = auth_token_for(create(:user))
+
+        delete "/api/v1/hospitals/#{hospital.id}", headers: headers
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      context "when hospital cannot be destroyed" do
+        it "returns unprocessable_entity" do
+          hospital = create(:hospital)
+          headers = auth_token_for(create(:user))
+          allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
+          allow(hospital).to receive(:destroy).and_return(false)
+
+          delete "/api/v1/hospitals/#{hospital.id}", headers: headers
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+  end
 end
