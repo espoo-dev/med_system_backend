@@ -20,7 +20,7 @@ module Api
         if result.success?
           render json: result.event_procedure, status: :created
         else
-          render json: result.errors, status: :unprocessable_entity
+          render json: result.event_procedure.errors, status: :unprocessable_entity
         end
       end
 
@@ -31,7 +31,7 @@ module Api
         if result.success?
           render json: result.event_procedure, status: :ok
         else
-          render json: result.errors, status: :unprocessable_entity
+          render json: result.event_procedure.errors, status: :unprocessable_entity
         end
       end
 
@@ -42,7 +42,7 @@ module Api
         if result.success?
           render json: result.event_procedure, status: :ok
         else
-          render json: result.errors, status: :unprocessable_entity
+          render json: result.error, status: :unprocessable_entity
         end
       end
 

@@ -204,6 +204,17 @@ RSpec.describe "Hospitals" do
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
+
+        it "returns errors" do
+          hospital = create(:hospital)
+          headers = auth_token_for(create(:user))
+          allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
+          allow(hospital).to receive(:destroy).and_return(false)
+
+          delete "/api/v1/hospitals/#{hospital.id}", headers: headers
+
+          expect(response.parsed_body).to eq("cannot_destroy")
+        end
       end
     end
   end
