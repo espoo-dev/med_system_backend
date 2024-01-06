@@ -40,7 +40,7 @@ module Api
         if result.success?
           render json: result.patient, status: :ok
         else
-          render json: result.patient.errors, status: :unprocessable_entity
+          render json: result.error, status: :unprocessable_entity
         end
       end
 

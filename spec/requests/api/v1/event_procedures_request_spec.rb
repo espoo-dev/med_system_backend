@@ -80,6 +80,21 @@ RSpec.describe "EventProcedures" do
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
+
+        it "returns error message" do
+          headers = auth_token_for(create(:user))
+          post "/api/v1/event_procedures", params: {}, headers: headers
+
+          expect(response.parsed_body).to eq(
+            "health_insurance" => ["must exist"],
+            "hospital" => ["must exist"],
+            "patient" => ["must exist"],
+            "procedure" => ["must exist"],
+            "date" => ["can't be blank"],
+            "patient_service_number" => ["can't be blank"],
+            "room_type" => ["can't be blank"]
+          )
+        end
       end
     end
 
@@ -137,6 +152,15 @@ RSpec.describe "EventProcedures" do
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
+
+        it "returns error message" do
+          event_procedure = create(:event_procedure)
+
+          headers = auth_token_for(create(:user))
+          put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
+
+          expect(response.parsed_body).to eq("date" => ["can't be blank"])
+        end
       end
     end
 
@@ -184,6 +208,18 @@ RSpec.describe "EventProcedures" do
           delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
 
           expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns error message" do
+          event_procedure = create(:event_procedure)
+
+          allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
+          allow(event_procedure).to receive(:destroy).and_return(false)
+
+          headers = auth_token_for(create(:user))
+          delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
+
+          expect(response.parsed_body).to eq("cannot_destroy")
         end
       end
     end

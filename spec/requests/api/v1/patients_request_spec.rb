@@ -198,9 +198,8 @@ RSpec.describe "Patients" do
       end
 
       context "when patient cannot be destroyed" do
-        let!(:patient) { create(:patient) }
-
         it "returns unprocessable_entity" do
+          patient = create(:patient)
           headers = auth_token_for(create(:user))
           allow(Patient).to receive(:find).with(patient.id.to_s).and_return(patient)
           allow(patient).to receive(:destroy).and_return(false)
@@ -208,6 +207,17 @@ RSpec.describe "Patients" do
           delete "/api/v1/patients/#{patient.id}", headers: headers
 
           expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns errors" do
+          patient = create(:patient)
+          headers = auth_token_for(create(:user))
+          allow(Patient).to receive(:find).with(patient.id.to_s).and_return(patient)
+          allow(patient).to receive(:destroy).and_return(false)
+
+          delete "/api/v1/patients/#{patient.id}", headers: headers
+
+          expect(response.parsed_body).to eq("cannot_destroy")
         end
       end
     end

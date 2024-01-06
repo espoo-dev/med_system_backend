@@ -128,6 +128,17 @@ RSpec.describe "Procedures" do
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
+
+        it "returns error messages" do
+          procedure = create(:procedure)
+
+          headers = auth_token_for(create(:user))
+          put "/api/v1/procedures/#{procedure.id}", params: { name: nil }, headers: headers
+
+          expect(response.parsed_body.symbolize_keys).to include(
+            name: ["can't be blank"]
+          )
+        end
       end
     end
 
@@ -166,6 +177,18 @@ RSpec.describe "Procedures" do
           delete "/api/v1/procedures/#{procedure.id}", headers: headers
 
           expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns error messages" do
+          procedure = create(:procedure)
+
+          allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
+          allow(procedure).to receive(:destroy).and_return(false)
+
+          headers = auth_token_for(create(:user))
+          delete "/api/v1/procedures/#{procedure.id}", headers: headers
+
+          expect(response.parsed_body).to eq("cannot_destroy")
         end
       end
     end
