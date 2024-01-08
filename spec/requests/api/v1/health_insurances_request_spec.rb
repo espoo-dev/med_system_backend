@@ -67,4 +67,53 @@ RSpec.describe "HealthInsurances" do
       end
     end
   end
+
+  describe "POST /api/v1/health_insurances" do
+    context "when user is not authenticated" do
+      it "returns unauthorized status" do
+        post "/api/v1/health_insurances"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when params are valid" do
+        let(:health_insurance_params) { attributes_for(:health_insurance) }
+
+        before do
+          headers = auth_token_for(create(:user))
+          post "/api/v1/health_insurances", params: health_insurance_params, headers: headers
+        end
+
+        it "returns created" do
+          expect(response).to have_http_status(:created)
+        end
+
+        it "returns health_insurance" do
+          expect(response.parsed_body).to include(
+            "id" => HealthInsurance.last.id,
+            "name" => health_insurance_params[:name]
+          )
+        end
+      end
+
+      context "when params are invalid" do
+        let(:health_insurance_params) { { name: nil } }
+
+        before do
+          headers = auth_token_for(create(:user))
+          post "/api/v1/health_insurances", params: health_insurance_params, headers: headers
+        end
+
+        it "returns unprocessable_entity" do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns errors" do
+          expect(response.parsed_body).to include("name" => ["can't be blank"])
+        end
+      end
+    end
+  end
 end
