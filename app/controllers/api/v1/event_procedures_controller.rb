@@ -4,12 +4,17 @@ module Api
   module V1
     class EventProceduresController < ApiController
       def index
-        event_procedures = EventProcedure.includes(:procedure, :patient, :hospital, :health_insurance)
-          .page(params[:page]).per(params[:per_page])
+        result = EventProcedures::List.result(page: params[:page], per_page: params[:per_page])
+        event_procedures = result.event_procedures
 
         authorize(event_procedures)
 
-        render json: event_procedures, status: :ok
+        render json: {
+          event_procedures: event_procedures,
+          total: total_amount_cents[:total],
+          total_payd: total_amount_cents[:total_payd],
+          total_unpayd: total_amount_cents[:total_unpayd]
+        }, status: :ok
       end
 
       def create
@@ -65,6 +70,14 @@ module Api
 
       def event_procedure
         @event_procedure ||= EventProcedures::Find.result(id: params[:id]).event_procedure
+      end
+
+      def total_amount_cents
+        {
+          total: EventProcedures::CalculateTotalAmount.call.total,
+          total_payd: EventProcedures::CalculateTotalAmountPayd.call.payd,
+          total_unpayd: EventProcedures::CalculateTotalAmountUnpayd.call.unpayd
+        }
       end
     end
   end
