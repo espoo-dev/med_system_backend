@@ -6,14 +6,15 @@ module Api
       def index
         result = EventProcedures::List.result(page: params[:page], per_page: params[:per_page])
         event_procedures = result.event_procedures
+        amount_cents = EventProcedures::TotalAmountCents.call
 
         authorize(event_procedures)
 
         render json: {
           event_procedures: event_procedures,
-          total: total_amount_cents[:total],
-          total_payd: total_amount_cents[:total_payd],
-          total_unpayd: total_amount_cents[:total_unpayd]
+          total: amount_cents.total,
+          total_payd: amount_cents.payd,
+          total_unpayd: amount_cents.unpayd
         }, status: :ok
       end
 
@@ -70,14 +71,6 @@ module Api
 
       def event_procedure
         @event_procedure ||= EventProcedures::Find.result(id: params[:id]).event_procedure
-      end
-
-      def total_amount_cents
-        {
-          total: EventProcedures::CalculateTotalAmount.call.total,
-          total_payd: EventProcedures::CalculateTotalAmountPayd.call.payd,
-          total_unpayd: EventProcedures::CalculateTotalAmountUnpayd.call.unpayd
-        }
       end
     end
   end
