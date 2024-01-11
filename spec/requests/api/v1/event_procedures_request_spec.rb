@@ -32,7 +32,7 @@ RSpec.describe "EventProcedures" do
       end
 
       it "returns all event_procedures" do
-        expect(response.parsed_body.length).to eq(5)
+        expect(response.parsed_body["event_procedures"].length).to eq(5)
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe "EventProcedures" do
       end
 
       it "returns only 3 event_procedures" do
-        expect(response.parsed_body.length).to eq(3)
+        expect(response.parsed_body["event_procedures"].length).to eq(3)
       end
     end
   end
