@@ -11,7 +11,10 @@ module Api
         authorize(event_procedures)
 
         render json: {
-          event_procedures: event_procedures,
+          event_procedures: ActiveModelSerializers::SerializableResource.new(
+            event_procedures,
+            each_serializer: EventProcedureSerializer
+          ),
           total: amount_cents.total,
           total_payd: amount_cents.payd,
           total_unpayd: amount_cents.unpayd

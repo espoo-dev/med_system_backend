@@ -21,4 +21,12 @@ RSpec.describe EventProcedure do
       expect(described_class.enumerations).to include(room_type: EventProcedures::RoomTypes)
     end
   end
+
+  describe "monetization" do
+    it "monetizes total_amount attribute" do
+      event_procedure = described_class.new(total_amount_cents: 10)
+
+      expect(event_procedure.total_amount).to eq Money.new(10, "BRL")
+    end
+  end
 end
