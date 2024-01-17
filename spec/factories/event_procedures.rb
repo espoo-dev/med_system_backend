@@ -12,6 +12,7 @@ FactoryBot.define do
     urgency { false }
     payd_at { "2023-12-15 16:02:00" }
     room_type { EventProcedures::RoomTypes::WARD }
+    total_amount_cents { procedure.amount_cents }
 
     traits_for_enum(:room_type, EventProcedures::RoomTypes.list)
   end

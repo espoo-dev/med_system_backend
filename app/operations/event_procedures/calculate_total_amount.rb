@@ -5,7 +5,7 @@ module EventProcedures
     output :total, type: String
 
     def call
-      total_amount_cents = EventProcedure.joins(:procedure).sum("procedures.amount_cents")
+      total_amount_cents = EventProcedure.sum(:total_amount_cents)
       self.total = Money.new(total_amount_cents, "BRL").format
     end
   end

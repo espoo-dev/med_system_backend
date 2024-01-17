@@ -24,20 +24,19 @@ RSpec.describe EventProcedures::Create, type: :operation do
 
       it "creates a new event_procedure" do
         params = {
-          procedure_id: create(:procedure).id,
+          procedure_id: create(:procedure, amount_cents: 1000).id,
           patient_id: create(:patient).id,
           hospital_id: create(:hospital).id,
           health_insurance_id: create(:health_insurance).id,
           patient_service_number: "1234567890",
           date: Time.zone.now.to_date,
-          urgency: false,
+          urgency: true,
           room_type: EventProcedures::RoomTypes::WARD
         }
 
         result = described_class.result(attributes: params)
 
         expect(result.event_procedure).to be_persisted
-
         expect(result.event_procedure.attributes.symbolize_keys).to include(
           procedure_id: params[:procedure_id],
           patient_id: params[:patient_id],
@@ -46,8 +45,10 @@ RSpec.describe EventProcedures::Create, type: :operation do
           patient_service_number: params[:patient_service_number],
           date: params[:date],
           urgency: params[:urgency],
-          room_type: params[:room_type]
+          room_type: params[:room_type],
+          total_amount_cents: result.event_procedure.total_amount_cents
         )
+        expect(result.event_procedure.total_amount_cents).to eq(1300)
       end
     end
 
