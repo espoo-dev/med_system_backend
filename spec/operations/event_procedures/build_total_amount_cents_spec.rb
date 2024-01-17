@@ -12,11 +12,12 @@ RSpec.describe EventProcedures::BuildTotalAmountCents, type: :operation do
 
     context "when urgency is true" do
       it "adds 30% to the total amount" do
-        event_procedure = create(:event_procedure, urgency: true, procedure: create(:procedure, amount_cents: 1000))
+        procedure = create(:procedure, amount_cents: 10_100) # equals to R$101.00
+        event_procedure = create(:event_procedure, urgency: true, procedure_id: procedure.id)
 
         result = described_class.result(event_procedure: event_procedure)
 
-        expect(result.total_amount_cents).to eq(1300)
+        expect(result.total_amount_cents).to eq(13_130) # equals to R$131.30
       end
     end
 
