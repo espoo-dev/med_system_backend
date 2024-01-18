@@ -18,6 +18,27 @@ RSpec.describe EventProcedures::List, type: :operation do
       expect(result.event_procedures).to eq event_procedures
     end
 
+    it "includes the associations" do # rubocop:disable RSpec/MultipleExpectations
+      procedure = create(:procedure, name: "Tireoidectomia")
+      patient = create(:patient, name: "John Doe")
+      hospital = create(:hospital, name: "General Hospital")
+      health_insurance = create(:health_insurance, name: "Insurance Corp")
+      create_list(
+        :event_procedure, 3,
+        procedure: procedure,
+        patient: patient,
+        hospital: hospital,
+        health_insurance: health_insurance
+      )
+
+      result = described_class.result(page: nil, per_page: nil)
+
+      expect(result.event_procedures.first.procedure.name).to eq "Tireoidectomia"
+      expect(result.event_procedures.first.patient.name).to eq "John Doe"
+      expect(result.event_procedures.first.hospital.name).to eq "General Hospital"
+      expect(result.event_procedures.first.health_insurance.name).to eq "Insurance Corp"
+    end
+
     context "when has pagination via page and per_page" do
       it "paginates event_procedures" do
         create_list(:event_procedure, 8)
