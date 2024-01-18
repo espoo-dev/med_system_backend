@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.configure do |config|
+  associations = %i[procedure patient hospital health_insurance]
+  associations.each do |association|
+    Bullet.add_safelist type: :unused_eager_loading, class_name: "EventProcedure", association: association
+  end
+
   if Bullet.enable?
     config.before do
       Bullet.start_request
