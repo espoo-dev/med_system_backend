@@ -8,7 +8,14 @@ module EventProcedures
     output :event_procedures, type: Enumerable
 
     def call
-      self.event_procedures = EventProcedure.page(page).per(per_page)
+      self.event_procedures = EventProcedure.includes(
+        %i[
+          procedure
+          patient
+          hospital
+          health_insurance
+        ]
+      ).page(page).per(per_page)
     end
   end
 end
