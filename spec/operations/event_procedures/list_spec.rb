@@ -10,12 +10,14 @@ RSpec.describe EventProcedures::List, type: :operation do
       expect(result.success?).to be true
     end
 
-    it "returns all event_procedures" do
-      event_procedures = create_list(:event_procedure, 3)
+    it "returns event_procedures ordered by created_at desc" do
+      today_event = create(:event_procedure, created_at: Time.zone.today)
+      yesterday_event = create(:event_procedure, created_at: Time.zone.yesterday)
+      tomorrow_event = create(:event_procedure, created_at: Time.zone.tomorrow)
 
       result = described_class.result(page: nil, per_page: nil)
 
-      expect(result.event_procedures).to eq event_procedures
+      expect(result.event_procedures).to eq [tomorrow_event, today_event, yesterday_event]
     end
 
     it "includes the associations" do # rubocop:disable RSpec/MultipleExpectations
