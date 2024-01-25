@@ -4,7 +4,12 @@ module Api
   module V1
     class EventProceduresController < ApiController
       def index
-        result = EventProcedures::List.result(page: params[:page], per_page: params[:per_page])
+        result = EventProcedures::List.result(
+          page: params[:page],
+          per_page: params[:per_page],
+          month: params[:month],
+          payd: params[:payd]
+        )
         event_procedures = result.event_procedures
         amount_cents = EventProcedures::TotalAmountCents.call
 

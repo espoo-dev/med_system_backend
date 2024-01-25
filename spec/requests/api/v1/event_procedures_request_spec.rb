@@ -36,6 +36,50 @@ RSpec.describe "EventProcedures" do
       end
     end
 
+    context "when has filters by month" do
+      let!(:user) { create(:user) }
+
+      it "returns event_procedures per month" do
+        create_list(:event_procedure, 3, date: "2023-02-15")
+        _month_5_event_procedure = create_list(:event_procedure, 5, date: "2023-05-26")
+        headers = auth_token_for(user)
+
+        get("/api/v1/event_procedures", params: { month: "2" }, headers: headers)
+
+        expect(response.parsed_body["event_procedures"].length).to eq(3)
+      end
+    end
+
+    context "when filtering by payd" do
+      context "when payd is 'true'" do
+        let!(:user) { create(:user) }
+
+        it "returns only paid event_procedures" do
+          create_list(:event_procedure, 3, payd_at: Time.zone.today)
+          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil)
+          headers = auth_token_for(user)
+
+          get("/api/v1/event_procedures", params: { payd: "true" }, headers: headers)
+
+          expect(response.parsed_body["event_procedures"].length).to eq(3)
+        end
+      end
+
+      context "when payd is 'false'" do
+        let!(:user) { create(:user) }
+
+        it "returns only unpaid event_procedures" do
+          create_list(:event_procedure, 3, payd_at: Time.zone.today)
+          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil)
+          headers = auth_token_for(user)
+
+          get("/api/v1/event_procedures", params: { payd: "false" }, headers: headers)
+
+          expect(response.parsed_body["event_procedures"].length).to eq(5)
+        end
+      end
+    end
+
     context "when has pagination via page and per_page" do
       let!(:user) { create(:user) }
 
