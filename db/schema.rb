@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_12_125654) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_29_135123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,6 +64,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_12_125654) do
     t.index ["name"], name: "index_hospitals_on_name", unique: true
   end
 
+  create_table "medical_shifts", force: :cascade do |t|
+    t.bigint "hospital_id", null: false
+    t.string "workload", null: false
+    t.datetime "date", null: false
+    t.integer "amount_cents", default: 0, null: false
+    t.boolean "was_paid", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_medical_shifts_on_date"
+    t.index ["hospital_id"], name: "index_medical_shifts_on_hospital_id"
+    t.index ["was_paid"], name: "index_medical_shifts_on_was_paid"
+  end
+
   create_table "patients", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -98,4 +111,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_12_125654) do
   add_foreign_key "event_procedures", "hospitals"
   add_foreign_key "event_procedures", "patients"
   add_foreign_key "event_procedures", "procedures"
+  add_foreign_key "medical_shifts", "hospitals"
 end
