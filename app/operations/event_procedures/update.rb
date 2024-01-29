@@ -10,13 +10,23 @@ module EventProcedures
     def call
       self.event_procedure = find_event_procedure
 
-      fail!(error: :invalid_record) unless event_procedure.update(attributes)
+      ActiveRecord::Base.transaction do
+        event_procedure.assign_attributes(attributes)
+        total_amount_cents = recalculated_total_amount(event_procedure)
+        event_procedure.update!(attributes.reverse_merge(total_amount_cents: total_amount_cents))
+      rescue StandardError
+        fail!(error: :invalid_record)
+      end
     end
 
     private
 
     def find_event_procedure
       EventProcedures::Find.result(id: id).event_procedure
+    end
+
+    def recalculated_total_amount(event_procedure)
+      EventProcedures::BuildTotalAmountCents.result(event_procedure: event_procedure).total_amount_cents
     end
   end
 end
