@@ -23,6 +23,13 @@ RSpec.describe MedicalShifts::List, type: :operation do
         expect(result.medical_shifts).to eq [tomorrow_medical_shift, today_medical_shift, yesterday_medical_shift]
       end
 
+      it "includes hospital" do
+        create(:medical_shift)
+        result = described_class.result(page: nil, per_page: nil)
+
+        expect(result.medical_shifts.first.association(:hospital).loaded?).to be true
+      end
+
       context "when has pagination via page and per_page" do
         it "returns the medical_shifts paginated" do
           create_list(:medical_shift, 5)

@@ -8,7 +8,7 @@ module MedicalShifts
     output :medical_shifts, type: Enumerable
 
     def call
-      self.medical_shifts = MedicalShift.order(created_at: :desc).page(page).per(per_page)
+      self.medical_shifts = MedicalShift.includes([:hospital]).order(created_at: :desc).page(page).per(per_page)
     end
   end
 end
