@@ -5,6 +5,7 @@ RSpec.configure do |config|
   associations.each do |association|
     Bullet.add_safelist type: :unused_eager_loading, class_name: "EventProcedure", association: association
   end
+  Bullet.add_safelist type: :unused_eager_loading, class_name: "MedicalShift", association: :hospital
 
   if Bullet.enable?
     config.before do
