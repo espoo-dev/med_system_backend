@@ -7,6 +7,10 @@ class MedicalShift < ApplicationRecord
 
   belongs_to :hospital
 
+  scope :by_hospital, MedicalShifts::ByHospitalQuery
+  scope :by_month, MedicalShifts::ByMonthQuery
+  scope :by_payd, MedicalShifts::ByPaydQuery
+
   validates :workload, presence: true
   validates :date, presence: true
   validates :amount_cents, presence: true
