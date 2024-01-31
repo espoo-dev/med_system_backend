@@ -10,6 +10,9 @@ class EventProcedure < ApplicationRecord
   belongs_to :patient
   belongs_to :procedure
 
+  scope :by_month, EventProcedures::ByMonthQuery
+  scope :by_payd, EventProcedures::ByPaydQuery
+
   validates :date, presence: true
   validates :patient_service_number, presence: true
   validates :room_type, presence: true

@@ -10,24 +10,23 @@ module EventProcedures
     output :event_procedures, type: Enumerable
 
     def call
-      query = EventProcedure.includes(%i[procedure patient hospital health_insurance])
-
-      query = query.where("EXTRACT(MONTH FROM date) = ?", month) if month.present?
-      query = filter_by_payd(query)
-
-      self.event_procedures = query.order(created_at: :desc).page(page).per(per_page)
+      self.event_procedures = filtered_query.order(created_at: :desc).page(page).per(per_page)
     end
 
     private
 
-    def filter_by_payd(query)
-      return query unless filtered_by_payd?
-
-      payd == "true" ? query.where.not(payd_at: nil) : query.where(payd_at: nil)
+    def filtered_query
+      query = EventProcedure.includes(%i[procedure patient hospital health_insurance])
+      query = apply_month_filter(query)
+      apply_payd_filter(query)
     end
 
-    def filtered_by_payd?
-      %w[true false].include?(payd)
+    def apply_month_filter(query)
+      month.present? ? query.by_month(month: month) : query
+    end
+
+    def apply_payd_filter(query)
+      %w[true false].include?(payd) ? query.by_payd(payd: payd) : query
     end
   end
 end
