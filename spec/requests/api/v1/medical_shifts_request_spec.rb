@@ -153,4 +153,84 @@ RSpec.describe "MedicalShifts" do
       end
     end
   end
+
+  describe "POST api/v1/medical_shifts" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        post api_v1_medical_shifts_path, params: { hospital_id: create(:hospital).id }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "returns error message" do
+        post api_v1_medical_shifts_path, params: { was_paid: true }
+
+        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
+      end
+    end
+
+    context "when user is authenticated" do
+      context "with valid params" do
+        it "returns created status" do
+          params = {
+            hospital_id: create(:hospital).id,
+            workload: MedicalShifts::Workloads::SIX,
+            date: "2024-01-29 10:51:23",
+            amount_cents: 1,
+            was_paid: false
+          }
+
+          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+
+          expect(response).to have_http_status(:created)
+        end
+
+        it "creates a medical_shift" do
+          hospital = create(:hospital)
+          params = {
+            hospital_id: hospital.id,
+            workload: MedicalShifts::Workloads::SIX,
+            date: "2024-01-29 10:51:23",
+            amount_cents: 1,
+            was_paid: false
+          }
+
+          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+
+          expect(response.parsed_body.symbolize_keys).to include(
+            id: MedicalShift.last.id,
+            hospital_name: hospital.name,
+            workload: params[:workload],
+            date: MedicalShift.last.date.strftime("%d/%m/%Y"),
+            amount_cents: params[:amount_cents],
+            was_paid: params[:was_paid]
+          )
+        end
+      end
+
+      context "with invalid params" do
+        it "returns unprocessable_entity status" do
+          params = { amount_cents: 1, was_paid: false }
+
+          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns error message" do
+          params = { amount_cents: 1, was_paid: false }
+
+          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+
+          expect(response.parsed_body).to eq(
+            {
+              "date" => ["can't be blank"],
+              "hospital" => ["must exist"],
+              "workload" => ["can't be blank"]
+            }
+          )
+        end
+      end
+    end
+  end
 end
