@@ -30,14 +30,14 @@ RSpec.describe "MedicalShifts" do
           medical_shifts = create_list(:medical_shift, 2)
           get api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
 
-          expect(response.parsed_body.count).to eq(2)
-          expect(response.parsed_body).to include(
+          expect(response.parsed_body["medical_shifts"].count).to eq(2)
+          expect(response.parsed_body["medical_shifts"]).to include(
             {
               "id" => medical_shifts.second.id,
               "hospital_name" => medical_shifts.second.hospital.name,
               "workload" => medical_shifts.second.workload,
               "date" => medical_shifts.second.date.strftime("%d/%m/%Y"),
-              "amount_cents" => medical_shifts.second.amount_cents,
+              "amount_cents" => medical_shifts.second.amount.format,
               "was_paid" => medical_shifts.second.was_paid
             },
             {
@@ -45,7 +45,7 @@ RSpec.describe "MedicalShifts" do
               "hospital_name" => medical_shifts.first.hospital.name,
               "workload" => medical_shifts.first.workload,
               "date" => medical_shifts.first.date.strftime("%d/%m/%Y"),
-              "amount_cents" => medical_shifts.first.amount_cents,
+              "amount_cents" => medical_shifts.first.amount.format,
               "was_paid" => medical_shifts.first.was_paid
             }
           )
@@ -58,7 +58,7 @@ RSpec.describe "MedicalShifts" do
 
             get api_v1_medical_shifts_path, params: { page: 1, per_page: 2 }, headers: headers
 
-            expect(response.parsed_body.count).to eq(2)
+            expect(response.parsed_body["medical_shifts"].count).to eq(2)
           end
         end
 
@@ -69,8 +69,8 @@ RSpec.describe "MedicalShifts" do
 
             get api_v1_medical_shifts_path, params: { month: "2" }, headers: auth_token_for(create(:user))
 
-            expect(response.parsed_body.count).to eq(1)
-            expect(response.parsed_body.first["id"]).to eq(february_medical_shift.id)
+            expect(response.parsed_body["medical_shifts"].count).to eq(1)
+            expect(response.parsed_body["medical_shifts"].first["id"]).to eq(february_medical_shift.id)
           end
         end
 
@@ -82,8 +82,8 @@ RSpec.describe "MedicalShifts" do
 
             get api_v1_medical_shifts_path, params: { hospital_id: hospital.id }, headers: auth_token_for(create(:user))
 
-            expect(response.parsed_body.count).to eq(1)
-            expect(response.parsed_body.first["id"]).to eq(hospital_medical_shift.id)
+            expect(response.parsed_body["medical_shifts"].count).to eq(1)
+            expect(response.parsed_body["medical_shifts"].first["id"]).to eq(hospital_medical_shift.id)
           end
         end
 
@@ -94,14 +94,14 @@ RSpec.describe "MedicalShifts" do
 
             get api_v1_medical_shifts_path, params: { payd: "true" }, headers: auth_token_for(create(:user))
 
-            expect(response.parsed_body.count).to eq(2)
-            expect(response.parsed_body).to include(
+            expect(response.parsed_body["medical_shifts"].count).to eq(2)
+            expect(response.parsed_body["medical_shifts"]).to include(
               {
                 "id" => paid_medical_shifts.second.id,
                 "hospital_name" => paid_medical_shifts.second.hospital.name,
                 "workload" => paid_medical_shifts.second.workload,
                 "date" => paid_medical_shifts.second.date.strftime("%d/%m/%Y"),
-                "amount_cents" => paid_medical_shifts.second.amount_cents,
+                "amount_cents" => paid_medical_shifts.second.amount.format,
                 "was_paid" => paid_medical_shifts.second.was_paid
               },
               {
@@ -109,7 +109,7 @@ RSpec.describe "MedicalShifts" do
                 "hospital_name" => paid_medical_shifts.first.hospital.name,
                 "workload" => paid_medical_shifts.first.workload,
                 "date" => paid_medical_shifts.first.date.strftime("%d/%m/%Y"),
-                "amount_cents" => paid_medical_shifts.first.amount_cents,
+                "amount_cents" => paid_medical_shifts.first.amount.format,
                 "was_paid" => paid_medical_shifts.first.was_paid
               }
             )
@@ -121,14 +121,14 @@ RSpec.describe "MedicalShifts" do
 
             get api_v1_medical_shifts_path, params: { payd: "false" }, headers: auth_token_for(create(:user))
 
-            expect(response.parsed_body.count).to eq(2)
-            expect(response.parsed_body).to include(
+            expect(response.parsed_body["medical_shifts"].count).to eq(2)
+            expect(response.parsed_body["medical_shifts"]).to include(
               {
                 "id" => unpaid_medical_shifts.second.id,
                 "hospital_name" => unpaid_medical_shifts.second.hospital.name,
                 "workload" => unpaid_medical_shifts.second.workload,
                 "date" => unpaid_medical_shifts.second.date.strftime("%d/%m/%Y"),
-                "amount_cents" => unpaid_medical_shifts.second.amount_cents,
+                "amount_cents" => unpaid_medical_shifts.second.amount.format,
                 "was_paid" => unpaid_medical_shifts.second.was_paid
               },
               {
@@ -136,7 +136,7 @@ RSpec.describe "MedicalShifts" do
                 "hospital_name" => unpaid_medical_shifts.first.hospital.name,
                 "workload" => unpaid_medical_shifts.first.workload,
                 "date" => unpaid_medical_shifts.first.date.strftime("%d/%m/%Y"),
-                "amount_cents" => unpaid_medical_shifts.first.amount_cents,
+                "amount_cents" => unpaid_medical_shifts.first.amount.format,
                 "was_paid" => unpaid_medical_shifts.first.was_paid
               }
             )
@@ -148,7 +148,14 @@ RSpec.describe "MedicalShifts" do
         it "returns empty array" do
           get api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
 
-          expect(response.parsed_body).to eq([])
+          expect(response.parsed_body.symbolize_keys).to eq(
+            {
+              total: "R$0.00",
+              total_payd: "R$0.00",
+              total_unpaid: "R$0.00",
+              medical_shifts: []
+            }
+          )
         end
       end
     end
@@ -202,7 +209,7 @@ RSpec.describe "MedicalShifts" do
             hospital_name: hospital.name,
             workload: params[:workload],
             date: MedicalShift.last.date.strftime("%d/%m/%Y"),
-            amount_cents: params[:amount_cents],
+            amount_cents: MedicalShift.last.amount.format,
             was_paid: params[:was_paid]
           )
         end

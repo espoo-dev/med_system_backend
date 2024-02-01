@@ -10,4 +10,8 @@ class MedicalShiftSerializer < ActiveModel::Serializer
   def date
     object.date.strftime("%d/%m/%Y")
   end
+
+  def amount_cents
+    object.amount.format
+  end
 end
