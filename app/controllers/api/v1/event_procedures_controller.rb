@@ -8,7 +8,8 @@ module Api
           page: params[:page],
           per_page: params[:per_page],
           month: params[:month],
-          payd: params[:payd]
+          payd: params[:payd],
+          user_id: current_user.id
         )
         event_procedures = result.event_procedures
         amount_cents = EventProcedures::TotalAmountCents.call
@@ -29,7 +30,7 @@ module Api
       def create
         authorize(EventProcedure)
 
-        result = EventProcedures::Create.result(attributes: event_procedure_params)
+        result = EventProcedures::Create.result(attributes: event_procedure_params, user_id: current_user.id)
 
         if result.success?
           render json: result.event_procedure, status: :created

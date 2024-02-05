@@ -6,6 +6,7 @@ module EventProcedures
     input :per_page, type: String, allow_nil: true
     input :month, type: String, allow_nil: true
     input :payd, type: String, allow_nil: true
+    input :user_id, type: Integer
 
     output :event_procedures, type: Enumerable
 
@@ -16,7 +17,7 @@ module EventProcedures
     private
 
     def filtered_query
-      query = EventProcedure.includes(%i[procedure patient hospital health_insurance])
+      query = EventProcedure.includes(%i[procedure patient hospital health_insurance]).where(user_id: user_id)
       query = apply_month_filter(query)
       apply_payd_filter(query)
     end

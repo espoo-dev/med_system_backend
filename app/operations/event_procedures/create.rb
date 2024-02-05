@@ -3,11 +3,12 @@
 module EventProcedures
   class Create < Actor
     input :attributes, type: Hash
+    input :user_id, type: Integer
 
     output :event_procedure, type: EventProcedure
 
     def call
-      self.event_procedure = EventProcedure.new(attributes)
+      self.event_procedure = EventProcedure.new(attributes.reverse_merge(user_id: user_id))
 
       fail!(error: event_procedure.errors) unless event_procedure.save
 

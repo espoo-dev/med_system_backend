@@ -6,6 +6,7 @@ FactoryBot.define do
     hospital
     patient
     procedure
+    user
 
     patient_service_number { "202312150001" }
     date { "2023-12-15 16:02:00" }
