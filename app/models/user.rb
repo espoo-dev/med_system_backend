@@ -9,5 +9,7 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable, :api,
     :omniauthable, omniauth_providers: %i[github strava]
 
+  has_many :event_procedures, dependent: :destroy
+
   validates :email, uniqueness: { case_sensitive: false }
 end

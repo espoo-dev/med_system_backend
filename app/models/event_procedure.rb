@@ -9,6 +9,7 @@ class EventProcedure < ApplicationRecord
   belongs_to :hospital
   belongs_to :patient
   belongs_to :procedure
+  belongs_to :user
 
   scope :by_month, EventProcedures::ByMonthQuery
   scope :by_payd, EventProcedures::ByPaydQuery

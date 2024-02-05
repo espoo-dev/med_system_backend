@@ -8,6 +8,7 @@ RSpec.describe EventProcedure do
     it { is_expected.to belong_to(:hospital) }
     it { is_expected.to belong_to(:patient) }
     it { is_expected.to belong_to(:procedure) }
+    it { is_expected.to belong_to(:user) }
   end
 
   describe "validations" do
