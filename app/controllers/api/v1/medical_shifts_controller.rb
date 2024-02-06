@@ -9,11 +9,12 @@ module Api
           per_page: params[:per_page],
           payd: params[:payd],
           month: params[:month],
-          hospital_id: params[:hospital_id]
+          hospital_id: params[:hospital_id],
+          user_id: current_user.id
         ).medical_shifts
 
         authorize(medical_shifts)
-        amount_cents = MedicalShifts::TotalAmountCents.call
+        amount_cents = MedicalShifts::TotalAmountCents.call(user_id: current_user.id)
 
         render json: {
           total: amount_cents.total,
@@ -25,7 +26,7 @@ module Api
 
       def create
         authorize(MedicalShift)
-        result = MedicalShifts::Create.result(attributes: medical_shift_params)
+        result = MedicalShifts::Create.result(attributes: medical_shift_params, user_id: current_user.id)
 
         if result.success?
           render json: result.medical_shift, status: :created

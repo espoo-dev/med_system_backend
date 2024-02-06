@@ -27,8 +27,9 @@ RSpec.describe "MedicalShifts" do
         end
 
         it "returns medical_shifts" do
-          medical_shifts = create_list(:medical_shift, 2)
-          get api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
+          user = create(:user)
+          medical_shifts = create_list(:medical_shift, 2, user: user)
+          get api_v1_medical_shifts_path, headers: auth_token_for(user)
 
           expect(response.parsed_body["medical_shifts"].count).to eq(2)
           expect(response.parsed_body["medical_shifts"]).to include(
@@ -53,8 +54,9 @@ RSpec.describe "MedicalShifts" do
 
         context "when has pagination via page and per_page" do
           it "paginates medical_shifts" do
-            create_list(:medical_shift, 5)
-            headers = auth_token_for(create(:user))
+            user = create(:user)
+            create_list(:medical_shift, 5, user: user)
+            headers = auth_token_for(user)
 
             get api_v1_medical_shifts_path, params: { page: 1, per_page: 2 }, headers: headers
 
@@ -64,10 +66,11 @@ RSpec.describe "MedicalShifts" do
 
         context "when has filters by month" do
           it "returns medical_shifts per month" do
-            february_medical_shift = create(:medical_shift, date: "2023-02-15")
-            _september_medical_shift = create(:medical_shift, date: "2023-09-26")
+            user = create(:user)
+            february_medical_shift = create(:medical_shift, date: "2023-02-15", user: user)
+            _september_medical_shift = create(:medical_shift, date: "2023-09-26", user: user)
 
-            get api_v1_medical_shifts_path, params: { month: "2" }, headers: auth_token_for(create(:user))
+            get api_v1_medical_shifts_path, params: { month: "2" }, headers: auth_token_for(user)
 
             expect(response.parsed_body["medical_shifts"].count).to eq(1)
             expect(response.parsed_body["medical_shifts"].first["id"]).to eq(february_medical_shift.id)
@@ -76,11 +79,12 @@ RSpec.describe "MedicalShifts" do
 
         context "when has filters by hospital" do
           it "returns medical_shifts per hospital" do
+            user = create(:user)
             hospital = create(:hospital)
-            hospital_medical_shift = create(:medical_shift, hospital: hospital)
+            hospital_medical_shift = create(:medical_shift, hospital: hospital, user: user)
             _another_hospital_medical_shift = create(:medical_shift)
 
-            get api_v1_medical_shifts_path, params: { hospital_id: hospital.id }, headers: auth_token_for(create(:user))
+            get api_v1_medical_shifts_path, params: { hospital_id: hospital.id }, headers: auth_token_for(user)
 
             expect(response.parsed_body["medical_shifts"].count).to eq(1)
             expect(response.parsed_body["medical_shifts"].first["id"]).to eq(hospital_medical_shift.id)
@@ -89,10 +93,11 @@ RSpec.describe "MedicalShifts" do
 
         context "when filtering by payd" do
           it "returns paid medical_shifts" do
-            paid_medical_shifts = create_list(:medical_shift, 2, was_paid: true)
-            _unpaid_medical_shifts = create(:medical_shift, was_paid: false)
+            user = create(:user)
+            paid_medical_shifts = create_list(:medical_shift, 2, was_paid: true, user: user)
+            _unpaid_medical_shifts = create(:medical_shift, was_paid: false, user: user)
 
-            get api_v1_medical_shifts_path, params: { payd: "true" }, headers: auth_token_for(create(:user))
+            get api_v1_medical_shifts_path, params: { payd: "true" }, headers: auth_token_for(user)
 
             expect(response.parsed_body["medical_shifts"].count).to eq(2)
             expect(response.parsed_body["medical_shifts"]).to include(
@@ -116,10 +121,11 @@ RSpec.describe "MedicalShifts" do
           end
 
           it "returns unpaid medical_shifts" do
-            _paid_medical_shifts = create(:medical_shift, was_paid: true)
-            unpaid_medical_shifts = create_list(:medical_shift, 2, was_paid: false)
+            user = create(:user)
+            _paid_medical_shifts = create(:medical_shift, was_paid: true, user: user)
+            unpaid_medical_shifts = create_list(:medical_shift, 2, was_paid: false, user: user)
 
-            get api_v1_medical_shifts_path, params: { payd: "false" }, headers: auth_token_for(create(:user))
+            get api_v1_medical_shifts_path, params: { payd: "false" }, headers: auth_token_for(user)
 
             expect(response.parsed_body["medical_shifts"].count).to eq(2)
             expect(response.parsed_body["medical_shifts"]).to include(
