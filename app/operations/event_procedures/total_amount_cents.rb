@@ -2,8 +2,16 @@
 
 module EventProcedures
   class TotalAmountCents < Actor
-    play EventProcedures::CalculateTotalAmount,
-      EventProcedures::CalculateTotalAmountPayd,
-      EventProcedures::CalculateTotalAmountUnpayd
+    input :user_id, type: Integer
+
+    output :total, type: String
+    output :payd, type: String
+    output :unpaid, type: String
+
+    def call
+      self.total = Money.new(EventProcedures::SumTotalAmountQuery.call(user_id: user_id), "BRL").format
+      self.payd = Money.new(EventProcedures::SumPaydAmountQuery.call(user_id: user_id), "BRL").format
+      self.unpaid = Money.new(EventProcedures::SumUnpaidAmountQuery.call(user_id: user_id), "BRL").format
+    end
   end
 end
