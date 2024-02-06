@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :medical_shift do
     hospital
+    user
 
     workload { MedicalShifts::Workloads::SIX }
     date { "2024-01-29 10:51:23" }

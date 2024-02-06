@@ -7,6 +7,7 @@ RSpec.describe User do
 
   describe "associations" do
     it { is_expected.to have_many(:event_procedures).dependent(:destroy) }
+    it { is_expected.to have_many(:medical_shifts).dependent(:destroy) }
   end
 
   describe "validations" do

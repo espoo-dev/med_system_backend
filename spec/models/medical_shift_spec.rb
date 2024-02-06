@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe MedicalShift do
   describe "associations" do
     it { is_expected.to belong_to(:hospital) }
+    it { is_expected.to belong_to(:user) }
   end
 
   describe "validations" do

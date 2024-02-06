@@ -6,6 +6,7 @@ class MedicalShift < ApplicationRecord
   monetize :amount
 
   belongs_to :hospital
+  belongs_to :user
 
   scope :by_hospital, MedicalShifts::ByHospitalQuery
   scope :by_month, MedicalShifts::ByMonthQuery

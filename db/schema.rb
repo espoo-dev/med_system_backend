@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_05_121911) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_06_181632) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,8 +74,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_05_121911) do
     t.boolean "was_paid", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["date"], name: "index_medical_shifts_on_date"
     t.index ["hospital_id"], name: "index_medical_shifts_on_hospital_id"
+    t.index ["user_id"], name: "index_medical_shifts_on_user_id"
     t.index ["was_paid"], name: "index_medical_shifts_on_was_paid"
   end
 
@@ -115,4 +117,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_05_121911) do
   add_foreign_key "event_procedures", "procedures"
   add_foreign_key "event_procedures", "users"
   add_foreign_key "medical_shifts", "hospitals"
+  add_foreign_key "medical_shifts", "users"
 end
