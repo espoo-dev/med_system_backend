@@ -6,6 +6,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
   describe ".result" do
     context "when params are valid" do
       it "is successful" do
+        user = create(:user)
         params = {
           procedure_id: create(:procedure).id,
           patient_id: create(:patient).id,
@@ -17,12 +18,13 @@ RSpec.describe EventProcedures::Create, type: :operation do
           room_type: EventProcedures::RoomTypes::WARD
         }
 
-        result = described_class.result(attributes: params)
+        result = described_class.result(attributes: params, user_id: user.id)
 
         expect(result).to be_success
       end
 
       it "creates a new event_procedure" do
+        user = create(:user)
         params = {
           procedure_id: create(:procedure, amount_cents: 1000).id,
           patient_id: create(:patient).id,
@@ -34,7 +36,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           room_type: EventProcedures::RoomTypes::WARD
         }
 
-        result = described_class.result(attributes: params)
+        result = described_class.result(attributes: params, user_id: user.id)
 
         expect(result.event_procedure).to be_persisted
         expect(result.event_procedure.attributes.symbolize_keys).to include(
@@ -54,19 +56,22 @@ RSpec.describe EventProcedures::Create, type: :operation do
 
     context "when params are invalid" do
       it "fails" do
-        result = described_class.result(attributes: {})
+        user = create(:user)
+        result = described_class.result(attributes: {}, user_id: user.id)
 
         expect(result).to be_failure
       end
 
       it "returns invalid event_procedure" do
-        result = described_class.result(attributes: {})
+        user = create(:user)
+        result = described_class.result(attributes: {}, user_id: user.id)
 
         expect(result.event_procedure).not_to be_valid
       end
 
       it "returns errors" do
-        result = described_class.result(attributes: {})
+        user = create(:user)
+        result = described_class.result(attributes: {}, user_id: user.id)
 
         expect(result.error.full_messages).to eq(
           [

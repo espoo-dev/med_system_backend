@@ -4,32 +4,29 @@ module Api
   module V1
     class EventProceduresController < ApiController
       def index
-        result = EventProcedures::List.result(
+        event_procedures = EventProcedures::List.result(
           page: params[:page],
           per_page: params[:per_page],
           month: params[:month],
-          payd: params[:payd]
-        )
-        event_procedures = result.event_procedures
-        amount_cents = EventProcedures::TotalAmountCents.call
+          payd: params[:payd],
+          user_id: current_user.id
+        ).event_procedures
 
+        total_amount_cents = EventProcedures::TotalAmountCents.call(user_id: current_user.id)
         authorize(event_procedures)
 
         render json: {
-          event_procedures: ActiveModelSerializers::SerializableResource.new(
-            event_procedures,
-            each_serializer: EventProcedureSerializer
-          ),
-          total: amount_cents.total,
-          total_payd: amount_cents.payd,
-          total_unpayd: amount_cents.unpayd
+          total: total_amount_cents.total,
+          total_payd: total_amount_cents.payd,
+          total_unpayd: total_amount_cents.unpaid,
+          event_procedures: serialized_event_procedures(event_procedures)
         }, status: :ok
       end
 
       def create
         authorize(EventProcedure)
 
-        result = EventProcedures::Create.result(attributes: event_procedure_params)
+        result = EventProcedures::Create.result(attributes: event_procedure_params, user_id: current_user.id)
 
         if result.success?
           render json: result.event_procedure, status: :created
@@ -79,6 +76,13 @@ module Api
 
       def event_procedure
         @event_procedure ||= EventProcedures::Find.result(id: params[:id]).event_procedure
+      end
+
+      def serialized_event_procedures(event_procedures)
+        ActiveModelSerializers::SerializableResource.new(
+          event_procedures,
+          each_serializer: EventProcedureSerializer
+        )
       end
     end
   end

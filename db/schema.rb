@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_29_135123) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_05_121911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,10 +43,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_29_135123) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "total_amount_cents"
+    t.bigint "user_id", null: false
     t.index ["health_insurance_id"], name: "index_event_procedures_on_health_insurance_id"
     t.index ["hospital_id"], name: "index_event_procedures_on_hospital_id"
     t.index ["patient_id"], name: "index_event_procedures_on_patient_id"
     t.index ["procedure_id"], name: "index_event_procedures_on_procedure_id"
+    t.index ["user_id"], name: "index_event_procedures_on_user_id"
   end
 
   create_table "health_insurances", force: :cascade do |t|
@@ -111,5 +113,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_29_135123) do
   add_foreign_key "event_procedures", "hospitals"
   add_foreign_key "event_procedures", "patients"
   add_foreign_key "event_procedures", "procedures"
+  add_foreign_key "event_procedures", "users"
   add_foreign_key "medical_shifts", "hospitals"
 end

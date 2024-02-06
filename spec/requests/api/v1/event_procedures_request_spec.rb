@@ -22,7 +22,7 @@ RSpec.describe "EventProcedures" do
       let!(:user) { create(:user) }
 
       before do
-        create_list(:event_procedure, 5)
+        create_list(:event_procedure, 5, user_id: user.id)
         headers = auth_token_for(user)
         get("/api/v1/event_procedures", params: {}, headers: headers)
       end
@@ -40,9 +40,9 @@ RSpec.describe "EventProcedures" do
       let!(:user) { create(:user) }
 
       it "returns event_procedures per month" do
-        create_list(:event_procedure, 3, date: "2023-02-15")
-        _month_5_event_procedure = create_list(:event_procedure, 5, date: "2023-05-26")
         headers = auth_token_for(user)
+        create_list(:event_procedure, 3, date: "2023-02-15", user_id: user.id)
+        _month_5_event_procedure = create_list(:event_procedure, 5, date: "2023-05-26", user_id: user.id)
 
         get("/api/v1/event_procedures", params: { month: "2" }, headers: headers)
 
@@ -55,9 +55,9 @@ RSpec.describe "EventProcedures" do
         let!(:user) { create(:user) }
 
         it "returns only paid event_procedures" do
-          create_list(:event_procedure, 3, payd_at: Time.zone.today)
-          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil)
           headers = auth_token_for(user)
+          create_list(:event_procedure, 3, payd_at: Time.zone.today, user_id: user.id)
+          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil, user_id: user.id)
 
           get("/api/v1/event_procedures", params: { payd: "true" }, headers: headers)
 
@@ -69,9 +69,9 @@ RSpec.describe "EventProcedures" do
         let!(:user) { create(:user) }
 
         it "returns only unpaid event_procedures" do
-          create_list(:event_procedure, 3, payd_at: Time.zone.today)
-          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil)
           headers = auth_token_for(user)
+          create_list(:event_procedure, 3, payd_at: Time.zone.today, user_id: user.id)
+          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil, user_id: user.id)
 
           get("/api/v1/event_procedures", params: { payd: "false" }, headers: headers)
 
@@ -84,8 +84,8 @@ RSpec.describe "EventProcedures" do
       let!(:user) { create(:user) }
 
       before do
-        create_list(:event_procedure, 8)
         headers = auth_token_for(user)
+        create_list(:event_procedure, 8, user_id: user.id)
         get "/api/v1/event_procedures", params: { page: 2, per_page: 5 }, headers: headers
       end
 
@@ -99,6 +99,7 @@ RSpec.describe "EventProcedures" do
     context "when user is authenticated" do
       context "with valid attributes" do
         it "returns created" do
+          user = create(:user)
           params = {
             procedure_id: create(:procedure).id,
             patient_id: create(:patient).id,
@@ -107,10 +108,11 @@ RSpec.describe "EventProcedures" do
             patient_service_number: "1234567890",
             date: Time.zone.now.to_date,
             urgency: false,
-            room_type: EventProcedures::RoomTypes::WARD
+            room_type: EventProcedures::RoomTypes::WARD,
+            user_id: user.id
           }
 
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           post "/api/v1/event_procedures", params: params, headers: headers
 
           expect(response).to have_http_status(:created)
