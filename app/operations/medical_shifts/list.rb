@@ -7,6 +7,7 @@ module MedicalShifts
     input :payd, type: String, allow_nil: true
     input :month, type: String, allow_nil: true
     input :hospital_id, type: String, allow_nil: true
+    input :user_id, type: Integer
 
     output :medical_shifts, type: Enumerable
 
@@ -17,7 +18,7 @@ module MedicalShifts
     private
 
     def filtered_query
-      query = MedicalShift.includes([:hospital])
+      query = MedicalShift.includes([:hospital]).where(user_id: user_id)
       query = apply_month_filter(query)
       query = apply_hospital_filter(query)
       apply_payd_filter(query)

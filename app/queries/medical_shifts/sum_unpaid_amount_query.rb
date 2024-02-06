@@ -2,14 +2,15 @@
 
 module MedicalShifts
   class SumUnpaidAmountQuery < ApplicationQuery
-    attr_reader :relation
+    attr_reader :user_id, :relation
 
-    def initialize(relation: MedicalShift)
+    def initialize(user_id:, relation: MedicalShift)
+      @user_id = user_id
       @relation = relation
     end
 
     def call
-      relation.where(was_paid: false).sum(:amount_cents)
+      relation.where(user_id: user_id).where(was_paid: false).sum(:amount_cents)
     end
   end
 end

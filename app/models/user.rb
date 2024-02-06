@@ -10,6 +10,7 @@ class User < ApplicationRecord
     :omniauthable, omniauth_providers: %i[github strava]
 
   has_many :event_procedures, dependent: :destroy
+  has_many :medical_shifts, dependent: :destroy
 
   validates :email, uniqueness: { case_sensitive: false }
 end
