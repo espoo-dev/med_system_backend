@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class EventProcedurePolicy < ApplicationPolicy
+  class Scope < ApplicationScope
+    def resolve
+      if user.present?
+        scope.where(user:)
+      else
+        scope.none
+      end
+    end
+  end
+
   def index?
     user.present?
   end
@@ -10,10 +20,10 @@ class EventProcedurePolicy < ApplicationPolicy
   end
 
   def update?
-    user.present?
+    user.present? && owner?
   end
 
   def destroy?
-    user.present?
+    update?
   end
 end
