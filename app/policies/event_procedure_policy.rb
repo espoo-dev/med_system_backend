@@ -27,10 +27,10 @@ class EventProcedurePolicy < ApplicationPolicy
   end
 
   def update?
-    user.present?
+    user.present? && user == record.user
   end
 
   def destroy?
-    user.present?
+    update?
   end
 end
