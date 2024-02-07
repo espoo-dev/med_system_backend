@@ -3,17 +3,18 @@
 module Api
   module V1
     class EventProceduresController < ApiController
+      after_action :verify_authorized, except: :index
+      after_action :verify_policy_scoped, only: :index
+
       def index
+        authorized_scope = policy_scope(EventProcedure)
         event_procedures = EventProcedures::List.result(
-          page: params[:page],
-          per_page: params[:per_page],
-          month: params[:month],
-          payd: params[:payd],
-          user_id: current_user.id
+          user_id: current_user.id,
+          scope: authorized_scope,
+          params: params.permit(:page, :per_page, :month, :payd).to_h
         ).event_procedures
 
         total_amount_cents = EventProcedures::TotalAmountCents.call(user_id: current_user.id)
-        authorize(event_procedures)
 
         render json: {
           total: total_amount_cents.total,
