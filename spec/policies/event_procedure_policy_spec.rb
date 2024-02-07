@@ -13,7 +13,8 @@ RSpec.describe EventProcedurePolicy do
       expect(scope).to eq [event_procedure]
     end
 
-    it "returns no event_procedures for guest" do
+    it "returns no event_procedures for unregistered user" do
+      create(:event_procedure)
       scope = described_class::Scope.new(nil, EventProcedure.all).resolve
 
       expect(scope).to eq []

@@ -1,17 +1,10 @@
 # frozen_string_literal: true
 
 class EventProcedurePolicy < ApplicationPolicy
-  class Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
+  class Scope < ApplicationScope
     def resolve
       if user.present?
-        scope.where(user_id: user.id)
+        scope.where(user:)
       else
         scope.none
       end
@@ -27,7 +20,7 @@ class EventProcedurePolicy < ApplicationPolicy
   end
 
   def update?
-    user.present? && user == record.user
+    user.present? && owner?
   end
 
   def destroy?

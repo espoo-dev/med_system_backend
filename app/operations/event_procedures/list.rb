@@ -15,7 +15,7 @@ module EventProcedures
     private
 
     def filtered_query
-      query = scope.includes(%i[procedure patient hospital health_insurance]).where(user_id: user_id)
+      query = scope.includes(%i[procedure patient hospital health_insurance])
       query = apply_month_filter(query)
       apply_payd_filter(query)
     end
