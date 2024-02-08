@@ -35,7 +35,22 @@ module Api
         end
       end
 
+      def update
+        authorize(medical_shift)
+        result = MedicalShifts::Update.result(id: params[:id], attributes: medical_shift_params)
+
+        if result.success?
+          render json: result.medical_shift, status: :ok
+        else
+          render json: result.medical_shift.errors, status: :unprocessable_entity
+        end
+      end
+
       private
+
+      def medical_shift
+        @medical_shift ||= MedicalShifts::Find.result(id: params[:id]).medical_shift
+      end
 
       def medical_shift_params
         params.permit(:hospital_id, :workload, :date, :amount_cents, :was_paid).to_h
