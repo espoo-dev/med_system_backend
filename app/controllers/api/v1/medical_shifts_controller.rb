@@ -3,17 +3,17 @@
 module Api
   module V1
     class MedicalShiftsController < ApiController
+      after_action :verify_authorized, except: :index
+      after_action :verify_policy_scoped, only: :index
+
       def index
+        authorized_scope = policy_scope(MedicalShift)
         medical_shifts = MedicalShifts::List.result(
-          page: params[:page],
-          per_page: params[:per_page],
-          payd: params[:payd],
-          month: params[:month],
-          hospital_id: params[:hospital_id],
-          user_id: current_user.id
+          user_id: current_user.id,
+          scope: authorized_scope,
+          params: params.permit(:page, :per_page, :month, :payd, :hospital_id).to_h
         ).medical_shifts
 
-        authorize(medical_shifts)
         amount_cents = MedicalShifts::TotalAmountCents.call(user_id: current_user.id)
 
         render json: {
