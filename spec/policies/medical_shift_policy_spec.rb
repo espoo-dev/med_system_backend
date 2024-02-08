@@ -44,4 +44,26 @@ RSpec.describe MedicalShiftPolicy do
       expect(described_class.new(nil, MedicalShift).create?).to be false
     end
   end
+
+  describe "#update?" do
+    it "returns true for user" do
+      user = create(:user)
+      medical_shift = create(:medical_shift, user: user)
+
+      expect(described_class.new(user, medical_shift).update?).to be true
+    end
+
+    it "returns false for unregistered user" do
+      medical_shift = create(:medical_shift)
+
+      expect(described_class.new(nil, medical_shift).update?).to be false
+    end
+
+    it "returns false for another user" do
+      user = create(:user)
+      medical_shift = create(:medical_shift)
+
+      expect(described_class.new(user, medical_shift).update?).to be false
+    end
+  end
 end

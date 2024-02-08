@@ -246,4 +246,80 @@ RSpec.describe "MedicalShifts" do
       end
     end
   end
+
+  describe "PUT api/v1/medical_shifts/:id" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        put api_v1_medical_shift_path(create(:medical_shift)), params: { hospital_id: create(:hospital).id }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when updating another user's medical_shift" do
+        it "returns unauthorized status" do
+          user = create(:user)
+          medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX)
+          params = { workload: MedicalShifts::Workloads::TWELVE }
+          put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      context "when updating user's medical_shift" do
+        context "with valid params" do
+          it "returns ok status" do
+            user = create(:user)
+            medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
+            params = { workload: MedicalShifts::Workloads::TWELVE }
+
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+
+            expect(response).to have_http_status(:ok)
+          end
+
+          it "updates medical_shift" do
+            user = create(:user)
+            medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
+            params = { workload: MedicalShifts::Workloads::TWELVE }
+
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+
+            expect(response.parsed_body.symbolize_keys).to include(
+              id: medical_shift.id,
+              hospital_name: medical_shift.hospital.name,
+              workload: params[:workload],
+              date: medical_shift.date.strftime("%d/%m/%Y"),
+              amount_cents: medical_shift.amount.format,
+              was_paid: medical_shift.was_paid
+            )
+          end
+        end
+
+        context "with invalid params" do
+          it "returns unprocessable_entity status" do
+            user = create(:user)
+            medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
+            params = { workload: nil }
+
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+
+          it "returns error message" do
+            user = create(:user)
+            medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
+            params = { workload: nil }
+
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+
+            expect(response.parsed_body).to eq({ "workload" => ["can't be blank"] })
+          end
+        end
+      end
+    end
+  end
 end
