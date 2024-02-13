@@ -4,7 +4,9 @@ module Api
   module V1
     class HealthInsurancesController < ApiController
       def index
-        health_insurances = HealthInsurance.page(params[:page]).per(params[:per_page])
+        health_insurances = HealthInsurances::List.result(
+          params: params.permit(:page, :per_page).to_h
+        ).health_insurances
         authorize(health_insurances)
 
         render json: health_insurances, status: :ok

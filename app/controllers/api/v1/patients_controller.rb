@@ -4,7 +4,9 @@ module Api
   module V1
     class PatientsController < ApiController
       def index
-        patients = Patient.page(params[:page]).per(params[:per_page])
+        patients = Patients::List.result(
+          params: params.permit(:page, :per_page).to_h
+        ).patients
 
         authorize(patients)
 
