@@ -4,7 +4,9 @@ module Api
   module V1
     class ProceduresController < ApiController
       def index
-        procedures = Procedure.page(params[:page]).per(params[:per_page])
+        procedures = Procedures::List.result(
+          params: params.permit(:page, :per_page).to_h
+        ).procedures
 
         authorize(procedures)
 
