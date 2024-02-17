@@ -9,7 +9,6 @@ module Api
       def index
         authorized_scope = policy_scope(EventProcedure)
         event_procedures = EventProcedures::List.result(
-          user_id: current_user.id,
           scope: authorized_scope,
           params: params.permit(:page, :per_page, :month, :payd).to_h
         ).event_procedures
