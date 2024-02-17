@@ -5,9 +5,7 @@ require "rails_helper"
 RSpec.describe EventProcedures::List, type: :operation do
   describe ".result" do
     it "is successful" do
-      user = create(:user)
-
-      result = described_class.result(user_id: user.id, scope: EventProcedure.all, params: {})
+      result = described_class.result(scope: EventProcedure.all, params: {})
 
       expect(result.success?).to be true
     end
@@ -18,7 +16,7 @@ RSpec.describe EventProcedures::List, type: :operation do
       yesterday_event = create(:event_procedure, created_at: Time.zone.yesterday, user: user)
       tomorrow_event = create(:event_procedure, created_at: Time.zone.tomorrow, user: user)
 
-      result = described_class.result(user_id: user.id, scope: EventProcedure.all, params: {})
+      result = described_class.result(scope: EventProcedure.all, params: {})
 
       expect(result.event_procedures).to eq [tomorrow_event, today_event, yesterday_event]
     end
@@ -38,7 +36,7 @@ RSpec.describe EventProcedures::List, type: :operation do
         user: user
       )
 
-      result = described_class.result(user_id: user.id, scope: EventProcedure.all, params: {})
+      result = described_class.result(scope: EventProcedure.all, params: {})
 
       expect(result.event_procedures.first.procedure.name).to eq "Tireoidectomia"
       expect(result.event_procedures.first.patient.name).to eq "John Doe"
@@ -52,7 +50,7 @@ RSpec.describe EventProcedures::List, type: :operation do
         month_2_event_procedure = create(:event_procedure, date: "2023-02-15", user: user)
         _month_5_event_procedure = create(:event_procedure, date: "2023-05-26", user: user)
 
-        result = described_class.result(user_id: user.id, scope: EventProcedure.all, params: { month: "2" })
+        result = described_class.result(scope: EventProcedure.all, params: { month: "2" })
 
         expect(result.event_procedures).to eq [month_2_event_procedure]
       end
@@ -64,7 +62,7 @@ RSpec.describe EventProcedures::List, type: :operation do
         payd_event_procedures = create_list(:event_procedure, 3, payd_at: "2023-03-15", user: user)
         _unpayd_event_procedures = create_list(:event_procedure, 3, payd_at: nil, user: user)
 
-        result = described_class.result(user_id: user.id, scope: EventProcedure.all, params: { payd: "true" })
+        result = described_class.result(scope: EventProcedure.all, params: { payd: "true" })
 
         expect(result.event_procedures.to_a).to match_array(payd_event_procedures)
       end
@@ -74,7 +72,7 @@ RSpec.describe EventProcedures::List, type: :operation do
         _payd_event_procedures = create_list(:event_procedure, 3, payd_at: "2023-03-15", user: user)
         unpayd_event_procedures = create_list(:event_procedure, 3, payd_at: nil, user: user)
 
-        result = described_class.result(user_id: user.id, scope: EventProcedure.all, params: { payd: "false" })
+        result = described_class.result(scope: EventProcedure.all, params: { payd: "false" })
 
         expect(result.event_procedures.to_a).to match_array(unpayd_event_procedures)
       end
@@ -85,7 +83,7 @@ RSpec.describe EventProcedures::List, type: :operation do
         user = create(:user)
         create_list(:event_procedure, 8, user: user)
         result = described_class.result(
-          user_id: user.id, scope: EventProcedure.all,
+          scope: EventProcedure.all,
           params: { page: "1", per_page: "5" }
         )
 
