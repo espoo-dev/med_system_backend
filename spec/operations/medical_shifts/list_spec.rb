@@ -9,7 +9,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
         user = create(:user)
         create_list(:medical_shift, 3, user: user)
 
-        result = described_class.result(user_id: user.id, scope: MedicalShift.all, params: {})
+        result = described_class.result(scope: MedicalShift.all, params: {})
 
         expect(result.success?).to be true
       end
@@ -20,7 +20,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
         yesterday_medical_shift = create(:medical_shift, created_at: Time.zone.yesterday, user: user)
         tomorrow_medical_shift = create(:medical_shift, created_at: Time.zone.tomorrow, user: user)
 
-        result = described_class.result(user_id: user.id, scope: MedicalShift.all, params: {})
+        result = described_class.result(scope: MedicalShift.all, params: {})
 
         expect(result.medical_shifts).to eq [tomorrow_medical_shift, today_medical_shift, yesterday_medical_shift]
       end
@@ -29,7 +29,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
         user = create(:user)
         create(:medical_shift, user: user)
 
-        result = described_class.result(user_id: user.id, scope: MedicalShift.all, params: {})
+        result = described_class.result(scope: MedicalShift.all, params: {})
 
         expect(result.medical_shifts.first.association(:hospital).loaded?).to be true
       end
@@ -40,7 +40,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
           create_list(:medical_shift, 5, user: user)
 
           result = described_class.result(
-            user_id: user.id, scope: MedicalShift.all,
+            scope: MedicalShift.all,
             params: { page: "1", per_page: "3" }
           )
 
@@ -54,7 +54,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
           february_medical_shift = create(:medical_shift, date: "2023-02-15", user: user)
           _september_medical_shift = create(:medical_shift, date: "2023-09-26", user: user)
 
-          result = described_class.result(user_id: user.id, scope: MedicalShift.all, params: { month: "2" })
+          result = described_class.result(scope: MedicalShift.all, params: { month: "2" })
 
           expect(result.medical_shifts).to eq [february_medical_shift]
         end
@@ -68,7 +68,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
           _another_hospital_medical_shift = create(:medical_shift, user: user)
 
           result = described_class.result(
-            user_id: user.id, scope: MedicalShift.all,
+            scope: MedicalShift.all,
             params: { hospital_id: hospital.id.to_s }
           )
 
@@ -82,7 +82,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
           paid_medical_shifts = create_list(:medical_shift, 3, was_paid: true, user: user)
           _unpaid_medical_shifts = create_list(:medical_shift, 3, was_paid: false, user: user)
 
-          result = described_class.result(user_id: user.id, scope: MedicalShift.all, params: { payd: "true" })
+          result = described_class.result(scope: MedicalShift.all, params: { payd: "true" })
 
           expect(result.medical_shifts.to_a).to match_array(paid_medical_shifts)
         end
@@ -92,7 +92,7 @@ RSpec.describe MedicalShifts::List, type: :operation do
           _paid_medical_shifts = create_list(:medical_shift, 3, was_paid: true, user: user)
           unpaid_medical_shifts = create_list(:medical_shift, 3, was_paid: false, user: user)
 
-          result = described_class.result(user_id: user.id, scope: MedicalShift.all, params: { payd: "false" })
+          result = described_class.result(scope: MedicalShift.all, params: { payd: "false" })
 
           expect(result.medical_shifts.to_a).to match_array(unpaid_medical_shifts)
         end

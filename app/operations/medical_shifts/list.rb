@@ -2,7 +2,6 @@
 
 module MedicalShifts
   class List < Actor
-    input :user_id, type: Integer
     input :scope, type: Enumerable
     input :params, type: Hash, default: -> { {} }
 

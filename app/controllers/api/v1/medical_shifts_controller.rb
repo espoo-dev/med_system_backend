@@ -9,7 +9,6 @@ module Api
       def index
         authorized_scope = policy_scope(MedicalShift)
         medical_shifts = MedicalShifts::List.result(
-          user_id: current_user.id,
           scope: authorized_scope,
           params: params.permit(:page, :per_page, :month, :payd, :hospital_id).to_h
         ).medical_shifts
