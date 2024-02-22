@@ -30,4 +30,25 @@ RSpec.describe EventProcedure do
       expect(event_procedure.total_amount).to eq Money.new(10, "BRL")
     end
   end
+
+  describe "nested attributes for patient" do
+    context "when patient_attributes are provided" do
+      it "creates patient" do
+        event_procedure = build(:event_procedure, patient_attributes: { id: nil, name: "John Doe" })
+
+        expect { event_procedure.save }.to change(Patient, :count).by(1)
+        expect(event_procedure.patient).to be_persisted
+        expect(event_procedure.patient.name).to eq("John Doe")
+      end
+    end
+
+    context "when patient_attributes are not provided" do
+      it "does not create patient" do
+        event_procedure = build(:event_procedure, patient_attributes: { id: nil, name: nil })
+
+        expect(event_procedure.save).to be_falsey
+        expect(event_procedure.errors[:"patient.name"]).to include("can't be blank")
+      end
+    end
+  end
 end

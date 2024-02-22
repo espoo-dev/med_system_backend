@@ -100,16 +100,17 @@ RSpec.describe "EventProcedures" do
       context "with valid attributes" do
         it "returns created" do
           user = create(:user)
+          patient = create(:patient)
           params = {
             procedure_id: create(:procedure).id,
-            patient_id: create(:patient).id,
             hospital_id: create(:hospital).id,
             health_insurance_id: create(:health_insurance).id,
             patient_service_number: "1234567890",
             date: Time.zone.now.to_date,
             urgency: false,
             room_type: EventProcedures::RoomTypes::WARD,
-            user_id: user.id
+            user_id: user.id,
+            patient_attributes: { id: patient.id }
           }
 
           headers = auth_token_for(user)
@@ -122,19 +123,19 @@ RSpec.describe "EventProcedures" do
       context "with invalid attributes" do
         it "returns unprocessable_entity" do
           headers = auth_token_for(create(:user))
-          post "/api/v1/event_procedures", params: {}, headers: headers
+          post "/api/v1/event_procedures", params: { patient_attributes: { id: nil } }, headers: headers
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it "returns error message" do
           headers = auth_token_for(create(:user))
-          post "/api/v1/event_procedures", params: {}, headers: headers
+          post "/api/v1/event_procedures", params: { patient_attributes: { id: nil } }, headers: headers
 
           expect(response.parsed_body).to eq(
             "health_insurance" => ["must exist"],
             "hospital" => ["must exist"],
-            "patient" => ["must exist"],
+            "patient.name" => ["can't be blank"],
             "procedure" => ["must exist"],
             "date" => ["can't be blank"],
             "patient_service_number" => ["can't be blank"],
