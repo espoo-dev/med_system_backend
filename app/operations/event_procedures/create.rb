@@ -8,18 +8,31 @@ module EventProcedures
     output :event_procedure, type: EventProcedure
 
     def call
-      self.event_procedure = EventProcedure.new(attributes.reverse_merge(user_id: user_id))
-
-      fail!(error: event_procedure.errors) unless event_procedure.save
-
-      event_procedure.total_amount_cents = total_amount_cents
-      event_procedure.save
+      ActiveRecord::Base.transaction do
+        patient = find_or_create_patient
+        event_procedure = create_event_procedure(patient)
+        assign_total_amount_cents(event_procedure)
+      end
     end
 
     private
 
-    def total_amount_cents
-      EventProcedures::BuildTotalAmountCents.result(event_procedure: event_procedure).total_amount_cents
+    def assign_total_amount_cents(event_procedure)
+      build_total_amount = EventProcedures::BuildTotalAmountCents.result(event_procedure: event_procedure)
+      event_procedure.total_amount_cents = build_total_amount.total_amount_cents
+      event_procedure.save
+    end
+
+    def find_or_create_patient
+      Patients::FindOrCreate.result(params: attributes[:patient_attributes]).patient
+    end
+
+    def create_event_procedure(patient)
+      self.event_procedure = EventProcedure.new(attributes.reverse_merge(user_id: user_id, patient: patient))
+
+      fail!(error: event_procedure.errors) unless event_procedure.save
+
+      event_procedure
     end
   end
 end

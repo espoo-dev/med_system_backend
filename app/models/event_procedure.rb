@@ -11,6 +11,8 @@ class EventProcedure < ApplicationRecord
   belongs_to :procedure
   belongs_to :user
 
+  accepts_nested_attributes_for :patient
+
   scope :by_month, EventProcedures::ByMonthQuery
   scope :by_payd, EventProcedures::ByPaydQuery
 

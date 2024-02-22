@@ -62,7 +62,6 @@ module Api
       def event_procedure_params
         params.permit(
           :procedure_id,
-          :patient_id,
           :hospital_id,
           :health_insurance_id,
           :patient_service_number,
@@ -70,7 +69,8 @@ module Api
           :urgency,
           :amount_cents,
           :payd_at,
-          :room_type
+          :room_type,
+          patient_attributes: %i[id name]
         ).to_h
       end
 

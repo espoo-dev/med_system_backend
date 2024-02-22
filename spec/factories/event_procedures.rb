@@ -16,5 +16,13 @@ FactoryBot.define do
     total_amount_cents { procedure.amount_cents }
 
     traits_for_enum(:room_type, EventProcedures::RoomTypes.list)
+
+    transient do
+      patient_attributes { nil }
+    end
+
+    after(:build) do |event_procedure, evaluator|
+      event_procedure.patient = build(:patient, evaluator.patient_attributes) if evaluator.patient_attributes
+    end
   end
 end
