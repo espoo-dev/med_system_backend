@@ -52,6 +52,22 @@ RSpec.describe EventProcedures::Create, type: :operation do
         )
         expect(result.event_procedure.total_amount_cents).to eq(1300)
       end
+
+      it "creates a new patient and does not duplicate the creation" do
+        user = create(:user)
+        params = {
+          procedure_id: create(:procedure, amount_cents: 1000).id,
+          hospital_id: create(:hospital).id,
+          health_insurance_id: create(:health_insurance).id,
+          patient_service_number: "1234567890",
+          date: Time.zone.now.to_date,
+          urgency: true,
+          room_type: EventProcedures::RoomTypes::WARD,
+          patient_attributes: { id: nil, name: "John Doe" }
+        }
+
+        expect { described_class.call(attributes: params, user_id: user.id) }.to change(Patient, :count).by(1)
+      end
     end
 
     context "when params are invalid" do
@@ -72,7 +88,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
       it "returns errors" do
         user = create(:user)
         result = described_class.result(
-          attributes: { patient_attributes: {} },
+          attributes: { patient_attributes: { id: nil } },
           user_id: user.id
         )
 
@@ -80,8 +96,8 @@ RSpec.describe EventProcedures::Create, type: :operation do
           [
             "Health insurance must exist",
             "Hospital must exist",
+            "Patient must exist",
             "Procedure must exist",
-            "Patient name can't be blank",
             "Date can't be blank",
             "Patient service number can't be blank",
             "Room type can't be blank"
