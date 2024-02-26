@@ -118,6 +118,37 @@ RSpec.describe "EventProcedures" do
 
           expect(response).to have_http_status(:created)
         end
+
+        it "returns event_procedure" do
+          user = create(:user)
+          patient = create(:patient)
+          params = {
+            procedure_id: create(:procedure).id,
+            hospital_id: create(:hospital).id,
+            health_insurance_id: create(:health_insurance).id,
+            patient_service_number: "1234567890",
+            date: Time.zone.now.to_date,
+            urgency: false,
+            room_type: EventProcedures::RoomTypes::WARD,
+            user_id: user.id,
+            patient_attributes: { id: patient.id }
+          }
+
+          headers = auth_token_for(user)
+          post "/api/v1/event_procedures", params: params, headers: headers
+
+          expect(response.parsed_body).to include(
+            "procedure" => EventProcedure.last.procedure.name,
+            "patient" => patient.name,
+            "hospital" => EventProcedure.last.hospital.name,
+            "health_insurance" => EventProcedure.last.health_insurance.name,
+            "patient_service_number" => params[:patient_service_number],
+            "date" => params[:date].strftime("%d/%m/%Y"),
+            "room_type" => EventProcedures::RoomTypes::WARD,
+            "urgency" => false,
+            "payd_at" => nil
+          )
+        end
       end
 
       context "with invalid attributes" do
@@ -135,7 +166,7 @@ RSpec.describe "EventProcedures" do
           expect(response.parsed_body).to eq(
             "health_insurance" => ["must exist"],
             "hospital" => ["must exist"],
-            "patient.name" => ["can't be blank"],
+            "patient" => ["must exist"],
             "procedure" => ["must exist"],
             "date" => ["can't be blank"],
             "patient_service_number" => ["can't be blank"],

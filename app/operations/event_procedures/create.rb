@@ -9,8 +9,7 @@ module EventProcedures
 
     def call
       ActiveRecord::Base.transaction do
-        patient = find_or_create_patient
-        event_procedure = create_event_procedure(patient)
+        create_event_procedure
         assign_total_amount_cents(event_procedure)
       end
     end
@@ -23,12 +22,17 @@ module EventProcedures
       event_procedure.save
     end
 
+    def event_procedure_attributes
+      patient = find_or_create_patient
+      attributes.except(:patient_attributes).merge(user_id: user_id, patient_id: patient.id)
+    end
+
     def find_or_create_patient
       Patients::FindOrCreate.result(params: attributes[:patient_attributes]).patient
     end
 
-    def create_event_procedure(patient)
-      self.event_procedure = EventProcedure.new(attributes.reverse_merge(user_id: user_id, patient: patient))
+    def create_event_procedure
+      self.event_procedure = EventProcedure.new(event_procedure_attributes)
 
       fail!(error: event_procedure.errors) unless event_procedure.save
 
