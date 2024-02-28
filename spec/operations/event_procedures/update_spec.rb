@@ -16,13 +16,35 @@ RSpec.describe EventProcedures::Update, type: :operation do
         )
       end
 
-      it "update event_procedure association 'patient'" do
-        patient = create(:patient, name: "Old Patient")
-        event_procedure = create(:event_procedure, patient: patient)
-        attributes = { patient_id: create(:patient, name: "New Patient").id }
-        result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+      context "when patient_attributes are provided" do
+        it "update event_procedure association patient" do
+          old_patient = create(:patient, name: "Old Patient")
+          new_patient = create(:patient, name: "New Patient name")
+          event_procedure = create(:event_procedure, patient: old_patient)
+          attributes = {
+            urgency: true,
+            room_type: EventProcedures::RoomTypes::WARD,
+            patient_attributes: { id: new_patient.id, name: nil }
+          }
+          result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
-        expect(result.event_procedure.reload.patient.name).to eq("New Patient")
+          expect(result.event_procedure.reload.patient.id).to eq(new_patient.id)
+          expect(result.event_procedure.reload.patient.name).to eq("New Patient name")
+        end
+
+        it "creates a new patient and does not duplicate the creation" do
+          patient = create(:patient, name: "Old Patient")
+          event_procedure = create(:event_procedure, patient: patient)
+          attributes = {
+            urgency: true,
+            room_type: EventProcedures::RoomTypes::WARD,
+            patient_attributes: { id: nil, name: "John Doe" }
+          }
+
+          expect do
+            described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+          end.to change(Patient, :count).by(1)
+        end
       end
 
       it "update event_procedure total_amount_cents" do
