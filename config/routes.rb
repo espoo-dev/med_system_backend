@@ -3,6 +3,17 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :event_procedures
+    resources :health_insurances
+    resources :hospitals
+    resources :medical_shifts
+    resources :patients
+    resources :procedures
+    resources :users
+
+    root to: "event_procedures#index"
+  end
   extend DemoPackRoutes
   extend OauthRoutes
   mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?

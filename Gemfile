@@ -101,6 +101,9 @@ gem "money", "6.16.0"
 # Enumerations for Ruby with some magic powers!
 gem "enumerate_it", "3.2.4"
 
+# A Rails engine that helps you put together a super-flexible admin dashboard.
+gem "administrate"
+
 group :development, :test do
   gem "bullet"
 
