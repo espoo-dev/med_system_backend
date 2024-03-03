@@ -14,11 +14,12 @@ RSpec.describe "Patients" do
 
     context "when user is authenticated" do
       context "when there are patients" do
-        let!(:patients) { create_list(:patient, 2) }
+        let!(:patients) { create_list(:patient, 2, user:) }
+        let(:user) { create(:user) }
 
         before do
-          headers = auth_token_for(create(:user))
-          get "/api/v1/patients", headers: headers
+          headers = auth_token_for(user)
+          get "/api/v1/patients", headers:
         end
 
         it "returns ok" do
@@ -55,9 +56,11 @@ RSpec.describe "Patients" do
       end
 
       context "when has pagination via page and per_page" do
+        let(:user) { create(:user) }
+
         before do
-          create_list(:patient, 8)
-          headers = auth_token_for(create(:user))
+          create_list(:patient, 8, user:)
+          headers = auth_token_for(user)
           get "/api/v1/patients", params: { page: 2, per_page: 5 }, headers: headers
         end
 
@@ -84,10 +87,11 @@ RSpec.describe "Patients" do
     context "when user is authenticated" do
       context "when params are valid" do
         let(:attributes) { { name: "John" } }
+        let(:user) { create(:user) }
 
         before do
-          headers = auth_token_for(create(:user))
-          post "/api/v1/patients", params: attributes, headers: headers
+          headers = auth_token_for(user)
+          post "/api/v1/patients", params: attributes, headers:
         end
 
         it "returns created" do

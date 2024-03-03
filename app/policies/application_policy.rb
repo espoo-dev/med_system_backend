@@ -54,4 +54,14 @@ class ApplicationPolicy
 
     attr_reader :user, :scope
   end
+
+  class CurrentUserScope < ApplicationScope
+    def resolve
+      if user.present?
+        scope.where(user:)
+      else
+        scope.none
+      end
+    end
+  end
 end

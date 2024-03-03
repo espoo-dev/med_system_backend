@@ -2,7 +2,7 @@
 
 module Patients
   class List < Actor
-    input :scope, type: Enumerable, default: -> { Patient.all }
+    input :scope, type: Enumerable
     input :params, type: Hash, default: -> { {} }
 
     output :patients, type: Enumerable

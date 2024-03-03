@@ -98,80 +98,136 @@ RSpec.describe "EventProcedures" do
   describe "POST /api/v1/event_procedures" do
     context "when user is authenticated" do
       context "with valid attributes" do
-        it "returns created" do
-          user = create(:user)
-          patient = create(:patient)
-          params = {
-            procedure_id: create(:procedure).id,
-            hospital_id: create(:hospital).id,
-            health_insurance_id: create(:health_insurance).id,
-            patient_service_number: "1234567890",
-            date: Time.zone.now.to_date,
-            urgency: false,
-            room_type: EventProcedures::RoomTypes::WARD,
-            user_id: user.id,
-            patient_attributes: { id: patient.id }
-          }
+        context "when patient exists" do
+          it "returns created" do
+            user = create(:user)
+            patient = create(:patient)
+            params = {
+              procedure_id: create(:procedure).id,
+              hospital_id: create(:hospital).id,
+              health_insurance_id: create(:health_insurance).id,
+              patient_service_number: "1234567890",
+              date: Time.zone.now.to_date,
+              urgency: false,
+              room_type: EventProcedures::RoomTypes::WARD,
+              user_id: user.id,
+              patient_attributes: { id: patient.id }
+            }
 
-          headers = auth_token_for(user)
-          post "/api/v1/event_procedures", params: params, headers: headers
+            headers = auth_token_for(user)
+            post "/api/v1/event_procedures", params: params, headers: headers
 
-          expect(response).to have_http_status(:created)
+            expect(response).to have_http_status(:created)
+          end
+
+          it "returns event_procedure" do
+            user = create(:user)
+            patient = create(:patient)
+            params = {
+              procedure_id: create(:procedure).id,
+              hospital_id: create(:hospital).id,
+              health_insurance_id: create(:health_insurance).id,
+              patient_service_number: "1234567890",
+              date: Time.zone.now.to_date,
+              urgency: false,
+              room_type: EventProcedures::RoomTypes::WARD,
+              user_id: user.id,
+              patient_attributes: { id: patient.id }
+            }
+
+            headers = auth_token_for(user)
+            post "/api/v1/event_procedures", params: params, headers: headers
+
+            expect(response.parsed_body).to include(
+              "procedure" => EventProcedure.last.procedure.name,
+              "patient" => patient.name,
+              "hospital" => EventProcedure.last.hospital.name,
+              "health_insurance" => EventProcedure.last.health_insurance.name,
+              "patient_service_number" => params[:patient_service_number],
+              "date" => params[:date].strftime("%d/%m/%Y"),
+              "room_type" => EventProcedures::RoomTypes::WARD,
+              "urgency" => false,
+              "payd_at" => nil
+            )
+          end
         end
 
-        it "returns event_procedure" do
-          user = create(:user)
-          patient = create(:patient)
-          params = {
-            procedure_id: create(:procedure).id,
-            hospital_id: create(:hospital).id,
-            health_insurance_id: create(:health_insurance).id,
-            patient_service_number: "1234567890",
-            date: Time.zone.now.to_date,
-            urgency: false,
-            room_type: EventProcedures::RoomTypes::WARD,
-            user_id: user.id,
-            patient_attributes: { id: patient.id }
-          }
+        context "when patient does not exist" do
+          it "returns created" do
+            user = create(:user)
+            params = {
+              procedure_id: create(:procedure).id,
+              hospital_id: create(:hospital).id,
+              health_insurance_id: create(:health_insurance).id,
+              patient_service_number: "1234567890",
+              date: Time.zone.now.to_date,
+              urgency: false,
+              room_type: EventProcedures::RoomTypes::WARD,
+              user_id: user.id,
+              patient_attributes: { name: "patient 1" }
+            }
 
-          headers = auth_token_for(user)
-          post "/api/v1/event_procedures", params: params, headers: headers
+            headers = auth_token_for(user)
+            post "/api/v1/event_procedures", params: params, headers: headers
 
-          expect(response.parsed_body).to include(
-            "procedure" => EventProcedure.last.procedure.name,
-            "patient" => patient.name,
-            "hospital" => EventProcedure.last.hospital.name,
-            "health_insurance" => EventProcedure.last.health_insurance.name,
-            "patient_service_number" => params[:patient_service_number],
-            "date" => params[:date].strftime("%d/%m/%Y"),
-            "room_type" => EventProcedures::RoomTypes::WARD,
-            "urgency" => false,
-            "payd_at" => nil
-          )
+            expect(response).to have_http_status(:created)
+          end
+
+          it "returns event_procedure" do
+            user = create(:user)
+            params = {
+              procedure_id: create(:procedure).id,
+              hospital_id: create(:hospital).id,
+              health_insurance_id: create(:health_insurance).id,
+              patient_service_number: "1234567890",
+              date: Time.zone.now.to_date,
+              urgency: false,
+              room_type: EventProcedures::RoomTypes::WARD,
+              user_id: user.id,
+              patient_attributes: { name: "patient 1" }
+            }
+
+            headers = auth_token_for(user)
+            post "/api/v1/event_procedures", params: params, headers: headers
+
+            expect(response.parsed_body).to include(
+              "procedure" => EventProcedure.last.procedure.name,
+              "patient" => "patient 1",
+              "hospital" => EventProcedure.last.hospital.name,
+              "health_insurance" => EventProcedure.last.health_insurance.name,
+              "patient_service_number" => params[:patient_service_number],
+              "date" => params[:date].strftime("%d/%m/%Y"),
+              "room_type" => EventProcedures::RoomTypes::WARD,
+              "urgency" => false,
+              "payd_at" => nil
+            )
+          end
         end
       end
 
       context "with invalid attributes" do
-        it "returns unprocessable_entity" do
-          headers = auth_token_for(create(:user))
-          post "/api/v1/event_procedures", params: { patient_attributes: { id: nil } }, headers: headers
+        context "when patient_id and patient_name are nil" do
+          it "returns unprocessable_entity" do
+            headers = auth_token_for(create(:user))
+            post "/api/v1/event_procedures", params: { patient_attributes: { id: nil, name: nil } }, headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
 
-        it "returns error message" do
-          headers = auth_token_for(create(:user))
-          post "/api/v1/event_procedures", params: { patient_attributes: { id: nil } }, headers: headers
+          it "returns error message" do
+            headers = auth_token_for(create(:user))
+            post "/api/v1/event_procedures", params: { patient_attributes: { id: nil, name: nil } }, headers: headers
 
-          expect(response.parsed_body).to eq(
-            "health_insurance" => ["must exist"],
-            "hospital" => ["must exist"],
-            "patient" => ["must exist"],
-            "procedure" => ["must exist"],
-            "date" => ["can't be blank"],
-            "patient_service_number" => ["can't be blank"],
-            "room_type" => ["can't be blank"]
-          )
+            expect(response.parsed_body).to eq(
+              "health_insurance" => ["must exist"],
+              "hospital" => ["must exist"],
+              "patient" => ["must exist"],
+              "procedure" => ["must exist"],
+              "date" => ["can't be blank"],
+              "patient_service_number" => ["can't be blank"],
+              "room_type" => ["can't be blank"]
+            )
+          end
         end
       end
     end

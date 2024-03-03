@@ -4,7 +4,9 @@ module Api
   module V1
     class PatientsController < ApiController
       def index
+        authorized_scope = policy_scope(Patient)
         patients = Patients::List.result(
+          scope: authorized_scope,
           params: params.permit(:page, :per_page).to_h
         ).patients
 
@@ -53,7 +55,7 @@ module Api
       end
 
       def patient_params
-        params.permit(:name).to_h
+        params.permit(:name).to_h.merge(user_id: current_user.id)
       end
     end
   end

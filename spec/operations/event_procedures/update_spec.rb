@@ -34,11 +34,12 @@ RSpec.describe EventProcedures::Update, type: :operation do
 
         it "creates a new patient and does not duplicate the creation" do
           patient = create(:patient, name: "Old Patient")
-          event_procedure = create(:event_procedure, patient: patient)
+          user = create(:user)
+          event_procedure = create(:event_procedure, patient:)
           attributes = {
             urgency: true,
             room_type: EventProcedures::RoomTypes::WARD,
-            patient_attributes: { id: nil, name: "John Doe" }
+            patient_attributes: { id: nil, name: "John Doe", user_id: user.id }
           }
 
           expect do

@@ -63,7 +63,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           date: Time.zone.now.to_date,
           urgency: true,
           room_type: EventProcedures::RoomTypes::WARD,
-          patient_attributes: { id: nil, name: "John Doe" }
+          patient_attributes: { id: nil, name: "John Doe", user_id: user.id }
         }
 
         expect { described_class.call(attributes: params, user_id: user.id) }.to change(Patient, :count).by(1)
