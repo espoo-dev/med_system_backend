@@ -27,7 +27,7 @@ RSpec.describe Procedures::List, type: :operation do
     end
 
     it "returns all procedures ignoring default per_page value" do
-      procedures = create_list(:procedure, 11)
+      procedures = create_list(:procedure, 26)
 
       result = described_class.result
 
