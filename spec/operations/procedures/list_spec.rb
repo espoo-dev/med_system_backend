@@ -25,6 +25,15 @@ RSpec.describe Procedures::List, type: :operation do
         ]
       )
     end
+
+    it "returns all procedures ignoring default per_page value" do
+      procedures = create_list(:procedure, 11)
+
+      result = described_class.result
+
+      expect(result.procedures.count).to eq(procedures.count)
+      expect(result.procedures).to match_array(procedures)
+    end
   end
 
   context "when has pagination via page and per_page" do
