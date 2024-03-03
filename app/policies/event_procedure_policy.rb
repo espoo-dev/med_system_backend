@@ -1,14 +1,7 @@
 # frozen_string_literal: true
 
 class EventProcedurePolicy < ApplicationPolicy
-  class Scope < ApplicationScope
-    def resolve
-      if user.present?
-        scope.where(user:)
-      else
-        scope.none
-      end
-    end
+  class Scope < CurrentUserScope
   end
 
   def index?

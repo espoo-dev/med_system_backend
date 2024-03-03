@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe Patients::List, type: :operation do
   describe ".result" do
     it "is successful" do
-      result = described_class.result
+      result = described_class.result(scope: Patient.all)
 
       expect(result).to be_success
     end
@@ -15,7 +15,7 @@ RSpec.describe Patients::List, type: :operation do
       tomorrow_patient = create(:patient, created_at: Time.zone.tomorrow)
       yesterday_patient = create(:patient, created_at: Time.zone.yesterday)
 
-      result = described_class.result
+      result = described_class.result(scope: Patient.all)
 
       expect(result.patients).to eq(
         [
@@ -31,7 +31,7 @@ RSpec.describe Patients::List, type: :operation do
     it "paginate the patients" do
       create_list(:patient, 8)
 
-      result = described_class.result(params: { page: 1, per_page: 5 })
+      result = described_class.result(scope: Patient.all, params: { page: 1, per_page: 5 })
 
       expect(result.patients.count).to eq 5
     end

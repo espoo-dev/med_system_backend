@@ -4,6 +4,8 @@ require "rails_helper"
 
 RSpec.describe Patients::FindOrCreate, type: :operation do
   describe ".result" do
+    let(:user_id) { create(:user).id }
+
     context "when patient with given id exists" do
       it "is successful" do
         patient = create(:patient)
@@ -26,7 +28,7 @@ RSpec.describe Patients::FindOrCreate, type: :operation do
 
     context "when patient with given id does not exist" do
       it "is successful" do
-        params = { id: nil, name: "John" }
+        params = { id: nil, name: "John", user_id: }
 
         result = described_class.result(params: params)
 
@@ -34,7 +36,7 @@ RSpec.describe Patients::FindOrCreate, type: :operation do
       end
 
       it "creates a patient" do
-        params = { id: nil, name: "John" }
+        params = { id: nil, name: "John", user_id: }
 
         result = described_class.result(params: params)
 
@@ -53,7 +55,7 @@ RSpec.describe Patients::FindOrCreate, type: :operation do
       end
 
       it "returns errors" do
-        params = { id: nil, name: nil }
+        params = { id: nil, name: nil, user_id: }
 
         result = described_class.result(params: params)
 

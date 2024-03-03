@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class PatientPolicy < ApplicationPolicy
+  class Scope < CurrentUserScope
+  end
+
   def index?
     user.present?
   end

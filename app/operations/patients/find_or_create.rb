@@ -17,7 +17,7 @@ module Patients
     end
 
     def create_patient
-      self.patient = Patient.new(name: params[:name])
+      self.patient = Patient.new(name: params[:name], user_id: params[:user_id])
 
       fail!(error: :invalid_record) unless patient.save
 

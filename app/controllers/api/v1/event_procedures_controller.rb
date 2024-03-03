@@ -59,7 +59,7 @@ module Api
 
       private
 
-      def event_procedure_params
+      def event_procedure_permitted_params
         params.permit(
           :procedure_id,
           :hospital_id,
@@ -72,6 +72,12 @@ module Api
           :room_type,
           patient_attributes: %i[id name]
         ).to_h
+      end
+
+      def event_procedure_params
+        result_params = event_procedure_permitted_params
+        result_params[:patient_attributes]&.merge!(user_id: current_user.id)
+        result_params
       end
 
       def event_procedure
