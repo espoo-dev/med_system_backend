@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "administrate/base_dashboard"
 
 class HealthInsuranceDashboard < Administrate::BaseDashboard
@@ -12,7 +14,7 @@ class HealthInsuranceDashboard < Administrate::BaseDashboard
     event_procedures: Field::HasMany,
     name: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

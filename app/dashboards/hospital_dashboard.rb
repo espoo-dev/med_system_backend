@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "administrate/base_dashboard"
 
 class HospitalDashboard < Administrate::BaseDashboard
@@ -14,7 +16,7 @@ class HospitalDashboard < Administrate::BaseDashboard
     medical_shifts: Field::HasMany,
     name: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "administrate/base_dashboard"
 
 class MedicalShiftDashboard < Administrate::BaseDashboard
@@ -16,7 +18,7 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
     was_paid: Field::Boolean,
     workload: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
