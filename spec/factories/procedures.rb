@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :procedure do
     name { "Procedure name" }
-    code { "03.02.04.01-5" }
+    sequence(:code) { |n| "code#{n}" }
     amount_cents { 1 }
     description { "Procedure description" }
   end

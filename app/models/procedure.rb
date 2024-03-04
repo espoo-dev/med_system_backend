@@ -10,4 +10,6 @@ class Procedure < ApplicationRecord
   validates :amount_cents, presence: true
 
   validates :amount_cents, numericality: { greater_than_or_equal_to: 0 }
+
+  validates :code, uniqueness: { case_sensitive: false }
 end
