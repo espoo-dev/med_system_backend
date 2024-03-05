@@ -10,8 +10,6 @@ procedure_data = [
   "30911141 - Estudo ultrassonográfico intravascular - porte anestésico 4 - 280,00",
   "30912105 - Implante de stent coronário com ou sem angioplastia por balão concomitante (1 vaso) - porte
    anestésico 5 - 433,00".squish,
-  "30912105 - Implante de stent coronário com ou sem angioplastia por balão concomitante (1 vaso) - porte
-   anestésico 5 - 433,00".squish,
   "30912261 - Angioplastia transluminal percutânea de bifurcação e de tronco com implante de stent - porte
    anestésico 5 - 433,00".squish,
   "30912040 - Angioplastia transluminal percutânea por balão (1 vaso) - porte anestésico 3 - 189,00",
