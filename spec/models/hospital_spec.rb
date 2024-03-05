@@ -12,8 +12,8 @@ RSpec.describe Hospital do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:address) }
 
-    context "when validating code uniqueness" do
-      it "does not allow duplicate codes" do
+    context "when validating name and address uniqueness" do
+      it "does not allow duplicate names and addresses" do
         create(:hospital, name: "nome hospital", address: "Barbalha- CE")
         new_hospital = build(:hospital, name: "nomE hospitAl", address: "Barbalha- Ce")
 
