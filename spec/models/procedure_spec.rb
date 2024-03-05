@@ -16,8 +16,8 @@ RSpec.describe Procedure do
 
     context "when validating code uniqueness" do
       it "does not allow duplicate codes" do
-        procedure = create(:procedure)
-        new_procedure = build(:procedure, code: procedure.code)
+        create(:procedure, code: "old_code")
+        new_procedure = build(:procedure, code: "oLd_cOdE")
 
         expect(new_procedure).not_to be_valid
         expect(new_procedure.errors[:code]).to include("has already been taken")
