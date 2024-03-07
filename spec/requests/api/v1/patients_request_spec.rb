@@ -219,7 +219,9 @@ RSpec.describe "Patients" do
 
           delete "/api/v1/patients/#{patient.id}", headers: headers
 
-          expect(response.parsed_body).to eq({ "error" => "Cannot delete record because of dependent event_procedures" })
+          expect(response.parsed_body).to eq(
+            { "error" => "Cannot delete record because of dependent event_procedures" }
+          )
         end
       end
     end
