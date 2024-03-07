@@ -104,6 +104,15 @@ gem "enumerate_it", "3.2.4"
 # A Rails engine that helps you put together a super-flexible admin dashboard.
 gem "administrate"
 
+# Sentry SDK for Ruby
+gem "sentry-ruby"
+
+# Sentry SDK for Rails
+gem "sentry-rails"
+
+# A sampling call-stack profiler for ruby 2.2+
+gem 'stackprof'
+
 group :development, :test do
   gem "bullet"
 
