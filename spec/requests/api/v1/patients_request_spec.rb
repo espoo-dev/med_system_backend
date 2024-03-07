@@ -204,9 +204,8 @@ RSpec.describe "Patients" do
       context "when patient cannot be destroyed" do
         it "returns unprocessable_entity" do
           patient = create(:patient)
+          create(:event_procedure, patient:)
           headers = auth_token_for(create(:user))
-          allow(Patient).to receive(:find).with(patient.id.to_s).and_return(patient)
-          allow(patient).to receive(:destroy).and_return(false)
 
           delete "/api/v1/patients/#{patient.id}", headers: headers
 
@@ -215,13 +214,12 @@ RSpec.describe "Patients" do
 
         it "returns errors" do
           patient = create(:patient)
+          create(:event_procedure, patient:)
           headers = auth_token_for(create(:user))
-          allow(Patient).to receive(:find).with(patient.id.to_s).and_return(patient)
-          allow(patient).to receive(:destroy).and_return(false)
 
           delete "/api/v1/patients/#{patient.id}", headers: headers
 
-          expect(response.parsed_body).to eq("cannot_destroy")
+          expect(response.parsed_body).to eq({ "error" => "Cannot delete record because of dependent event_procedures" })
         end
       end
     end
