@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 SENTRY_DSN = ENV.fetch("SENTRY_DSN", nil)
 return unless SENTRY_DSN
 

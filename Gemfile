@@ -111,7 +111,7 @@ gem "sentry-ruby"
 gem "sentry-rails"
 
 # A sampling call-stack profiler for ruby 2.2+
-gem 'stackprof'
+gem "stackprof"
 
 group :development, :test do
   gem "bullet"

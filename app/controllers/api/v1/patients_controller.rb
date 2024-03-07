@@ -9,6 +9,7 @@ module Api
           scope: authorized_scope,
           params: params.permit(:page, :per_page).to_h
         ).patients
+          .includes([:event_procedures])
 
         authorize(patients)
 
