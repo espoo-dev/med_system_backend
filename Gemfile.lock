@@ -474,6 +474,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sentry-rails (5.16.1)
+      railties (>= 5.0)
+      sentry-ruby (~> 5.16.1)
+    sentry-ruby (5.16.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     service_actor (3.7.0)
       zeitwerk
     shoulda-matchers (5.3.0)
@@ -504,6 +509,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stackprof (0.2.26)
     stimulus-rails (1.2.2)
       railties (>= 6.0.0)
     stringio (3.0.8)
@@ -580,6 +586,8 @@ DEPENDENCIES
   rubocop-rails (= 2.20.2)
   rubocop-rspec (= 2.23.2)
   selenium-webdriver
+  sentry-rails
+  sentry-ruby
   service_actor (~> 3.7)
   shoulda-matchers (~> 5.0)
   sidekiq
@@ -587,6 +595,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets-rails
+  stackprof
   stimulus-rails
   turbo-rails
   tzinfo-data
