@@ -30,11 +30,13 @@ RSpec.describe "Patients" do
           expect(response.parsed_body).to include(
             {
               "id" => patients.first.id,
-              "name" => patients.first.name
+              "name" => patients.first.name,
+              "deletable" => true
             },
             {
               "id" => patients.second.id,
-              "name" => patients.second.name
+              "name" => patients.second.name,
+              "deletable" => true
             }
           )
         end

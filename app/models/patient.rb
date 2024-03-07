@@ -5,4 +5,8 @@ class Patient < ApplicationRecord
   belongs_to :user
 
   validates :name, presence: true
+
+  def deletable?
+    event_procedures.empty?
+  end
 end
