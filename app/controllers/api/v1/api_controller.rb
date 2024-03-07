@@ -11,6 +11,7 @@ module Api
       rescue_from Pundit::NotAuthorizedError, with: :render_unauthorized
       rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+      rescue_from ActiveRecord::DeleteRestrictionError, with: :render_unprocessable_entity
 
       def current_user
         current_devise_api_user
