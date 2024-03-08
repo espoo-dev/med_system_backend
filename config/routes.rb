@@ -31,6 +31,8 @@ Rails.application.routes.draw do
       resources :patients, only: %i[index create update destroy]
       resources :procedures, only: %i[index create update destroy]
       resources :users, only: [:index]
+
+      get "/event_procedures_dashboard/amount_by_day", to: "event_procedures_dashboard#amount_by_day"
     end
   end
 end

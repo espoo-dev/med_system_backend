@@ -15,6 +15,7 @@ class EventProcedure < ApplicationRecord
 
   scope :by_month, EventProcedures::ByMonthQuery
   scope :by_payd, EventProcedures::ByPaydQuery
+  scope :date_between, EventProcedures::ByDateBetween
 
   validates :date, presence: true
   validates :patient_service_number, presence: true
