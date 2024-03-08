@@ -8,7 +8,7 @@ module EventProcedures
     output :dashboard_data, type: Hash
 
     def call
-      event_procedures = EventProcedure.date_between(start_date_time, end_date_time)
+      event_procedures = EventProcedure.date_between(start_date: start_date_time, end_date: end_date_time)
 
       self.dashboard_data = {
         start_date: format_date(start_date_time),
