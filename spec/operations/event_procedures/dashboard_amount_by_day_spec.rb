@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe EventProcedures::DashboardByDateRange, type: :operation do
+RSpec.describe EventProcedures::DashboardAmountByDay, type: :operation do
   describe ".result" do
     let(:result) { described_class.result(start_date_time:, end_date_time:) }
 

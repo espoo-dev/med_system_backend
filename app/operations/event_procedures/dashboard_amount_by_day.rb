@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module EventProcedures
-  class DashboardByDateRange < Actor
+  class DashboardAmountByDay < Actor
     input :start_date_time, type: DateTime
     input :end_date_time, type: DateTime
 
