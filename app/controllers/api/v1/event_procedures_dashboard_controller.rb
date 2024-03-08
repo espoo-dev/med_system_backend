@@ -12,7 +12,7 @@ module Api
         if result.success?
           render json: result.dashboard_data, status: :ok
         else
-          render json: result.errors, status: :unprocessable_entity
+          render json: { errors: [result[:error]] }, status: :unprocessable_entity
         end
       end
 

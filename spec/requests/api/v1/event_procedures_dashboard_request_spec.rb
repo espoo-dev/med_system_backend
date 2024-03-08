@@ -56,6 +56,22 @@ RSpec.describe "EventProcedures" do
       end
     end
 
+    context "when params are not correct" do
+      let!(:user) { create(:user, admin: true) }
+      let(:params) { { start_date: "01-06-2000", end_date: "05-06-2000" } }
+      let(:headers) { auth_token_for(user) }
+
+      it "returns unprocessable_entity" do
+        do_request
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "returns error message" do
+        do_request
+        expect(response.parsed_body).to eq({ "errors" => ["invalid data format, it must be dd/mm/yyyy"] })
+      end
+    end
+
     context "when data is correct" do
       let(:year) { 2000 }
       let!(:user) { create(:user, admin: true) }

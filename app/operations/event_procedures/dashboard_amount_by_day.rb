@@ -9,8 +9,7 @@ module EventProcedures
     attr_reader :start_date_time, :end_date_time
 
     def call
-      @start_date_time = format_to_datetime(start_date)
-      @end_date_time = format_to_datetime(end_date)
+      set_date_times
       event_procedures = EventProcedure.date_between(start_date: start_date_time, end_date: end_date_time)
 
       self.dashboard_data = {
@@ -22,6 +21,13 @@ module EventProcedures
     end
 
     private
+
+    def set_date_times
+      @start_date_time = format_to_datetime(start_date)
+      @end_date_time = format_to_datetime(end_date)
+    rescue Date::Error
+      fail!(error: "invalid data format, it must be dd/mm/yyyy")
+    end
 
     def event_procedures_by_date(event_procedures)
       result = {}
