@@ -10,11 +10,11 @@ RSpec.describe EventProcedures::List, type: :operation do
       expect(result.success?).to be true
     end
 
-    it "returns event_procedures ordered by created_at desc" do
+    it "returns event_procedures ordered by date desc" do
       user = create(:user)
-      today_event = create(:event_procedure, created_at: Time.zone.today, user: user)
-      yesterday_event = create(:event_procedure, created_at: Time.zone.yesterday, user: user)
-      tomorrow_event = create(:event_procedure, created_at: Time.zone.tomorrow, user: user)
+      today_event = create(:event_procedure, date: Time.zone.today, user: user)
+      yesterday_event = create(:event_procedure, date: Time.zone.yesterday, user: user)
+      tomorrow_event = create(:event_procedure, date: Time.zone.tomorrow, user: user)
 
       result = described_class.result(scope: EventProcedure.all, params: {})
 
