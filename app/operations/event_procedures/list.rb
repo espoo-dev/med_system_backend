@@ -8,7 +8,7 @@ module EventProcedures
     output :event_procedures, type: Enumerable
 
     def call
-      self.event_procedures = filtered_query.order(created_at: :desc).page(params[:page]).per(params[:per_page])
+      self.event_procedures = filtered_query.order(date: :desc).page(params[:page]).per(params[:per_page])
     end
 
     private
