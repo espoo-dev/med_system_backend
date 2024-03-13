@@ -7,9 +7,6 @@ module Api
       after_action :verify_policy_scoped, only: :index
 
       def index
-        # Using this as script, will remove soon
-        event_procedures = EventProcedure.where.not(payd_at: nil)
-        event_procedures.each { _1.update(payd: true) }
         authorized_scope = policy_scope(EventProcedure)
         event_procedures = EventProcedures::List.result(
           scope: authorized_scope,
