@@ -68,7 +68,7 @@ Metrics/ClassLength:
 
 Metrics/MethodLength:
   CountAsOne: ['array', 'hash', 'heredoc']
-  Max: 12
+  Max: 13
 
 Naming/VariableNumber:
   Enabled: false

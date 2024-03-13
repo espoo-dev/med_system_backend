@@ -16,6 +16,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     hospital: Field::BelongsTo,
     patient: Field::BelongsTo,
     patient_service_number: Field::String,
+    payd: Field::Boolean,
     payd_at: Field::DateTime,
     procedure: Field::BelongsTo,
     room_type: Field::String,
@@ -35,6 +36,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     id
     procedure
     user
+    payd
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -46,6 +48,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     hospital
     patient
     patient_service_number
+    payd
     payd_at
     procedure
     room_type
@@ -65,6 +68,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     hospital
     patient
     patient_service_number
+    payd
     payd_at
     procedure
     room_type
