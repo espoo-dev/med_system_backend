@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreateEventProcedures < ActiveRecord::Migration[7.0]
-  def change # rubocop:disable Metrics/MethodLength
+  def change
     create_table :event_procedures do |t|
       t.references :procedure, null: false, foreign_key: true
       t.references :patient, null: false, foreign_key: true
