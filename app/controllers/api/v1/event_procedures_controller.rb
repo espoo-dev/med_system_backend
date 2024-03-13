@@ -68,6 +68,7 @@ module Api
           :date,
           :urgency,
           :amount_cents,
+          :payd,
           :payd_at,
           :room_type,
           patient_attributes: %i[id name]

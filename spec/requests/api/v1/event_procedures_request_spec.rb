@@ -132,7 +132,8 @@ RSpec.describe "EventProcedures" do
               urgency: false,
               room_type: EventProcedures::RoomTypes::WARD,
               user_id: user.id,
-              patient_attributes: { id: patient.id }
+              patient_attributes: { id: patient.id },
+              payd: true
             }
 
             headers = auth_token_for(user)
@@ -147,7 +148,8 @@ RSpec.describe "EventProcedures" do
               "date" => params[:date].strftime("%d/%m/%Y"),
               "room_type" => EventProcedures::RoomTypes::WARD,
               "urgency" => false,
-              "payd_at" => nil
+              "payd_at" => nil,
+              "payd" => true
             )
           end
         end
