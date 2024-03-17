@@ -85,9 +85,9 @@ RSpec.describe "EventProcedures" do
         # out of range
         create_list(:event_procedure, 1, date: start_date - 1.day)
         # included on range
-        create_list(:event_procedure, 2, date: start_date)
+        create_list(:event_procedure, 2, date: start_date, user:)
         create_list(:event_procedure, 3, date: start_date + 1.day)
-        create_list(:event_procedure, 4, date: end_date)
+        create_list(:event_procedure, 4, date: end_date, user:)
         # out of range
         create_list(:event_procedure, 5, date: end_date + 1.day)
       end
@@ -111,6 +111,26 @@ RSpec.describe "EventProcedures" do
             "start_date" => "01/06/2000"
           }
         )
+      end
+
+      context "when it is filtered by user_id" do
+        let(:params) { { start_date: "01/06/2000", end_date: "05/06/2000", user_id: user.id } }
+
+        it "returns only data for the user from params" do
+          do_request
+          expect(response.parsed_body).to eq(
+            {
+              "days" => { "01/06/2000" => 2,
+                          "02/06/2000" => 0,
+                          "03/06/2000" => 0,
+                          "04/06/2000" => 0,
+                          "05/06/2000" => 4 },
+              "end_date" => "05/06/2000",
+              "events_amount" => 6,
+              "start_date" => "01/06/2000"
+            }
+          )
+        end
       end
     end
   end

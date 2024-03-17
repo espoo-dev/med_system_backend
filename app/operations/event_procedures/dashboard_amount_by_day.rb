@@ -4,6 +4,7 @@ module EventProcedures
   class DashboardAmountByDay < Actor
     input :start_date, type: String
     input :end_date, type: String
+    input :user_id, allow_nil: true, default: -> {}
 
     output :dashboard_data, type: Hash
     attr_reader :start_date_time, :end_date_time
@@ -11,6 +12,7 @@ module EventProcedures
     def call
       set_date_times
       event_procedures = EventProcedure.date_between(start_date: start_date_time, end_date: end_date_time)
+      event_procedures = event_procedures.where(user_id:) if user_id.present?
 
       self.dashboard_data = {
         start_date:,
