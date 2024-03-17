@@ -56,8 +56,8 @@ RSpec.describe "EventProcedures" do
 
         it "returns only paid event_procedures" do
           headers = auth_token_for(user)
-          create_list(:event_procedure, 3, payd_at: Time.zone.today, user_id: user.id)
-          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil, user_id: user.id)
+          create_list(:event_procedure, 3, payd: true, user_id: user.id)
+          _unpayd_event_procedures = create_list(:event_procedure, 5, payd: false, user_id: user.id)
 
           get("/api/v1/event_procedures", params: { payd: "true" }, headers: headers)
 
@@ -70,8 +70,8 @@ RSpec.describe "EventProcedures" do
 
         it "returns only unpaid event_procedures" do
           headers = auth_token_for(user)
-          create_list(:event_procedure, 3, payd_at: Time.zone.today, user_id: user.id)
-          _unpayd_event_procedures = create_list(:event_procedure, 5, payd_at: nil, user_id: user.id)
+          create_list(:event_procedure, 3, payd: true, user_id: user.id)
+          _unpayd_event_procedures = create_list(:event_procedure, 5, payd: false, user_id: user.id)
 
           get("/api/v1/event_procedures", params: { payd: "false" }, headers: headers)
 
@@ -148,7 +148,6 @@ RSpec.describe "EventProcedures" do
               "date" => params[:date].strftime("%d/%m/%Y"),
               "room_type" => EventProcedures::RoomTypes::WARD,
               "urgency" => false,
-              "payd_at" => nil,
               "payd" => true
             )
           end
@@ -200,8 +199,7 @@ RSpec.describe "EventProcedures" do
               "patient_service_number" => params[:patient_service_number],
               "date" => params[:date].strftime("%d/%m/%Y"),
               "room_type" => EventProcedures::RoomTypes::WARD,
-              "urgency" => false,
-              "payd_at" => nil
+              "urgency" => false
             )
           end
         end

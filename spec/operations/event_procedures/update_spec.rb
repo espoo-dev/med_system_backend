@@ -7,12 +7,12 @@ RSpec.describe EventProcedures::Update, type: :operation do
     context "with valid attributes" do
       it "updates event_procedure" do
         event_procedure = create(:event_procedure)
-        attributes = { date: Time.zone.yesterday, payd_at: Time.zone.tomorrow }
+        attributes = { date: Time.zone.yesterday, payd: true }
         described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
         expect(event_procedure.reload.attributes).to include(
           "date" => attributes[:date],
-          "payd_at" => attributes[:payd_at]
+          "payd" => attributes[:payd]
         )
       end
 
@@ -66,7 +66,7 @@ RSpec.describe EventProcedures::Update, type: :operation do
 
       it "returns success" do
         event_procedure = create(:event_procedure)
-        attributes = { date: Time.zone.yesterday, payd_at: Time.zone.tomorrow }
+        attributes = { date: Time.zone.yesterday, payd: true }
         result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
         expect(result).to be_success
@@ -77,14 +77,14 @@ RSpec.describe EventProcedures::Update, type: :operation do
       let!(:event_procedure) { create(:event_procedure) }
 
       it "fails" do
-        attributes = { date: nil, payd_at: nil }
+        attributes = { date: nil, payd: false }
         result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
         expect(result).to be_failure
       end
 
       it "returns invalid event_procedure" do
-        attributes = { date: nil, payd_at: nil }
+        attributes = { date: nil }
         result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
         expect(result.event_procedure).not_to be_valid

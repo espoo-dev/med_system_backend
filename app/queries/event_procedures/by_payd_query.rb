@@ -10,7 +10,7 @@ module EventProcedures
     end
 
     def call
-      payd == "true" ? relation.where.not(payd_at: nil) : relation.where(payd_at: nil)
+      payd == "true" ? relation.where(payd: true) : relation.where(payd: false)
     end
   end
 end

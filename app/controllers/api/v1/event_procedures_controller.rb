@@ -69,7 +69,6 @@ module Api
           :urgency,
           :amount_cents,
           :payd,
-          :payd_at,
           :room_type,
           patient_attributes: %i[id name]
         ).to_h

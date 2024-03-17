@@ -11,8 +11,7 @@ module EventProcedures
     end
 
     def call
-      query = relation.where(user_id: user_id)
-      query = query.where.not(payd_at: nil)
+      query = relation.where(user_id: user_id).where(payd: true)
       query = query.where("EXTRACT(MONTH FROM date) = ?", month) if month.present?
       query.sum(:total_amount_cents)
     end

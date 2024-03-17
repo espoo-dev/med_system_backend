@@ -16,13 +16,13 @@ RSpec.describe EventProcedures::TotalAmountCents, type: :operation do
         :event_procedure, 3,
         procedure: create(:procedure, amount_cents: 5000),
         user: user,
-        payd_at: Time.zone.now
+        payd: true
       )
       _unpayd_event_procedure = create(
         :event_procedure,
         procedure: create(:procedure, amount_cents: 2000),
         user: user,
-        payd_at: nil
+        payd: false
       )
       total_amount_cents = described_class.call(user_id: user.id, month: nil)
 
@@ -39,19 +39,19 @@ RSpec.describe EventProcedures::TotalAmountCents, type: :operation do
       _event_procedure_jan = create(
         :event_procedure, procedure: procedure_1000,
         date: "31/01/2023",
-        payd_at: "26/03/2023",
+        payd: true,
         user: user
       )
       _payd_event_procedure_feb = create(
         :event_procedure, procedure: procedure_2000,
         date: "25/02/2023",
-        payd_at: "26/03/2023",
+        payd: true,
         user: user
       )
       _unpayd_event_procedure_feb = create(
         :event_procedure, procedure: procedure_1000,
         date: "25/02/2023",
-        payd_at: nil,
+        payd: false,
         user: user
       )
 

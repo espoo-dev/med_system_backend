@@ -9,9 +9,9 @@ RSpec.describe EventProcedures::SumTotalAmountQuery do
     procedure_2000 = create(:procedure, amount_cents: 2000)
     procedure_1500 = create(:procedure, amount_cents: 1500)
 
-    _event_procedure = create(:event_procedure, procedure: procedure_1000, payd_at: Time.zone.today, user: user)
-    _payd_event_procedure = create(:event_procedure, procedure: procedure_2000, payd_at: Time.zone.today, user: user)
-    _unpaid_event_procedure = create(:event_procedure, procedure: procedure_1500, payd_at: nil, user: user)
+    _event_procedure = create(:event_procedure, procedure: procedure_1000, payd: true, user: user)
+    _payd_event_procedure = create(:event_procedure, procedure: procedure_2000, payd: true, user: user)
+    _unpaid_event_procedure = create(:event_procedure, procedure: procedure_1500, payd: false, user: user)
 
     sum_total_amount_query = described_class.call(user_id: user.id)
 
