@@ -19,7 +19,7 @@ module Api
       private
 
       def amount_by_day_params
-        params.permit(:start_date, :end_date)
+        params.permit(:start_date, :end_date, :user_id)
       end
     end
   end
