@@ -59,8 +59,8 @@ RSpec.describe EventProcedures::List, type: :operation do
     context "when has filters by payd" do
       it "returns paid event_procedures" do
         user = create(:user)
-        payd_event_procedures = create_list(:event_procedure, 3, payd_at: "2023-03-15", user: user)
-        _unpayd_event_procedures = create_list(:event_procedure, 3, payd_at: nil, user: user)
+        payd_event_procedures = create_list(:event_procedure, 3, payd: true, user: user)
+        _unpayd_event_procedures = create_list(:event_procedure, 3, payd: false, user: user)
 
         result = described_class.result(scope: EventProcedure.all, params: { payd: "true" })
 
@@ -69,8 +69,8 @@ RSpec.describe EventProcedures::List, type: :operation do
 
       it "returns unpaid event_procedures" do
         user = create(:user)
-        _payd_event_procedures = create_list(:event_procedure, 3, payd_at: "2023-03-15", user: user)
-        unpayd_event_procedures = create_list(:event_procedure, 3, payd_at: nil, user: user)
+        _payd_event_procedures = create_list(:event_procedure, 3, payd: true, user: user)
+        unpayd_event_procedures = create_list(:event_procedure, 3, payd: false, user: user)
 
         result = described_class.result(scope: EventProcedure.all, params: { payd: "false" })
 

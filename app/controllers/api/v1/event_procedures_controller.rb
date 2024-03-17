@@ -13,7 +13,7 @@ module Api
           params: params.permit(:page, :per_page, :month, :payd).to_h
         ).event_procedures
 
-        total_amount_cents = EventProcedures::TotalAmountCents.call(user_id: current_user.id)
+        total_amount_cents = EventProcedures::TotalAmountCents.call(user_id: current_user.id, month: params[:month])
 
         render json: {
           total: total_amount_cents.total,
@@ -69,7 +69,6 @@ module Api
           :urgency,
           :amount_cents,
           :payd,
-          :payd_at,
           :room_type,
           patient_attributes: %i[id name]
         ).to_h

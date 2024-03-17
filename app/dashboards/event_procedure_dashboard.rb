@@ -17,7 +17,6 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     patient: Field::BelongsTo,
     patient_service_number: Field::String,
     payd: Field::Boolean,
-    payd_at: Field::DateTime,
     procedure: Field::BelongsTo,
     room_type: Field::String,
     total_amount_cents: Field::Number,
@@ -49,7 +48,6 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     patient
     patient_service_number
     payd
-    payd_at
     procedure
     room_type
     total_amount_cents
@@ -69,7 +67,6 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     patient
     patient_service_number
     payd
-    payd_at
     procedure
     room_type
     total_amount_cents
