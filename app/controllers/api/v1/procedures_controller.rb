@@ -53,7 +53,7 @@ module Api
       end
 
       def procedure_params
-        params.permit(:name, :code, :amount_cents).to_h
+        params.permit(:name, :code, :amount_cents, :custom).to_h
       end
     end
   end
