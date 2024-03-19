@@ -9,6 +9,7 @@ RSpec.describe User do
     it { is_expected.to have_many(:event_procedures).dependent(:destroy) }
     it { is_expected.to have_many(:medical_shifts).dependent(:destroy) }
     it { is_expected.to have_many(:patients).dependent(:destroy) }
+    it { is_expected.to have_many(:procedures).dependent(:destroy) }
   end
 
   describe "validations" do

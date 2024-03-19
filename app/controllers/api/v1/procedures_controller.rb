@@ -15,7 +15,7 @@ module Api
 
       def create
         authorize(Procedure)
-        result = Procedures::Create.result(attributes: procedure_params)
+        result = Procedures::Create.result(attributes: procedure_params, user: current_user)
 
         if result.success?
           render json: result.procedure, status: :created

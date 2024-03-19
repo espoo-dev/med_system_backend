@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :event_procedures, dependent: :destroy
   has_many :medical_shifts, dependent: :destroy
   has_many :patients, dependent: :destroy
+  has_many :procedures, dependent: :destroy
 
   validates :email, uniqueness: { case_sensitive: false }
 end
