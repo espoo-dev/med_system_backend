@@ -14,8 +14,10 @@ FactoryBot.define do
     payd { false }
     room_type { EventProcedures::RoomTypes::WARD }
     total_amount_cents { procedure.amount_cents }
+    payment { EventProcedures::Payments::HEALTH_INSURANCE }
 
     traits_for_enum(:room_type, EventProcedures::RoomTypes.list)
+    traits_for_enum(:payment, EventProcedures::Payments.list)
 
     transient do
       patient_attributes { nil }

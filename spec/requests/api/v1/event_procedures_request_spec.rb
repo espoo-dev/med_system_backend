@@ -110,6 +110,7 @@ RSpec.describe "EventProcedures" do
               date: Time.zone.now.to_date,
               urgency: false,
               room_type: EventProcedures::RoomTypes::WARD,
+              payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
               patient_attributes: { id: patient.id }
             }
@@ -131,6 +132,7 @@ RSpec.describe "EventProcedures" do
               date: Time.zone.now.to_date,
               urgency: false,
               room_type: EventProcedures::RoomTypes::WARD,
+              payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
               patient_attributes: { id: patient.id },
               payd: true
@@ -147,6 +149,7 @@ RSpec.describe "EventProcedures" do
               "patient_service_number" => params[:patient_service_number],
               "date" => params[:date].strftime("%d/%m/%Y"),
               "room_type" => EventProcedures::RoomTypes::WARD,
+              "payment" => EventProcedures::Payments::HEALTH_INSURANCE,
               "urgency" => false,
               "payd" => true
             )
@@ -164,6 +167,7 @@ RSpec.describe "EventProcedures" do
               date: Time.zone.now.to_date,
               urgency: false,
               room_type: EventProcedures::RoomTypes::WARD,
+              payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
               patient_attributes: { name: "patient 1" }
             }
@@ -184,6 +188,7 @@ RSpec.describe "EventProcedures" do
               date: Time.zone.now.to_date,
               urgency: false,
               room_type: EventProcedures::RoomTypes::WARD,
+              payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
               patient_attributes: { name: "patient 1" }
             }
@@ -199,6 +204,7 @@ RSpec.describe "EventProcedures" do
               "patient_service_number" => params[:patient_service_number],
               "date" => params[:date].strftime("%d/%m/%Y"),
               "room_type" => EventProcedures::RoomTypes::WARD,
+              "payment" => EventProcedures::Payments::HEALTH_INSURANCE,
               "urgency" => false
             )
           end
@@ -243,7 +249,8 @@ RSpec.describe "EventProcedures" do
           date: Time.zone.now.to_date,
           urgency: false,
           amount_cents: 100,
-          room_type: EventProcedures::RoomTypes::WARD
+          room_type: EventProcedures::RoomTypes::WARD,
+          payment: EventProcedures::Payments::HEALTH_INSURANCE
         }
 
         post "/api/v1/event_procedures", params: params, headers: {}
@@ -268,7 +275,8 @@ RSpec.describe "EventProcedures" do
             patient_service_number: "1234567890",
             date: Time.zone.now.to_date,
             urgency: false,
-            room_type: EventProcedures::RoomTypes::WARD
+            room_type: EventProcedures::RoomTypes::WARD,
+            payment: EventProcedures::Payments::HEALTH_INSURANCE
           }
 
           headers = auth_token_for(user)
@@ -291,7 +299,8 @@ RSpec.describe "EventProcedures" do
             patient_service_number: "1234567890",
             date: Time.zone.now.to_date,
             urgency: false,
-            room_type: EventProcedures::RoomTypes::WARD
+            room_type: EventProcedures::RoomTypes::WARD,
+            payment: EventProcedures::Payments::HEALTH_INSURANCE
           }
 
           headers = auth_token_for(user)
@@ -337,7 +346,8 @@ RSpec.describe "EventProcedures" do
           patient_service_number: "1234567890",
           date: Time.zone.now.to_date,
           urgency: false,
-          room_type: EventProcedures::RoomTypes::WARD
+          room_type: EventProcedures::RoomTypes::WARD,
+          payment: EventProcedures::Payments::HEALTH_INSURANCE
         }
 
         put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: {}

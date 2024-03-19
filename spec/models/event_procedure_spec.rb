@@ -15,11 +15,16 @@ RSpec.describe EventProcedure do
     it { is_expected.to validate_presence_of(:date) }
     it { is_expected.to validate_presence_of(:patient_service_number) }
     it { is_expected.to validate_presence_of(:room_type) }
+    it { is_expected.to validate_presence_of(:payment) }
   end
 
   describe ".enumerations" do
     it "has enumerations for room_type" do
       expect(described_class.enumerations).to include(room_type: EventProcedures::RoomTypes)
+    end
+
+    it "has enumerations for payment" do
+      expect(described_class.enumerations).to include(payment: EventProcedures::Payments)
     end
   end
 
