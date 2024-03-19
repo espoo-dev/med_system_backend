@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_17_141819) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_19_112216) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_17_141819) do
     t.integer "total_amount_cents"
     t.bigint "user_id", null: false
     t.boolean "payd", default: false, null: false
+    t.string "payment", default: "health_insurance", null: false
     t.index ["health_insurance_id"], name: "index_event_procedures_on_health_insurance_id"
     t.index ["hospital_id"], name: "index_event_procedures_on_hospital_id"
     t.index ["patient_id"], name: "index_event_procedures_on_patient_id"

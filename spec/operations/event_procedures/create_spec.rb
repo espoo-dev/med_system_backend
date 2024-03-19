@@ -15,6 +15,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           date: Time.zone.now,
           urgency: false,
           room_type: EventProcedures::RoomTypes::WARD,
+          payment: EventProcedures::Payments::HEALTH_INSURANCE,
           patient_attributes: { id: create(:patient).id }
         }
 
@@ -33,6 +34,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           date: Time.zone.now.to_date,
           urgency: true,
           room_type: EventProcedures::RoomTypes::WARD,
+          payment: EventProcedures::Payments::HEALTH_INSURANCE,
           patient_attributes: { id: create(:patient).id }
         }
 
@@ -48,6 +50,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           date: params[:date],
           urgency: params[:urgency],
           room_type: params[:room_type],
+          payment: params[:payment],
           total_amount_cents: result.event_procedure.total_amount_cents
         )
         expect(result.event_procedure.total_amount_cents).to eq(1300)
@@ -63,6 +66,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           date: Time.zone.now.to_date,
           urgency: true,
           room_type: EventProcedures::RoomTypes::WARD,
+          payment: EventProcedures::Payments::HEALTH_INSURANCE,
           patient_attributes: { id: nil, name: "John Doe", user_id: user.id }
         }
 

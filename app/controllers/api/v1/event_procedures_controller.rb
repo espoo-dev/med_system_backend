@@ -70,6 +70,7 @@ module Api
           :amount_cents,
           :payd,
           :room_type,
+          :payment,
           patient_attributes: %i[id name]
         ).to_h
       end

@@ -2,6 +2,7 @@
 
 class EventProcedure < ApplicationRecord
   has_enumeration_for :room_type, with: EventProcedures::RoomTypes, create_helpers: true
+  has_enumeration_for :payment, with: EventProcedures::Payments, create_helpers: true
 
   monetize :total_amount
 
@@ -20,4 +21,5 @@ class EventProcedure < ApplicationRecord
   validates :date, presence: true
   validates :patient_service_number, presence: true
   validates :room_type, presence: true
+  validates :payment, presence: true
 end
