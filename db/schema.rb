@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_19_112216) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_19_131254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -98,7 +98,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_19_112216) do
     t.datetime "updated_at", null: false
     t.integer "amount_cents", default: 0, null: false
     t.text "description"
+    t.boolean "custom", default: false, null: false
+    t.integer "user_id"
     t.index ["code"], name: "index_procedures_on_code", unique: true
+    t.index ["user_id"], name: "index_procedures_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

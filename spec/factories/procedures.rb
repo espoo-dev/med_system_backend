@@ -6,5 +6,6 @@ FactoryBot.define do
     sequence(:code) { |n| "code#{n}" }
     amount_cents { 1 }
     description { "Procedure description" }
+    custom { false }
   end
 end

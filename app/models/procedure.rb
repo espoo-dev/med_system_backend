@@ -3,6 +3,8 @@
 class Procedure < ApplicationRecord
   monetize :amount
 
+  belongs_to :user, optional: true
+
   has_many :event_procedures, dependent: :destroy
 
   validates :name, presence: true
