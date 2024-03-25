@@ -7,6 +7,8 @@ class Procedure < ApplicationRecord
 
   has_many :event_procedures, dependent: :destroy
 
+  scope :by_custom, Procedures::ByCustomQuery
+
   validates :name, presence: true
   validates :code, presence: true
   validates :amount_cents, presence: true
