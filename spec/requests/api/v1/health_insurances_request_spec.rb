@@ -29,11 +29,15 @@ RSpec.describe "HealthInsurances" do
           expect(response.parsed_body).to include(
             {
               "id" => health_insurances.first.id,
-              "name" => health_insurances.first.name
+              "name" => health_insurances.first.name,
+              "custom" => false,
+              "user_id" => nil
             },
             {
               "id" => health_insurances.second.id,
-              "name" => health_insurances.second.name
+              "name" => health_insurances.second.name,
+              "custom" => false,
+              "user_id" => nil
             }
           )
         end

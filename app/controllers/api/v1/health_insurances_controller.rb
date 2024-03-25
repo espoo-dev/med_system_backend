@@ -14,7 +14,7 @@ module Api
 
       def create
         authorize(HealthInsurance)
-        result = HealthInsurances::Create.result(attributes: health_insurance_params)
+        result = HealthInsurances::Create.result(attributes: health_insurance_params, user: current_user)
 
         if result.success?
           render json: result.health_insurance, status: :created
@@ -26,7 +26,7 @@ module Api
       private
 
       def health_insurance_params
-        params.permit(:name).to_h
+        params.permit(:name, :custom).to_h
       end
     end
   end
