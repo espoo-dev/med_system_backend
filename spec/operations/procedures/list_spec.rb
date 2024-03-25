@@ -34,6 +34,30 @@ RSpec.describe Procedures::List, type: :operation do
       expect(result.procedures.count).to eq(procedures.count)
       expect(result.procedures).to match_array(procedures)
     end
+
+    context "when custom is true" do
+      it "returns only the custom procedures for the given user" do
+        user = create(:user)
+        custom_procedure = create(:procedure, custom: true, user: user)
+        _non_custom_procedure = create(:procedure, custom: false)
+
+        result = described_class.result(params: { custom: "true" }, user: user)
+
+        expect(result.procedures).to contain_exactly(custom_procedure)
+      end
+    end
+
+    context "when custom is false" do
+      it "returns only the non-custom procedures" do
+        user = create(:user)
+        _custom_procedure = create(:procedure, custom: true, user: user)
+        non_custom_procedure = create(:procedure, custom: false)
+
+        result = described_class.result(params: { custom: "false" }, user: user)
+
+        expect(result.procedures).to contain_exactly(non_custom_procedure)
+      end
+    end
   end
 
   context "when has pagination via page and per_page" do
