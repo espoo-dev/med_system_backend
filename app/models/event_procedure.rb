@@ -20,6 +20,7 @@ class EventProcedure < ApplicationRecord
 
   validates :date, presence: true
   validates :patient_service_number, presence: true
-  validates :room_type, presence: true
+  validates :room_type, presence: true, if: -> { health_insurance? }
+  validates :urgency, inclusion: [true, false], if: -> { health_insurance? }
   validates :payment, presence: true
 end
