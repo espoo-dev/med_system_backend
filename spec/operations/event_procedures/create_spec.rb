@@ -104,7 +104,8 @@ RSpec.describe EventProcedures::Create, type: :operation do
             "Procedure must exist",
             "Date can't be blank",
             "Patient service number can't be blank",
-            "Room type can't be blank"
+            "Room type can't be blank",
+            "Urgency is not included in the list"
           ]
         )
       end

@@ -231,7 +231,8 @@ RSpec.describe "EventProcedures" do
               "procedure" => ["must exist"],
               "date" => ["can't be blank"],
               "patient_service_number" => ["can't be blank"],
-              "room_type" => ["can't be blank"]
+              "room_type" => ["can't be blank"],
+              "urgency" => ["is not included in the list"]
             )
           end
         end
