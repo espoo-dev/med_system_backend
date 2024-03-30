@@ -8,7 +8,6 @@ RSpec.describe EventProcedures::Create, type: :operation do
       it "is successful" do
         user = create(:user)
         params = {
-          procedure_id: create(:procedure).id,
           hospital_id: create(:hospital).id,
           health_insurance_id: create(:health_insurance).id,
           patient_service_number: "1234567890",
@@ -16,7 +15,8 @@ RSpec.describe EventProcedures::Create, type: :operation do
           urgency: false,
           room_type: EventProcedures::RoomTypes::WARD,
           payment: EventProcedures::Payments::HEALTH_INSURANCE,
-          patient_attributes: { id: create(:patient).id }
+          patient_attributes: { id: create(:patient).id },
+          procedure_attributes: { id: create(:procedure).id }
         }
 
         result = described_class.result(attributes: params, user_id: user.id)
@@ -27,7 +27,6 @@ RSpec.describe EventProcedures::Create, type: :operation do
       it "creates a new event_procedure" do
         user = create(:user)
         params = {
-          procedure_id: create(:procedure, amount_cents: 1000).id,
           hospital_id: create(:hospital).id,
           health_insurance_id: create(:health_insurance).id,
           patient_service_number: "1234567890",
@@ -35,14 +34,15 @@ RSpec.describe EventProcedures::Create, type: :operation do
           urgency: true,
           room_type: EventProcedures::RoomTypes::WARD,
           payment: EventProcedures::Payments::HEALTH_INSURANCE,
-          patient_attributes: { id: create(:patient).id }
+          patient_attributes: { id: create(:patient).id },
+          procedure_attributes: { id: create(:procedure, amount_cents: 1000).id }
         }
 
         result = described_class.result(attributes: params, user_id: user.id)
 
         expect(result.event_procedure).to be_persisted
         expect(result.event_procedure.attributes.symbolize_keys).to include(
-          procedure_id: params[:procedure_id],
+          procedure_id: params[:procedure_attributes][:id],
           patient_id: params[:patient_attributes][:id],
           hospital_id: params[:hospital_id],
           health_insurance_id: params[:health_insurance_id],
@@ -56,58 +56,173 @@ RSpec.describe EventProcedures::Create, type: :operation do
         expect(result.event_procedure.total_amount_cents).to eq(1300)
       end
 
-      it "creates a new patient and does not duplicate the creation" do
-        user = create(:user)
-        params = {
-          procedure_id: create(:procedure, amount_cents: 1000).id,
-          hospital_id: create(:hospital).id,
-          health_insurance_id: create(:health_insurance).id,
-          patient_service_number: "1234567890",
-          date: Time.zone.now.to_date,
-          urgency: true,
-          room_type: EventProcedures::RoomTypes::WARD,
-          payment: EventProcedures::Payments::HEALTH_INSURANCE,
-          patient_attributes: { id: nil, name: "John Doe", user_id: user.id }
-        }
+      context "when create a new patient" do
+        it "creates and does not duplicate the creation" do
+          user = create(:user)
+          params = {
+            hospital_id: create(:hospital).id,
+            health_insurance_id: create(:health_insurance).id,
+            patient_service_number: "1234567890",
+            date: Time.zone.now.to_date,
+            urgency: true,
+            room_type: EventProcedures::RoomTypes::WARD,
+            payment: EventProcedures::Payments::HEALTH_INSURANCE,
+            patient_attributes: { id: nil, name: "John Doe", user_id: user.id },
+            procedure_attributes: { id: create(:procedure, amount_cents: 1000).id }
+          }
 
-        expect { described_class.call(attributes: params, user_id: user.id) }.to change(Patient, :count).by(1)
+          expect { described_class.call(attributes: params, user_id: user.id) }.to change(Patient, :count).by(1)
+        end
+      end
+
+      context "when create a new procedure" do
+        context "when procedure attributes are valid" do
+          it "does not duplicate the creation" do
+            user = create(:user)
+            procedure_attributes = {
+              id: nil,
+              name: "procedure name",
+              code: "code-1234",
+              amount_cents: 100,
+              description: "procedure description",
+              custom: true,
+              user_id: user.id
+            }
+            params = {
+              hospital_id: create(:hospital).id,
+              health_insurance_id: create(:health_insurance).id,
+              patient_service_number: "1234567890",
+              date: Time.zone.now.to_date,
+              urgency: true,
+              room_type: EventProcedures::RoomTypes::WARD,
+              payment: EventProcedures::Payments::HEALTH_INSURANCE,
+              patient_attributes: { id: create(:patient).id },
+              procedure_attributes: procedure_attributes
+            }
+
+            expect { described_class.call(attributes: params, user_id: user.id) }.to change(Procedure, :count).by(1)
+          end
+        end
+
+        context "when procedure attributes are invalid" do
+          it "returns error" do
+            user = create(:user)
+            _some_procedure = create(:procedure, code: "code-1234", user_id: user.id)
+            procedure_attributes = {
+              id: nil,
+              name: "procedure name",
+              code: "code-1234",
+              amount_cents: 100,
+              description: "procedure description",
+              custom: true,
+              user_id: user.id
+            }
+            params = {
+              hospital_id: create(:hospital).id,
+              health_insurance_id: create(:health_insurance).id,
+              patient_service_number: "1234567890",
+              date: Time.zone.now.to_date,
+              urgency: true,
+              room_type: EventProcedures::RoomTypes::WARD,
+              payment: EventProcedures::Payments::HEALTH_INSURANCE,
+              patient_attributes: { id: create(:patient).id },
+              procedure_attributes: procedure_attributes
+            }
+
+            result = described_class.result(attributes: params, user_id: user.id)
+
+            expect(result).to be_failure
+            expect(result.error.full_messages).to eq(["Code has already been taken"])
+          end
+        end
       end
     end
 
     context "when params are invalid" do
       it "fails" do
         user = create(:user)
-        result = described_class.result(attributes: { patient_attributes: {} }, user_id: user.id)
+        attributes = { patient_attributes: {}, procedure_attributes: {} }
+        result = described_class.result(attributes: attributes, user_id: user.id)
 
         expect(result).to be_failure
       end
 
       it "returns invalid event_procedure" do
         user = create(:user)
-        result = described_class.result(attributes: { patient_attributes: {} }, user_id: user.id)
+        procedure = create(:procedure)
+        patient = create(:patient)
+        attributes = { patient_attributes: { id: patient.id }, procedure_attributes: { id: procedure.id } }
+        result = described_class.result(attributes: attributes, user_id: user.id)
 
         expect(result.event_procedure).not_to be_valid
       end
 
       it "returns errors" do
         user = create(:user)
-        result = described_class.result(
-          attributes: { patient_attributes: { id: nil } },
-          user_id: user.id
-        )
+        procedure = create(:procedure)
+        patient = create(:patient)
+        attributes = { patient_attributes: { id: patient.id }, procedure_attributes: { id: procedure.id } }
+        result = described_class.result(attributes: attributes, user_id: user.id)
 
         expect(result.error.full_messages).to eq(
           [
             "Health insurance must exist",
             "Hospital must exist",
-            "Patient must exist",
-            "Procedure must exist",
             "Date can't be blank",
             "Patient service number can't be blank",
             "Room type can't be blank",
             "Urgency is not included in the list"
           ]
         )
+      end
+
+      context "when patient attributes are invalid" do
+        it "returns errors" do
+          user = create(:user)
+          procedure = create(:procedure)
+          attributes = { patient_attributes: { id: nil }, procedure_attributes: { id: procedure.id } }
+          result = described_class.result(attributes: attributes, user_id: user.id)
+
+          expect(result.error.full_messages).to eq(
+            [
+              "Health insurance must exist",
+              "Hospital must exist",
+              "Patient must exist",
+              "Date can't be blank",
+              "Patient service number can't be blank",
+              "Room type can't be blank",
+              "Urgency is not included in the list"
+            ]
+          )
+        end
+      end
+
+      context "when procedure attributes are invalid" do
+        it "returns errors" do
+          user = create(:user)
+          patient = create(:patient)
+          attributes = {
+            hospital_id: create(:hospital).id,
+            health_insurance_id: create(:health_insurance).id,
+            patient_service_number: "1234567890",
+            date: Time.zone.now.to_date,
+            urgency: true,
+            room_type: EventProcedures::RoomTypes::WARD,
+            payment: EventProcedures::Payments::HEALTH_INSURANCE,
+            patient_attributes: { id: patient.id },
+            procedure_attributes: { id: nil }
+          }
+          result = described_class.result(attributes: attributes, user_id: user.id)
+
+          expect(result.error.full_messages).to eq(
+            [
+              "Name can't be blank",
+              "Code can't be blank",
+              "Amount cents can't be blank",
+              "Amount cents is not a number"
+            ]
+          )
+        end
       end
     end
   end

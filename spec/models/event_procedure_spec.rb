@@ -56,4 +56,47 @@ RSpec.describe EventProcedure do
       end
     end
   end
+
+  describe "nested attributes for procedure" do
+    context "when procedure_attributes are provided" do
+      it "creates procedure" do
+        user = create(:user)
+        procedure_attributes = {
+          id: nil,
+          name: "procedure name",
+          code: "code-1234",
+          amount_cents: 100,
+          description: "procedure description",
+          custom: true,
+          user_id: user.id
+        }
+        event_procedure = build(:event_procedure, procedure_attributes: procedure_attributes)
+
+        expect { event_procedure.save }.to change(Procedure, :count).by(1)
+        expect(event_procedure.procedure).to be_persisted
+        expect(event_procedure.procedure.code).to eq("code-1234")
+      end
+    end
+
+    context "when procedure_attributes are not provided" do
+      it "does not create procedure" do # rubocop:disable RSpec/MultipleExpectations
+        user = create(:user)
+        procedure_attributes = {
+          id: nil,
+          name: nil,
+          code: nil,
+          amount_cents: nil,
+          description: nil,
+          custom: nil,
+          user_id: user.id
+        }
+        event_procedure = build(:event_procedure, procedure_attributes: procedure_attributes)
+
+        expect(event_procedure.save).to be_falsey
+        expect(event_procedure.errors[:"procedure.name"]).to eq(["can't be blank"])
+        expect(event_procedure.errors[:"procedure.code"]).to eq(["can't be blank"])
+        expect(event_procedure.errors[:"procedure.amount_cents"]).to eq(["can't be blank", "is not a number"])
+      end
+    end
+  end
 end

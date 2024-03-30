@@ -31,7 +31,7 @@ module Api
         if result.success?
           render json: result.event_procedure, status: :created
         else
-          render json: result.event_procedure.errors, status: :unprocessable_entity
+          render json: result.error, status: :unprocessable_entity
         end
       end
 
@@ -61,7 +61,6 @@ module Api
 
       def event_procedure_permitted_params
         params.permit(
-          :procedure_id,
           :hospital_id,
           :health_insurance_id,
           :patient_service_number,
@@ -71,7 +70,12 @@ module Api
           :payd,
           :room_type,
           :payment,
-          patient_attributes: %i[id name]
+          patient_attributes: %i[
+            id name
+          ],
+          procedure_attributes: %i[
+            id name code amount_cents description custom
+          ]
         ).to_h
       end
 
