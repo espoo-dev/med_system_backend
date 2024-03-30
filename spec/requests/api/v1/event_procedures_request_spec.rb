@@ -102,8 +102,8 @@ RSpec.describe "EventProcedures" do
           it "returns created" do
             user = create(:user)
             patient = create(:patient)
+            procedure = create(:procedure)
             params = {
-              procedure_id: create(:procedure).id,
               hospital_id: create(:hospital).id,
               health_insurance_id: create(:health_insurance).id,
               patient_service_number: "1234567890",
@@ -112,7 +112,8 @@ RSpec.describe "EventProcedures" do
               room_type: EventProcedures::RoomTypes::WARD,
               payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
-              patient_attributes: { id: patient.id }
+              patient_attributes: { id: patient.id },
+              procedure_attributes: { id: procedure.id }
             }
 
             headers = auth_token_for(user)
@@ -124,8 +125,8 @@ RSpec.describe "EventProcedures" do
           it "returns event_procedure" do
             user = create(:user)
             patient = create(:patient)
+            procedure = create(:procedure)
             params = {
-              procedure_id: create(:procedure).id,
               hospital_id: create(:hospital).id,
               health_insurance_id: create(:health_insurance).id,
               patient_service_number: "1234567890",
@@ -135,6 +136,7 @@ RSpec.describe "EventProcedures" do
               payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
               patient_attributes: { id: patient.id },
+              procedure_attributes: { id: procedure.id },
               payd: true
             }
 
@@ -159,6 +161,7 @@ RSpec.describe "EventProcedures" do
         context "when patient does not exist" do
           it "returns created" do
             user = create(:user)
+            procedure = create(:procedure)
             params = {
               procedure_id: create(:procedure).id,
               hospital_id: create(:hospital).id,
@@ -169,7 +172,8 @@ RSpec.describe "EventProcedures" do
               room_type: EventProcedures::RoomTypes::WARD,
               payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
-              patient_attributes: { name: "patient 1" }
+              patient_attributes: { name: "patient 1" },
+              procedure_attributes: { id: procedure.id }
             }
 
             headers = auth_token_for(user)
@@ -180,8 +184,8 @@ RSpec.describe "EventProcedures" do
 
           it "returns event_procedure" do
             user = create(:user)
+            procedure = create(:procedure)
             params = {
-              procedure_id: create(:procedure).id,
               hospital_id: create(:hospital).id,
               health_insurance_id: create(:health_insurance).id,
               patient_service_number: "1234567890",
@@ -190,7 +194,8 @@ RSpec.describe "EventProcedures" do
               room_type: EventProcedures::RoomTypes::WARD,
               payment: EventProcedures::Payments::HEALTH_INSURANCE,
               user_id: user.id,
-              patient_attributes: { name: "patient 1" }
+              patient_attributes: { name: "patient 1" },
+              procedure_attributes: { id: procedure.id }
             }
 
             headers = auth_token_for(user)
@@ -209,26 +214,53 @@ RSpec.describe "EventProcedures" do
             )
           end
         end
+
+        context "when procedure does not exist" do
+          it "returns created" do
+            user = create(:user)
+            patient = create(:patient)
+            procedure_attributes = attributes_for(:procedure, custom: true)
+            params = {
+              hospital_id: create(:hospital).id,
+              health_insurance_id: create(:health_insurance).id,
+              patient_service_number: "1234567890",
+              date: Time.zone.now.to_date,
+              urgency: nil,
+              room_type: nil,
+              payment: EventProcedures::Payments::OTHERS,
+              user_id: user.id,
+              patient_attributes: { id: patient.id },
+              procedure_attributes: procedure_attributes
+            }
+
+            headers = auth_token_for(user)
+            post "/api/v1/event_procedures", params: params, headers: headers
+
+            expect(response).to have_http_status(:created)
+          end
+        end
       end
 
       context "with invalid attributes" do
         context "when patient_id and patient_name are nil" do
           it "returns unprocessable_entity" do
             headers = auth_token_for(create(:user))
-            post "/api/v1/event_procedures", params: { patient_attributes: { id: nil, name: nil } }, headers: headers
+            params = { patient_attributes: { id: nil }, procedure_attributes: { id: nil } }
+            post "/api/v1/event_procedures", params: params, headers: headers
 
             expect(response).to have_http_status(:unprocessable_entity)
           end
 
           it "returns error message" do
             headers = auth_token_for(create(:user))
-            post "/api/v1/event_procedures", params: { patient_attributes: { id: nil, name: nil } }, headers: headers
+            patient = create(:patient)
+            procedure = create(:procedure)
+            params = { patient_attributes: { id: patient.id }, procedure_attributes: { id: procedure.id } }
+            post "/api/v1/event_procedures", params: params, headers: headers
 
             expect(response.parsed_body).to eq(
               "health_insurance" => ["must exist"],
               "hospital" => ["must exist"],
-              "patient" => ["must exist"],
-              "procedure" => ["must exist"],
               "date" => ["can't be blank"],
               "patient_service_number" => ["can't be blank"],
               "room_type" => ["can't be blank"],

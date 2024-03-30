@@ -23,8 +23,13 @@ FactoryBot.define do
       patient_attributes { nil }
     end
 
+    transient do
+      procedure_attributes { nil }
+    end
+
     after(:build) do |event_procedure, evaluator|
       event_procedure.patient = build(:patient, evaluator.patient_attributes) if evaluator.patient_attributes
+      event_procedure.procedure = build(:procedure, evaluator.procedure_attributes) if evaluator.procedure_attributes
     end
   end
 end
