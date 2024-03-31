@@ -99,4 +99,39 @@ RSpec.describe EventProcedure do
       end
     end
   end
+
+  describe "nested attributes for health_insurance" do
+    context "when health_insurance_attributes are provided" do
+      it "creates health_insurance" do
+        user = create(:user)
+        health_insurance_attributes = {
+          id: nil,
+          name: "health_insurance name",
+          custom: true,
+          user_id: user.id
+        }
+        event_procedure = build(:event_procedure, health_insurance_attributes: health_insurance_attributes)
+
+        expect { event_procedure.save }.to change(HealthInsurance, :count).by(1)
+        expect(event_procedure.health_insurance).to be_persisted
+        expect(event_procedure.health_insurance.name).to eq("health_insurance name")
+      end
+    end
+
+    context "when health_insurance_attributes are not provided" do
+      it "does not create health_insurance" do
+        user = create(:user)
+        health_insurance_attributes = {
+          id: nil,
+          name: nil,
+          custom: true,
+          user_id: user.id
+        }
+        event_procedure = build(:event_procedure, health_insurance_attributes: health_insurance_attributes)
+
+        expect(event_procedure.save).to be_falsey
+        expect(event_procedure.errors[:"health_insurance.name"]).to eq(["can't be blank"])
+      end
+    end
+  end
 end
