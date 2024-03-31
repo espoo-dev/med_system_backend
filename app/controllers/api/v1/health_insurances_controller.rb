@@ -5,7 +5,8 @@ module Api
     class HealthInsurancesController < ApiController
       def index
         health_insurances = HealthInsurances::List.result(
-          params: params.permit(:page, :per_page).to_h
+          params: params.permit(:page, :per_page, :custom).to_h,
+          user: current_user
         ).health_insurances
         authorize(health_insurances)
 
