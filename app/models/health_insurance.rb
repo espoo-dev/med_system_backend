@@ -5,6 +5,8 @@ class HealthInsurance < ApplicationRecord
 
   has_many :event_procedures, dependent: :destroy
 
+  scope :by_custom, HealthInsurances::ByCustomQuery
+
   validates :name, presence: true
   validates :user_id, presence: true, if: :custom?
 
