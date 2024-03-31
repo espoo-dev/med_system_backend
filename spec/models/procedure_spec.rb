@@ -25,6 +25,37 @@ RSpec.describe Procedure do
         expect(new_procedure.errors[:code]).to include("has already been taken")
       end
     end
+
+    context "when custom is true" do
+      it "validates presence of user_id" do
+        procedure = described_class.new(
+          name: "Procedure name",
+          code: "Procedure code",
+          amount_cents: 100,
+          description: "Procedure description",
+          custom: true,
+          user_id: nil
+        )
+
+        expect(procedure).not_to be_valid
+        expect(procedure.errors[:user_id]).to include("can't be blank")
+      end
+    end
+
+    context "when custom is false" do
+      it "does not validate presence of user_id" do
+        procedure = described_class.new(
+          name: "Procedure name",
+          code: "Procedure code",
+          amount_cents: 100,
+          description: "Procedure description",
+          custom: false,
+          user_id: nil
+        )
+
+        expect(procedure).to be_valid
+      end
+    end
   end
 
   describe "monetization" do

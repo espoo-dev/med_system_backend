@@ -63,15 +63,14 @@ RSpec.describe Procedures::FindOrCreate, type: :operation do
 
     context "when params are empty" do
       it "is failure" do
-        user = create(:user)
         params = {
           id: nil,
           name: nil,
           code: nil,
           amount_cents: nil,
           description: nil,
-          custom: nil,
-          user_id: user.id
+          custom: true,
+          user_id: nil
         }
 
         result = described_class.result(params: params)
@@ -80,7 +79,6 @@ RSpec.describe Procedures::FindOrCreate, type: :operation do
       end
 
       it "returns errors" do
-        user = create(:user)
         _some_procedure = create(:procedure, code: "code-1234")
         params = {
           id: nil,
@@ -88,8 +86,8 @@ RSpec.describe Procedures::FindOrCreate, type: :operation do
           code: "code-1234",
           amount_cents: nil,
           description: nil,
-          custom: nil,
-          user_id: user.id
+          custom: true,
+          user_id: nil
         }
 
         result = described_class.result(params: params)
@@ -99,6 +97,7 @@ RSpec.describe Procedures::FindOrCreate, type: :operation do
           [
             "Name can't be blank",
             "Amount cents can't be blank",
+            "User can't be blank",
             "Amount cents is not a number",
             "Code has already been taken"
           ]

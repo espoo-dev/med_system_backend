@@ -62,7 +62,6 @@ module Api
       def event_procedure_permitted_params
         params.permit(
           :hospital_id,
-          :health_insurance_id,
           :patient_service_number,
           :date,
           :urgency,
@@ -75,13 +74,20 @@ module Api
           ],
           procedure_attributes: %i[
             id name code amount_cents description custom
+          ],
+          health_insurance_attributes: %i[
+            id name custom
           ]
         ).to_h
       end
 
       def event_procedure_params
         result_params = event_procedure_permitted_params
-        result_params[:patient_attributes]&.merge!(user_id: current_user.id)
+
+        %i[patient_attributes health_insurance_attributes procedure_attributes].each do |attribute|
+          result_params[attribute]&.merge!(user_id: current_user.id)
+        end
+
         result_params
       end
 
