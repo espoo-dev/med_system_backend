@@ -48,6 +48,138 @@ RSpec.describe EventProcedures::Update, type: :operation do
         end
       end
 
+      context "when procedure_attributes are provided" do
+        context "when valid attributes" do
+          it "update event_procedure association procedure" do
+            old_procedure = create(:procedure, name: "old_procedure_name")
+            new_procedure = create(:procedure, name: "new_procedure_name")
+            event_procedure = create(:event_procedure, procedure: old_procedure)
+            attributes = {
+              procedure_attributes: { id: new_procedure.id }
+            }
+
+            result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+
+            expect(result.event_procedure.reload.procedure.id).to eq(new_procedure.id)
+            expect(result.event_procedure.reload.procedure.name).to eq("new_procedure_name")
+          end
+
+          it "creates a new procedure and does not duplicate the creation" do
+            user = create(:user)
+            old_procedure = create(:procedure, name: "old_procedure_name")
+            event_procedure = create(:event_procedure, procedure: old_procedure)
+            procedure_attributes = {
+              id: nil,
+              name: "new_procedure_name",
+              code: "code-1234",
+              amount_cents: 100,
+              description: "procedure description",
+              custom: true,
+              user_id: user.id
+            }
+            attributes = {
+              procedure_attributes: procedure_attributes
+            }
+
+            expect do
+              described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+            end.to change(Procedure, :count).by(1)
+
+            result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+
+            expect(result.event_procedure.reload.procedure.id).to eq(Procedure.last.id)
+            expect(result.event_procedure.reload.procedure.name).to eq("new_procedure_name")
+          end
+        end
+
+        context "when invalid attributes" do
+          it "returns error" do
+            user = create(:user)
+            old_procedure = create(:procedure, name: "old_procedure_name", code: "code-1234")
+            event_procedure = create(:event_procedure, procedure: old_procedure)
+            procedure_attributes = {
+              id: nil,
+              name: nil,
+              code: "code-1234",
+              amount_cents: 100,
+              description: "procedure description",
+              custom: true,
+              user_id: user.id
+            }
+            attributes = {
+              procedure_attributes: procedure_attributes
+            }
+
+            result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+
+            expect(result.error).to eq(["Name can't be blank", "Code has already been taken"])
+          end
+        end
+      end
+
+      context "when health_insurance_attributes are provided" do
+        context "when valid attributes" do
+          it "update event_procedure association health_insurance" do
+            old_health_insurance = create(:health_insurance, name: "old_health_insurance_name")
+            new_health_insurance = create(:health_insurance, name: "new_health_insurance_name")
+            event_procedure = create(:event_procedure, health_insurance: old_health_insurance)
+            attributes = {
+              health_insurance_attributes: { id: new_health_insurance.id }
+            }
+
+            result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+
+            expect(result.event_procedure.reload.health_insurance.id).to eq(new_health_insurance.id)
+            expect(result.event_procedure.reload.health_insurance.name).to eq("new_health_insurance_name")
+          end
+
+          it "creates a new health_insurance and does not duplicate the creation" do
+            user = create(:user)
+            old_health_insurance = create(:health_insurance, name: "old_health_insurance_name")
+            event_procedure = create(:event_procedure, health_insurance: old_health_insurance)
+            health_insurance_attributes = {
+              id: nil,
+              name: "new_health_insurance_name",
+              custom: true,
+              user_id: user.id
+            }
+            attributes = {
+              health_insurance_attributes: health_insurance_attributes
+            }
+
+            expect do
+              described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+            end.to change(HealthInsurance, :count).by(1)
+
+            result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+
+            expect(result.event_procedure.reload.health_insurance.id).to eq(HealthInsurance.last.id)
+            expect(result.event_procedure.reload.health_insurance.name).to eq("new_health_insurance_name")
+          end
+        end
+
+        context "when invalid attributes" do
+          it "returns error" do
+            user = create(:user)
+            old_health_insurance = create(:health_insurance, name: "old_health_insurance_name")
+            event_procedure = create(:event_procedure, health_insurance: old_health_insurance)
+            health_insurance_attributes = {
+              id: nil,
+              name: nil,
+              custom: true,
+              user_id: user.id
+            }
+            attributes = {
+              health_insurance_attributes: health_insurance_attributes
+            }
+
+            result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
+
+            expect(result.error).to eq(["Name can't be blank"])
+          end
+        end
+      end
+
       it "update event_procedure total_amount_cents" do
         procedure = create(:procedure, amount_cents: 1000)
         event_procedure = create(
