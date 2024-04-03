@@ -404,7 +404,7 @@ RSpec.describe "EventProcedures" do
           headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
 
-          expect(response.parsed_body).to eq("date" => ["can't be blank"])
+          expect(response.parsed_body).to eq(["Date can't be blank"])
         end
       end
     end
