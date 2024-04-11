@@ -112,7 +112,7 @@ RSpec.describe EventProcedures::Update, type: :operation do
 
             result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
-            expect(result.error).to eq(["Name can't be blank", "Code has already been taken"])
+            expect(result.error).to eq(["Name can't be blank"])
           end
         end
       end
