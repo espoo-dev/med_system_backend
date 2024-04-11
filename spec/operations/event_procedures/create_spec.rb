@@ -112,7 +112,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
             _some_procedure = create(:procedure, code: "code-1234", user_id: user.id)
             procedure_attributes = {
               id: nil,
-              name: "procedure name",
+              name: nil,
               code: "code-1234",
               amount_cents: 100,
               description: "procedure description",
@@ -135,7 +135,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
             result = described_class.result(attributes: params, user_id: user.id)
 
             expect(result).to be_failure
-            expect(result.error.full_messages).to eq(["Code has already been taken"])
+            expect(result.error.full_messages).to eq(["Name can't be blank"])
           end
         end
       end

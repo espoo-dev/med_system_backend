@@ -98,8 +98,7 @@ RSpec.describe Procedures::FindOrCreate, type: :operation do
             "Name can't be blank",
             "Amount cents can't be blank",
             "User can't be blank",
-            "Amount cents is not a number",
-            "Code has already been taken"
+            "Amount cents is not a number"
           ]
         )
       end

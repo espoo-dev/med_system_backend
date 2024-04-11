@@ -11,20 +11,9 @@ RSpec.describe Procedure do
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:code) }
     it { is_expected.to validate_presence_of(:amount_cents) }
 
     it { is_expected.to validate_numericality_of(:amount_cents).is_greater_than_or_equal_to(0) }
-
-    context "when validating code uniqueness" do
-      it "does not allow duplicate codes" do
-        create(:procedure, code: "old_code")
-        new_procedure = build(:procedure, code: "oLd_cOdE")
-
-        expect(new_procedure).not_to be_valid
-        expect(new_procedure.errors[:code]).to include("has already been taken")
-      end
-    end
 
     context "when custom is true" do
       it "validates presence of user_id" do
@@ -40,6 +29,23 @@ RSpec.describe Procedure do
         expect(procedure).not_to be_valid
         expect(procedure.errors[:user_id]).to include("can't be blank")
       end
+
+      it "does not validates presence of code" do
+        user = create(:user)
+        new_procedure = build(:procedure, custom: true, code: nil, user: user)
+
+        expect(new_procedure).to be_valid
+        expect(new_procedure.errors).to be_empty
+      end
+
+      it "does not validates code uniqueness" do
+        user = create(:user)
+        create(:procedure, custom: true, code: "old_code", user: user)
+        new_procedure = build(:procedure, custom: true, code: "oLd_cOdE", user: user)
+
+        expect(new_procedure).to be_valid
+        expect(new_procedure.errors).to be_empty
+      end
     end
 
     context "when custom is false" do
@@ -54,6 +60,21 @@ RSpec.describe Procedure do
         )
 
         expect(procedure).to be_valid
+      end
+
+      it "validates code uniqueness" do
+        create(:procedure, custom: false, code: "old_code")
+        new_procedure = build(:procedure, custom: false, code: "oLd_cOdE")
+
+        expect(new_procedure).not_to be_valid
+        expect(new_procedure.errors[:code]).to include("has already been taken")
+      end
+
+      it "validates presence of code" do
+        new_procedure = build(:procedure, custom: false, code: nil)
+
+        expect(new_procedure).not_to be_valid
+        expect(new_procedure.errors.full_messages).to eq(["Code can't be blank"])
       end
     end
   end

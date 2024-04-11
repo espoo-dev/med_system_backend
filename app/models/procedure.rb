@@ -10,13 +10,13 @@ class Procedure < ApplicationRecord
   scope :by_custom, Procedures::ByCustomQuery
 
   validates :name, presence: true
-  validates :code, presence: true
+  validates :code, presence: true, unless: :custom?
   validates :amount_cents, presence: true
   validates :user_id, presence: true, if: :custom?
 
   validates :amount_cents, numericality: { greater_than_or_equal_to: 0 }
 
-  validates :code, uniqueness: { case_sensitive: false }
+  validates :code, uniqueness: { case_sensitive: false }, unless: :custom?
 
   def custom?
     custom == true
