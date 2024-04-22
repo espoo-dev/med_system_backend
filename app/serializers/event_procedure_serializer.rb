@@ -2,7 +2,7 @@
 
 class EventProcedureSerializer < ActiveModel::Serializer
   attributes :id, :procedure, :patient, :hospital, :health_insurance, :patient_service_number, :date,
-    :room_type, :payment, :urgency, :payd, :total_amount_cents
+    :room_type, :payment, :urgency, :payd, :total_amount_cents, :precedure_value, :precedure_description
 
   def total_amount_cents
     object.total_amount.format
@@ -26,5 +26,13 @@ class EventProcedureSerializer < ActiveModel::Serializer
 
   def date
     object.date.strftime("%d/%m/%Y")
+  end
+
+  def precedure_value
+    object.procedure.amount.format
+  end
+
+  def precedure_description
+    object.procedure.description
   end
 end

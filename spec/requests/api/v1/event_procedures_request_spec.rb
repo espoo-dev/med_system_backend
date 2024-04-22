@@ -127,7 +127,7 @@ RSpec.describe "EventProcedures" do
           it "returns event_procedure" do
             user = create(:user)
             patient = create(:patient)
-            procedure = create(:procedure)
+            procedure = create(:procedure, amount_cents: 20_000, description: "nice description")
             health_insurance = create(:health_insurance)
             params = {
               hospital_id: create(:hospital).id,
@@ -156,7 +156,9 @@ RSpec.describe "EventProcedures" do
               "room_type" => EventProcedures::RoomTypes::WARD,
               "payment" => EventProcedures::Payments::HEALTH_INSURANCE,
               "urgency" => false,
-              "payd" => true
+              "payd" => true,
+              "precedure_value" => "R$200.00",
+              "precedure_description" => "nice description"
             )
           end
         end
