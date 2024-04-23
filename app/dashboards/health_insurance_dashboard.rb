@@ -13,6 +13,7 @@ class HealthInsuranceDashboard < Administrate::BaseDashboard
     id: Field::Number,
     event_procedures: Field::HasMany,
     name: Field::String,
+    custom: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -26,6 +27,7 @@ class HealthInsuranceDashboard < Administrate::BaseDashboard
     id
     event_procedures
     name
+    custom
     created_at
   ].freeze
 
@@ -45,6 +47,7 @@ class HealthInsuranceDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     event_procedures
     name
+    custom
   ].freeze
 
   # COLLECTION_FILTERS
