@@ -35,7 +35,9 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     id
     procedure
     user
+    date
     payd
+    total_amount_cents
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -89,7 +91,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how event procedures are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(event_procedure)
-  #   "EventProcedure ##{event_procedure.id}"
-  # end
+  def display_resource(event_procedure)
+    "Event #ID: #{event_procedure.id}, #DATE: #{event_procedure.date.strftime('%d/%m/%Y')}"
+  end
 end

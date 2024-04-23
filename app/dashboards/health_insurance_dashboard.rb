@@ -62,7 +62,7 @@ class HealthInsuranceDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how health insurances are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(health_insurance)
-  #   "HealthInsurance ##{health_insurance.id}"
-  # end
+  def display_resource(health_insurance)
+    health_insurance.name
+  end
 end

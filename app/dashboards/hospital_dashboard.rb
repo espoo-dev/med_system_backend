@@ -68,7 +68,7 @@ class HospitalDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how hospitals are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(hospital)
-  #   "Hospital ##{hospital.id}"
-  # end
+  def display_resource(hospital)
+    hospital.name
+  end
 end

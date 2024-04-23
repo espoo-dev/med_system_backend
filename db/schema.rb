@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_11_142121) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_23_134905) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_11_142121) do
     t.datetime "updated_at", null: false
     t.boolean "custom", default: false, null: false
     t.integer "user_id"
+    t.index ["name", "user_id"], name: "index_health_insurances_on_name_and_user_id", unique: true
     t.index ["user_id"], name: "index_health_insurances_on_user_id"
   end
 
