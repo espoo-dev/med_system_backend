@@ -28,5 +28,25 @@ RSpec.describe HealthInsurance do
         expect(health_insurance).to be_valid
       end
     end
+
+    context "when validates uniqueness of name by user" do
+      it "does not allow duplicate name for the same user" do
+        user = create(:user)
+        create(:health_insurance, name: "Sulamerica", user: user)
+        new_health_insurance = build(:health_insurance, name: "Sulamerica", user: user)
+
+        expect(new_health_insurance).not_to be_valid
+        expect(new_health_insurance.errors[:name]).to include("has already been taken")
+      end
+
+      it "allows duplicate name for different users" do
+        user = create(:user)
+        create(:health_insurance, name: "Sulamerica", user: user)
+        new_health_insurance = build(:health_insurance, name: "Sulamerica")
+
+        expect(new_health_insurance).to be_valid
+        expect(new_health_insurance.errors).to be_empty
+      end
+    end
   end
 end

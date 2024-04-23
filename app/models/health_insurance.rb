@@ -10,6 +10,8 @@ class HealthInsurance < ApplicationRecord
   validates :name, presence: true
   validates :user_id, presence: true, if: :custom?
 
+  validates :name, uniqueness: { scope: :user_id, case_sensitive: false }
+
   def custom?
     custom == true
   end
