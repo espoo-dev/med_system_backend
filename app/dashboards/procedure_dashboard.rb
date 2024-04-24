@@ -16,6 +16,7 @@ class ProcedureDashboard < Administrate::BaseDashboard
     description: Field::Text,
     event_procedures: Field::HasMany,
     name: Field::String,
+    custom: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -28,7 +29,10 @@ class ProcedureDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     name
+    amount_cents
     code
+    custom
+    event_procedures
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
