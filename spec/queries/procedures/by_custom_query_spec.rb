@@ -6,12 +6,13 @@ RSpec.describe Procedures::ByCustomQuery do
   context "when custom is true" do
     it "returns only custom procedures" do
       user = create(:user)
-      custom_procedure = create(:procedure, custom: true, user: user)
+      _old_custom_procedure = create(:procedure, name: "Procedure", custom: true, user: user, created_at: 1.day.ago)
+      new_custom_procedure = create(:procedure, name: "Procedure", custom: true, user: user)
       _procedure = create(:procedure, custom: false)
 
       by_custom_query = described_class.call(custom: "true", user: user)
 
-      expect(by_custom_query).to contain_exactly(custom_procedure)
+      expect(by_custom_query).to contain_exactly(new_custom_procedure)
     end
   end
 
