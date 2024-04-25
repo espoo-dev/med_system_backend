@@ -11,7 +11,14 @@ module Procedures
     end
 
     def call
-      custom == "true" ? relation.where(custom: true, user: user) : relation.where(custom: false)
+      if custom == "true"
+        relation
+          .select("DISTINCT ON (procedures.name) procedures.*")
+          .where(custom: true, user: user)
+          .order("procedures.name, procedures.created_at DESC")
+      else
+        relation.where(custom: false)
+      end
     end
   end
 end
