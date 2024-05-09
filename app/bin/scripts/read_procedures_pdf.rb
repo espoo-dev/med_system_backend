@@ -53,3 +53,4 @@ module Scripts
       @logger ||= Logger.new(Rails.root.join("log/populate_procedures_from_csv.log"))
     end
   end
+end
