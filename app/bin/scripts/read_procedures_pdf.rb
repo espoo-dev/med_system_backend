@@ -31,10 +31,14 @@ module Scripts
       return if row.first.blank?
 
       procedures_hash.dig(:batch, :procedures) << { code: row[0], name: row[1], port: row[4] }
-      puts "DONE - Batch: #{batch_index + 1} - row: #{row_index + 1}"
+      puts_message("DONE - Batch: #{batch_index + 1} - row: #{row_index + 1}")
     rescue StandardError => e
-      logger.warn("ERROR: #{e.message} - Batch: #{batch_index}/:row #{row_index + 1}|Backtrace: #{e.backtrace}")
-      puts "ERROR - Check log file"
+      log_error(e, row_index, batch_index)
+    end
+
+    def log_error(error, row_index, batch_index)
+      logger.warn("ERROR: #{error.message} - Batch: #{batch_index}/:row #{row_index + 1}|Backtrace: #{e.backtrace}")
+      puts_message("ERROR - Check log file")
     end
 
     def batches_procedures_parsed(index, data)
@@ -47,6 +51,10 @@ module Scripts
 
     def file
       @file ||= CSV.open(path_file)
+    end
+
+    def puts_message(message)
+      Rails.logger.debug(message)
     end
 
     def logger
