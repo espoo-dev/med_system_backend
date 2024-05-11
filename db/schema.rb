@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_11_131514) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_11_140008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -101,6 +101,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_131514) do
     t.index ["user_id"], name: "index_patients_on_user_id"
   end
 
+  create_table "port_values", force: :cascade do |t|
+    t.bigint "cbhpm_id", null: false
+    t.string "port"
+    t.string "anesthetic_port"
+    t.decimal "amount_cents", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cbhpm_id"], name: "index_port_values_on_cbhpm_id"
+  end
+
   create_table "procedures", force: :cascade do |t|
     t.string "name", null: false
     t.citext "code"
@@ -137,4 +147,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_131514) do
   add_foreign_key "medical_shifts", "hospitals"
   add_foreign_key "medical_shifts", "users"
   add_foreign_key "patients", "users"
+  add_foreign_key "port_values", "cbhpms"
 end
