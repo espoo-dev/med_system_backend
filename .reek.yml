@@ -21,6 +21,7 @@ detectors:
     exclude:
       - "Users::SessionsController#create"
       - "Seeds"
+      - "EventProcedures::DashboardAmountByDay#event_procedures_by_date"
     max_statements: 6
   TooManyMethods:
     exclude:

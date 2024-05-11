@@ -4,7 +4,9 @@ require "rails_helper"
 
 RSpec.describe Cbhpm do
   describe "associations" do
+    it { is_expected.to have_many(:cbhpm_procedures).dependent(:destroy) }
     it { is_expected.to have_many(:port_values).dependent(:destroy) }
+    it { is_expected.to have_many(:procedures).through(:cbhpm_procedures) }
   end
 
   describe "validations" do
