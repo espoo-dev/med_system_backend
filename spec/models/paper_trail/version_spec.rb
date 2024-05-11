@@ -41,7 +41,7 @@ RSpec.describe PaperTrail::Version, versioning: true do
     end
 
     describe "PUT /api/v1/hospitals/:id" do
-      let(:hospital) { create(:hospital) }
+      let(:hospital) { create(:hospital, name: "Hospital first") }
       let(:hospital_version) { hospital.versions }
       let(:last_hospital_version) { hospital_version.last }
 
@@ -53,7 +53,7 @@ RSpec.describe PaperTrail::Version, versioning: true do
       it "creates hospital and version" do
         expect(response).to have_http_status(:ok)
         expect(hospital_version.count).to eq(1)
-        expect(last_hospital_version.object["name"]).to eq("hospital 1")
+        expect(last_hospital_version.object["name"]).to eq("Hospital first")
       end
     end
   end
