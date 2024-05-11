@@ -323,6 +323,9 @@ GEM
       parser
       sorbet-runtime (>= 0.5.9914)
       zeitwerk (>= 2.6.1)
+    paper_trail (15.1.0)
+      activerecord (>= 6.1)
+      request_store (~> 1.4)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
@@ -387,6 +390,8 @@ GEM
     regexp_parser (2.8.1)
     reline (0.3.8)
       io-console (~> 0.5)
+    request_store (1.7.0)
+      rack (>= 1.4)
     responders (3.1.0)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -569,6 +574,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth-strava
   packwerk
+  paper_trail
   pg
   pry (~> 0.14.2)
   puma (~> 5.0)
