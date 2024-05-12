@@ -5,6 +5,8 @@ class Procedure < ApplicationRecord
 
   belongs_to :user, optional: true
 
+  has_many :cbhpm_procedures, dependent: :destroy
+  has_many :cbhpm, through: :cbhpm_procedures
   has_many :event_procedures, dependent: :destroy
 
   scope :by_custom, Procedures::ByCustomQuery
