@@ -150,6 +150,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_173556) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
   add_foreign_key "cbhpm_procedures", "cbhpms"
   add_foreign_key "cbhpm_procedures", "procedures"
   add_foreign_key "event_procedures", "health_insurances"

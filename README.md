@@ -19,6 +19,15 @@
 - docker compose exec web bundle exec bin/rspec -P ./*/**/*_spec.rb (-P ./*/**/*_spec.rb is needed to run specs from packs)
 - open coverage/index.html (Check coverage report)
 
+Observation: To run tests with paper trail versioning, you must use `, versioning: true` on tests describes or use `with_versioning` block bellow:
+```ruby
+ with_versioning do
+    it 'within a `with_versioning` block it will be turned on' do
+      expect(PaperTrail).to be_enabled
+    end
+  end
+```
+
 ## Check lint
 - docker compose exec web bundle exec bin/lint
 
