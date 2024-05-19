@@ -116,6 +116,12 @@ gem "stackprof"
 # Track changes to your models, for auditing or versioning.
 gem "paper_trail"
 
+# Monitoring service New Relic
+gem "newrelic_rpm"
+
+# Infinite tracing for New Relic
+gem "newrelic-infinite_tracing"
+
 group :development, :test do
   gem "bullet"
 
