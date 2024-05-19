@@ -113,6 +113,12 @@ gem "sentry-rails"
 # A sampling call-stack profiler for ruby 2.2+
 gem "stackprof"
 
+# Monitoring service New Relic
+gem "newrelic_rpm", "9.9.0"
+
+# Infinite tracing for New Relic
+gem "newrelic-infinite_tracing", "9.9.0"
+
 group :development, :test do
   gem "bullet"
 
