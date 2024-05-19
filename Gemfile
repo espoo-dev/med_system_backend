@@ -117,10 +117,10 @@ gem "stackprof"
 gem "paper_trail"
 
 # Monitoring service New Relic
-gem "newrelic_rpm"
+gem "newrelic_rpm", "9.9.0"
 
 # Infinite tracing for New Relic
-gem "newrelic-infinite_tracing"
+gem "newrelic-infinite_tracing", "9.9.0"
 
 group :development, :test do
   gem "bullet"
