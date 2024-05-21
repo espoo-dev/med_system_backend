@@ -16,7 +16,7 @@ RSpec.describe "create_json_file" do
     Rake::Task[task_name].reenable
   end
 
-  after(:context) do
+  after(:all) do
     FileUtils.rm_rf(Dir["lib/data/procedures/*"])
   end
 
