@@ -15,10 +15,6 @@ RSpec.describe "create_json_file" do
     Rake::Task.define_task(:environment)
   end
 
-  after(:context) do
-    FileUtils.rm_rf(Dir["lib/data/procedures/*"])
-  end
-
   context "when successful" do
     it {
       expect do
@@ -39,6 +35,8 @@ RSpec.describe "create_json_file" do
           expect(procedure.keys).to include("code", "port", "name")
         end
       end
+
+      files_dir.each { |file_path| File.delete(file_path) }
     end
   end
 
@@ -48,21 +46,25 @@ RSpec.describe "create_json_file" do
     context "when code is not valid" do
       let(:file_path_code_error) { "spec/fixtures/procedures_code_error_test.csv" }
 
-      it {
+      it 'returns error' do
         expect do
           Rake::Task[task_name].invoke(file_path_code_error, 1)
         end.to raise_error(StandardError, "Code is not valid!")
-      }
+
+        files_dir.each { |file_path| File.delete(file_path) }
+      end
     end
 
     context "when port is not valid" do
       let(:file_path_port_error) { "spec/fixtures/procedures_port_error_test.csv" }
 
-      it {
+      it 'returns error' do
         expect do
           Rake::Task[task_name].invoke(file_path_port_error, 1)
         end.to raise_error(StandardError, "Port is not valid!")
-      }
+
+        files_dir.each { |file_path| File.delete(file_path) }
+      end
     end
   end
 end
