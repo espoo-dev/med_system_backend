@@ -13,7 +13,6 @@ RSpec.describe "create_json_file" do
   before do
     Rake.application.rake_require("tasks/create_json_file")
     Rake::Task.define_task(:environment)
-    Rake::Task[task_name].reenable
   end
 
   after(:all) do
@@ -44,6 +43,8 @@ RSpec.describe "create_json_file" do
   end
 
   context "when the rake task is a failure" do
+    before(:each) { Rake::Task[task_name].reenable }
+
     context "when code is not valid" do
       let(:file_path_code_error) { "spec/fixtures/procedures_code_error_test.csv" }
 
