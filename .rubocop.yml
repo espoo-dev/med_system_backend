@@ -105,6 +105,9 @@ RSpec/DescribeClass:
 RSpec/BeforeAfterAll:
   Enabled: false
 
+RSpec/DescribeClass:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
