@@ -67,7 +67,13 @@ module Scripts
     end
 
     def batches_procedures_parsed(index, data)
+      create_dir
       File.write("lib/data/procedures/batch_#{index + 1}.json", data)
+    end
+
+    def create_dir
+      return false if Dir.glob("lib/data/*").include?("lib/data/procedures")
+      Dir.mkdir("lib/data/procedures")
     end
 
     def file
