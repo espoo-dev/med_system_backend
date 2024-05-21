@@ -15,7 +15,7 @@ RSpec.describe "create_json_file" do
     Rake::Task.define_task(:environment)
   end
 
-  after(:all) do
+  after(:context) do
     FileUtils.rm_rf(Dir["lib/data/procedures/*"])
   end
 
