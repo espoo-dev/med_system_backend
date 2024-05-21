@@ -113,6 +113,9 @@ gem "sentry-rails"
 # A sampling call-stack profiler for ruby 2.2+
 gem "stackprof"
 
+# Track changes to your models, for auditing or versioning.
+gem "paper_trail"
+
 # Monitoring service New Relic
 gem "newrelic_rpm", "9.9.0"
 

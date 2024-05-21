@@ -10,6 +10,7 @@ module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_user!
     before_action :authenticate_admin
+    before_action :set_paper_trail_whodunnit
 
     def authenticate_admin
       return if current_user.admin?
