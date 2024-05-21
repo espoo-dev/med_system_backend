@@ -28,7 +28,7 @@ module Scripts
             validate_data_row!(row)
             from_row_to_json(args)
           rescue StandardError => e
-            raise StandardError.new(e.message)
+            raise StandardError, e.message
           end
         end
 
@@ -47,18 +47,19 @@ module Scripts
       return if code.blank?
       return true if /^\d+$/.match?(code)
 
-      raise StandardError.new("Code is not valid!")
+      raise StandardError, "Code is not valid!"
     end
 
     def validate_port!(port)
       return if port.blank?
       return true if /^\d+[a-zA-Z]$/.match?(port)
 
-      raise StandardError.new("Port is not valid!")
+      raise StandardError, "Port is not valid!"
     end
 
     def from_row_to_json(args)
       return if args[:row].first.blank?
+
       row = args[:row]
 
       args[:procedures_hash].dig(:batch, :procedures) << { code: row[0], name: row[1], port: row[4] }
