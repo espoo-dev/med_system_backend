@@ -44,15 +44,19 @@ module Scripts
     end
 
     def validate_code!(code)
-      return if code.blank?
-      return true if /^\d+$/.match?(code)
+      return false if code.blank?
+
+      regex_only_digits = /^\d+$/
+      return true if regex_only_digits.match?(code)
 
       raise StandardError, "Code is not valid!"
     end
 
     def validate_port!(port)
-      return if port.blank?
-      return true if /^\d+[a-zA-Z]$/.match?(port)
+      return false if port.blank?
+
+      regex_digits_and_letter = /^\d+[a-zA-Z]$/
+      return true if regex_digits_and_letter.match?(port)
 
       raise StandardError, "Port is not valid!"
     end
