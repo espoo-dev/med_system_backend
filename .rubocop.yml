@@ -98,6 +98,16 @@ RSpec/NestedGroups:
 RSpec/ImplicitSubject:
   EnforcedStyle: single_statement_only
 
+RSpec/DescribeClass:
+  Exclude:
+    - "spec/tasks/**/*"
+
+RSpec/BeforeAfterAll:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
