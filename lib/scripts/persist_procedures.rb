@@ -33,7 +33,7 @@ module Scripts
     def save_procedure!(procedure_instance)
       success_message = success_message(procedure_instance.code)
 
-      Rails.logger.debug(message)
+      Rails.logger.debug(success_message)
 
       puts_message(success_message) if procedure_instance.save!
     rescue StandardError => e
@@ -68,7 +68,7 @@ module Scripts
     end
 
     def fail_message(code, error)
-      "FAIL - Code: #{code} - Error: #{Error.message} - #{error.backtrace[0..6]}"
+      "FAIL - Code: #{code} - Error: #{error.message} - #{error.backtrace[0..6]}"
     end
 
     def procedure_persisted
