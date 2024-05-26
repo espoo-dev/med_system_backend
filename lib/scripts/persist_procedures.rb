@@ -4,10 +4,10 @@ require "csv"
 
 module Scripts
   class PopulateProcedures
-    attr_reader :file_name
+    attr_reader :path_file
 
-    def initialize(file_name)
-      @file_name = file_name
+    def initialize(path_file)
+      @path_file = path_file
     end
 
     def run!
@@ -53,10 +53,6 @@ module Scripts
 
     def data_file
       @data_file ||= JSON.load_file(path_file).with_indifferent_access
-    end
-
-    def path_file
-      Rails.root.join("lib/data/procedures/#{file_name}")
     end
 
     def logger
