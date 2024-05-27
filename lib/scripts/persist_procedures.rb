@@ -19,7 +19,7 @@ module Scripts
     def populate_database!
       ActiveRecord::Base.transaction do
         procedures.each do |procedure|
-          next if procedure_persisted.include?(procedure[:code])
+          next if procedure_persisted?(procedure)
 
           procedure_instance = procedure_build(procedure[:code], procedure[:name])
 
@@ -56,7 +56,7 @@ module Scripts
     end
 
     def logger
-      @logger ||= Logger.new(Rails.root.join("log/populate_procedures_from_#{file_name}.log"))
+      @logger ||= Logger.new(Rails.root.join("log/populate_procedures_from_batch.log"))
     end
 
     def success_message(code)
@@ -67,12 +67,24 @@ module Scripts
       "FAIL - Code: #{code} - Error: #{error.message} - #{error.backtrace[0..6]}"
     end
 
-    def procedure_persisted
-      @procedure_persisted ||= Procedure.all.pluck(:code)
+    def procedures_persisted
+      @procedures_persisted ||= Procedure.all.pluck(:code)
     end
 
     def puts_message(message)
       Rails.logger.debug(message)
+    end
+
+    def procedure_persisted?(procedure)
+      return false if procedure.blank?
+
+      if procedures_persisted.include?(procedure[:code])
+        logger.info("Code already exists in the database! Code: #{procedure[:code]}")
+
+        return true
+      end
+
+      false
     end
   end
 end
