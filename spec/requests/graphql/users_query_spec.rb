@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "users query" do
+RSpec.describe "UsersQuery" do
   context "when users exist" do
     let!(:user) { create(:user) }
 
