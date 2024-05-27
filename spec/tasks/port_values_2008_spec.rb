@@ -7,7 +7,6 @@ RSpec.describe "port_values_2008:import" do
   before do
     Rake.application.rake_require("tasks/port_values_2008")
     Rake::Task.define_task(:environment)
-    create(:cbhpm, id: 1)
   end
 
   describe "import task" do
@@ -15,6 +14,12 @@ RSpec.describe "port_values_2008:import" do
     let!(:file_content) { Rails.root.join("lib/data/port_values/2008_5_edition.json").read }
 
     context "when the rake task is a success" do
+      it "finds or creates a cbhpm record" do
+        expect(Cbhpm).to receive(:find_or_create_by).with(year: 2008, name: "5 edition").and_call_original
+
+        Rake::Task[task_name].execute
+      end
+
       it "outputs success message" do
         expect { Rake::Task[task_name].execute }.to output("Port values imported successfully\n").to_stdout
       end
