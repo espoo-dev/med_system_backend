@@ -59,15 +59,15 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*'
-    - 'config/environments/*'
-    - 'config/routes.rb'
+    - "spec/**/*"
+    - "config/environments/*"
+    - "config/routes.rb"
 
 Metrics/ClassLength:
-  CountAsOne: ['array', 'hash', 'heredoc']
+  CountAsOne: ["array", "hash", "heredoc"]
 
 Metrics/MethodLength:
-  CountAsOne: ['array', 'hash', 'heredoc']
+  CountAsOne: ["array", "hash", "heredoc"]
   Max: 13
 
 Naming/VariableNumber:
@@ -84,7 +84,7 @@ Rails/RedundantPresenceValidationOnBelongsTo:
 
 RSpec/ExampleLength:
   Max: 20
-  CountAsOne: ['array', 'hash', 'heredoc']
+  CountAsOne: ["array", "hash", "heredoc"]
 
 RSpec/MessageSpies:
   EnforcedStyle: receive
@@ -97,10 +97,6 @@ RSpec/NestedGroups:
 
 RSpec/ImplicitSubject:
   EnforcedStyle: single_statement_only
-
-RSpec/DescribeClass:
-  Exclude:
-    - "spec/tasks/**/*"
 
 RSpec/BeforeAfterAll:
   Enabled: false
