@@ -1,1 +1,1 @@
-{"batch":{"procedures":[{"code":"1","name":"Teste 1","port":"2B"},{"code":"2","name":"Teste 2","port":"3A"},{"code":"3","name":"Teste 3","port":"2B"}]}}
+{"batch":{"procedures":[{"code":"1","name":"Test 1","port":"2B", "anesthetic_port": "1"},{"code":"2","name":"Test 2","port":"3A", "anesthetic_port": "0"},{"code":"3","name":"Test 3","port":"2B", "anesthetic_port": "3"}]}}

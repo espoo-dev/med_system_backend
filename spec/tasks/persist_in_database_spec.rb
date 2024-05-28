@@ -16,10 +16,16 @@ RSpec.describe "persist_in_database" do
   end
 
   context "when successful" do
+    let(:cbhpm) { create(:cbhpm, year: 2008, name: "5 edition") }
+    let(:procedures_ids) { procedures.pluck(:id) }
     let(:procedures_codes) { procedures.pluck(:code) }
     let(:procedures_names) { procedures.pluck(:name) }
+    let(:cbhpm_procedures) { CbhpmProcedure.where(procedure_id: procedures_ids) }
 
-    before(:each) { Rake::Task[task_name].reenable }
+    before do
+      cbhpm
+      Rake::Task[task_name].reenable
+    end
 
     it {
       expect do
@@ -27,30 +33,59 @@ RSpec.describe "persist_in_database" do
       end.to output("Procedures added in database\n").to_stdout
     }
 
-    it 'persists procedures in database' do
-      run_rake
+    context "when persists procedures in database" do
+      before { run_rake }
 
-      expect(procedures.count).to eq(3)
-      expect(procedures_codes).to eq(["1", "2", "3"])
-      expect(procedures_names).to eq(["Teste 1", "Teste 2", "Teste 3"])
+      it { expect(procedures.count).to eq(3) }
+      it { expect(procedures_codes).to eq(%w[1 2 3]) }
+      it { expect(procedures_names).to eq(["Test 1", "Test 2", "Test 3"]) }
+      it { expect(cbhpm_procedures.count).to eq(3) }
+    end
+
+    context "when already code exist in database" do
+      let(:procedure_persisted) { create(:procedure, code: "1", name: "Already pesisted") }
+
+      before { procedure_persisted }
+
+      it "skips procedure code persisted" do
+        run_rake
+
+        expect(procedures.count).to eq(3)
+        expect(procedures_names).to eq(["Already pesisted", "Test 2", "Test 3"])
+        expect(cbhpm_procedures.count).to eq(2)
+      end
     end
   end
 
   context "when fail" do
-    let(:path_file) { "spec/fixtures/batch_test_error.json" }
+    before { Rake::Task[task_name].reenable }
 
-    before(:each) { Rake::Task[task_name].reenable }
+    context "when a row has error" do
+      let(:path_file) { "spec/fixtures/batch_test_error.json" }
 
-    context 'when a row has error' do
-      it 'raises error and rollback persisted data' do
-        expect{ run_rake }.to raise_error(StandardError)
+      it "raises error and rollback persisted data" do
+        expect { run_rake }.to raise_error(StandardError)
         expect(procedures.count).to eq(0)
       end
     end
 
-    context 'when does not have path_file' do
-      it 'raises error' do
-        expect{ run_rake }.to raise_error(StandardError)
+    context "when anesthesic port is nil" do
+      let(:path_file) { "spec/fixtures/batch_anesthetic_port_error.json" }
+      let(:cbhpm) { create(:cbhpm, year: 2008, name: "5 edition") }
+
+      before { cbhpm }
+
+      it "raises error" do
+        expect { run_rake }.to raise_error(StandardError, "Check if all attributes are presents!")
+        expect(procedures.count).to eq(0)
+      end
+    end
+
+    context "when cbhpm is nil" do
+      let(:path_file) { "spec/fixtures/batch_anesthetic_port_error.json" }
+
+      it "raises error" do
+        expect { run_rake }.to raise_error(StandardError, "Cbhpm 5 edition(2008) not created")
         expect(procedures.count).to eq(0)
       end
     end

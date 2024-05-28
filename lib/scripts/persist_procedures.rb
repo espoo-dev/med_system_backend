@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "csv"
+require_relative "create_cbhpm_procedures"
 
 module Scripts
   class PopulateProcedures
@@ -23,19 +24,19 @@ module Scripts
 
           procedure_instance = procedure_build(procedure[:code], procedure[:name])
 
-          save_procedure!(procedure_instance)
+          save_procedure!(procedure_instance, procedure[:port], procedure[:anesthetic_port])
         end; nil
       rescue StandardError => e
         raise StandardError, e.message
       end
     end
 
-    def save_procedure!(procedure_instance)
+    def save_procedure!(procedure_instance, port, anesthetic_port)
       success_message = success_message(procedure_instance.code)
 
       Rails.logger.debug(success_message)
 
-      puts_message(success_message) if procedure_instance.save!
+      create_cbhpm_procedures(procedure_instance, port, anesthetic_port) if procedure_instance.save!
     rescue StandardError => e
       fail_message = fail_message(procedure_instance.code, e)
 
@@ -85,6 +86,25 @@ module Scripts
       end
 
       false
+    end
+
+    def create_cbhpm_procedures(procedure, port, anesthetic_port)
+      return cbhpm_not_existed_error if cbhpm.nil?
+
+      begin
+        instance = Scripts::CreateCbhpmProcedures.new(cbhpm.id, procedure.id, port, anesthetic_port)
+        instance.run!
+      rescue StandardError => e
+        raise StandardError, e
+      end
+    end
+
+    def cbhpm
+      @cbhpm ||= Cbhpm.find_by(year: 2008, name: "5 edition")
+    end
+
+    def cbhpm_not_existed_error
+      raise StandardError, "Cbhpm 5 edition(2008) not created"
     end
   end
 end
