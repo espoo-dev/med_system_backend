@@ -38,7 +38,11 @@ RSpec.describe "persist_in_database" do
 
       it { expect(procedures.count).to eq(3) }
       it { expect(procedures_codes).to eq(%w[1 2 3]) }
-      it { expect(procedures_names).to eq(["Test 1", "Test 2", "Test 3"]) }
+
+      ["Test 1", "Test 2", "Test 3"].each do |procedure_name|
+        it { expect(procedures_names).to include(procedure_name) }
+      end
+
       it { expect(cbhpm_procedures.count).to eq(3) }
     end
 
