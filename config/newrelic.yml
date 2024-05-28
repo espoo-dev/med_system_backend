@@ -851,10 +851,6 @@ development:
   monitor_mode: false
   app_name: med_system_backend (Development)
 
-test:
-  <<: *default_settings
-  monitor_mode: false
-
 production:
   <<: *default_settings
   monitor_mode: true
