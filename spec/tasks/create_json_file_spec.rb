@@ -32,7 +32,7 @@ RSpec.describe "create_json_file" do
         expect(file["batch"].keys).to include("procedures")
 
         file.dig("batch", "procedures").each do |procedure|
-          expect(procedure.keys).to include("code", "port", "name")
+          expect(procedure.keys).to include("code", "port", "name", "anesthetic_port")
         end
       end
 
