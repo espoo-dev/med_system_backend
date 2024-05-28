@@ -34,7 +34,7 @@ module Scripts
     def save_procedure!(procedure_instance, port, anesthetic_port)
       success_message = success_message(procedure_instance.code)
 
-      Rails.logger.debug(success_message)
+      puts_message(success_message)
 
       create_cbhpm_procedures(procedure_instance, port, anesthetic_port) if procedure_instance.save!
     rescue StandardError => e

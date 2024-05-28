@@ -9,6 +9,9 @@ RSpec.describe "create_json_file" do
   let(:file_path) { "spec/fixtures/procedures_test.csv" }
   let(:files_dir) { Dir.glob("lib/data/procedures/*") }
   let(:files_selected) { files_dir.select { |file| File.file?(file) } }
+  let(:dir_path) { "lib/data/procedures" }
+  let(:run_task) { Rake::Task[task_name].invoke(file_path, 1) }
+  let(:delete_dir) { FileUtils.remove_dir(dir_path,true) }
 
   before do
     Rake.application.rake_require("tasks/create_json_file")
@@ -17,6 +20,8 @@ RSpec.describe "create_json_file" do
 
   context "when successful" do
     it {
+      delete_dir
+
       expect do
         Rake::Task[task_name].invoke(file_path, 1)
       end.to output("Procedures exported to json files\n").to_stdout
