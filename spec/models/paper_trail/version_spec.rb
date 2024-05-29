@@ -6,9 +6,9 @@ RSpec.describe PaperTrail::Version, versioning: true do
   let(:hospital) { create(:hospital, name: "nome hospital", address: "Barbalha- CE") }
 
   context "when persist object in database" do
-    it "does not create version" do
+    it "creates version" do
       expect(hospital).to be_persisted
-      expect(hospital.versions.count).to eq(0)
+      expect(hospital.versions.count).to eq(1)
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe PaperTrail::Version, versioning: true do
 
     before { update_hospital }
 
-    it { expect(hospital_version.count).to eq(1) }
+    it { expect(hospital_version.count).to eq(2) }
     it { expect(last_hospital_version.object["name"]).to eq("nome hospital") }
     it { expect(last_hospital_version.object["whodunnit"]).to be_nil }
   end
