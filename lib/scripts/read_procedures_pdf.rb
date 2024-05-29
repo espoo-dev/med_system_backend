@@ -66,7 +66,10 @@ module Scripts
 
       row = args[:row]
 
-      args[:procedures_hash].dig(:batch, :procedures) << { code: row[0], name: row[1], port: row[4] }
+      args[:procedures_hash].dig(:batch, :procedures) << { code: row[0],
+                                                           name: row[1],
+                                                           port: row[4],
+                                                           anesthetic_port: row[9] }
       puts_message("DONE - Batch: #{args[:batch_index] + 1} - row: #{args[:index] + 1}")
     end
 
@@ -77,6 +80,7 @@ module Scripts
 
     def create_dir
       return false if Dir.glob("lib/data/*").include?("lib/data/procedures")
+
       Dir.mkdir("lib/data/procedures")
     end
 

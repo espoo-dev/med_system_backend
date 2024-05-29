@@ -6,7 +6,7 @@ namespace :procedures do
   desc "It creates a json file with procedures to persist on database"
   task :create_json_file, %i[path_file limit] => :environment do |_task, args|
     path_file = args[:path_file]
-    limit = args[:limit]
+    limit = args[:limit].to_i
 
     instance = Scripts::ReadProceduresPDF.new(path_file, limit)
     instance.run

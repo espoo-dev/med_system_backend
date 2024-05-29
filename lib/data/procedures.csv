@@ -28,7 +28,6 @@
 20101201,Avaliação clínica e eletrônica de paciente portador de marca-passo ou sincronizador ou desfibrilador,,,2B,54,6,69,0,0,0,0,,,"R$ 123,00"
 20101090,Avaliação da composição corporal por antropometria (inclui consulta),,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
 20101104,Avaliação da composição corporal por bioimpedanciometria,,,1B,20,"0,75","8,63",0,0,0,0,,,"R$ 28,63"
-,,,,,,,,,,,,,,
 20101112,Avaliação da composição corporal por pesagem hidrostática,,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 20101074,Avaliação nutrológica (inclui consulta),,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
 20101082,Avaliação nutrológica pré e pós-cirurgia bariátrica (inclui consulta),,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
@@ -73,7 +72,6 @@
 20103310,Lesão nervosa periférica afetando mais de um nervo com alterações sensitivas e/ ou motoras,,,1C,30,"0,4","4,6",0,0,0,0,,,"R$ 34,60"
 20103328,Lesão nervosa periférica afetando um nervo com alterações sensitivas e/ou motoras,,,1C,30,"0,4","4,6",0,0,0,0,,,"R$ 34,60"
 20103336,Manipulação vertebral,,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
-,,,,,,,,,,,,,,
 20103344,Miopatias,,,1C,30,"0,37","4,26",0,0,0,0,,,"R$ 34,26"
 20103360,Paciente com D.P.O.C. em atendimento ambulatorial necessitando reeducação e reabilitação respiratória,,,1C,30,"0,54","6,21",0,0,0,0,,,"R$ 36,21"
 20103379,"Paciente em pós-operatório de cirurgia cardíaca, atendido em ambulatório, duas a três vezes por semana",,,1B,20,,0,0,0,0,0,,,"R$ 20,00"
@@ -112,7 +110,6 @@
 20103697,Sequelas de traumatismos torácicos e abdominais,,,1B,20,"0,3","3,45",0,0,0,0,,,"R$ 23,45"
 20103700,Sequelas em politraumatizados (em diferentes segmentos),,,1B,20,"1,56","17,94",0,0,0,0,,,"R$ 37,94"
 20103719,Sinusites,,,1B,20,"0,3","3,45",0,0,0,0,,,"R$ 23,45"
-,,,,,,,,,,,,,,
 20104014,Actinoterapia (por sessão),,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 20104022,Aplicação de hipossensibilizante - em consultório (AHC) exclusive o alérgeno - planejamento técnico para,,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 20104049,Cateterismo vesical em retenção urinária,,,1C,30,,0,0,0,0,0,,,"R$ 30,00"
@@ -153,7 +150,6 @@
 20201036,Assistência cardiológica peroperatória em cirurgia geral e em parto (primeira hora),,,3A,88,,0,0,0,0,0,,,"R$ 88,00"
 20201109,Avaliação clínica diária enteral,,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
 20201117,Avaliação clínica diária parenteral,,,3A,88,,0,0,0,0,0,,,"R$ 88,00"
-,,,,,,,,,,,,,,
 20201125,Avaliação clínica diária parenteral e enteral,,,3B,112,,0,0,0,0,0,,,"R$ 112,00"
 20201052,"Cardioversão elétrica eletiva (avaliação clínica, eletrocardiográfica, indispensável à desfibrilação)",,,2C,64,,0,0,0,0,0,,,"R$ 64,00"
 20201060,Rejeição de enxerto renal - tratamento internado - avaliação clínica diária - por visita,,,2C,64,,0,0,0,0,0,,,"R$ 64,00"
@@ -193,7 +189,6 @@
 30101158,Correção cirúrgica de sequelas de alopecia traumática com microenxertos pilosos (por região),,,6A,255,,0,1,5,0,0,,,"R$ 331,50"
 30101166,Correção de deformidades nos membros com utilização de implantes,,,9B,605,,0,2,6,0,0,,,"R$ 907,50"
 30101174,"Correção de deformidades por exérese de tumores, cicatrizes ou ferimentos com o emprego de expansores em retalhos musculares ou miocutâneos (por estágio)",,,9B,605,,0,2,4,0,0,,,"R$ 907,50"
-,,,,,,,,,,,,,,
 30101182,"Correção de deformidades por exérese de tumores, cicatrizes ou ferimentos, com o emprego de expansores de tecido, em retalhos cutâneos (por estágio)",,,9B,605,,0,2,4,0,0,,,"R$ 907,50"
 30101190,"Correção de lipodistrofia braquial, crural ou trocanteriana de membros superiores e inferiores",,,9A,555,,0,2,4,0,0,,,"R$ 832,50"
 30101204,Criocirurgia (nitrogênio líquido) de neoplasias cutâneas,,,3B,112,,0,0,2,0,0,,,"R$ 112,00"
@@ -234,7 +229,6 @@
 30101549,"Extensos ferimentos, cicatrizes ou tumores - exérese e retalhos cutâneos à distância",,,9B,605,,0,1,4,0,0,,,"R$ 786,50"
 30101557,"Extensos ferimentos, cicatrizes ou tumores - exérese e rotação de retalho fasciocutâneo ou axial",,,9B,605,,0,1,4,0,0,,,"R$ 786,50"
 30101565,"Extensos ferimentos, cicatrizes ou tumores - exérese e rotação de retalhos miocutâneos",,,9A,555,,0,1,4,0,0,,,"R$ 721,50"
-,,,,,,,,,,,,,,
 30101573,"Extensos ferimentos, cicatrizes ou tumores - exérese e rotação de retalhos musculares",,,9A,555,,0,1,4,0,0,,,"R$ 721,50"
 30101581,"Extensos ferimentos, cicatrizes, ou tumores - exérese e enxerto cutâneo",,,8A,468,,0,1,3,0,0,,,"R$ 608,40"
 30101590,Face - biópsia,,,3B,112,,0,0,0,0,0,,,"R$ 112,00"
@@ -280,7 +274,6 @@
 30201101,Tratamento cirúrgico da macrostomia,,,5B,220,,0,1,3,0,0,,,"R$ 286,00"
 30201110,Tratamento cirúrgico da microstomia,,,5B,220,,0,1,3,0,0,,,"R$ 286,00"
 30202019,Alongamento cirúrgico do palato mole,,,9A,555,,0,1,4,0,0,,,"R$ 721,50"
-,,,,,,,,,,,,,,
 30202027,Biópsia de boca,,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
 30202035,Excisão de lesão maligna com reconstrução à custa de retalhos locais,,,8B,490,,0,3,4,0,0,,,"R$ 833,00"
 30202043,Excisão de tumor de boca com mandibulectomia,,,10A,715,,0,3,5,0,0,,,"R$ 1.215,50"
@@ -327,7 +320,6 @@
 30205182,Ressecção de tumor de faringe com acesso por faringotomia ou por retalho jugal,,,8C,520,,0,3,6,0,0,,,"R$ 936,00"
 30205190,Ressecção de tumor de faringe com mandibulectomia,,,9C,666,,0,3,6,0,0,,,"R$ 1.198,80"
 30205204,Ressecção de tumor de faringe por mandibulotomia,,,10C,860,,0,3,5,0,0,,,"R$ 1.548,00"
-,,,,,,,,,,,,,,
 30205212,Ressecção de tumor de nasofaringe via endoscópica,,,5B,220,,0,1,5,0,0,,,"R$ 286,00"
 30205220,Tonsilectomia a laser,,,4B,168,,0,1,3,0,0,,,"R$ 218,40"
 30205239,Tumor de boca ou faringe - ressecção,,,7C,433,,0,1,4,0,0,,,"R$ 562,90"
@@ -369,7 +361,6 @@
 30207096,Fratura simples de mandíbula - redução cirúrgica com fixação óssea e bloqueio intermaxilar eventual,,,9A,555,,0,2,4,0,0,,,"R$ 888,00"
 30207134,Fraturas alveolares - fixação com aparelho e contenção,,,5B,220,,0,1,2,0,0,,,"R$ 286,00"
 30207126,Fraturas complexas de mandíbula - redução cirúrgica com fixação óssea e eventual bloqueio intermaxilar,,,10B,775,,0,2,5,0,0,,,"R$ 1.240,00"
-,,,,,,,,,,,,,,
 30207207,"Fraturas complexas do terço médio da face, fixação cirúrgica com síntese, levantamento crânio-maxilar, enxerto ósseo, halo craniano eventual",,,10C,860,,0,2,6,0,0,,,"R$ 1.376,00"
 30207193,"Fraturas múltiplas de terço médio da face: fixação cirúrgica com síntese óssea, levantamento crânio maxilar e bloqueio intermaxilar",,,10C,860,,0,2,5,0,0,,,"R$ 1.376,00"
 30207045,Redução de fratura de seio frontal (acesso coronal),,,8C,520,,0,1,3,0,0,,,"R$ 676,00"
@@ -412,7 +403,6 @@
 30211018,Biópsia de mandíbula,,,4A,153,,0,1,1,0,0,,,"R$ 198,90"
 30211042,Hemimandibulectomia ou ressecção segmentar ou seccional da mandíbula,,,9B,605,,0,2,4,0,0,,,"R$ 968,00"
 30211050,Mandibulectomia total,,,10A,715,,0,2,5,0,0,,,"R$ 1.144,00"
-,,,,,,,,,,,,,,
 30211034,Ressecção de tumor de mandíbula com desarticulação de ATM,,,9B,605,,0,3,5,0,0,,,"R$ 1.089,00"
 30212014,Cervicotomia exploradora,,,7C,433,,0,2,4,0,0,,,"R$ 692,80"
 30212022,Drenagem de abscesso cervical profundo,,,6A,255,,0,1,2,0,0,,,"R$ 331,50"
@@ -459,7 +449,6 @@
 30301068,Cantoplastia medial,,,4B,168,,0,0,2,0,0,,,"R$ 168,00"
 30301076,Coloboma - com plástica,,,6C,306,,0,1,3,0,0,,,"R$ 397,80"
 30301084,Correção cirúrgica de ectrópio ou entrópio,,,7A,331,,0,1,2,0,0,,,"R$ 430,30"
-,,,,,,,,,,,,,,
 30301092,Correção de bolsas palpebrais - unilateral,,,5B,220,,0,1,3,0,0,,,"R$ 286,00"
 30301106,Dermatocalaze ou blefarocalaze - unilateral,,,7A,331,,0,1,2,0,0,,,"R$ 430,30"
 30301114,Epicanto - correção cirúrgica - unilateral,,,6B,280,,0,1,2,0,0,,,"R$ 364,00"
@@ -506,7 +495,6 @@
 30304024,Ceratectomia superficial - monocular,,,3C,128,,0,0,3,0,0,,,"R$ 128,00"
 30304032,Corpo estranho da córnea - retirada,,,2A,40,,0,0,3,0,0,,,"R$ 40,00"
 30304105,Delaminação corneana com fotoablação estromal - LASIK,,,9C,666,"34,47","396,41",0,0,0,0,,,"R$ 1.062,41"
-,,,,,,,,,,,,,,
 30304091,Fotoablação de superfície convencional - PRK,,,7C,433,"31,33","360,3",0,0,0,0,,,"R$ 793,30"
 30304083,Implante de anel intra-estromal,,,10C,860,,0,1,3,0,0,,,"R$ 1.118,00"
 30304040,PTK ceratectomia fototerapêutica - monocular,,,7C,433,,0,1,3,0,0,,,"R$ 562,90"
@@ -553,7 +541,6 @@
 30310091,Iridociclectomia,,,9C,666,,0,0,5,0,0,,,"R$ 666,00"
 30310105,Sinequiotomia (cirúrgica),,,5A,204,,0,1,3,0,0,,,"R$ 265,20"
 30310113,Sinequiotomia (laser),,,5A,204,,0,0,3,0,0,,,"R$ 204,00"
-,,,,,,,,,,,,,,
 30311012,Biópsia de músculos,,,3A,88,,0,0,2,0,0,,,"R$ 88,00"
 30311020,Cirurgia com sutura ajustável,,,7C,433,,0,1,4,0,0,,,"R$ 562,90"
 30311039,Estrabismo ciclo vertical/transposição - monocular,,,8A,468,,0,1,4,0,0,,,"R$ 608,40"
@@ -600,7 +587,6 @@
 30403049,Exploração e descompressão parcial do nervo facial intratemporal,,,10A,715,,0,1,4,0,0,,,"R$ 929,50"
 30403057,Fístula perilinfática - fechamento cirúrgico,,,6A,255,,0,1,3,0,0,,,"R$ 331,50"
 30403065,Glomus jugular - ressecção,,,11C,1095,,0,2,5,0,0,,,"R$ 1.752,00"
-,,,,,,,,,,,,,,
 30403073,Glomus timpânicus - ressecção,,,9A,555,,0,1,4,0,0,,,"R$ 721,50"
 30403081,Mastoidectomia simples ou radical modificada,,,9B,605,,0,1,4,0,0,,,"R$ 786,50"
 30403090,Ouvido congênito - tratamento cirúrgico,,,10A,715,,0,2,4,0,0,,,"R$ 1.144,00"
@@ -644,7 +630,6 @@
 30501199,Exérese de tumor nasal por via endoscópica,,,5B,220,,0,1,3,0,0,,,"R$ 286,00"
 30501202,Fechamento de fístula liquórica transnasal,,,8B,490,,0,1,5,0,0,,,"R$ 637,00"
 30501210,Fístula liquórica - tratamento cirúrgico endoscópico intranasal,,,8B,490,,0,1,5,0,0,,,"R$ 637,00"
-,,,,,,,,,,,,,,
 30501229,Fraturas dos ossos nasais - redução cirúrgica e gesso,,,5B,220,,0,1,3,0,0,,,"R$ 286,00"
 30501237,Fraturas dos ossos nasais - redução incruenta e gesso,,,5A,204,,0,0,2,0,0,,,"R$ 204,00"
 30501245,Imperfuração coanal - correção cirúrgica intranasal,,,9A,555,,0,1,3,0,0,,,"R$ 721,50"
@@ -691,7 +676,6 @@
 30502110,Fístula oro-antral - tratamento cirúrgico,,,8B,490,,0,1,3,0,0,,,"R$ 637,00"
 30502128,Fístula oronasal - tratamento cirúrgico,,,8B,490,,0,1,2,0,0,,,"R$ 637,00"
 30502136,Maxilectomia incluindo exenteração de órbita,,,10A,715,,0,3,5,0,0,,,"R$ 1.287,00"
-,,,,,,,,,,,,,,
 30502144,Maxilectomia parcial,,,8B,490,,0,3,3,0,0,,,"R$ 882,00"
 30502152,Maxilectomia total,,,9C,666,,0,3,6,0,0,,,"R$ 1.198,80"
 30502160,Pólipo antro-coanal de Killiam - exérese,,,6A,255,,0,1,2,0,0,,,"R$ 331,50"
@@ -738,7 +722,6 @@
 30601207,Tração esquelética do gradil costo-esternal (traumatismo),,,9C,666,,0,1,2,0,0,,,"R$ 865,80"
 30601215,Tratamento cirúrgico de fraturas do gradil costal,,,9C,666,,0,2,4,0,0,,,"R$ 1.065,60"
 30601282,Vídeo para procedimentos sobre a coluna vertebral,,,11A,910,"38,5","442,75",2,5,0,0,,,"R$ 1.898,75"
-,,,,,,,,,,,,,,
 30602017,Biópsia incisional de mama,,,3B,112,,0,1,2,0,0,,,"R$ 145,60"
 30602335,"Biópsia percutânea com agulha grossa, em consultório",,,3B,112,,0,0,0,0,0,,,"R$ 112,00"
 30602025,Coleta de fluxo papilar de mama,,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
@@ -785,7 +768,6 @@
 30701120,Inguino-cural,,,12C,1495,,0,2,6,0,0,,,"R$ 2.392,00"
 30701139,Intercostal,,,12B,1220,,0,2,6,0,0,,,"R$ 1.952,00"
 30701147,Interdigital da 1ª comissura dos dedos do pé,,,12B,1220,,0,2,6,0,0,,,"R$ 1.952,00"
-,,,,,,,,,,,,,,
 30701155,Outros transplantes cutâneos,,,12B,1220,,0,1,5,0,0,,,"R$ 1.586,00"
 30701163,Paraescapular,,,12B,1220,,0,2,6,0,0,,,"R$ 1.952,00"
 30701171,Retroauricular,,,12C,1495,,0,2,6,0,0,,,"R$ 2.392,00"
@@ -829,7 +811,6 @@
 30704081,Transplante ósseo vascularizado (microanastomose),,,13A,1645,,0,1,6,0,0,,,"R$ 2.138,50"
 30705010,"Autotransplante de dois retalhos musculares combinados, isolados e associados entre si, ligados por um único pedículo",,,13A,1645,,0,2,7,0,0,,,"R$ 2.632,00"
 30705029,"Autotransplante de dois retalhos cutâneos combinados, isolados e associados entre si, ligados por um único pedículo vascular",,,13A,1645,,0,2,7,0,0,,,"R$ 2.632,00"
-,,,,,,,,,,,,,,
 30705037,"Autotransplante de dois retalhos, um cutâneo combinado a um muscular, isolados e associados entre si, ligados por um único pedículo vascular",,,13A,1645,,0,2,7,0,0,,,"R$ 2.632,00"
 30705045,"Autotransplante de dois retalhos, um cutâneo combinado a retalho osteomuscular, isolados e associados entre sí, ligados por um único pedículo vascular",,,13A,1645,,0,2,7,0,0,,,"R$ 2.632,00"
 30705053,Autotransplante de epiplon,,,13A,1645,,0,2,7,0,0,,,"R$ 2.632,00"
@@ -873,7 +854,6 @@
 30713153,Artroscopia para diagnóstico com ou sem biópsia sinovial,,,5C,234,,0,1,3,0,0,,,"R$ 304,20"
 30713021,Biópsia óssea,,,2B,54,,0,0,2,0,0,,,"R$ 54,00"
 30713030,Biópsias percutânea sinovial ou de tecidos moles,,,2B,54,,0,0,2,0,0,,,"R$ 54,00"
-,,,,,,,,,,,,,,
 30713048,Enxertos em outras pseudartroses,,,7C,433,,0,1,4,0,0,,,"R$ 562,90"
 30713064,Manipulação articular sob anestesia geral,,,3B,112,,0,0,1,0,0,,,"R$ 112,00"
 30713137,"Punção articular diagnóstica ou terapêutica (infiltração). Quando orientada por RX, US, TC e RM, cobrar código correspondente",,,2A,40,,0,0,0,0,0,,,"R$ 40,00"
@@ -919,7 +899,6 @@
 30715350,"Tratamento microcirúrgico das lesões intramedulares (tumor, malformações arteriovenosas, siringomielia, parasitoses)",,,13B,1805,,0,2,7,0,0,,,"R$ 2.888,00"
 30715369,Tratamento microcirúrgico do canal vertebral estreito por segmento,,,9C,666,,0,2,6,0,0,,,"R$ 1.065,60"
 30715377,Tratamento pré-natal dos disrafismos espinhais,,,9A,555,,0,2,6,0,0,,,"R$ 888,00"
-,,,,,,,,,,,,,,
 30715385,Tumor ósseo vertebral - ressecção com substituição com ou sem instrumentação - tratamento cirúrgico,,,10B,775,,0,2,5,0,0,,,"R$ 1.240,00"
 30717019,Artrodese ao nível do ombro - tratamento cirúrgico,,,8B,490,,0,2,4,0,0,,,"R$ 784,00"
 30717027,Artroplastia escápulo umeral com implante - tratamento cirúrgico,,,10A,715,,0,2,5,0,0,,,"R$ 1.144,00"
@@ -965,7 +944,6 @@
 30720044,Biópsia cirúrgica do antebraço,,,3B,112,,0,1,1,0,0,,,"R$ 145,60"
 30720052,Contratura isquêmica de Volkmann - tratamento cirúrgico,,,8A,468,,0,2,4,0,0,,,"R$ 702,00"
 30720060,Correção de deformidade adquirida de antebraço com fixador externo,,,6A,255,,0,2,4,0,0,,,"R$ 382,50"
-,,,,,,,,,,,,,,
 30720079,Encurtamento segmentar dos ossos do antebraço com osteossíntese - tratamento cirúrgico,,,6A,255,,0,2,3,0,0,,,"R$ 382,50"
 30720087,Fratura do antebraço - tratamento conservador,,,2A,40,,0,0,0,0,0,,,"R$ 40,00"
 30720095,Fratura e/ou luxações (incluindo descolamento epifisário cotovelo-punho) - tratamento cirúrgico,,,6C,306,,0,1,3,0,0,,,"R$ 397,80"
@@ -1010,7 +988,6 @@
 30722071,Amputação de dedo (cada) - tratamento cirúrgico,,,3B,112,,0,1,1,0,0,,,"R$ 145,60"
 30722080,Amputação transmetacarpiana,,,5B,220,,0,2,3,0,0,,,"R$ 330,00"
 30722098,Amputação transmetacarpiana com transposição de dedo,,,6A,255,,0,2,4,0,0,,,"R$ 382,50"
-,,,,,,,,,,,,,,
 30722101,Aponevrose palmar (ressecção) - tratamento cirúrgico,,,5B,220,,0,1,3,0,0,,,"R$ 286,00"
 30722110,Artrodese interfalangeana / metacarpofalangeana - tratamento cirúrgico,,,4C,189,,0,1,1,0,0,,,"R$ 245,70"
 30722128,Artroplastia com implante na mão (MF e IF) múltipla,,,9B,605,,0,1,4,0,0,,,"R$ 786,50"
@@ -1057,7 +1034,6 @@
 30722551,Plástica ungueal,,,4C,189,,0,1,2,0,0,,,"R$ 245,70"
 30722560,Policização ou transferência digital,,,9A,555,,0,2,5,0,0,,,"R$ 832,50"
 30722578,Polidactilia articulada - tratamento cirúrgico,,,4C,189,,0,1,2,0,0,,,"R$ 245,70"
-,,,,,,,,,,,,,,
 30722586,Polidactilia não articulada - tratamento cirúrgico,,,3A,88,,0,1,1,0,0,,,"R$ 114,40"
 30722594,Prótese (implante) para ossos do carpo,,,6A,255,,0,2,3,0,0,,,"R$ 382,50"
 30722608,Pseudartrose com perda de substâncias de metacarpiano e falanges,,,6A,255,,0,1,3,0,0,,,"R$ 331,50"
@@ -1100,7 +1076,6 @@
 30724023,Artrodese / fratura de acetábulo (ligamentotaxia) com fixador externo,,,8B,490,,0,1,5,0,0,,,"R$ 637,00"
 30724031,Artrodese coxo-femoral em geral - tratamento cirúrgico,,,9B,605,,0,2,5,0,0,,,"R$ 907,50"
 30724040,Artrodiastase de quadril,,,7C,433,,0,1,5,0,0,,,"R$ 562,90"
-,,,,,,,,,,,,,,
 30724058,Artroplastia (qualquer técnica ou versão de quadril) - tratamento cirúrgico,,,11C,1095,,0,3,6,0,0,,,"R$ 1.861,50"
 30724066,Artroplastia de quadril infectada (retirada dos componentes) - tratamento cirúrgico,,,9B,605,,0,2,4,0,0,,,"R$ 907,50"
 30724074,Artroplastia de ressecção do quadril (Girdlestone) - tratamento cirúrgico,,,8C,520,,0,2,4,0,0,,,"R$ 780,00"
@@ -1142,7 +1117,6 @@
 30725151,Pseudartroses e/ou osteotomias - tratamento cirúrgico,,,9C,666,,0,2,5,0,0,,,"R$ 999,00"
 30725160,Tratamento cirúrgico de fraturas com fixador externo,,,8A,468,,0,2,4,0,0,,,"R$ 702,00"
 30726018,Artrite séptica - tratamento cirúrgico,,,7A,331,,0,1,3,0,0,,,"R$ 430,30"
-,,,,,,,,,,,,,,
 30726026,Artrodese de joelho - tratamento cirúrgico,,,8A,468,,0,2,4,0,0,,,"R$ 702,00"
 30726034,Artroplastia total de joelho com implantes - tratamento cirúrgico,,,10B,775,,0,2,6,0,0,,,"R$ 1.162,50"
 30726042,Artrotomia - tratamento cirúrgico,,,7A,331,,0,1,2,0,0,,,"R$ 430,30"
@@ -1187,7 +1161,6 @@
 30727138,Fraturas de tíbia associada ou não a fíbula (inclui descolamento epifisário) - tratamento cirúrgico,,,9A,555,,0,2,4,0,0,,,"R$ 832,50"
 30727146,Fraturas de tíbia e fíbula (inclui descolamento epifisário) - redução incruenta,,,3A,88,,0,1,3,0,0,,,"R$ 114,40"
 30727154,Osteomielite dos ossos da perna - tratamento cirúrgico,,,6A,255,,0,1,2,0,0,,,"R$ 331,50"
-,,,,,,,,,,,,,,
 30727162,Osteotomias e/ou pseudartroses - tratamento cirúrgico,,,9A,555,,0,2,3,0,0,,,"R$ 832,50"
 30727170,Transposição de fíbula/tíbia - tratamento cirúrgico,,,8C,520,,0,2,4,0,0,,,"R$ 780,00"
 30727189,Tratamento cirúrgico de fraturas de tíbia com fixador externo,,,6A,255,,0,2,4,0,0,,,"R$ 382,50"
@@ -1233,7 +1206,6 @@
 30729246,Ressecção de osso do pé - tratamento cirúrgico,,,5C,234,,0,1,2,0,0,,,"R$ 304,20"
 30729254,Retração cicatricial dos dedos,,,5B,220,,0,1,2,0,0,,,"R$ 286,00"
 30729270,Rotura do tendão de Aquiles - tratamento cirúrgico,,,6A,255,,0,1,2,0,0,,,"R$ 331,50"
-,,,,,,,,,,,,,,
 30729262,Rotura do tendão de Aquiles - tratamento incruento,,,2C,64,,0,1,1,0,0,,,"R$ 83,20"
 30729289,Tratamento cirúrgico da sindactilia complexa e /ou múltipla,,,9A,555,,0,2,3,0,0,,,"R$ 832,50"
 30729297,Tratamento cirúrgico da sindactilia simples,,,6A,255,,0,1,3,0,0,,,"R$ 331,50"
@@ -1279,7 +1251,6 @@
 30731216,Transposição de mais de 1 tendão - tratamento cirúrgico,,,6A,255,,0,1,4,0,0,,,"R$ 331,50"
 30731224,Transposição única de tendão,,,4C,189,,0,2,4,0,0,,,"R$ 283,50"
 30731232,Tumores de tendão ou sinovial - tratamento cirúrgico,,,3C,128,,0,1,1,0,0,,,"R$ 166,40"
-,,,,,,,,,,,,,,
 30732018,Curetagem ou ressecção em bloco de tumor com reconstrução e enxerto vascularizado,,,11A,910,,0,3,5,0,0,,,"R$ 1.547,00"
 30732026,Enxerto ósseo,,,8B,490,,0,2,2,0,0,,,"R$ 735,00"
 30732034,Ressecção da lesão com cimentação e osteossíntese,,,9A,555,,0,2,5,0,0,,,"R$ 832,50"
@@ -1323,7 +1294,6 @@
 30736013,Sinovectomia total,,,9C,666,"33,8","388,7",1,5,0,0,,,"R$ 1.254,50"
 30736021,Sinovectomia parcial ou subtotal,,,8C,520,"33,8","388,7",1,4,0,0,,,"R$ 1.064,70"
 30737036,Condroplastia (com remoção de corpos livres),,,8C,520,"33,8","388,7",1,4,0,0,,,"R$ 1.064,70"
-,,,,,,,,,,,,,,
 30737060,Fraturas - redução e estabilização de cada superfície,,,9C,666,"33,8","388,7",1,5,0,0,,,"R$ 1.254,50"
 30737044,"Osteocondroplastia - estabilização, ressecção e/ou plastia (enxertia)",,,10C,860,"38,5","442,75",1,6,0,0,,,"R$ 1.560,75"
 30737052,"Reconstrução, retencionamento ou reforço de ligamento ou reparo de cartilagem triangular #",,,9C,666,"33,8","388,7",1,5,0,0,,,"R$ 1.254,50"
@@ -1369,7 +1339,6 @@
 30803071,Lobectomia por malformação pulmonar,,,11B,998,,0,2,6,0,0,,,"R$ 1.497,00"
 30803080,Lobectomia pulmonar,,,11B,998,,0,2,4,0,0,,,"R$ 1.497,00"
 30803217,Lobectomia pulmonar por videotoracoscopia,,,12C,1495,"42,9","493,35",2,6,0,0,,,"R$ 2.735,85"
-,,,,,,,,,,,,,,
 30803098,Metastasectomia pulmonar unilateral (qualquer técnica),,,10C,860,,0,2,5,0,0,,,"R$ 1.290,00"
 30803225,Metastasectomia pulmonar unilateral por videotoracoscopia,,,11B,998,"38,5","442,75",2,6,0,0,,,"R$ 1.939,75"
 30803101,Pneumonectomia,,,11B,998,,0,2,5,0,0,,,"R$ 1.497,00"
@@ -1416,7 +1385,6 @@
 30805112,"Mediastinotomia (via paraesternal, transesternal, cervical)",,,9B,605,,0,1,4,0,0,,,"R$ 786,50"
 30805120,Mediastinotomia extrapleural por via posterior,,,9B,605,,0,1,5,0,0,,,"R$ 786,50"
 30805244,Mediastinotomia extrapleural por via posterior por vídeo,,,10C,860,"38,5","442,75",1,5,0,0,,,"R$ 1.560,75"
-,,,,,,,,,,,,,,
 30805139,Pericardiotomia com abertura pleuro-pericárdica (qualquer técnica),,,10C,860,,0,1,6,0,0,,,"R$ 1.118,00"
 30805252,Pericardiotomia com abertura pleuro-pericárdica por vídeo,,,11C,1095,"38,5","442,75",1,6,0,0,,,"R$ 1.866,25"
 30805015,Ressecção de bócio intratorácico,,,8B,490,,0,1,5,0,0,,,"R$ 637,00"
@@ -1463,7 +1431,6 @@
 30904102,Recolocação de eletrodo / gerador com ou sem troca de unidades,,,8C,520,,0,1,3,0,0,,,"R$ 676,00"
 30904153,"Remoção de cabo-eletrodo de marcapasso e/ou cárdio-desfibrilador implantável com auxílio de dilatador mecânico, laser ou radiofrequência",,,11A,910,,0,2,5,0,0,,,"R$ 1.365,00"
 30904110,Retirada do sistema (não aplicável na troca do gerador),,,8A,468,,0,1,3,0,0,,,"R$ 608,40"
-,,,,,,,,,,,,,,
 30904129,Troca de gerador,,,6A,255,,0,1,3,0,0,,,"R$ 331,50"
 30905010,Colocação de balão intra-aórtico,,,5A,204,,0,1,4,0,0,,,"R$ 265,20"
 30905028,Colocação de stent na aorta sem CEC,,,10A,715,,0,2,5,0,0,,,"R$ 1.072,50"
@@ -1510,7 +1477,6 @@
 30906407,Retirada de enxerto infectado em posição não aórtica,,,11A,910,,0,3,6,0,0,,,"R$ 1.547,00"
 30906415,Revascularização aorto-femoral - unilateral,,,10A,715,,0,3,5,0,0,,,"R$ 1.215,50"
 30906423,Revascularização arterial de membro superior,,,10C,860,,0,3,6,0,0,,,"R$ 1.462,00"
-,,,,,,,,,,,,,,
 30906431,Tratamento cirúrgico da isquemia cerebral,,,12C,1495,,0,2,6,0,0,,,"R$ 2.242,50"
 30906440,Tratamento cirúrgico de síndrome vértebro basilar,,,11A,910,,0,3,5,0,0,,,"R$ 1.547,00"
 30906458,Tratamento cirúrgico de tumor carotídeo,,,10C,860,,0,3,4,0,0,,,"R$ 1.462,00"
@@ -1555,7 +1521,6 @@
 30910102,Exploração vascular em traumas torácicos e abdominais,,,11B,998,,0,3,7,0,0,,,"R$ 1.696,60"
 30910110,Lesões vasculares cervicais e cérvico-torácicas,,,11C,1095,,0,3,5,0,0,,,"R$ 1.861,50"
 30910129,Lesões vasculares de membro inferior ou superior - unilateral,,,9C,666,,0,3,4,0,0,,,"R$ 1.132,20"
-,,,,,,,,,,,,,,
 30910137,Lesões vasculares intra-abdominais,,,11B,998,,0,3,6,0,0,,,"R$ 1.696,60"
 30910145,Lesões vasculares traumáticas intratorácicas,,,11C,1095,,0,4,7,0,0,,,"R$ 2.080,50"
 30911010,Avaliação da viabilidade miocárdica por cateter,,,5A,204,,0,1,4,0,0,,,"R$ 265,20"
@@ -1593,7 +1558,6 @@
 30912156,Punção saco pericárdico com introdução de cateter multipolar no espaço pericárdico,,,5A,204,,0,2,5,0,0,,,"R$ 306,00"
 30912164,Punção transeptal com introdução de cateter multipolar nas camaras esquerdas e/ ou veias pulmonares,,,5B,220,,0,2,5,0,0,,,"R$ 330,00"
 30912172,Radiação ou antiproliferação intracoronária,,,10C,860,,0,2,5,0,0,,,"R$ 1.290,00"
-,,,,,,,,,,,,,,
 30912180,Recanalização arterial no IAM - angioplastia primária - com implante de stent com ou sem suporte circulatório (balão intra-órtico),,,12C,1495,,0,2,6,0,0,,,"R$ 2.242,50"
 30912199,Recanalização mecânica do IAM (angioplastia primária com balão),,,10C,860,,0,2,4,0,0,,,"R$ 1.290,00"
 30912202,Redução miocárdica por infusão seletiva de drogas,,,10C,860,,0,2,6,0,0,,,"R$ 1.118,00"
@@ -1637,7 +1601,6 @@
 30916011,Hipotermia profunda com ou sem parada circulatória total,,,10A,715,,0,2,6,0,0,,,"R$ 1.072,50"
 30917018,Biópsia do miocárdio,,,8A,468,,0,1,4,0,0,,,"R$ 608,40"
 30917026,Cardiomioplastia,,,13C,1996,,0,2,7,0,0,,,"R$ 2.994,00"
-,,,,,,,,,,,,,,
 30917034,"Cardiotomia (ferimento, corpo estranho, exploração)",,,10B,775,,0,1,5,0,0,,,"R$ 1.007,50"
 30917042,Retirada de tumores intracardíacos,,,13A,1645,,0,3,6,0,0,,,"R$ 2.796,50"
 31001017,Atresia de esôfago com fístula traqueal - tratamento cirúrgico,,,12B,1220,,0,2,6,0,0,,,"R$ 1.830,00"
@@ -1683,7 +1646,6 @@
 31002064,Gastrectomia parcial com linfadenectomia,,,10B,775,,0,2,5,0,0,,,"R$ 1.162,50"
 31002307,Gastrectomia parcial com linfadenectomia por videolaparoscopia,,,12B,1220,"64,88","746,12",2,6,0,0,,,"R$ 2.576,12"
 31002072,Gastrectomia parcial com vagotomia,,,9A,555,,0,2,5,0,0,,,"R$ 832,50"
-,,,,,,,,,,,,,,
 31002315,Gastrectomia parcial com vagotomia por videolaparoscopia,,,10B,775,"48,66","559,59",2,6,0,0,,,"R$ 1.722,09"
 31002080,Gastrectomia parcial sem vagotomia,,,9A,555,,0,2,4,0,0,,,"R$ 832,50"
 31002323,Gastrectomia parcial sem vagotomia por videolaparoscopia,,,10B,775,"48,66","559,59",2,5,0,0,,,"R$ 1.722,09"
@@ -1729,7 +1691,6 @@
 31003133,Cirurgia de abaixamento - qualquer técnica,,,10C,860,,0,2,6,0,0,,,"R$ 1.290,00"
 31003591,Cirurgia de abaixamento por videolaparoscopia,,,12B,1220,"64,88","746,12",2,7,0,0,,,"R$ 2.576,12"
 31003141,Cirurgia de acesso posterior,,,9B,605,,0,2,6,0,0,,,"R$ 907,50"
-,,,,,,,,,,,,,,
 31003150,Cisto mesentérico - tratamento cirúrgico,,,8B,490,,0,2,4,0,0,,,"R$ 735,00"
 31003605,Cisto mesentérico - tratamento cirúrgico por videolaparoscopia,,,10A,715,"36,5","419,75",2,5,0,0,,,"R$ 1.492,25"
 31003168,Colectomia parcial com colostomia,,,10A,715,,0,2,6,0,0,,,"R$ 1.072,50"
@@ -1776,7 +1737,6 @@
 31003486,Pâncreas anular - tratamento cirúrgico,,,11A,910,,0,2,4,0,0,,,"R$ 1.365,00"
 31003745,Pâncreas anular - tratamento cirúrgico por videolaparoscopia,,,12B,1220,"64,88","746,12",2,5,0,0,,,"R$ 2.576,12"
 31003494,Perfuração duodenal ou delgado - tratamento cirúrgico,,,8B,490,,0,2,4,0,0,,,"R$ 735,00"
-,,,,,,,,,,,,,,
 31003753,Perfuração duodenal ou delgado - tratamento cirúrgico por videolaparoscopia,,,10A,715,"44,61","513,02",2,5,0,0,,,"R$ 1.585,52"
 31003508,Piloromiotomia,,,7C,433,,0,1,3,0,0,,,"R$ 562,90"
 31003761,Piloromiotomia por videolaparoscopia,,,9C,666,"44,61","513,02",2,5,0,0,,,"R$ 1.512,02"
@@ -1823,7 +1783,6 @@
 31004318,Trombose hemorroidária - exérese,,,2B,54,,0,0,2,0,0,,,"R$ 54,00"
 31005012,Abscesso hepático - drenagem cirúrgica (até 3 fragmentos),,,7B,366,,0,2,3,0,0,,,"R$ 549,00"
 31005454,Abscesso hepático - drenagem cirúrgica por videolaparoscopia,,,8A,468,"28,39","326,49",2,5,0,0,,,"R$ 1.028,49"
-,,,,,,,,,,,,,,
 31005020,Alcoolização percutânea dirigida de tumor hepático,,,7B,366,,0,1,3,0,0,,,"R$ 475,80"
 31005462,Alcoolização percutânea dirigida de tumor hepático por videolaparoscopia,,,8A,468,"28,39","326,49",1,5,0,0,,,"R$ 934,89"
 31005039,Anastomose biliodigestiva intra-hepática,,,11B,998,,0,2,6,0,0,,,"R$ 1.497,00"
@@ -1869,7 +1828,6 @@
 31005594,Hepatorrafia complexa com lesão de estruturas vasculares biliares por videolaparoscopia,,,12C,1495,"81,1","932,65",2,7,0,0,,,"R$ 3.175,15"
 31005608,Hepatorrafia por videolaparoscopia,,,8A,468,"28,39","326,49",2,5,0,0,,,"R$ 1.028,49"
 31005080,Laparotomia para implantação cirúrgica de cateter arterial visceral para quimioterapia,,,9A,555,,0,2,5,0,0,,,"R$ 832,50"
-,,,,,,,,,,,,,,
 31005292,Lobectomia hepática direita,,,11A,910,,0,2,6,0,0,,,"R$ 1.365,00"
 31005616,Lobectomia hepática direita por videolaparoscopia,,,12B,1220,"81,1","932,65",2,7,0,0,,,"R$ 2.762,65"
 31005306,Lobectomia hepática esquerda,,,9A,555,,0,2,6,0,0,,,"R$ 832,50"
@@ -1916,7 +1874,6 @@
 31008046,Diálise peritoneal automática (APD) - tratamento (agudo ou crônico) - por sessão,,,6B,280,17,"195,5",0,0,0,0,,,"R$ 475,50"
 31008119,Diálise peritoneal automática por mês (agudo ou crônico),,,10A,715,50,575,0,0,0,0,,,"R$ 1.290,00"
 31008011,Diálise peritoneal intermitente - agudo ou crônico (por sessão),,,4B,168,,0,0,0,0,0,,,"R$ 168,00"
-,,,,,,,,,,,,,,
 31008054,Epiploplastia,,,5B,220,,0,2,3,0,0,,,"R$ 330,00"
 31008100,Epiploplastia por videolaparoscopia,,,6C,306,"24,33","279,8",2,4,0,0,,,"R$ 738,80"
 31008062,Implante de cateter peritoneal,,,3C,128,,0,0,2,0,0,,,"R$ 128,00"
@@ -1962,7 +1919,6 @@
 31101054,Angioplastia renal unilateral transluminal,,,7C,433,,0,1,4,0,0,,,"R$ 562,90"
 31101062,Autotransplante renal unilateral,,,14B,2420,,0,2,8,0,0,,,"R$ 3.630,00"
 31101070,Biópsia renal cirúrgica unilateral,,,8B,490,,0,1,3,0,0,,,"R$ 637,00"
-,,,,,,,,,,,,,,
 31101500,Biópsia renal laparoscópica unilateral,,,10A,715,"26,36","303,14",1,5,0,0,,,"R$ 1.232,64"
 31101089,Cisto renal - escleroterapia percutânea - por cisto,,,4B,168,,0,0,1,0,0,,,"R$ 168,00"
 31101097,Endopielotomia percutânea unilateral,,,10A,715,"47,16","542,34",2,5,0,0,,,"R$ 1.614,84"
@@ -2009,7 +1965,6 @@
 31101437,Transuretero anastomose,,,8A,468,,0,2,5,0,0,,,"R$ 702,00"
 31101445,Tratamento cirúrgico da fístula pielo-intestinal,,,9B,605,,0,2,4,0,0,,,"R$ 907,50"
 31101453,Tumor renal - enucleação unilateral,,,10A,715,,0,2,4,0,0,,,"R$ 1.072,50"
-,,,,,,,,,,,,,,
 31101461,Tumor Wilms - tratamento cirúrgico,,,11C,1095,,0,2,6,0,0,,,"R$ 1.642,50"
 31101470,Tumores retro-peritoneais malignos unilaterais - exérese,,,12A,1135,,0,2,5,0,0,,,"R$ 1.702,50"
 31102018,Biópsia cirúrgica de ureter unilateral,,,6A,255,,0,1,1,0,0,,,"R$ 331,50"
@@ -2056,7 +2011,6 @@
 31102425,Ureterostomia cutânea unilateral,,,8A,468,,0,2,3,0,0,,,"R$ 702,00"
 31102433,Ureterotomia interna percutânea unilateral,,,9A,555,"47,16","542,34",1,4,0,0,,,"R$ 1.263,84"
 31102441,Ureterotomia interna ureteroscópica flexível unilateral,,,6C,306,"126,73","1457,4",1,4,0,0,,,"R$ 1.855,20"
-,,,,,,,,,,,,,,
 31102450,Ureterotomia interna ureteroscópica rígida unilateral,,,6A,255,"18,07","207,81",1,4,0,0,,,"R$ 539,31"
 31102468,Ureteroureterocistoneostomia,,,10A,715,,0,2,5,0,0,,,"R$ 1.072,50"
 31102514,Ureteroureterostomia laparoscópica unilateral,,,11A,910,"48,66","559,59",2,5,0,0,,,"R$ 1.924,59"
@@ -2103,7 +2057,6 @@
 31103367,Incontinência urinária - tratamento endoscópico (injeção),,,3C,128,"2,3","26,45",2,4,0,0,,,"R$ 218,45"
 31103375,Incontinência urinária com colpoplastia anterior - tratamento cirúrgico (com ou sem uso de prótese),,,9A,555,,0,2,4,0,0,,,"R$ 832,50"
 31103480,Neobexiga cutânea continente,,,11A,910,,0,3,7,0,0,,,"R$ 1.547,00"
-,,,,,,,,,,,,,,
 31103545,Neobexiga laparoscópica,,,12C,1495,"44,61","513,02",2,8,0,0,,,"R$ 2.755,52"
 31103499,Neobexiga retal continente,,,12B,1220,,0,3,7,0,0,,,"R$ 2.074,00"
 31103502,Neobexiga uretral continente,,,11A,910,,0,3,7,0,0,,,"R$ 1.547,00"
@@ -2150,7 +2103,6 @@
 31201067,Hemorragia da loja prostática - evacuação e irrigação,,,3C,128,,0,1,2,0,0,,,"R$ 166,40"
 31201075,Hemorragia da loja prostática - revisão endoscópica,,,6B,280,"11,99","137,89",1,4,0,0,,,"R$ 501,89"
 31201091,Hipertrofia prostática - implante de prótese,,,5B,220,"11,9","136,85",1,3,0,0,,,"R$ 422,85"
-,,,,,,,,,,,,,,
 31201105,Hipertrofia prostática - tratamento por dilatação,,,3C,128,,0,1,3,0,0,,,"R$ 166,40"
 31201113,Prostatavesiculectomia radical,,,11A,910,,0,2,6,0,0,,,"R$ 1.365,00"
 31201148,Prostatavesiculectomia radical laparoscópica,,,12C,1495,"81,1","932,65",2,7,0,0,,,"R$ 3.175,15"
@@ -2197,7 +2149,6 @@
 31206077,Epispadia - reconstrução por etapa,,,10B,775,,0,1,4,0,0,,,"R$ 1.007,50"
 31206085,Epispadia com incontinência - tratamento cirúrgico,,,10C,860,,0,2,4,0,0,,,"R$ 1.290,00"
 31206093,Fratura de pênis - tratamento cirúrgico,,,6A,255,,0,1,3,0,0,,,"R$ 331,50"
-,,,,,,,,,,,,,,
 31206107,Hipospadia - por estágio,,,9A,555,,0,1,4,0,0,,,"R$ 721,50"
 31206115,Hipospadia distal - tratamento em 1 tempo,,,9B,605,,0,1,4,0,0,,,"R$ 786,50"
 31206123,Hipospadia proximal - tratamento em 1 tempo,,,10B,775,,0,1,4,0,0,,,"R$ 1.007,50"
@@ -2242,7 +2193,6 @@
 31302122,"Neovagina (cólon, delgado, tubo de pele)",,,10B,775,,0,2,6,0,0,,,"R$ 1.162,50"
 31303013,Aspiração manual intra-uterina (AMIU),,,4A,153,,0,0,2,0,0,,,"R$ 153,00"
 31303021,Biópsia do colo uterino,,,2B,54,,0,0,1,0,0,,,"R$ 54,00"
-,,,,,,,,,,,,,,
 31303030,Biópsia do endométrio,,,2B,54,,0,0,2,0,0,,,"R$ 54,00"
 31303196,"Cauterização química, ou eletrocauterização, ou criocauterização de lesões de colo uterino (por sessão)",,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
 31303056,Curetagem ginecológica semiótica e/ou terapêutica com ou sem dilatação de colo uterino,,,4A,153,,0,0,1,0,0,,,"R$ 153,00"
@@ -2285,7 +2235,6 @@
 31306063,Ressecção de tumor do septo reto-vaginal,,,9C,666,,0,2,5,0,0,,,"R$ 999,00"
 31306080,Retração cicatricial perineal,,,9B,605,,0,2,3,0,0,,,"R$ 907,50"
 31306071,Seio urogenital - plástica,,,8C,520,,0,2,4,0,0,,,"R$ 780,00"
-,,,,,,,,,,,,,,
 31307019,Câncer de ovário (Debulking),,,12A,1135,,0,2,4,0,0,,,"R$ 1.702,50"
 31307159,Câncer de ovário (Debulking) laparoscópica,,,13A,1645,"81,1","932,65",2,6,0,0,,,"R$ 3.400,15"
 31307027,Cirurgia (via alta ou baixa) do prolapso de cúpula vaginal (fixação sacral ou no ligamento sacro-espinhoso) qualquer técnica,,,9C,666,,0,2,3,0,0,,,"R$ 999,00"
@@ -2328,7 +2277,6 @@
 31309186,Gravidez ectópica - cirurgia laparoscópica,,,9B,605,"44,61","513,02",1,5,0,0,,,"R$ 1.299,52"
 31309097,Indução e assistência ao aborto e feto morto retido,,,4C,189,,0,1,5,0,0,,,"R$ 189,00"
 31309100,Inversão uterina aguda - redução manual (somente quando o parto ocorrer antes da admissão hospitalar),,,3B,112,,0,0,3,0,0,,,"R$ 112,00"
-,,,,,,,,,,,,,,
 31309119,Inversão uterina - tratamento cirúrgico,,,9B,605,,0,1,3,0,0,,,"R$ 786,50"
 31309194,Inversão uterina - tratamento cirúrgico laparoscópico,,,10B,775,"44,61","513,02",1,5,0,0,,,"R$ 1.520,52"
 31309127,Parto (via vaginal),,,8C,520,,0,0,5,0,0,,,"R$ 520,00"
@@ -2374,7 +2322,6 @@
 31403026,Bloqueio de nervo periférico,,,3B,112,,0,1,2,0,0,,,"R$ 145,60"
 31403034,Denervação percutânea de faceta articular - por segmento,,,9C,666,,0,1,4,0,0,,,"R$ 865,80"
 31403042,Enxerto de nervo,,,8B,490,,0,2,4,0,0,,,"R$ 735,00"
-,,,,,,,,,,,,,,
 31403050,"Enxerto de nervo interfascicular, pediculado (1º estágio)",,,11A,910,,0,1,6,0,0,,,"R$ 1.183,00"
 31403069,"Enxerto de nervo interfascicular, pediculado (2º estágio)",,,11A,910,,0,1,6,0,0,,,"R$ 1.183,00"
 31403085,Enxerto interfascicular,,,9A,555,,0,1,5,0,0,,,"R$ 721,50"
@@ -2419,7 +2366,6 @@
 31503012,Transplante cardiopulmonar (doador),,,12B,1220,,0,3,8,0,0,,,"R$ 2.074,00"
 31503020,Transplante cardiopulmonar (receptor),,,14C,2670,,0,3,8,0,0,,,"R$ 4.539,00"
 31504019,Transplante pulmonar (doador),,,11B,998,,0,3,8,0,0,,,"R$ 1.696,60"
-,,,,,,,,,,,,,,
 31504027,Transplante pulmonar unilateral (receptor),,,14A,2225,,0,3,8,0,0,,,"R$ 3.782,50"
 31505023,Transplante hepático (doador),,,12C,1495,,0,3,8,0,0,,,"R$ 2.541,50"
 31505015,Transplante hepático (receptor),,,14C,2670,,0,3,8,0,0,,,"R$ 4.539,00"
@@ -2464,7 +2410,6 @@
 40101029,ECG de alta resolução,,,1B,20,"1,84","21,16",0,0,0,0,,,"R$ 41,16"
 40101061,"Ergoespirometria ou teste cardiopulmonar de exercício completo (espirometria forçada, consumo de O2, produção de CO2 e derivados, ECG, oximetria)",,,3B,112,11,"126,5",0,0,0,0,,,"R$ 238,50"
 40101037,Teste ergométrico computadorizado (inclui ECG basal convencional),,,2A,40,"8,87","102,01",0,0,0,0,,,"R$ 142,01"
-,,,,,,,,,,,,,,
 40101045,Teste ergométrico convencional - 3 ou mais derivações simultâneas (inclui ECG basal convencional),,,2A,40,"7,16","82,34",0,0,0,0,,,"R$ 122,34"
 40102017,Bilimetria gástrica ou esofágica de 24 horas,,,5B,220,"10,62","122,13",0,0,0,0,,,"R$ 342,13"
 40102025,Manometria computadorizada anorretal,,,5B,220,"9,486","109,09",0,0,0,0,,,"R$ 329,09"
@@ -2508,7 +2453,6 @@
 40103374,EMG com registro de movimento involuntário (teste dinâmico de escrita; estudo funcional de tremores),,,2A,40,"3,9","44,85",0,0,0,0,,,"R$ 84,85"
 40103382,EMG para monitoração de quimodenervação (por sessão),,,3A,88,"9,135","105,05",0,0,0,0,,,"R$ 193,05"
 40103390,EMG quantitativa ou EMG de fibra única,,,5B,220,24,276,0,0,0,0,,,"R$ 496,00"
-,,,,,,,,,,,,,,
 40103404,Espectrografia vocal,,,2A,40,"3,087","35,5",0,0,0,0,,,"R$ 75,50"
 40103412,Gustometria,,,1B,20,"0,065","0,75",0,0,0,0,,,"R$ 20,75"
 40103420,Imitanciometria de alta frequência,,,2A,40,"1,56","17,94",0,0,0,0,,,"R$ 57,94"
@@ -2554,7 +2498,6 @@
 40105024,Determinação dos volumes pulmonares por diluição de gases,,,2A,40,4,46,0,0,0,0,,,"R$ 86,00"
 40105032,Determinação dos volumes pulmonares por pletismografia,,,2A,40,4,46,0,0,0,0,,,"R$ 86,00"
 40105040,Medida da difusão do monóxido de carbono,,,2A,40,4,46,0,0,0,0,,,"R$ 86,00"
-,,,,,,,,,,,,,,
 40105059,Medida de pico de fluxo expiratório,,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 40105067,Medida seriada por 3 semanas do pico de fluxo expiratório,,,1A,10,1,"11,5",0,0,0,0,,,"R$ 21,50"
 40105075,Prova de função pulmonar completa (ou espirometria),,,2B,54,4,46,0,0,0,0,,,"R$ 100,00"
@@ -2567,7 +2510,7 @@
 40201058,Broncoscopia com ou sem aspirado ou lavado brônquico bilateral,,,4C,189,"8,775","100,91",0,0,0,0,,,"R$ 289,91"
 40201066,Cistoscopia e/ou uretroscopia,,,3B,112,"2,78","31,97",0,0,0,0,,,"R$ 143,97"
 40201074,Colangiopancreatografia retrógrada endoscópica,,,7C,433,"30,517","350,95",0,0,0,0,,,"R$ 783,95"
--+.,Colonoscopia (inclui a retossigmoidoscopia),,,6A,255,"14,798","170,18",0,0,0,0,,,"R$ 425,18"
+40201082,Colonoscopia (inclui a retossigmoidoscopia),,,6A,255,"14,798","170,18",0,0,0,0,,,"R$ 425,18"
 40201090,Colonoscopia com magnificação,,,7C,433,"21,501","247,26",0,0,0,0,,,"R$ 680,26"
 40201104,Ecoendoscopia alta,,,7C,433,,0,0,0,0,0,,,"R$ 433,00"
 40201112,Ecoendoscopia baixa,,,7C,433,,0,0,0,0,0,,,"R$ 433,00"
@@ -2601,7 +2544,6 @@
 40202097,Colocação de cânula sob orientação endoscópica,,,5A,204,"8,284","95,27",0,0,0,0,,,"R$ 299,27"
 40202100,Colocação de cateter para braquiterapia endobrônquica,,,4C,189,13,"149,5",0,0,0,0,,,"R$ 338,50"
 40202119,Colocação de prótese coledociana por via endoscópica,,,10B,775,"30,517","350,95",1,0,0,0,,,"R$ 1.358,45"
-,,,,,,,,,,,,,,
 40202127,Colocação de prótese traqueal ou brônquica,,,8A,468,,0,0,0,0,0,,,"R$ 468,00"
 40202666,Colonoscopia com biópsia e/ou citologia,,,6B,280,"15,45","177,68",0,0,0,0,,,"R$ 457,68"
 40202674,Colonoscopia com dilatação segmentar,,,7A,331,"17,409","200,2",0,0,0,0,,,"R$ 531,20"
@@ -2647,7 +2589,6 @@
 40202518,Papilotomia endoscópica (para retirada de cálculos coledocianos ou drenagem biliar),,,9C,666,"30,517","350,95",1,0,0,0,,,"R$ 1.216,75"
 40202526,"Papilotomia, dilatação e colocação de prótese ou dreno biliar ou pancreático",,,10B,775,"30,517","350,95",1,0,0,0,,,"R$ 1.358,45"
 40202534,Passagem de sonda naso-enteral,,,5C,234,"8,284","95,27",0,0,0,0,,,"R$ 329,27"
-,,,,,,,,,,,,,,
 40202542,Polipectomia de cólon (independente do número de pólipos),,,9B,605,"17,409","200,2",0,0,0,0,,,"R$ 805,20"
 40202550,"Polipectomia do esôfago, estômago ou duodeno (independente do número de pólipos)",,,7C,433,"14,806","170,27",0,0,0,0,,,"R$ 603,27"
 40202569,Retirada de corpo estranho do cólon,,,7A,331,"25,197","289,77",0,0,0,0,,,"R$ 620,77"
@@ -2694,7 +2635,6 @@
 40301290,"Aminoácidos, fracionamento e quantificação","0,75",de,1A,"7,5",20,230,0,0,0,0,,,"R$ 237,50"
 40301303,"Amiodarona, dosagem","0,25",de,1A,"2,5","13,455","154,73",0,0,0,0,,,"R$ 157,23"
 40301311,"Amitriptilina, nortriptilina (cada), dosagem","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
-,,,,,,,,,,,,,,
 40301320,"Amônia, dosagem","0,1",de,1A,1,"2,097","24,12",0,0,0,0,,,"R$ 25,12"
 40301338,"Anfetaminas, dosagem","0,75",de,1A,"7,5","11,385","130,93",0,0,0,0,,,"R$ 138,43"
 40301346,"Antibióticos, dosagem no soro, cada","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
@@ -2741,7 +2681,6 @@
 40301729,"Desidrogenase láctica, dosagem","0,01",de,1A,"0,1","0,72","8,28",0,0,0,0,,,"R$ 8,38"
 40301753,"Digitoxina ou digoxina, dosagem","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
 40301761,Eletroferese de proteínas,"0,1",de,1A,1,"1,764","20,29",0,0,0,0,,,"R$ 21,29"
-,,,,,,,,,,,,,,
 40301770,Eletroforese de glicoproteínas,"0,1",de,1A,1,"1,764","20,29",0,0,0,0,,,"R$ 21,29"
 40301788,Eletroforese de lipoproteínas,"0,1",de,1A,1,"1,764","20,29",0,0,0,0,,,"R$ 21,29"
 40302717,Eletroforese de proteínas de alta resolução,"0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
@@ -2788,7 +2727,6 @@
 40302180,"Lidocaina, dosagem","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
 40302202,"Lipase lipoprotéica, dosagem","0,1",de,1A,1,"1,764","20,29",0,0,0,0,,,"R$ 21,29"
 40302199,"Lipase, dosagem","0,01",de,1A,"0,1","0,72","8,28",0,0,0,0,,,"R$ 8,38"
-,,,,,,,,,,,,,,
 40302636,"Lipídios totais, dosagem","0,01",de,1A,"0,1","0,702","8,07",0,0,0,0,,,"R$ 8,17"
 40302210,"Lipoproteína (a) - Lp (a), dosagem","0,01",de,1A,"0,1","1,764","20,29",0,0,0,0,,,"R$ 20,39"
 40302229,"Lítio, dosagem","0,01",de,1A,"0,1","0,54","6,21",0,0,0,0,,,"R$ 6,31"
@@ -2835,7 +2773,6 @@
 40302547,"Triglicerídeos, dosagem","0,01",de,1A,"0,1","0,54","6,21",0,0,0,0,,,"R$ 6,31"
 40302555,"Trimipramina, dosagem","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
 40302563,"Tripsina imuno reativa (IRT), pesquisa e/ou dosagem","0,01",de,1A,"0,1","1,413","16,25",0,0,0,0,,,"R$ 16,35"
-,,,,,,,,,,,,,,
 40302571,"Troponina, dosagem","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
 40302580,"Uréia, dosagem","0,01",de,1A,"0,1","0,387","4,45",0,0,0,0,,,"R$ 4,55"
 40302598,"Urobilinogênio, dosagem","0,01",de,1A,"0,1","0,387","4,45",0,0,0,0,,,"R$ 4,55"
@@ -2880,7 +2817,6 @@
 40304930,"Baço, exame de esfregaço de aspirado",,,1A,10,"8,27","95,11",0,0,0,0,,,"R$ 105,11"
 40304086,"CD... (antígeno de dif. Celular, cada determinação), pesquisa e/ou dosagem","0,1",de,1A,1,"7,434","85,49",0,0,0,0,,,"R$ 86,49"
 40304795,"Células LE, dosagem","0,04",de,1A,"0,4","1,17","13,46",0,0,0,0,,,"R$ 13,86"
-,,,,,,,,,,,,,,
 40304094,"Citoquímica para classificar leucemia: esterase, fosfatase leucocitária, PAS, peroxidase ou SB, etc - cada","0,1",de,1A,1,"1,35","15,53",0,0,0,0,,,"R$ 16,53"
 40304922,"Coagulograma (TS, TC, prova do laço, retração do coágulo, contagem de plaquetas, tempo de protrombina, tempo de tromboplastina, parcial ativado)","0,01",de,1A,"0,1","2,484","28,57",0,0,0,0,,,"R$ 28,67"
 40304809,Consumo de protrombina,"0,01",de,1A,"0,1","1,35","15,53",0,0,0,0,,,"R$ 15,63"
@@ -2923,7 +2859,6 @@
 40304361,"Hemograma com contagem de plaquetas ou frações (eritrograma, leucograma, plaquetas)","0,01",de,1A,"0,1","0,87","10,01",0,0,0,0,,,"R$ 10,11"
 40304370,"Hemossedimentação, (VHS), velocidade","0,01",de,1A,"0,1","0,387","4,45",0,0,0,0,,,"R$ 4,55"
 40304388,"Hemossiderina (siderócitos), sangue ou urina, pesquisa","0,01",de,1A,"0,1","1,166","13,41",0,0,0,0,,,"R$ 13,51"
-,,,,,,,,,,,,,,
 40304396,"Heparina, dosagem","0,1",de,1A,1,"3,204","36,85",0,0,0,0,,,"R$ 37,85"
 40304701,Imunofenotipagem para doença residual mínima (*),"0,75",de,1A,"7,5","24,066","276,76",0,0,0,0,,,"R$ 284,26"
 40304710,Imunofenotipagem para hemoglobinúria paroxistica noturna (*),"0,5",de,1A,5,"21,276","244,67",0,0,0,0,,,"R$ 249,67"
@@ -2970,7 +2905,6 @@
 40305058,17-cetogênicos cromatografia,"0,04",de,1A,"0,4","2,33","26,8",0,0,0,0,,,"R$ 27,20"
 40305066,17-cetosteróides (17-CTS) - cromatografia,"0,04",de,1A,"0,4","2,33","26,8",0,0,0,0,,,"R$ 27,20"
 40305074,17-cetosteróides relação alfa/beta,"0,04",de,1A,"0,4","1,67","19,21",0,0,0,0,,,"R$ 19,61"
-,,,,,,,,,,,,,,
 40305082,"17-cetosteróides totais (17-CTS), dosagem","0,04",de,1A,"0,4","1,67","19,21",0,0,0,0,,,"R$ 19,61"
 40305783,"17-hidroxicorticosteróides (17-OHS), dosagem","0,25",de,1A,"2,5","5,994","68,93",0,0,0,0,,,"R$ 71,43"
 40305090,"17-hidroxipregnenolona, dosagem","0,1",de,1A,1,"10,99","126,39",0,0,0,0,,,"R$ 127,39"
@@ -3017,7 +2951,6 @@
 40316319,"Globulina transportadora da tiroxina (TBG), dosagem","0,1",de,1A,1,4,46,0,0,0,0,,,"R$ 47,00"
 40305368,"Glucagon, dosagem","0,1",de,1A,1,4,46,0,0,0,0,,,"R$ 47,00"
 40316327,"Gonadotrófico coriônico, hormônio (HCG), dosagem","0,01",de,1A,"0,1","1,67","19,21",0,0,0,0,,,"R$ 19,31"
-,,,,,,,,,,,,,,
 40305384,"Hormônio antidiurético (vasopressina), dosagem","0,1",de,1A,1,4,46,0,0,0,0,,,"R$ 47,00"
 40305759,"Hormônio gonodotrofico corionico qualitativo (HCG-Beta-HCG), pesquisa","0,01",de,1A,"0,1","1,67","19,21",0,0,0,0,,,"R$ 19,31"
 40305767,"Hormônio gonodotrofico corionico quantitativo (HCG-Beta-HCG), dosagem","0,01",de,1A,"0,1","2,041","23,47",0,0,0,0,,,"R$ 23,57"
@@ -3064,7 +2997,6 @@
 40316564,"Vasopressina (ADH), dosagem","0,1",de,1A,1,4,46,0,0,0,0,,,"R$ 47,00"
 40316572,"Vitamina B12, dosagem","0,01",de,1A,"0,1","1,764","20,29",0,0,0,0,,,"R$ 20,39"
 40308901,"Acetilcolina, anticorpos bloqueador receptor",,,1A,10,"35,788","411,56",0,0,0,0,,,"R$ 421,56"
-,,,,,,,,,,,,,,
 40323030,"Acetilcolina, anticorpos ligador receptor",,,1A,10,"35,788","411,56",0,0,0,0,,,"R$ 421,56"
 40323048,"Acetilcolina, anticorpos modulador receptor",,,1A,10,"44,1","507,15",0,0,0,0,,,"R$ 517,15"
 40306011,"Adenovírus, IgG, dosagem","0,04",de,1A,"0,4","1,8","20,7",0,0,0,0,,,"R$ 21,10"
@@ -3111,7 +3043,6 @@
 40306097,"Anti-LKM-1, pesquisa","0,1",de,1A,1,"2,844","32,71",0,0,0,0,,,"R$ 33,71"
 40306330,"Antimembrana basal, pesquisa","0,04",de,1A,"0,4","2,484","28,57",0,0,0,0,,,"R$ 28,97"
 40306348,"Antimicrossomal, pesquisa","0,04",de,1A,"0,4","2,484","28,57",0,0,0,0,,,"R$ 28,97"
-,,,,,,,,,,,,,,
 40306364,"Antimitocondria, M2, pesquisa","0,04",de,1A,"0,4","2,187","25,15",0,0,0,0,,,"R$ 25,55"
 40306356,"Antimitocondria, pesquisa","0,04",de,1A,"0,4","1,413","16,25",0,0,0,0,,,"R$ 16,65"
 40306372,"Antimúsculo cardíaco, pesquisa","0,04",de,1A,"0,4","1,8","20,7",0,0,0,0,,,"R$ 21,10"
@@ -3158,7 +3089,6 @@
 40306739,"Complemento CH-100, pesquisa e/ou dosagem","0,04",de,1A,"0,4","1,413","16,25",0,0,0,0,,,"R$ 16,65"
 40306747,"Complemento CH-50, pesquisa e/ou dosagem","0,01",de,1A,"0,1","1,17","13,46",0,0,0,0,,,"R$ 13,56"
 40306755,"Crio-aglutinina, globulina, dosagem, cada","0,04",de,1A,"0,4","1,17","13,46",0,0,0,0,,,"R$ 13,86"
-,,,,,,,,,,,,,,
 40306763,"Crio-aglutinina, globulina, pesquisa, cada","0,01",de,1A,"0,1","0,72","8,28",0,0,0,0,,,"R$ 8,38"
 40308014,"Crioglobulinas, caracterização - imunoeletroforese","0,04",de,1A,"0,4","1,8","20,7",0,0,0,0,,,"R$ 21,10"
 40306771,Cross match (prova cruzada de histocompatibilidade para transplante renal),"0,5",de,1A,5,"5,994","68,93",0,0,0,0,,,"R$ 73,93"
@@ -3204,7 +3134,6 @@
 40307115,"Herpes zoster - IgM, pesquisa e/ou dosagem","0,04",de,1A,"0,4","2,187","25,15",0,0,0,0,,,"R$ 25,55"
 40308081,Hidatidose (equinococose) IDi dupla,"0,04",de,1A,"0,4","2,187","25,15",0,0,0,0,,,"R$ 25,55"
 40307123,"Hipersensibilidade retardada (intradermo reação IDeR ) candidina, caxumba, estreptoquinase-dornase, PPD, tricofitina, vírus vacinal, outro(s), cada","0,04",de,1A,"0,4","0,72","8,28",0,0,0,0,,,"R$ 8,68"
-,,,,,,,,,,,,,,
 40307131,"Histamina, dosagem","0,1",de,1A,1,"3,294","37,88",0,0,0,0,,,"R$ 38,88"
 40307140,"Histona, dosagem","0,25",de,1A,"2,5","6,894","79,28",0,0,0,0,,,"R$ 81,78"
 40307158,"Histoplasmose, reação sorológica","0,04",de,1A,"0,4","1,8","20,7",0,0,0,0,,,"R$ 21,10"
@@ -3251,7 +3180,6 @@
 40307581,"Mononucleose, anti-VCA (EBV) IgM, pesquisa e/ou dosagem","0,04",de,1A,"0,4","2,484","28,57",0,0,0,0,,,"R$ 28,97"
 40308340,"Mononucleose, sorologia para (Monoteste ou Paul-Bunnel), cada","0,04",de,1A,"0,4","1,8","20,7",0,0,0,0,,,"R$ 21,10"
 40307590,"Montenegro, IDeR","0,04",de,1A,"0,4","0,72","8,28",0,0,0,0,,,"R$ 8,68"
-,,,,,,,,,,,,,,
 40308090,NBT estimulado,"0,04",de,1A,"0,4","3,267","37,57",0,0,0,0,,,"R$ 37,97"
 40307603,Outros testes bioquímicos para determinação do risco fetal (cada),"0,75",de,1A,"7,5","6,291","72,35",0,0,0,0,,,"R$ 79,85"
 40308413,"Paracoccidioidomicose, anticorpos totais / IgG, dosagem","0,04",de,1A,"0,4","5,624","64,68",0,0,0,0,,,"R$ 65,08"
@@ -3298,7 +3226,6 @@
 40308197,Vírus sincicial respiratório - pesquisa direta,"0,1",de,1A,1,"4,05","46,58",0,0,0,0,,,"R$ 47,58"
 40307867,"Waaler-Rose (fator reumatóide), pesquisa e/ou dosagem","0,04",de,1A,"0,4","0,72","8,28",0,0,0,0,,,"R$ 8,68"
 40308200,"Weil Felix (Ricketsiose), reação de aglutinação","0,04",de,1A,"0,4","0,72","8,28",0,0,0,0,,,"R$ 8,68"
-,,,,,,,,,,,,,,
 40307875,Western Blot (anticorpos anti-HIV),"0,5",de,1A,5,"15,588","179,26",0,0,0,0,,,"R$ 184,26"
 40307883,Western Blot (anticorpos anti-HTVI ou HTLVII) (cada),"0,5",de,1A,5,"15,588","179,26",0,0,0,0,,,"R$ 184,26"
 40307891,"Widal, reação de","0,04",de,1A,"0,4","0,72","8,28",0,0,0,0,,,"R$ 8,68"
@@ -3336,7 +3263,6 @@
 40310426,Antibiograma automatizado,"0,1",de,1A,1,"4,014","46,16",0,0,0,0,,,"R$ 47,16"
 40310035,Antibiograma p/ bacilos álcool-resistentes - drogas de 2 linhas,"0,1",de,1A,1,"3,177","36,54",0,0,0,0,,,"R$ 37,54"
 40310043,"Antígenos fúngicos, pesquisa","0,1",de,1A,1,"2,484","28,57",0,0,0,0,,,"R$ 29,57"
-,,,,,,,,,,,,,,
 40310051,"B.A.A.R. (Ziehl ou fluorescência, pesquisa direta e após homogeneização), pesquisa","0,04",de,1A,"0,4","0,693","7,97",0,0,0,0,,,"R$ 8,37"
 40310060,"Bacterioscopia (Gram, Ziehl, Albert etc), por lâmina","0,04",de,1A,"0,4","0,693","7,97",0,0,0,0,,,"R$ 8,37"
 40310078,"Chlamydia, cultura","0,1",de,1A,1,"3,177","36,54",0,0,0,0,,,"R$ 37,54"
@@ -3381,7 +3307,6 @@
 40311279,"Bartituratos, pesquisa e/ou dosagem na urina","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
 40311287,"Beta mercapto-lactato-disulfidúria, pesquisa na urina","0,1",de,1A,1,"0,434","4,99",0,0,0,0,,,"R$ 5,99"
 40311040,"Cálculos urinários, análise","0,04",de,1A,"0,4","1,44","16,56",0,0,0,0,,,"R$ 16,96"
-,,,,,,,,,,,,,,
 40311058,"Catecolaminas fracionadas - dopamina, epinefrina, norepinefrina (cada), pesquisa e/ou dosagem na urina","0,1",de,1A,1,"2,097","24,12",0,0,0,0,,,"R$ 25,12"
 40311244,"Cistina, pesquisa e/ou dosagem na urina","0,1",de,1A,1,"3,267","37,57",0,0,0,0,,,"R$ 38,57"
 40311066,"Cistinúria, pesquisa","0,04",de,1A,"0,4","0,81","9,32",0,0,0,0,,,"R$ 9,72"
@@ -3425,7 +3350,6 @@
 40312135,"pH - tornassol, pesquisa","0,01",de,1A,"0,1","1,05","12,08",0,0,0,0,,,"R$ 12,18"
 40312143,"Prova atividade de febre reumática (aslo, eletroforese de proteínas, mucoproteínas e proteína ""C"" reativa)","0,1",de,1A,1,"6,339","72,9",0,0,0,0,,,"R$ 73,90"
 40312151,"Provas de função hepática (bilirrubinas, eletroforese de proteínas, FA, TGO, TGP e Gama-PGT)","0,1",de,1A,1,"5,031","57,86",0,0,0,0,,,"R$ 58,86"
-,,,,,,,,,,,,,,
 40312100,"Rotina da biles A, B, C e do suco duodenal (caracteres físicos e microscópicos inclusive tubagem)","0,1",de,1A,1,"2,99","34,39",0,0,0,0,,,"R$ 35,39"
 40312178,Teste do pezinho ampliado (TSH neonatal + 17 OH progesterona + fenilalanina + Tripsina imuno-reativa + eletroforese de Hb para triagem de hemopatias),"0,01",de,1A,"0,1","9,5","109,25",0,0,0,0,,,"R$ 109,35"
 40312160,Teste do pezinho básico (TSH neonatal + fenilalanina + eletroforese de Hb para triagem de hemopatias),"0,01",de,1A,"0,1","5,09","58,54",0,0,0,0,,,"R$ 58,64"
@@ -3469,7 +3393,6 @@
 40314243,"Chlamydia por biologia molecular, pesquisa","0,25",de,1A,"2,5","21,852","251,3",0,0,0,0,,,"R$ 253,80"
 40314251,Citogenética de medula óssea,"0,5",de,1A,5,"31,23","359,15",0,0,0,0,,,"R$ 364,15"
 40314022,"Citomegalovírus - qualitativo, por PCR, pesquisa","0,25",de,1A,"2,5","17,982","206,79",0,0,0,0,,,"R$ 209,29"
-,,,,,,,,,,,,,,
 40314030,"Citomegalovírus - quantitativo, por PCR","0,25",de,1A,"2,5","25,245","290,32",0,0,0,0,,,"R$ 292,82"
 40314049,"Cromossomo philadelfia, pesquisa","0,25",de,1A,"2,5","29,97","344,66",0,0,0,0,,,"R$ 347,16"
 40314057,"Fator V de layden por PCR, pesquisa","0,25",de,1A,"2,5","25,479","293,01",0,0,0,0,,,"R$ 295,51"
@@ -3514,7 +3437,6 @@
 40402096,Unidade de plasma,,,1A,10,"3,74","43,01",0,0,0,0,,,"R$ 53,01"
 40402100,Unidade de sangue total,,,1A,10,"7,35","84,53",0,0,0,0,,,"R$ 94,53"
 40403017,Acompanhamento hospitalar/dia do transplante de medula óssea por médico hematologista e/ou hemoterapeuta,,,3B,112,,0,0,0,0,0,,,"R$ 112,00"
-,,,,,,,,,,,,,,
 40404021,Aférese para paciente ABO incompatível,,,5A,204,,0,0,0,0,0,,,"R$ 204,00"
 40403025,Anticorpos eritrocitários naturais e imunes - titulagem,"0,1",de,1A,1,"1,59","18,29",0,0,0,0,,,"R$ 19,29"
 40404030,Antigenemia para diagnóstico de CMV pós-transplante,"0,25",de,1A,"2,5","25,245","290,32",0,0,0,0,,,"R$ 292,82"
@@ -3553,7 +3475,6 @@
 40403203,Identificação de anticorpos séricos irregulares antieritrocitários - painel de hemácias enzimático,"0,1",de,1A,1,"4,2","48,3",0,0,0,0,,,"R$ 49,30"
 40403211,Identificação de anticorpos séricos irregulares antieritrocitários com painel de hemácias,"0,1",de,1A,1,"3,91","44,97",0,0,0,0,,,"R$ 45,97"
 40403220,Identificação de anticorpos séricos irregulares antieritrocitários com painel de hemácias tratadas por enzimas,"0,1",de,1A,1,"4,6","52,9",0,0,0,0,,,"R$ 53,90"
-,,,,,,,,,,,,,,
 40403238,Identificação de anticorpos séricos irregulares antieritrocitários com painel de hemácias - gel liss,"0,1",de,1A,1,"4,2","48,3",0,0,0,0,,,"R$ 49,30"
 40403246,Imunofenotipagem de subpopulações linfocitárias - Citômetro de Fluxo,,,1B,20,"15,38","176,87",0,0,0,0,,,"R$ 196,87"
 40403254,Imunofenotipagem para classificação de leucemias - Citômetro de Fluxo,,,1B,20,"48,5","557,75",0,0,0,0,,,"R$ 577,75"
@@ -3593,7 +3514,6 @@
 40404242,Quantificação de leucócitos totais da Medula Óssea no Transplante de CélulasTronco Hematopoéticas (TCTH) alogênico,"0,01",de,1A,"0,1","0,63","7,25",0,0,0,0,,,"R$ 7,35"
 40403424,S. Anti-HTLV-I + HTLV-II (determinação conjunta) por componente hemoterápico,"0,1",de,1A,1,"3,01","34,62",0,0,0,0,,,"R$ 35,62"
 40403432,S. Anti-HTLV-I + HTLV-II (determinação conjunta) por unidade de sangue total,"0,1",de,1A,1,"4,3","49,45",0,0,0,0,,,"R$ 50,45"
-,,,,,,,,,,,,,,
 40403440,S. Chagas EIE por componente hemoterápico,"0,1",de,1A,1,"1,4","16,1",0,0,0,0,,,"R$ 17,10"
 40403459,S. Chagas EIE por unidade de sangue total,"0,1",de,1A,1,2,23,0,0,0,0,,,"R$ 24,00"
 40403629,S. Chagas HA por componente hemoterápico,"0,1",de,1A,1,"0,7","8,05",0,0,0,0,,,"R$ 9,05"
@@ -3636,7 +3556,6 @@
 40403815,TMO - preparo de medula óssea ou células tronco periféricas para congelamento,"0,1",de,1A,1,"18,88","217,12",0,0,0,0,,,"R$ 218,12"
 40403823,TMO - preparo e filtração de medula óssea ou células tronco na coleta,"0,1",de,1A,1,"18,88","217,12",0,0,0,0,,,"R$ 218,12"
 40403831,"TMO - tratamento ""in vitro"" de medula óssea ou células tronco por anticorpos monoclonais (purging)(4)",,,1B,20,,0,0,0,0,0,,,"R$ 20,00"
-,,,,,,,,,,,,,,
 40403840,Transaminase pirúvica - TGP ou ALT por componente hemoterápico,"0,1",de,1A,1,"0,51","5,87",0,0,0,0,,,"R$ 6,87"
 40403858,Transaminase pirúvica - TGP ou ALT por unidade de sangue total,"0,1",de,1A,1,"0,76","8,74",0,0,0,0,,,"R$ 9,74"
 40403866,Transfusão fetal intra-uterina,,,5A,204,,0,0,0,0,0,,,"R$ 204,00"
@@ -3673,7 +3592,6 @@
 40502082,Dosagem quantitativa de metabólitos na urina e/ou sangue para o diagnóstico de erros inatos do metabolismo (cada),,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
 40502198,Dosagem quantitativa de metabólitos por cromatografia / espectrometria de massa (CG/MS ou HPLC/MS ) para o diagnóstico de EIM,,,1A,10,"191,67","2204,21",0,0,0,0,,,"R$ 2.214,21"
 40502201,Dosagem quantitativa de metabólitos por espectrometria de massa ou espectrometria de massa em TANDEM (MS OU MS/MS) para o diagnóstico de EIM,,,1A,10,"191,67","2204,21",0,0,0,0,,,"R$ 2.214,21"
-,,,,,,,,,,,,,,
 40502090,Eletroforese ou cromatografia (papel ou camada delgada) para identificação de aminoácidos ou glicídios ou oligossacarídios ou sialoligossacarídios glicosaminoglicanos ou outros compostos para detecção de erros inatos do metabolismo (cada),,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 40502104,"Ensaios enzimáticos em células cultivadas para diagnóstico de EIM, incluindo preparo do material, dosagem de proteína e enzima de referência (cada)",,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
 40502112,"Ensaios enzimáticos em leucócitos, eritrócitos ou tecidos para diagnóstico de EIM, incluindo preparo do material, dosagem de proteína e enzima de referência (cada)",,,2B,54,,0,0,0,0,0,,,"R$ 54,00"
@@ -3704,7 +3622,6 @@
 40503178,"Produção de DOT/SLOT-BLOT, por BLOT, por amostra",,,4C,189,"12,54","144,21",0,0,0,0,,,"R$ 333,21"
 40503194,"Rastreamento de exon mutado (por gradiente de desnaturação ou conformação de polimorfismo de fita simples ou RNAse ou Clivagem Química ou outras técnicas) para identificação de fragmento mutado, por fragmento analisado, por amostra",,,4C,189,"20,88","240,12",0,0,0,0,,,"R$ 429,12"
 40503240,"Rastreamento pré-natal ou pós-natal de todo o genoma para identificar alterações cromossômicas submicroscópicas por CGH-array ou SNP-array ou outras técnicas, por clone ou oligo utilizado, por amostra","0,1",,1A,10,"0,1","1,15",0,0,0,0,,,"R$ 11,15"
-,,,,,,,,,,,,,,
 40503186,"Separação do material genético por eletroforese capilar ou em gel (agarose, acrilamida), por gel utilizado, por amostra",,,4C,189,"20,38","234,37",0,0,0,0,,,"R$ 423,37"
 40503135,"Transcrição reversa de RNA, por amostra",,,4C,189,"4,21","48,42",0,0,0,0,,,"R$ 237,42"
 40503259,"Validação pré-natal ou pós-natal de alteração cromossômica submicroscópica detectada no rastreamento genômico, por FISH ou qPCR ou outra técnica, por locus, por amostra",,,3B,112,141,"1621,5",0,0,0,0,,,"R$ 1.733,50"
@@ -3745,7 +3662,6 @@
 40701034,Cintilografia do miocárdio com duplo isótopo (perfusão + viabilidade),,,3B,112,"13,595","156,34",0,0,0,"0,57","R$ 14,70",,"R$ 283,04"
 40701042,"Cintilografia do miocárdio com FDG-18 F, em câmara híbrida",,,3C,128,"53,016","609,68",0,0,0,"0,38","R$ 9,80",,"R$ 747,48"
 40701050,Cintilografia do miocárdio necrose (infarto agudo),,,2C,64,"16,987","195,35",0,0,0,"0,38","R$ 9,80",,"R$ 269,15"
-,,,,,,,,,,,,,,
 40701131,Cintilografia do miocárdio perfusão - estresse farmacológico,,,3B,112,"19,426","223,4",0,0,0,"0,57","R$ 14,70",,"R$ 350,10"
 40701140,Cintilografia do miocárdio perfusão - estresse físico,,,3B,112,"19,426","223,4",0,0,0,"0,57","R$ 14,70",,"R$ 350,10"
 40701069,Cintilografia do miocárdio perfusão - repouso,,,3B,112,"19,426","223,4",0,0,0,"0,57","R$ 14,70",,"R$ 350,10"
@@ -3792,7 +3708,6 @@
 40706028,Fluxo sanguíneo ósseo,,,1C,30,"3,419","39,32",0,0,0,"0,38","R$ 9,80",,"R$ 79,12"
 40707016,Cintilografia cerebral,,,2A,40,"9,236","106,21",0,0,0,"0,57","R$ 14,70",,"R$ 160,91"
 40707024,"Cintilografia cerebral com FDG-18 F, em câmara hibrída",,,3C,128,"53,016","609,68",0,0,0,"0,57","R$ 14,70",,"R$ 752,38"
-,,,,,,,,,,,,,,
 40707032,Cintilografia de perfusão cerebral,,,3B,112,"13,997","160,97",0,0,0,"0,57","R$ 14,70",,"R$ 287,67"
 40707040,Cisternocintilografia,,,3B,112,"32,535","374,15",0,0,0,"0,95","R$ 24,50",,"R$ 510,65"
 40707059,Cisternocintilografia para pesquisa de fístula liquórica,,,3B,112,"32,535","374,15",0,0,0,"0,95","R$ 24,50",,"R$ 510,65"
@@ -3839,7 +3754,6 @@
 40801098,Ossos da face,,,1B,20,"1,58","18,17",0,0,4,"0,173","R$ 4,46",,"R$ 42,63"
 40801136,Panorâmica de mandíbula (ortopantomografia),,,1B,20,"1,22","14,03",0,0,1,"0,259","R$ 6,68",,"R$ 40,71"
 40801195,Planigrafia linear de crânio ou sela túrcica ou face ou mastóide,,,1C,30,"3,12","35,88",0,0,12,"0,691","R$ 17,83",,"R$ 83,71"
-,,,,,,,,,,,,,,
 40801187,Radiografia oclusal,,,1A,10,"0,39","4,49",0,0,1,"0,13","R$ 3,34",,"R$ 17,83"
 40801179,Radiografia peri-apical,,,1A,10,"0,3","3,45",0,0,1,"0,022","R$ 0,56",,"R$ 14,01"
 40801063,Seios da face,,,1B,20,"1,47","16,91",0,0,3,"0,13","R$ 3,34",,"R$ 40,25"
@@ -3886,7 +3800,6 @@
 40804070,Perna,,,1B,20,"1,22","14,03",0,0,2,"0,24","R$ 6,19",,"R$ 40,22"
 40805050,Coração e vasos da base,,,1C,30,"1,34","15,41",0,0,4,"0,616","R$ 15,89",,"R$ 61,30"
 40805077,Laringe ou hipofaringe ou pescoço (partes moles),,,1B,20,"1,31","15,07",0,0,4,"0,173","R$ 4,46",,"R$ 39,52"
-,,,,,,,,,,,,,,
 40805069,"Planigrafia de tórax, mediastino ou laringe",,,2A,40,"3,17","36,46",0,0,9,"0,576","R$ 14,86",,"R$ 91,31"
 40805018,Tórax - 1 incidência,,,1B,20,"0,83","9,55",0,0,1,"0,154","R$ 3,97",,"R$ 33,52"
 40805026,Tórax - 2 incidências,,,1B,20,"1,18","13,57",0,0,2,"0,308","R$ 7,94",,"R$ 41,51"
@@ -3931,7 +3844,6 @@
 40809080,Dacriocistografia,,,2C,64,"2,87","33,01",0,0,5,"0,216","R$ 5,57",,"R$ 102,58"
 40809102,Drenagem percutânea orientada por RX (acrescentar o exame de base),,,5A,204,0,0,0,0,0,0,"R$ 0,00",,"R$ 204,00"
 40809013,Ductografia (por mama),,,2C,64,"2,87","33,01",0,0,4,"0,6","R$ 15,47",,"R$ 112,48"
-,,,,,,,,,,,,,,
 40809056,Fistulografia,,,2A,40,"2,45","28,18",0,0,4,"0,288","R$ 7,43",,"R$ 75,60"
 40809030,Histerossalpingografia,,,2C,64,"3,75","43,13",0,0,6,"0,259","R$ 6,68",,"R$ 113,81"
 40809099,"Punção biópsia/aspirativa de órgão ou estrutura orientada por RX, US ou CT (acrescentar o exame base)",,,3A,88,0,0,0,0,0,0,"R$ 0,00",,"R$ 88,00"
@@ -3976,7 +3888,6 @@
 40813401,Aterectomia percutânea orientada por RX,,,8C,520,0,0,0,3,0,0,,,"R$ 520,00"
 40813860,Celostomia percutânea orientada por RX ou TC,,,7A,331,0,0,1,3,0,0,,,"R$ 430,30"
 40813843,"Colecistostomia percutânea orientada por RX, US ou TC",,,6C,306,0,0,1,3,0,0,,,"R$ 397,80"
-,,,,,,,,,,,,,,
 40813231,Colocação de cateter venoso central ou portocath,,,4A,153,0,0,1,2,0,0,,,"R$ 198,90"
 40813240,Colocação de filtro de VCI para prevenção de TEP,,,8B,490,0,0,1,5,0,0,,,"R$ 637,00"
 40813215,Colocação de stent aórtico,,,10A,715,0,0,2,5,0,0,,,"R$ 1.072,50"
@@ -4022,7 +3933,6 @@
 40813576,"Embolização de fístula arteriovenosa em cabeça, pescoço ou coluna - por vaso",,,10A,715,0,0,1,6,0,0,,,"R$ 929,50"
 40813711,Embolização de fístula arteriovenosa não especificada acima - por vaso,,,9A,555,0,0,1,3,0,0,,,"R$ 721,50"
 40813630,Embolização de hemorragia digestiva,,,8A,468,0,0,1,5,0,0,,,"R$ 608,40"
-,,,,,,,,,,,,,,
 40813568,Embolização de malformação arteriovenosa cerebral ou medular - por vaso,,,10B,775,0,0,1,6,0,0,,,"R$ 1.007,50"
 40813720,Embolização de malformação vascular - por vaso,,,8A,468,0,0,1,5,0,0,,,"R$ 608,40"
 40813738,Embolização de pseudoaneurisma - por vaso,,,10A,715,0,0,1,3,0,0,,,"R$ 929,50"
@@ -4068,7 +3978,6 @@
 40814122,Trituração de calcificação tendínea orientada por RX ou US,,,5A,204,0,0,0,3,0,0,,,"R$ 204,00"
 40813983,Trombectomia mecânica para tratamento de TEP,,,10C,860,0,0,1,5,0,0,,,"R$ 1.118,00"
 40813991,Trombectomia mecânica venosa,,,10C,860,0,0,1,3,0,0,,,"R$ 1.118,00"
-,,,,,,,,,,,,,,
 40814017,Trombectomia medicamentosa para tratamento de TEP,,,10B,775,0,0,1,5,0,0,,,"R$ 1.007,50"
 40814025,Trombólise medicamentosa arterial ou venosa - por vaso,,,9C,666,0,0,1,3,0,0,,,"R$ 865,80"
 40814033,Trombólise medicamentosa arterial ou venosa para tratamento de isquemia mesentérica,,,9C,666,0,0,1,5,0,0,,,"R$ 865,80"
@@ -4112,7 +4021,6 @@
 40901238,Obstétrica,,,2A,40,"2,65","30,48",0,0,1,"0,17","R$ 4,38",,"R$ 74,86"
 40901297,Obstétrica 1º trimestre (endovaginal),,,3C,128,"3,82","43,93",0,0,2,"0,34","R$ 8,77",,"R$ 180,70"
 40901254,Obstétrica com translucência nucal,,,3A,88,"5,19","59,69",0,0,2,"0,34","R$ 8,77",,"R$ 156,45"
-,,,,,,,,,,,,,,
 40901246,Obstétrica convencional com Doppler colorido,,,3A,88,"6,27","72,11",0,0,3,"0,51","R$ 13,15",,"R$ 173,26"
 40901289,Obstétrica gestação múltipla com Doppler colorido: cada feto,,,2B,54,"3,25","37,38",0,0,1,"0,17","R$ 4,38",,"R$ 95,76"
 40901270,Obstétrica gestação múltipla: cada feto,,,1C,30,"1,52","17,48",0,0,1,"0,17","R$ 4,38",,"R$ 51,86"
@@ -4153,7 +4061,6 @@
 41001052,Dental (dentascan),,,3A,88,"19,1","219,65",0,0,0,1,"R$ 25,79",,"R$ 333,44"
 41001214,Endoscopia virtual de qualquer órgão ou estrutura por TC - acrescentar ao exame de base,,,1C,30,"6,45","74,18",0,0,0,"0,5","R$ 12,90",,"R$ 117,07"
 41001192,Escanometria digital,,,2B,54,"8,25","94,88",0,0,0,"0,5","R$ 12,90",,"R$ 161,77"
-,,,,,,,,,,,,,,
 41001036,Face ou seios da face,,,3B,112,"22,38","257,37",0,0,0,1,"R$ 25,79",,"R$ 395,16"
 41001028,Mastóides ou orelhas,,,3A,88,"22,38","257,37",0,0,0,"1,5","R$ 38,69",,"R$ 384,06"
 41001117,Pelve ou bacia,,,3A,88,"22,38","257,37",0,0,0,"1,5","R$ 38,69",,"R$ 384,06"
@@ -4195,7 +4102,6 @@
 41101073,Órbita bilateral,,,3C,128,"47,24","543,26",0,0,0,4,"R$ 103,16",,"R$ 774,42"
 41101081,Ossos temporais bilateral,,,3C,128,"47,24","543,26",0,0,0,4,"R$ 103,16",,"R$ 774,42"
 41101308,Pé (antepé) - não inclui tornozelo,,,3C,128,"47,24","543,26",0,0,0,4,"R$ 103,16",,"R$ 774,42"
-,,,,,,,,,,,,,,
 41101189,Pelve (não inclui articulações coxofemorais),,,3C,128,"47,24","543,26",0,0,0,4,"R$ 103,16",,"R$ 774,42"
 41101200,Pênis,,,3B,112,"47,24","543,26",0,0,0,4,"R$ 103,16",,"R$ 758,42"
 41101057,Perfusão cerebral por RM,,,3B,112,"11,95","137,43",0,0,0,1,"R$ 25,79",,"R$ 275,22"
@@ -4209,7 +4115,7 @@
 41203011,Betaterapia (placa de estrôncio) - por campo,,,1A,10,"1,8","20,7",0,0,0,0,,,"R$ 30,70"
 41203020,"Radiocirurgia (RTC) - nível 1, lesão única e/ou um isocentro - por tratamento",,,14A,2225,"756,93","8704,7",0,0,0,0,,,"R$ 10.929,70"
 41203038,"Radiocirurgia (RTC) - nível 2, duas lesões e/ou dois a quatro isocentros - por tratamento",,,14B,2420,"908,32","10445,68",0,0,0,0,,,"R$ 12.865,68"
-41203046,"Radiocirurgia (RTC) - nível 3, três lesões e/ou de mais de quatro isocentros - por tratamento",,,4090,2670,"1067,13",12272,0,0,0,0,,,"R$ 14.942,00"
+41203046,"Radiocirurgia (RTC) - nível 3, três lesões e/ou de mais de quatro isocentros - por tratamento",,,14C,2670,"1067,13",12272,0,0,0,0,,,"R$ 14.942,00"
 41203054,Radioterapia com Modulação da Intensidade do Feixe (IMRT) - por tratamento,,,14C,2670,"1476,21","16976,42",0,0,0,0,,,"R$ 19.646,42"
 41203062,Radioterapia Conformada Tridimensional (RCT-3D) com Acelerador Linear - por tratamento,,,14C,2670,"1067,13",12272,0,0,0,0,,,"R$ 14.942,00"
 41203070,Radioterapia Convencional de Megavoltagem com Acelerador Linear com Fótons e Elétrons - por campo,,,1C,30,"3,61","41,52",0,0,0,0,,,"R$ 71,52"
@@ -4234,7 +4140,6 @@
 41204077,Simulação de tratamento intermediária (com tomografia) - 1 por volume tratado,,,3A,88,"13,96","160,54",0,0,0,0,,,"R$ 248,54"
 41204085,Simulação de tratamento simples (sem tomografia computadorizada) - 1 por volume tratado,,,2C,64,"10,57","121,56",0,0,0,0,,,"R$ 185,56"
 41204093,Sistemas de imobilização - cabeça (máscaras) ou membros - 1 por tratamento,,,2C,64,"9,73","111,9",0,0,0,0,,,"R$ 175,90"
-,,,,,,,,,,,,,,
 41204107,"Sistemas de imobilização - tórax, abdome ou pélvis - 1 por tratamento",,,5A,204,"27,82","319,93",0,0,0,0,,,"R$ 523,93"
 41205014,Braquiterapia endoluminal de alta taxa de dose (BATD) - por inserção,,,11A,910,"122,08","1403,92",0,0,0,0,,,"R$ 2.313,92"
 41205022,Braquiterapia endoluminal de baixa taxa de dose (BBTD) - por inserção,,,9A,555,"73,39","843,99",0,0,0,0,,,"R$ 1.398,99"
@@ -4274,7 +4179,6 @@
 41301129,Curva tensional diária - binocular,,,2B,54,"0,87","10,01",0,0,0,0,,,"R$ 64,01"
 41301137,Dermatoscopia (por lesão),,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 41301145,Ereção fármaco-induzida,,,1C,30,,0,0,0,0,0,,,"R$ 30,00"
-,,,,,,,,,,,,,,
 41301153,Estéreo-foto de papila - monocular,,,1B,20,"4,23","48,65",0,0,0,0,,,"R$ 68,65"
 41301161,Estesiometria (por membro),,,1A,10,"0,26","2,99",0,0,0,0,,,"R$ 12,99"
 41301188,Exame a fresco do conteúdo vaginal e cervical,,,1B,20,,0,0,0,0,0,,,"R$ 20,00"
@@ -4317,7 +4221,6 @@
 41401140,Teste de exercício dos 4 segundos,,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 41401158,Teste de exercício em ergômetro com determinação do lactato sanguíneo,,,2A,40,,0,0,0,0,0,,,"R$ 40,00"
 41401166,Teste de exercício em ergômetro com realização de gasometria arterial,,,2A,40,,0,0,0,0,0,,,"R$ 40,00"
-,,,,,,,,,,,,,,
 41401174,Teste de exercício em ergômetro com monitorização da frequência cardíaca,,,2A,40,"0,94","10,81",0,0,0,0,,,"R$ 50,81"
 41401182,Teste de exercício em ergômetro com monitorização do eletrocardiograma,,,2A,40,"0,94","10,81",0,0,0,0,,,"R$ 50,81"
 41401190,Teste de exercício em ergômetro com medida de gases expirados (teste cardiopulmonar de exercício) com qualquer ergômetro,,,2C,64,,0,0,0,0,0,,,"R$ 64,00"
@@ -4360,7 +4263,6 @@
 41501063,Investigação ultrassônica com registro gráfico (qualquer área),,,2B,54,1,"11,5",0,0,0,0,,,"R$ 65,50"
 41501071,Investigação ultrassônica com teste de stress e com registro gráfico,,,1B,20,,0,0,0,0,0,,,"R$ 20,00"
 41501080,Investigação ultrassônica com teste de stress e sem registro gráfico,,,1B,20,,0,0,0,0,0,,,"R$ 20,00"
-,,,,,,,,,,,,,,
 41501098,Investigação ultrassônica com teste de stress em esteira e com registro gráfico,,,2A,40,"7,16","82,34",0,0,0,0,,,"R$ 122,34"
 41501101,Investigação ultrassônica sem registro gráfico (qualquer área),,,1C,30,,0,0,0,0,0,,,"R$ 30,00"
 41501110,Medida de índice de artelhos com registro gráfico,,,2A,40,1,"11,5",0,0,0,0,,,"R$ 51,50"
@@ -4370,6 +4272,3 @@
 41501195,Pletismografia (qualquer tipo) por lateralidade ou território,,,2A,40,"1,8","20,7",0,0,0,0,,,"R$ 60,70"
 41501136,"Termometria cutânea (por lateralidade: pescoço, membros, bolsa escrotal, por território peniano)",,,1A,10,,0,0,0,0,0,,,"R$ 10,00"
 41501144,Tomografia de coerência óptica - monocular,,,3A,88,"8,8","101,2",0,0,0,0,,,"R$ 189,20"
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
--,,,,,,,,,,,,,,
