@@ -16,10 +16,10 @@ RSpec.describe "PaperTrail::Version", versioning: true do
           headers: auth_token_for(user)
       end
 
-      context "when creates hospital and not version" do
+      context "when create hospital" do
         it { expect(response).to have_http_status(:created) }
         it { expect(hospitals.count).to eq(1) }
-        it { expect(hospital_created.versions.count).to eq(0) }
+        it { expect(hospital_created.versions.count).to eq(1) }
       end
     end
 
@@ -32,9 +32,9 @@ RSpec.describe "PaperTrail::Version", versioning: true do
           headers: auth_token_for(user)
       end
 
-      context "when creates hospital and version" do
+      context "when update hospital and create version" do
         it { expect(response).to have_http_status(:ok) }
-        it { expect(hospital_version.count).to eq(1) }
+        it { expect(hospital_version.count).to eq(2) }
         it { expect(last_hospital_version.object["name"]).to eq("nome hospital") }
         it { expect(last_hospital_version["whodunnit"]).to eq(user.id.to_s) }
       end
