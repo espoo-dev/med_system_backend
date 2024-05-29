@@ -56,7 +56,7 @@ RSpec.describe "persist_in_database" do
 
         expect(procedures.count).to eq(3)
         expect(procedures_names).to eq(["Already pesisted", "Test 2", "Test 3"])
-        expect(cbhpm_procedures.count).to eq(2)
+        expect(cbhpm_procedures.count).to eq(3)
       end
     end
   end
@@ -80,7 +80,7 @@ RSpec.describe "persist_in_database" do
       before { cbhpm }
 
       it "raises error" do
-        expect { run_rake }.to raise_error(StandardError, "Check if all attributes are presents!")
+        expect { run_rake }.to raise_error(StandardError, include("Check if all attributes are presents!"))
         expect(procedures.count).to eq(0)
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe "persist_in_database" do
       let(:path_file) { "spec/fixtures/batch_anesthetic_port_error.json" }
 
       it "raises error" do
-        expect { run_rake }.to raise_error(StandardError, "Cbhpm 5 edition(2008) not created")
+        expect { run_rake }.to raise_error(StandardError, include("Cbhpm 5 edition(2008) not created"))
         expect(procedures.count).to eq(0)
       end
     end

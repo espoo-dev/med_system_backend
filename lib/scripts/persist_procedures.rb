@@ -40,8 +40,7 @@ module Scripts
     rescue StandardError => e
       fail_message = fail_message(procedure_instance.code, e)
 
-      logger.warn(fail_message)
-      raise StandardError, e.message
+      raise StandardError, fail_message
     end
 
     def procedure_build(code, name)
@@ -81,6 +80,8 @@ module Scripts
 
       if procedures_persisted.include?(procedure[:code])
         logger.info("Code already exists in the database! Code: #{procedure[:code]}")
+        procedure_persisted = procedure_find_by(procedure[:code])
+        create_cbhpm_procedures(procedure_persisted, procedure[:port], procedure[:anesthetic_port])
 
         return true
       end
@@ -88,15 +89,15 @@ module Scripts
       false
     end
 
+    def procedure_find_by(code)
+      Procedure.find_by(code: code)
+    end
+
     def create_cbhpm_procedures(procedure, port, anesthetic_port)
       return cbhpm_not_existed_error if cbhpm.nil?
 
-      begin
-        instance = Scripts::CreateCbhpmProcedures.new(cbhpm.id, procedure.id, port, anesthetic_port)
-        instance.run!
-      rescue StandardError => e
-        raise StandardError, e
-      end
+      instance = Scripts::CreateCbhpmProcedures.new(cbhpm.id, procedure.id, port, anesthetic_port)
+      instance.run!
     end
 
     def cbhpm
