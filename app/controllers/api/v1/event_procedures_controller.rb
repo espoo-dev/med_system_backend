@@ -62,6 +62,7 @@ module Api
       def event_procedure_permitted_params
         params.permit(
           :hospital_id,
+          :cbhpm_id,
           :patient_service_number,
           :date,
           :urgency,

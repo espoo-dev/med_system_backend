@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :event_procedure do
+    cbhpm
     health_insurance
     hospital
     patient

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_11_173556) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_29_211612) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_173556) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cbhpm_id"], name: "index_cbhpm_procedures_on_cbhpm_id"
+    t.index ["procedure_id", "cbhpm_id"], name: "index_cbhpm_procedures_on_procedure_id_and_cbhpm_id"
     t.index ["procedure_id"], name: "index_cbhpm_procedures_on_procedure_id"
   end
 
@@ -64,6 +65,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_173556) do
     t.bigint "user_id", null: false
     t.boolean "payd", default: false, null: false
     t.string "payment", default: "health_insurance", null: false
+    t.integer "cbhpm_id", default: 1, null: false
+    t.index ["cbhpm_id"], name: "index_event_procedures_on_cbhpm_id"
     t.index ["health_insurance_id"], name: "index_event_procedures_on_health_insurance_id"
     t.index ["hospital_id"], name: "index_event_procedures_on_hospital_id"
     t.index ["patient_id"], name: "index_event_procedures_on_patient_id"
@@ -119,6 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_173556) do
     t.decimal "amount_cents", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cbhpm_id", "anesthetic_port"], name: "index_port_values_on_cbhpm_id_and_anesthetic_port"
     t.index ["cbhpm_id"], name: "index_port_values_on_cbhpm_id"
   end
 
@@ -162,6 +166,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_173556) do
 
   add_foreign_key "cbhpm_procedures", "cbhpms"
   add_foreign_key "cbhpm_procedures", "procedures"
+  add_foreign_key "event_procedures", "cbhpms"
   add_foreign_key "event_procedures", "health_insurances"
   add_foreign_key "event_procedures", "hospitals"
   add_foreign_key "event_procedures", "patients"

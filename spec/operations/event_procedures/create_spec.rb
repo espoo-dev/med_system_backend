@@ -7,15 +7,20 @@ RSpec.describe EventProcedures::Create, type: :operation do
     context "when params are valid" do
       it "is successful" do
         user = create(:user)
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
         params = {
           hospital_id: create(:hospital).id,
+          cbhpm_id: cbhpm.id,
           patient_service_number: "1234567890",
           date: Time.zone.now,
           urgency: false,
           room_type: EventProcedures::RoomTypes::WARD,
           payment: EventProcedures::Payments::HEALTH_INSURANCE,
           patient_attributes: { id: create(:patient).id },
-          procedure_attributes: { id: create(:procedure).id },
+          procedure_attributes: { id: procedure.id },
           health_insurance_attributes: { id: create(:health_insurance).id }
         }
 
@@ -26,15 +31,20 @@ RSpec.describe EventProcedures::Create, type: :operation do
 
       it "creates a new event_procedure" do
         user = create(:user)
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
         params = {
           hospital_id: create(:hospital).id,
+          cbhpm_id: cbhpm.id,
           patient_service_number: "1234567890",
           date: Time.zone.now.to_date,
           urgency: true,
           room_type: EventProcedures::RoomTypes::WARD,
           payment: EventProcedures::Payments::HEALTH_INSURANCE,
           patient_attributes: { id: create(:patient).id },
-          procedure_attributes: { id: create(:procedure, amount_cents: 1000).id },
+          procedure_attributes: { id: procedure.id },
           health_insurance_attributes: { id: create(:health_insurance).id }
         }
 
@@ -59,8 +69,13 @@ RSpec.describe EventProcedures::Create, type: :operation do
       context "when create a new patient" do
         it "creates and does not duplicate the creation" do
           user = create(:user)
+          cbhpm = create(:cbhpm)
+          procedure = create(:procedure)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+          create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
           params = {
             hospital_id: create(:hospital).id,
+            cbhpm_id: cbhpm.id,
             health_insurance_id: create(:health_insurance).id,
             patient_service_number: "1234567890",
             date: Time.zone.now.to_date,
@@ -68,7 +83,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
             room_type: EventProcedures::RoomTypes::WARD,
             payment: EventProcedures::Payments::HEALTH_INSURANCE,
             patient_attributes: { id: nil, name: "John Doe", user_id: user.id },
-            procedure_attributes: { id: create(:procedure, amount_cents: 1000).id },
+            procedure_attributes: { id: procedure.id },
             health_insurance_attributes: { id: create(:health_insurance).id }
           }
 
@@ -80,6 +95,10 @@ RSpec.describe EventProcedures::Create, type: :operation do
         context "when procedure attributes are valid" do
           it "does not duplicate the creation" do
             user = create(:user)
+            cbhpm = create(:cbhpm)
+            procedure = create(:procedure)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
             procedure_attributes = {
               id: nil,
               name: "procedure name",
@@ -91,6 +110,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
             }
             params = {
               hospital_id: create(:hospital).id,
+              cbhpm_id: cbhpm.id,
               health_insurance_id: create(:health_insurance).id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
@@ -144,6 +164,10 @@ RSpec.describe EventProcedures::Create, type: :operation do
         context "when health_insurance attributes are valid" do
           it "does not duplicate the creation" do
             user = create(:user)
+            cbhpm = create(:cbhpm)
+            procedure = create(:procedure)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
             health_insurance_attributes = {
               id: nil,
               name: "Health Insurance Name",
@@ -152,13 +176,14 @@ RSpec.describe EventProcedures::Create, type: :operation do
             }
             params = {
               hospital_id: create(:hospital).id,
+              cbhpm_id: cbhpm.id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
               urgency: nil,
               room_type: nil,
               payment: EventProcedures::Payments::OTHERS,
               patient_attributes: { id: create(:patient).id },
-              procedure_attributes: { id: create(:procedure).id },
+              procedure_attributes: { id: procedure.id },
               health_insurance_attributes: health_insurance_attributes
             }
 
@@ -237,6 +262,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
 
         expect(result.error.full_messages).to eq(
           [
+            "Cbhpm must exist",
             "Hospital must exist",
             "Date can't be blank",
             "Patient service number can't be blank",
@@ -260,6 +286,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
 
           expect(result.error.full_messages).to eq(
             [
+              "Cbhpm must exist",
               "Hospital must exist",
               "Patient must exist",
               "Date can't be blank",

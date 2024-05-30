@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EventProcedureSerializer < ActiveModel::Serializer
-  attributes :id, :procedure, :patient, :hospital, :health_insurance, :patient_service_number, :date,
+  attributes :id, :cbhpm_id, :procedure, :patient, :hospital, :health_insurance, :patient_service_number, :date,
     :room_type, :payment, :urgency, :payd, :total_amount_cents, :precedure_value, :precedure_description
 
   def total_amount_cents
