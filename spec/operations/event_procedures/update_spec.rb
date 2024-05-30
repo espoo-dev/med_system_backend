@@ -6,7 +6,11 @@ RSpec.describe EventProcedures::Update, type: :operation do
   describe ".result" do
     context "with valid attributes" do
       it "updates event_procedure" do
-        event_procedure = create(:event_procedure)
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+        event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm)
         attributes = { date: Time.zone.yesterday, payd: true }
         described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
@@ -20,7 +24,11 @@ RSpec.describe EventProcedures::Update, type: :operation do
         it "update event_procedure association patient" do
           old_patient = create(:patient, name: "Old Patient")
           new_patient = create(:patient, name: "New Patient name")
-          event_procedure = create(:event_procedure, patient: old_patient)
+          cbhpm = create(:cbhpm)
+          procedure = create(:procedure)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+          create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+          event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm, patient: old_patient)
           attributes = {
             urgency: true,
             room_type: EventProcedures::RoomTypes::WARD,
@@ -35,7 +43,11 @@ RSpec.describe EventProcedures::Update, type: :operation do
         it "creates a new patient and does not duplicate the creation" do
           patient = create(:patient, name: "Old Patient")
           user = create(:user)
-          event_procedure = create(:event_procedure, patient:)
+          cbhpm = create(:cbhpm)
+          procedure = create(:procedure)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+          create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+          event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm, patient: patient)
           attributes = {
             urgency: true,
             room_type: EventProcedures::RoomTypes::WARD,
@@ -53,7 +65,12 @@ RSpec.describe EventProcedures::Update, type: :operation do
           it "update event_procedure association procedure" do
             old_procedure = create(:procedure, name: "old_procedure_name")
             new_procedure = create(:procedure, name: "new_procedure_name")
-            event_procedure = create(:event_procedure, procedure: old_procedure)
+            cbhpm = create(:cbhpm)
+            create(:cbhpm_procedure, procedure: old_procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:cbhpm_procedure, procedure: new_procedure, cbhpm: cbhpm, anesthetic_port: "4A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "4A", amount_cents: 2000)
+            event_procedure = create(:event_procedure, procedure: old_procedure, cbhpm: cbhpm)
             attributes = {
               procedure_attributes: { id: new_procedure.id }
             }
@@ -67,7 +84,10 @@ RSpec.describe EventProcedures::Update, type: :operation do
           it "creates a new procedure and does not duplicate the creation" do
             user = create(:user)
             old_procedure = create(:procedure, name: "old_procedure_name")
-            event_procedure = create(:event_procedure, procedure: old_procedure)
+            cbhpm = create(:cbhpm)
+            create(:cbhpm_procedure, procedure: old_procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+            event_procedure = create(:event_procedure, procedure: old_procedure, cbhpm: cbhpm)
             procedure_attributes = {
               id: nil,
               name: "new_procedure_name",
@@ -96,7 +116,10 @@ RSpec.describe EventProcedures::Update, type: :operation do
           it "returns error" do
             user = create(:user)
             old_procedure = create(:procedure, name: "old_procedure_name", code: "code-1234")
-            event_procedure = create(:event_procedure, procedure: old_procedure)
+            cbhpm = create(:cbhpm)
+            create(:cbhpm_procedure, procedure: old_procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+            event_procedure = create(:event_procedure, procedure: old_procedure, cbhpm: cbhpm)
             procedure_attributes = {
               id: nil,
               name: nil,
@@ -122,7 +145,14 @@ RSpec.describe EventProcedures::Update, type: :operation do
           it "update event_procedure association health_insurance" do
             old_health_insurance = create(:health_insurance, name: "old_health_insurance_name")
             new_health_insurance = create(:health_insurance, name: "new_health_insurance_name")
-            event_procedure = create(:event_procedure, health_insurance: old_health_insurance)
+            cbhpm = create(:cbhpm)
+            procedure = create(:procedure)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+            event_procedure = create(
+              :event_procedure, procedure: procedure, cbhpm: cbhpm,
+              health_insurance: old_health_insurance
+            )
             attributes = {
               health_insurance_attributes: { id: new_health_insurance.id }
             }
@@ -136,7 +166,14 @@ RSpec.describe EventProcedures::Update, type: :operation do
           it "creates a new health_insurance and does not duplicate the creation" do
             user = create(:user)
             old_health_insurance = create(:health_insurance, name: "old_health_insurance_name")
-            event_procedure = create(:event_procedure, health_insurance: old_health_insurance)
+            cbhpm = create(:cbhpm)
+            procedure = create(:procedure)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+            event_procedure = create(
+              :event_procedure, procedure: procedure, cbhpm: cbhpm,
+              health_insurance: old_health_insurance
+            )
             health_insurance_attributes = {
               id: nil,
               name: "new_health_insurance_name",
@@ -162,7 +199,14 @@ RSpec.describe EventProcedures::Update, type: :operation do
           it "returns error" do
             user = create(:user)
             old_health_insurance = create(:health_insurance, name: "old_health_insurance_name")
-            event_procedure = create(:event_procedure, health_insurance: old_health_insurance)
+            cbhpm = create(:cbhpm)
+            procedure = create(:procedure)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+            event_procedure = create(
+              :event_procedure, procedure: procedure, cbhpm: cbhpm,
+              health_insurance: old_health_insurance
+            )
             health_insurance_attributes = {
               id: nil,
               name: nil,
@@ -182,8 +226,12 @@ RSpec.describe EventProcedures::Update, type: :operation do
 
       it "update event_procedure total_amount_cents" do
         procedure = create(:procedure, amount_cents: 1000)
+        cbhpm = create(:cbhpm)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
         event_procedure = create(
           :event_procedure,
+          cbhpm: cbhpm,
           procedure: procedure,
           urgency: false,
           room_type: EventProcedures::RoomTypes::WARD
@@ -197,7 +245,11 @@ RSpec.describe EventProcedures::Update, type: :operation do
       end
 
       it "returns success" do
-        event_procedure = create(:event_procedure)
+        procedure = create(:procedure, amount_cents: 1000)
+        cbhpm = create(:cbhpm)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+        event_procedure = create(:event_procedure, cbhpm: cbhpm, procedure: procedure)
         attributes = { date: Time.zone.yesterday, payd: true }
         result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
@@ -206,7 +258,14 @@ RSpec.describe EventProcedures::Update, type: :operation do
     end
 
     context "with invalid attributes" do
-      let!(:event_procedure) { create(:event_procedure) }
+      let!(:cbhpm) { create(:cbhpm) }
+      let!(:procedure) { create(:procedure) }
+      let!(:event_procedure) { create(:event_procedure, procedure: procedure, cbhpm: cbhpm) }
+
+      before do
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+      end
 
       it "fails" do
         attributes = { date: nil, payd: false }

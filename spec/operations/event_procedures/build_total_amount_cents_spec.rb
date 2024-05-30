@@ -5,28 +5,38 @@ require "rails_helper"
 RSpec.describe EventProcedures::BuildTotalAmountCents, type: :operation do
   describe ".result" do
     it "returns a success" do
-      event_procedure = create(:event_procedure)
+      cbhpm = create(:cbhpm)
+      procedure = create(:procedure)
+      create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+      create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+      event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm)
 
       expect(described_class.result(event_procedure: event_procedure)).to be_success
     end
 
     context "when urgency is true" do
       it "adds 30% to the total amount" do
-        procedure = create(:procedure, amount_cents: 10_100) # equals to R$101.00
-        event_procedure = create(:event_procedure, urgency: true, procedure_id: procedure.id)
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 43_300)
+        event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm, urgency: true)
 
         result = described_class.result(event_procedure: event_procedure)
 
-        expect(result.total_amount_cents).to eq(13_130) # equals to R$131.30
+        expect(result.total_amount_cents).to eq(56_290) # 433,00 + 30% equals to R$562,90
       end
     end
 
     context "when room_type is apartment" do
       it "doubles the total amount" do
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
         event_procedure = create(
-          :event_procedure,
-          room_type: EventProcedures::RoomTypes::APARTMENT,
-          procedure: create(:procedure, amount_cents: 1000)
+          :event_procedure, procedure: procedure, cbhpm: cbhpm,
+          room_type: EventProcedures::RoomTypes::APARTMENT
         )
 
         result = described_class.result(event_procedure: event_procedure)
@@ -37,11 +47,14 @@ RSpec.describe EventProcedures::BuildTotalAmountCents, type: :operation do
 
     context "when urgency is true and room_type is 'apartment'" do
       it "(adds 30% of the procedure value) and (another 100% of the procedure value) to total_amount_cents" do
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
         event_procedure = create(
-          :event_procedure,
-          urgency: true,
+          :event_procedure, procedure: procedure, cbhpm: cbhpm,
           room_type: EventProcedures::RoomTypes::APARTMENT,
-          procedure: create(:procedure, amount_cents: 1000)
+          urgency: true
         )
 
         result = described_class.result(event_procedure: event_procedure)

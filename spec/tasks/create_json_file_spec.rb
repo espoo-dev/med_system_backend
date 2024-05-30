@@ -11,7 +11,7 @@ RSpec.describe "create_json_file" do
   let(:files_selected) { files_dir.select { |file| File.file?(file) } }
   let(:dir_path) { "lib/data/procedures" }
   let(:run_task) { Rake::Task[task_name].invoke(file_path, 1) }
-  let(:delete_dir) { FileUtils.remove_dir(dir_path,true) }
+  let(:delete_dir) { FileUtils.remove_dir(dir_path, true) }
 
   before do
     Rake.application.rake_require("tasks/create_json_file")

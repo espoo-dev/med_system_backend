@@ -6,6 +6,7 @@ class EventProcedure < ApplicationRecord
 
   monetize :total_amount
 
+  belongs_to :cbhpm
   belongs_to :health_insurance
   belongs_to :hospital
   belongs_to :patient

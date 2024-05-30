@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe EventProcedure do
   describe "associations" do
+    it { is_expected.to belong_to(:cbhpm) }
     it { is_expected.to belong_to(:health_insurance) }
     it { is_expected.to belong_to(:hospital) }
     it { is_expected.to belong_to(:patient) }

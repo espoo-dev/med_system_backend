@@ -101,21 +101,22 @@ RSpec.describe "EventProcedures" do
         context "when patient exists" do
           it "returns created" do
             user = create(:user)
-            patient = create(:patient)
+            cbhpm = create(:cbhpm)
             procedure = create(:procedure)
-            health_insurance = create(:health_insurance)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+            patient = create(:patient)
             params = {
               hospital_id: create(:hospital).id,
-              health_insurance_id: create(:health_insurance).id,
+              cbhpm_id: cbhpm.id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
-              urgency: false,
+              urgency: true,
               room_type: EventProcedures::RoomTypes::WARD,
               payment: EventProcedures::Payments::HEALTH_INSURANCE,
-              user_id: user.id,
               patient_attributes: { id: patient.id },
               procedure_attributes: { id: procedure.id },
-              health_insurance_attributes: { id: health_insurance.id }
+              health_insurance_attributes: { id: create(:health_insurance).id }
             }
 
             headers = auth_token_for(user)
@@ -128,6 +129,9 @@ RSpec.describe "EventProcedures" do
             user = create(:user)
             patient = create(:patient)
             procedure = create(:procedure, amount_cents: 20_000, description: "nice description")
+            cbhpm = create(:cbhpm)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
             health_insurance = create(:health_insurance)
             params = {
               hospital_id: create(:hospital).id,
@@ -140,7 +144,8 @@ RSpec.describe "EventProcedures" do
               patient_attributes: { id: patient.id },
               procedure_attributes: { id: procedure.id },
               health_insurance_attributes: { id: health_insurance.id },
-              payd: true
+              payd: true,
+              cbhpm_id: cbhpm.id
             }
 
             headers = auth_token_for(user)
@@ -168,9 +173,12 @@ RSpec.describe "EventProcedures" do
             user = create(:user)
             procedure = create(:procedure)
             health_insurance = create(:health_insurance)
+            cbhpm = create(:cbhpm)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
             params = {
-              procedure_id: create(:procedure).id,
               hospital_id: create(:hospital).id,
+              cbhpm_id: cbhpm.id,
               health_insurance_id: create(:health_insurance).id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
@@ -192,9 +200,13 @@ RSpec.describe "EventProcedures" do
           it "returns event_procedure" do
             user = create(:user)
             procedure = create(:procedure)
+            cbhpm = create(:cbhpm)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
             health_insurance = create(:health_insurance)
             params = {
               hospital_id: create(:hospital).id,
+              cbhpm_id: cbhpm.id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
               urgency: false,
@@ -228,10 +240,12 @@ RSpec.describe "EventProcedures" do
             user = create(:user)
             patient = create(:patient)
             health_insurance = create(:health_insurance)
+            cbhpm = create(:cbhpm)
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
             procedure_attributes = attributes_for(:procedure, custom: true)
             params = {
               hospital_id: create(:hospital).id,
-              health_insurance_id: create(:health_insurance).id,
+              cbhpm_id: cbhpm.id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
               urgency: nil,
@@ -255,10 +269,13 @@ RSpec.describe "EventProcedures" do
             user = create(:user)
             patient = create(:patient)
             procedure = create(:procedure)
+            cbhpm = create(:cbhpm)
+            create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+            create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
             health_insurance_attributes = attributes_for(:health_insurance, custom: true)
             params = {
               hospital_id: create(:hospital).id,
-              health_insurance_id: create(:health_insurance).id,
+              cbhpm_id: cbhpm.id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
               urgency: nil,
@@ -305,6 +322,7 @@ RSpec.describe "EventProcedures" do
             post "/api/v1/event_procedures", params: params, headers: headers
 
             expect(response.parsed_body).to eq(
+              "cbhpm" => ["must exist"],
               "hospital" => ["must exist"],
               "date" => ["can't be blank"],
               "patient_service_number" => ["can't be blank"],
@@ -318,17 +336,24 @@ RSpec.describe "EventProcedures" do
 
     context "when user is not authenticated" do
       it "returns unauthorized" do
+        health_insurance = create(:health_insurance)
+        procedure = create(:procedure)
+        cbhpm = create(:cbhpm)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+        patient = create(:patient)
         params = {
-          procedure_id: create(:procedure).id,
-          patient_id: create(:patient).id,
+
           hospital_id: create(:hospital).id,
-          health_insurance_id: create(:health_insurance).id,
           patient_service_number: "1234567890",
           date: Time.zone.now.to_date,
           urgency: false,
           amount_cents: 100,
           room_type: EventProcedures::RoomTypes::WARD,
-          payment: EventProcedures::Payments::HEALTH_INSURANCE
+          payment: EventProcedures::Payments::HEALTH_INSURANCE,
+          patient_attributes: { id: patient.id },
+          procedure_attributes: { id: procedure.id },
+          health_insurance_attributes: { id: health_insurance.id }
         }
 
         post "/api/v1/event_procedures", params: params, headers: {}
@@ -343,18 +368,33 @@ RSpec.describe "EventProcedures" do
       context "with valid attributes and the record belongs to the user" do
         it "returns ok" do
           user = create(:user)
-          event_procedure = create(:event_procedure, user_id: user.id)
+          health_insurance = create(:health_insurance)
+          procedure = create(:procedure)
+          cbhpm = create(:cbhpm)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+          create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+          patient = create(:patient)
+          event_procedure = create(
+            :event_procedure,
+            health_insurance_id: health_insurance.id,
+            procedure_id: procedure.id,
+            patient_id: patient.id,
+            cbhpm_id: cbhpm.id,
+            user_id: user.id
+          )
 
           params = {
-            procedure_id: create(:procedure).id,
-            patient_id: create(:patient).id,
             hospital_id: create(:hospital).id,
+            cbhpm_id: cbhpm.id,
             health_insurance_id: create(:health_insurance).id,
             patient_service_number: "1234567890",
             date: Time.zone.now.to_date,
             urgency: false,
             room_type: EventProcedures::RoomTypes::WARD,
-            payment: EventProcedures::Payments::HEALTH_INSURANCE
+            payment: EventProcedures::Payments::HEALTH_INSURANCE,
+            patient_attributes: { id: patient.id },
+            procedure_attributes: { id: procedure.id },
+            health_insurance_attributes: { id: health_insurance.id }
           }
 
           headers = auth_token_for(user)
@@ -367,18 +407,32 @@ RSpec.describe "EventProcedures" do
       context "with valid attributes and the record not belongs to the user" do
         it "returns unauthorized" do
           user = create(:user)
-          event_procedure = create(:event_procedure)
+          health_insurance = create(:health_insurance)
+          procedure = create(:procedure)
+          cbhpm = create(:cbhpm)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+          create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+          patient = create(:patient)
+          event_procedure = create(
+            :event_procedure,
+            health_insurance_id: health_insurance.id,
+            procedure_id: procedure.id,
+            patient_id: patient.id,
+            cbhpm_id: cbhpm.id
+          )
 
           params = {
-            procedure_id: create(:procedure).id,
-            patient_id: create(:patient).id,
             hospital_id: create(:hospital).id,
+            cbhpm_id: cbhpm.id,
             health_insurance_id: create(:health_insurance).id,
             patient_service_number: "1234567890",
             date: Time.zone.now.to_date,
             urgency: false,
             room_type: EventProcedures::RoomTypes::WARD,
-            payment: EventProcedures::Payments::HEALTH_INSURANCE
+            payment: EventProcedures::Payments::HEALTH_INSURANCE,
+            patient_attributes: { id: patient.id },
+            procedure_attributes: { id: procedure.id },
+            health_insurance_attributes: { id: health_insurance.id }
           }
 
           headers = auth_token_for(user)
@@ -391,7 +445,20 @@ RSpec.describe "EventProcedures" do
       context "with invalid attributes" do
         it "returns unprocessable_entity" do
           user = create(:user)
-          event_procedure = create(:event_procedure, user_id: user.id)
+          health_insurance = create(:health_insurance)
+          procedure = create(:procedure)
+          cbhpm = create(:cbhpm)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+          create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+          patient = create(:patient)
+          event_procedure = create(
+            :event_procedure,
+            health_insurance_id: health_insurance.id,
+            procedure_id: procedure.id,
+            patient_id: patient.id,
+            cbhpm_id: cbhpm.id,
+            user_id: user.id
+          )
 
           headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
@@ -401,7 +468,20 @@ RSpec.describe "EventProcedures" do
 
         it "returns error message" do
           user = create(:user)
-          event_procedure = create(:event_procedure, user_id: user.id)
+          health_insurance = create(:health_insurance)
+          procedure = create(:procedure)
+          cbhpm = create(:cbhpm)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+          create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+          patient = create(:patient)
+          event_procedure = create(
+            :event_procedure,
+            health_insurance_id: health_insurance.id,
+            procedure_id: procedure.id,
+            patient_id: patient.id,
+            cbhpm_id: cbhpm.id,
+            user_id: user.id
+          )
 
           headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
