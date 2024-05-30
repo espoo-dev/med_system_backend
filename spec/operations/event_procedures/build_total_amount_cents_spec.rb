@@ -62,5 +62,22 @@ RSpec.describe EventProcedures::BuildTotalAmountCents, type: :operation do
         expect(result.total_amount_cents).to eq(2300)
       end
     end
+
+    context "when anesthetic port is ZERO" do
+      it "returns the amount of the anesthetic port value 3" do
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "0")
+        _porte_3 = create(
+          :port_value, cbhpm: cbhpm, port: "4C", anesthetic_port: "3",
+          amount_cents: 18_900
+        )
+        event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm)
+
+        result = described_class.result(event_procedure: event_procedure)
+
+        expect(result.total_amount_cents).to eq(18_900)
+      end
+    end
   end
 end
