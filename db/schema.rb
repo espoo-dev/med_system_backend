@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_23_134905) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_11_173556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
+
+  create_table "cbhpm_procedures", force: :cascade do |t|
+    t.bigint "cbhpm_id", null: false
+    t.bigint "procedure_id", null: false
+    t.string "port", null: false
+    t.string "anesthetic_port", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cbhpm_id"], name: "index_cbhpm_procedures_on_cbhpm_id"
+    t.index ["procedure_id"], name: "index_cbhpm_procedures_on_procedure_id"
+  end
+
+  create_table "cbhpms", force: :cascade do |t|
+    t.integer "year", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "devise_api_tokens", force: :cascade do |t|
     t.string "resource_owner_type", null: false
@@ -94,6 +112,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_23_134905) do
     t.index ["user_id"], name: "index_patients_on_user_id"
   end
 
+  create_table "port_values", force: :cascade do |t|
+    t.bigint "cbhpm_id", null: false
+    t.string "port"
+    t.string "anesthetic_port"
+    t.decimal "amount_cents", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cbhpm_id"], name: "index_port_values_on_cbhpm_id"
+  end
+
   create_table "procedures", force: :cascade do |t|
     t.string "name", null: false
     t.citext "code"
@@ -122,6 +150,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_23_134905) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
+  add_foreign_key "cbhpm_procedures", "cbhpms"
+  add_foreign_key "cbhpm_procedures", "procedures"
   add_foreign_key "event_procedures", "health_insurances"
   add_foreign_key "event_procedures", "hospitals"
   add_foreign_key "event_procedures", "patients"
@@ -130,4 +170,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_23_134905) do
   add_foreign_key "medical_shifts", "hospitals"
   add_foreign_key "medical_shifts", "users"
   add_foreign_key "patients", "users"
+  add_foreign_key "port_values", "cbhpms"
 end
