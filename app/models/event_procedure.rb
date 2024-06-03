@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class EventProcedure < ApplicationRecord
+  acts_as_paranoid
+
   has_enumeration_for :room_type, with: EventProcedures::RoomTypes, create_helpers: true
   has_enumeration_for :payment, with: EventProcedures::Payments, create_helpers: true
 
