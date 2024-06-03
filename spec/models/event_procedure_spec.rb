@@ -3,6 +3,43 @@
 require "rails_helper"
 
 RSpec.describe EventProcedure do
+  describe "acts_as_paranoid" do
+    it "soft deletes the record" do
+      event_procedure = create(:event_procedure)
+
+      event_procedure.destroy
+
+      expect(event_procedure.deleted_at).to be_present
+      expect(described_class.with_deleted).to include(event_procedure)
+    end
+
+    it "does not include the record in the default scope" do
+      event_procedure = create(:event_procedure)
+
+      event_procedure.destroy
+
+      expect(described_class.all).not_to include(event_procedure)
+    end
+
+    it "includes the record in the default scope when with_deleted is called" do
+      event_procedure = create(:event_procedure)
+
+      event_procedure.destroy
+
+      expect(described_class.with_deleted).to include(event_procedure)
+    end
+
+    it "restores a soft deleted record" do
+      event_procedure = create(:event_procedure)
+
+      event_procedure.destroy
+      event_procedure.recover!
+
+      expect(event_procedure.deleted_at).to be_nil
+      expect(described_class.all).to include(event_procedure)
+    end
+  end
+
   describe "associations" do
     it { is_expected.to belong_to(:cbhpm) }
     it { is_expected.to belong_to(:health_insurance) }
