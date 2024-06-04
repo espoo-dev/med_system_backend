@@ -38,9 +38,9 @@ gem "kaminari"
 # A Ruby Library for dealing with money and currency conversion.
 gem "money", "6.16.0"
 # Infinite tracing for New Relic
-gem "newrelic-infinite_tracing", "9.9.0"
+# gem "newrelic-infinite_tracing", "9.9.0"
 # Monitoring service New Relic
-gem "newrelic_rpm", "9.9.0"
+# gem "newrelic_rpm", "9.9.0"
 # GitHub strategy for OmniAuth
 gem "omniauth-github"
 # Provides CSRF protection on OmniAuth request endpoint on Rails application.
