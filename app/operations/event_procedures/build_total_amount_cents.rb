@@ -30,7 +30,7 @@ module EventProcedures
 
     def value_for_anesthetic_port_zero(event_procedure)
       port = PortValue.find_by(cbhpm_id: event_procedure.cbhpm_id, anesthetic_port: ANESTHETIC_PORT_ZERO_AMOUNT)
-      port&.amount_cents.to_i 
+      port&.amount_cents.to_i
     end
 
     def find_cbhpm_procedure
