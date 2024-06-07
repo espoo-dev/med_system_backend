@@ -402,6 +402,36 @@ RSpec.describe "EventProcedures" do
 
           expect(response).to have_http_status(:ok)
         end
+
+        it "updates event_procedure" do
+          user = create(:user)
+          health_insurance = create(:health_insurance)
+          procedure = create(:procedure, name: "Angioplastia transluminal")
+          patient = create(:patient)
+          cbhpm = create(:cbhpm)
+          create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, port: "12C", anesthetic_port: "6")
+          create(:port_value, cbhpm: cbhpm, port: "12C", anesthetic_port: "6", amount_cents: 60_500)
+          event_procedure = create(
+            :event_procedure,
+            health_insurance_id: health_insurance.id,
+            procedure_id: procedure.id,
+            patient_id: patient.id,
+            cbhpm_id: cbhpm.id,
+            user_id: user.id,
+            urgency: false,
+            room_type: EventProcedures::RoomTypes::APARTMENT
+          )
+          params = {
+            urgency: true
+          }
+
+          headers = auth_token_for(user)
+          put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: headers
+
+          expect(event_procedure.reload.urgency).to be true
+          expect(event_procedure.reload.room_type).to eq(EventProcedures::RoomTypes::APARTMENT)
+          expect(event_procedure.reload.total_amount_cents).to eq(139_150)
+        end
       end
 
       context "with valid attributes and the record not belongs to the user" do
