@@ -8,15 +8,23 @@ module EventProcedures
     output :event_procedures, type: Enumerable
 
     def call
-      self.event_procedures = filtered_query.order(date: :desc).page(params[:page]).per(params[:per_page])
+      self.event_procedures = ordered_paginated_query
     end
 
     private
 
     def filtered_query
-      query = scope.includes(%i[procedure patient hospital health_insurance])
+      query = EventProcedures::WithAssociationsQuery.call(relation: scope)
       query = apply_month_filter(query)
       apply_payd_filter(query)
+    end
+
+    def ordered_paginated_query
+      subquery = filtered_query
+      EventProcedure.from(subquery, :event_procedures)
+        .order(date: :desc)
+        .page(params[:page])
+        .per(params[:per_page])
     end
 
     def apply_month_filter(query)
