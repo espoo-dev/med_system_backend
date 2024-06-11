@@ -240,8 +240,8 @@ RSpec.describe EventProcedures::Update, type: :operation do
 
         result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
-        expect(result.event_procedure.total_amount_cents).to eq(2300)
-        expect(result.event_procedure.total_amount.format).to eq("R$23.00")
+        expect(result.event_procedure.total_amount_cents).to eq(2600)
+        expect(result.event_procedure.total_amount.format).to eq("R$26.00")
       end
 
       it "returns success" do
