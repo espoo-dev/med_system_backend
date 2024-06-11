@@ -430,7 +430,7 @@ RSpec.describe "EventProcedures" do
 
           expect(event_procedure.reload.urgency).to be true
           expect(event_procedure.reload.room_type).to eq(EventProcedures::RoomTypes::APARTMENT)
-          expect(event_procedure.reload.total_amount_cents).to eq(139_150)
+          expect(event_procedure.reload.total_amount_cents).to eq(157_300)
         end
       end
 

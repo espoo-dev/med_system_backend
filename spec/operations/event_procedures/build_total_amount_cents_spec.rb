@@ -59,7 +59,7 @@ RSpec.describe EventProcedures::BuildTotalAmountCents, type: :operation do
 
         result = described_class.result(event_procedure: event_procedure)
 
-        expect(result.total_amount_cents).to eq(2300)
+        expect(result.total_amount_cents).to eq(2600)
       end
     end
 

@@ -6,12 +6,11 @@ module EventProcedures
 
     output :total_amount_cents, type: Integer
 
-    APARTMENT_PERCENTAGE = 1
     URGENCY_PERCENTAGE = 0.3
     ANESTHETIC_PORT_ZERO_AMOUNT = "3"
 
     def call
-      self.total_amount_cents = base_amount_cents + apartment_amount + urgency_amount.to_i
+      self.total_amount_cents = (base_amount_cents + urgency_amount.to_i) * apartment_multiplier
     end
 
     private
@@ -30,7 +29,7 @@ module EventProcedures
 
     def value_for_anesthetic_port_zero(event_procedure)
       port = PortValue.find_by(cbhpm_id: event_procedure.cbhpm_id, anesthetic_port: ANESTHETIC_PORT_ZERO_AMOUNT)
-      port&.amount_cents.to_i 
+      port&.amount_cents.to_i
     end
 
     def find_cbhpm_procedure
@@ -47,10 +46,8 @@ module EventProcedures
       )
     end
 
-    def apartment_amount
-      return 0 unless event_procedure.apartment?
-
-      base_amount_cents * APARTMENT_PERCENTAGE
+    def apartment_multiplier
+      event_procedure.apartment? ? 2 : 1
     end
 
     def urgency_amount
