@@ -60,7 +60,7 @@ gem "pundit"
 # Rack::Cors provides support for Cross-Origin Resource Sharing (CORS) for Rack compatible web applications [https://github.com/cyu/rack-cors]
 gem "rack-cors"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.8"
+gem "rails", "7.1.3.4"
 # Use Redis adapter to run Action Cable in production
 gem "redis"
 # Swagger to Rails-based API's [https://github.com/rswag/rswag]
@@ -91,8 +91,6 @@ gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
-  gem "bullet"
-
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "dotenv-rails"
   gem "factory_bot_rails"
