@@ -63,8 +63,6 @@ gem "rack-cors"
 gem "rails", "7.1.3.4"
 # Use Redis adapter to run Action Cable in production
 gem "redis"
-# Swagger to Rails-based API's [https://github.com/rswag/rswag]
-gem "rswag"
 # Sentry SDK for Rails
 gem "sentry-rails"
 # Sentry SDK for Ruby
