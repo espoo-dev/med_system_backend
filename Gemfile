@@ -12,9 +12,7 @@ gem "acts_as_paranoid", "0.10.0"
 # A Rails engine that helps you put together a super-flexible admin dashboard.
 gem "administrate"
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-# Elasticsearch with chewy [https://github.com/toptal/chewy]
-gem "chewy"
+gem "bootsnap", "1.18.3", require: false
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -37,6 +35,8 @@ gem "jbuilder"
 gem "kaminari"
 # A Ruby Library for dealing with money and currency conversion.
 gem "money", "6.16.0"
+
+gem "multi_json"
 # Infinite tracing for New Relic
 # gem "newrelic-infinite_tracing", "9.9.0"
 # Monitoring service New Relic
