@@ -214,7 +214,6 @@ GEM
     graphiql-rails (1.9.0)
       railties
       sprockets-rails
-    graphql (2.1.1)
     hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -439,8 +438,6 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.24.0)
       rubocop (~> 1.33)
-    rubocop-graphql (1.4.0)
-      rubocop (>= 0.90, < 2)
     rubocop-performance (1.19.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
@@ -553,7 +550,6 @@ DEPENDENCIES
   enumerate_it (= 3.2.4)
   factory_bot_rails
   graphiql-rails
-  graphql
   importmap-rails
   jbuilder
   kaminari
@@ -575,7 +571,6 @@ DEPENDENCIES
   rspec-rails (~> 6.0.0)
   rspec-sidekiq
   rubocop (= 1.56.2)
-  rubocop-graphql (~> 1.4)
   rubocop-performance (= 1.19.0)
   rubocop-rails (= 2.20.2)
   rubocop-rspec (= 2.23.2)

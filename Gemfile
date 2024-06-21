@@ -25,8 +25,6 @@ gem "devise", "~> 4.9"
 gem "devise-api", github: "nejdetkadir/devise-api", branch: "main"
 # Enumerations for Ruby with some magic powers!
 gem "enumerate_it", "3.2.4"
-# Ruby implementation of GraphQL [https://github.com/rmosolgo/graphql-ruby]
-gem "graphql"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -100,7 +98,6 @@ end
 group :development do
   # To ensure code consistency [https://docs.rubocop.org]
   gem "rubocop", "1.56.2"
-  gem "rubocop-graphql", "~> 1.4"
   gem "rubocop-performance", "1.19.0"
   gem "rubocop-rails", "2.20.2"
   gem "rubocop-rspec", "2.23.2"

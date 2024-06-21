@@ -14,10 +14,6 @@
 - bin/dev
 - visit http://localhost:3000/
 
-## Graphql
-
-- visit http://localhost:3000/graphiql
-
 ## Run tests
 
 - docker compose exec web bundle exec bin/rspec -P ./_/\*\*/_\_spec.rb (-P ./_/\*\*/_\_spec.rb is needed to run specs from packs)
