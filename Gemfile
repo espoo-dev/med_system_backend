@@ -6,11 +6,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.2.2"
 
 # Active Model Serializer [https://github.com/rails-api/active_model_serializers]
-gem "active_model_serializers"
+gem "active_model_serializers", "0.10.14"
 # A Rails plugin to add soft delete. [https://github.com/ActsAsParanoid/acts_as_paranoid]
 gem "acts_as_paranoid", "0.10.0"
 # A Rails engine that helps you put together a super-flexible admin dashboard.
-gem "administrate"
+gem "administrate", "0.20.1"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "1.18.3", require: false
 
@@ -20,21 +20,21 @@ gem "bootsnap", "1.18.3", require: false
 # gem "image_processing", "~> 1.2"
 
 # Devise is a flexible authentication solution for Rails based on Warden [https://github.com/heartcombo/devise]
-gem "devise", "~> 4.9"
+gem "devise", "4.9.2"
 # devise-api authenticate API requests [https://github.com/nejdetkadir/devise-api]
 gem "devise-api", github: "nejdetkadir/devise-api", branch: "main"
 # Enumerations for Ruby with some magic powers!
-gem "enumerate_it", "3.2.4"
+gem "enumerate_it", "4.0.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
+gem "importmap-rails", "2.0.1"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
+gem "jbuilder", "2.11.5"
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for Ruby webapps
-gem "kaminari"
+gem "kaminari", "1.2.2"
 # A Ruby Library for dealing with money and currency conversion.
 gem "money", "6.16.0"
 
-gem "multi_json"
+gem "multi_json", "1.15.0"
 # Infinite tracing for New Relic
 # gem "newrelic-infinite_tracing", "9.9.0"
 # Monitoring service New Relic
@@ -46,37 +46,37 @@ gem "omniauth-rails_csrf_protection"
 # GitHub strategy for Strava
 gem "omniauth-strava"
 # Packages sturcture support
-gem "packwerk"
+gem "packwerk", "3.1.0"
 # Track changes to your models, for auditing or versioning.
-gem "paper_trail"
+gem "paper_trail", "15.1.0"
 # Use pg as the database for Active Record
-gem "pg"
+gem "pg", "1.5.4"
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.0"
+gem "puma", "6.4.2"
 # Minimal authorization through OO design and pure Ruby classes
-gem "pundit"
+gem "pundit", "2.3.2"
 # Rack::Cors provides support for Cross-Origin Resource Sharing (CORS) for Rack compatible web applications [https://github.com/cyu/rack-cors]
-gem "rack-cors"
+gem "rack-cors", "2.0.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "7.1.3.4"
 # Use Redis adapter to run Action Cable in production
-gem "redis"
+gem "redis", "5.2.0"
 # Sentry SDK for Rails
-gem "sentry-rails"
+gem "sentry-rails", "5.17.3"
 # Sentry SDK for Ruby
-gem "sentry-ruby"
+gem "sentry-ruby", "5.17.3"
 # This Ruby gem lets you move your application logic into small composable service objects. [https://github.com/sunny/actor]
-gem "service_actor", "~> 3.7"
+gem "service_actor", "3.7.0"
 # Simple, efficient background processing for Ruby [https://github.com/sidekiq/sidekiq]
-gem "sidekiq"
+gem "sidekiq", "7.2.4"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
+gem "sprockets-rails", "3.5.1"
 # A sampling call-stack profiler for ruby 2.2+
-gem "stackprof"
+gem "stackprof", "0.2.26"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
+gem "stimulus-rails", "1.3.3"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
+gem "turbo-rails", "2.0.5"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -87,12 +87,11 @@ gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
-  gem "debug", platforms: %i[mri mingw x64_mingw]
-  gem "dotenv-rails"
-  gem "factory_bot_rails"
+  gem "debug", "1.9.2", platforms: %i[mri mingw x64_mingw]
+  gem "dotenv-rails", "3.1.2"
+  gem "factory_bot_rails", "6.4.3"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "graphiql-rails"
-  gem "pry", "~> 0.14.2"
+  gem "pry", "0.14.2"
 end
 
 group :development do
@@ -102,24 +101,24 @@ group :development do
   gem "rubocop-rails", "2.20.2"
   gem "rubocop-rspec", "2.23.2"
   # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
+  gem "web-console", "4.2.1"
 
-  gem "brakeman"
-  gem "reek"
+  gem "brakeman", "6.1.2"
+  gem "reek", "6.3.0"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  gem "spring"
+  gem "spring", "4.2.1"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "rspec-rails", "~> 6.0.0"
-  gem "rspec-sidekiq"
-  gem "selenium-webdriver"
-  gem "shoulda-matchers", "~> 5.0"
-  gem "simplecov", require: false
-  gem "spring-commands-rspec"
+  gem "capybara", "3.40.0"
+  gem "rspec-rails", "6.0.3"
+  gem "rspec-sidekiq", "4.0.2"
+  gem "selenium-webdriver", "4.12.0"
+  gem "shoulda-matchers", "5.3.0"
+  gem "simplecov", "0.22.0", require: false
+  gem "spring-commands-rspec", "1.0.4"
 end
