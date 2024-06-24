@@ -89,7 +89,7 @@ RSpec.describe "Procedures" do
         it "returns unprocessable_entity" do
           post "/api/v1/procedures", params: invalid_attributes, headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
@@ -120,13 +120,13 @@ RSpec.describe "Procedures" do
       end
 
       context "with invalid attributes" do
-        it "returns unprocessable_entity" do
+        it "returns unprocessable_content" do
           procedure = create(:procedure)
 
           headers = auth_token_for(create(:user))
           put "/api/v1/procedures/#{procedure.id}", params: { name: nil }, headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
@@ -167,7 +167,7 @@ RSpec.describe "Procedures" do
       end
 
       context "when procedure cannot be destroyed" do
-        it "returns unprocessable_entity" do
+        it "returns unprocessable_content" do
           procedure = create(:procedure)
 
           allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
@@ -176,7 +176,7 @@ RSpec.describe "Procedures" do
           headers = auth_token_for(create(:user))
           delete "/api/v1/procedures/#{procedure.id}", headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do

@@ -105,8 +105,8 @@ RSpec.describe "Hospitals" do
           post "/api/v1/hospitals", params: { name: nil, address: nil }, headers: headers
         end
 
-        it "returns unprocessable_entity" do
-          expect(response).to have_http_status(:unprocessable_entity)
+        it "returns unprocessable_content" do
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do
@@ -158,8 +158,8 @@ RSpec.describe "Hospitals" do
           put "/api/v1/hospitals/#{hospital.id}", params: { name: nil, address: nil }, headers: headers
         end
 
-        it "returns unprocessable_entity" do
-          expect(response).to have_http_status(:unprocessable_entity)
+        it "returns unprocessable_content" do
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do
@@ -194,7 +194,7 @@ RSpec.describe "Hospitals" do
       end
 
       context "when hospital cannot be destroyed" do
-        it "returns unprocessable_entity" do
+        it "returns unprocessable_content" do
           hospital = create(:hospital)
           headers = auth_token_for(create(:user))
           allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
@@ -202,7 +202,7 @@ RSpec.describe "Hospitals" do
 
           delete "/api/v1/hospitals/#{hospital.id}", headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do

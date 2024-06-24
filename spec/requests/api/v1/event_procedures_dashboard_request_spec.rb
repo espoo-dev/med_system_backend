@@ -61,9 +61,9 @@ RSpec.describe "EventProcedures" do
       let(:params) { { start_date: "01-06-2000", end_date: "05-06-2000" } }
       let(:headers) { auth_token_for(user) }
 
-      it "returns unprocessable_entity" do
+      it "returns unprocessable_content" do
         do_request
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "returns error message" do
