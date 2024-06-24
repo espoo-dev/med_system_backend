@@ -97,9 +97,11 @@ end
 group :development do
   # To ensure code consistency [https://docs.rubocop.org]
   gem "rubocop", "1.56.2"
+  gem "rubocop-factory_bot", "!= 2.26.0", require: false
   gem "rubocop-performance", "1.19.0"
   gem "rubocop-rails", "2.20.2"
   gem "rubocop-rspec", "2.23.2"
+  gem "rubocop-rspec_rails", "!= 2.29.0", require: false
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console", "4.2.1"
 
