@@ -9,7 +9,7 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 # Load dotenv only in development or test environment
-Dotenv::Railtie.load if %w[development test].include? ENV["RAILS_ENV"]
+Dotenv::Rails.load if %w[development test].include? ENV["RAILS_ENV"]
 
 module App
   class Application < Rails::Application
@@ -19,7 +19,6 @@ module App
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -34,7 +33,6 @@ module App
 
     config.active_job.queue_adapter = :sidekiq
 
-    config.autoload_paths << "#{root}/packs/oauth/app"
-    config.autoload_paths << "#{root}/packs/demo_pack/app"
+    config.autoload_paths += %W[#{config.root}/lib #{config.root}/packs/oauth/app #{config.root}/packs/demo_pack/app]
   end
 end
