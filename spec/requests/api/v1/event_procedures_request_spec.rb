@@ -297,7 +297,7 @@ RSpec.describe "EventProcedures" do
 
       context "with invalid attributes" do
         context "when patient_id and patient_name are nil" do
-          it "returns unprocessable_entity" do
+          it "returns unprocessable_content" do
             headers = auth_token_for(create(:user))
             params = {
               patient_attributes: { id: nil },
@@ -306,7 +306,7 @@ RSpec.describe "EventProcedures" do
             }
             post "/api/v1/event_procedures", params: params, headers: headers
 
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
           end
 
           it "returns error message" do
@@ -473,7 +473,7 @@ RSpec.describe "EventProcedures" do
       end
 
       context "with invalid attributes" do
-        it "returns unprocessable_entity" do
+        it "returns unprocessable_content" do
           user = create(:user)
           health_insurance = create(:health_insurance)
           procedure = create(:procedure)
@@ -493,7 +493,7 @@ RSpec.describe "EventProcedures" do
           headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error message" do
@@ -558,7 +558,7 @@ RSpec.describe "EventProcedures" do
       end
 
       context "when event_procedure cannot be destroyed" do
-        it "returns unprocessable_entity" do
+        it "returns unprocessable_content" do
           user = create(:user)
           event_procedure = create(:event_procedure, user_id: user.id)
 
@@ -568,7 +568,7 @@ RSpec.describe "EventProcedures" do
           headers = auth_token_for(user)
           delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error message" do

@@ -116,8 +116,8 @@ RSpec.describe "Patients" do
           post "/api/v1/patients", params: invalid_attributes, headers: headers
         end
 
-        it "returns unprocessable_entity" do
-          expect(response).to have_http_status(:unprocessable_entity)
+        it "returns unprocessable_content" do
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do
@@ -169,8 +169,8 @@ RSpec.describe "Patients" do
           put "/api/v1/patients/#{patient.id}", params: { name: nil }, headers: headers
         end
 
-        it "returns unprocessable_entity" do
-          expect(response).to have_http_status(:unprocessable_entity)
+        it "returns unprocessable_content" do
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do
@@ -204,14 +204,14 @@ RSpec.describe "Patients" do
       end
 
       context "when patient cannot be destroyed" do
-        it "returns unprocessable_entity" do
+        it "returns unprocessable_content" do
           patient = create(:patient)
           create(:event_procedure, patient:)
           headers = auth_token_for(create(:user))
 
           delete "/api/v1/patients/#{patient.id}", headers: headers
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do

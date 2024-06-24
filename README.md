@@ -1,10 +1,12 @@
 [![CI](https://github.com/espoo-dev/rails_boilerplate/actions/workflows/ci.yml/badge.svg)](https://github.com/espoo-dev/rails_boilerplate/actions/workflows/ci.yml)
 
 ## Requirements
+
 - Docker
 - Docker-compose
 
 ## Getting Started
+
 - create a .env file based on .env.example and copy the content of .env.example to .env (`$ cp .env.example .env`)
 - docker compose build
 - docker compose run web bundle install
@@ -12,14 +14,13 @@
 - bin/dev
 - visit http://localhost:3000/
 
-## Graphql
-- visit http://localhost:3000/graphiql
-
 ## Run tests
-- docker compose exec web bundle exec bin/rspec -P ./*/**/*_spec.rb (-P ./*/**/*_spec.rb is needed to run specs from packs)
+
+- docker compose exec web bundle exec bin/rspec -P ./_/\*\*/_\_spec.rb (-P ./_/\*\*/_\_spec.rb is needed to run specs from packs)
 - open coverage/index.html (Check coverage report)
 
 Observation: To run tests with paper trail versioning, you must use `, versioning: true` on tests describes or use `with_versioning` block bellow:
+
 ```ruby
  with_versioning do
     it 'within a `with_versioning` block it will be turned on' do
@@ -29,13 +30,12 @@ Observation: To run tests with paper trail versioning, you must use `, versionin
 ```
 
 ## Check lint
+
 - docker compose exec web bundle exec bin/lint
 
 ## Check Security Vulnerabilities
-- docker compose exec web bundle exec bin/scan
 
-## API Doc Swagger
-- http://localhost:3000/api-docs/index.html
+- docker compose exec web bundle exec bin/scan
 
 ## Sidekiq
 

@@ -222,12 +222,12 @@ RSpec.describe "MedicalShifts" do
       end
 
       context "with invalid params" do
-        it "returns unprocessable_entity status" do
+        it "returns unprocessable_content status" do
           params = { amount_cents: 1, was_paid: false }
 
           post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error message" do
@@ -299,14 +299,14 @@ RSpec.describe "MedicalShifts" do
         end
 
         context "with invalid params" do
-          it "returns unprocessable_entity status" do
+          it "returns unprocessable_content status" do
             user = create(:user)
             medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
             params = { workload: nil }
 
             put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
 
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
           end
 
           it "returns error message" do

@@ -4,9 +4,9 @@ x-app: &app
   build:
     context: .
     args:
-      RUBY_VERSION: '3.2.2'
-      PG_MAJOR: '15'
-      NODE_MAJOR: '18'
+      RUBY_VERSION: "3.2.2"
+      PG_MAJOR: "15"
+      NODE_MAJOR: "18"
   environment: &env
     NODE_ENV: ${NODE_ENV:-development}
   tmpfs:
@@ -20,8 +20,8 @@ x-backend: &backend
   environment: &backend_environment
     <<: *env
   volumes:
-      - .:/app
-      - backend_data:/usr/local/bundle
+    - .:/app
+    - backend_data:/usr/local/bundle
   depends_on: &backend_depends_on
     database:
       condition: service_healthy
@@ -41,31 +41,12 @@ services:
     healthcheck:
       test: pg_isready -U postgres -h 127.0.0.1
       interval: 5s
-  elasticsearch:
-    image: elasticsearch:8.10.2
-    environment:
-      - "discovery.type=single-node"
-      - "cluster.name=elasticsearch-rails"
-      - "cluster.routing.allocation.disk.threshold_enabled=false"
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
-      - ELASTIC_PASSWORD=pwd123
-      - xpack.security.enabled=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
   web:
     <<: *backend
     hostname: web-app-container
     ports:
       - "3000:3000"
     depends_on:
-      elasticsearch:
-        condition: service_started
       sidekiq:
         condition: service_started
   sidekiq:
@@ -88,4 +69,3 @@ volumes:
   backend_data:
   database-data:
     driver: local
-  elasticsearch_data:
