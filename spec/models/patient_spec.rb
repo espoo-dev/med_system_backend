@@ -29,4 +29,20 @@ RSpec.describe Patient do
       it { is_expected.to be_falsy }
     end
   end
+
+  describe "callbacks" do
+    context "when before_save" do
+      let(:patient) { create(:patient, name: "  Patient Name Test  ") }
+
+      context "when patient is created" do
+        it { expect(patient.name).to eq("Patient Name Test") }
+      end
+
+      context "when patient is updated" do
+        before { patient.update(name: "  New Patient Name  ") }
+
+        it { expect(patient.name).to eq("New Patient Name") }
+      end
+    end
+  end
 end
