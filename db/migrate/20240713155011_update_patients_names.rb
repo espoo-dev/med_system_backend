@@ -5,11 +5,7 @@ class UpdatePatientsNames < ActiveRecord::Migration[7.0]
     patients = Patient.all
 
     patients.each do |patient|
-      next if patient.update!(name: patient.name)
-
-      fail_message = "Patient ID: #{patient.id} was not updated!"
-
-      Rails.logger.debug(fail_message)
+      patient.update!(name: patient.name)
     end; nil
   end
 end
