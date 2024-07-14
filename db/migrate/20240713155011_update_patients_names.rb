@@ -6,6 +6,6 @@ class UpdatePatientsNames < ActiveRecord::Migration[7.0]
 
     patients.each do |patient|
       patient.update!(name: patient.name)
-    end; nil
+    end
   end
 end
