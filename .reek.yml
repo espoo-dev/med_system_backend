@@ -93,4 +93,3 @@ exclude_paths:
   - db/seeds
   - packs/
   - spec/support/devise.rb
-  - app/controllers/graphql_controller.rb

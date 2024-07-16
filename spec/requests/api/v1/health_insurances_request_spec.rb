@@ -110,8 +110,8 @@ RSpec.describe "HealthInsurances" do
           post "/api/v1/health_insurances", params: health_insurance_params, headers: headers
         end
 
-        it "returns unprocessable_entity" do
-          expect(response).to have_http_status(:unprocessable_entity)
+        it "returns unprocessable_content" do
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do
