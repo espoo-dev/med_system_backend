@@ -6,6 +6,10 @@ class Patient < ApplicationRecord
 
   validates :name, presence: true
 
+  def name=(value)
+    super(value&.strip)
+  end
+
   def deletable?
     event_procedures.empty?
   end
