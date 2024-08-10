@@ -31,10 +31,10 @@ RSpec.describe "MedicalShifts" do
           medical_shifts = create_list(:medical_shift, 2, user: user)
           get api_v1_medical_shifts_path, headers: auth_token_for(user)
           second_hospital_name = medical_shifts.second.hospital_name
-          second_workload = medical_shifts.second.workload_in_hour
+          second_workload = medical_shifts.second.workload_humanize
           second_shift = medical_shifts.second.parsed_shift
           first_hospital_name = medical_shifts.first.hospital_name
-          first_workload = medical_shifts.first.workload_in_hour
+          first_workload = medical_shifts.first.workload_humanize
           first_shift = medical_shifts.first.parsed_shift
 
           expect(response.parsed_body["medical_shifts"].count).to eq(2)
@@ -42,7 +42,7 @@ RSpec.describe "MedicalShifts" do
             {
               "id" => medical_shifts.second.id,
               "hospital_name" => medical_shifts.second.hospital_name,
-              "workload" => medical_shifts.second.workload_in_hour,
+              "workload" => medical_shifts.second.workload_humanize,
               "date" => medical_shifts.second.start_date.strftime("%d/%m/%Y"),
               "hour" => medical_shifts.second.start_hour.strftime("%H:%M"),
               "amount_cents" => medical_shifts.second.amount.format,
@@ -53,7 +53,7 @@ RSpec.describe "MedicalShifts" do
             {
               "id" => medical_shifts.first.id,
               "hospital_name" => medical_shifts.first.hospital_name,
-              "workload" => medical_shifts.first.workload_in_hour,
+              "workload" => medical_shifts.first.workload_humanize,
               "date" => medical_shifts.first.start_date.strftime("%d/%m/%Y"),
               "hour" => medical_shifts.first.start_hour.strftime("%H:%M"),
               "amount_cents" => medical_shifts.first.amount.format,
@@ -109,10 +109,10 @@ RSpec.describe "MedicalShifts" do
             paid_medical_shifts = create_list(:medical_shift, 2, payd: true, user: user)
             _unpaid_medical_shifts = create(:medical_shift, payd: false, user: user)
             second_hospital_name = paid_medical_shifts.second.hospital_name
-            second_workload = paid_medical_shifts.second.workload_in_hour
+            second_workload = paid_medical_shifts.second.workload_humanize
             second_shift = paid_medical_shifts.second.parsed_shift
             first_hospital_name = paid_medical_shifts.first.hospital_name
-            first_workload = paid_medical_shifts.first.workload_in_hour
+            first_workload = paid_medical_shifts.first.workload_humanize
             first_shift = paid_medical_shifts.first.parsed_shift
 
             get api_v1_medical_shifts_path, params: { payd: "true" }, headers: auth_token_for(user)
@@ -122,7 +122,7 @@ RSpec.describe "MedicalShifts" do
               {
                 "id" => paid_medical_shifts.second.id,
                 "hospital_name" => paid_medical_shifts.second.hospital_name,
-                "workload" => paid_medical_shifts.second.workload_in_hour,
+                "workload" => paid_medical_shifts.second.workload_humanize,
                 "date" => paid_medical_shifts.second.start_date.strftime("%d/%m/%Y"),
                 "hour" => paid_medical_shifts.second.start_hour.strftime("%H:%M"),
                 "amount_cents" => paid_medical_shifts.second.amount.format,
@@ -133,7 +133,7 @@ RSpec.describe "MedicalShifts" do
               {
                 "id" => paid_medical_shifts.first.id,
                 "hospital_name" => paid_medical_shifts.first.hospital_name,
-                "workload" => paid_medical_shifts.first.workload_in_hour,
+                "workload" => paid_medical_shifts.first.workload_humanize,
                 "date" => paid_medical_shifts.first.start_date.strftime("%d/%m/%Y"),
                 "hour" => paid_medical_shifts.first.start_hour.strftime("%H:%M"),
                 "amount_cents" => paid_medical_shifts.first.amount.format,
@@ -149,10 +149,10 @@ RSpec.describe "MedicalShifts" do
             _paid_medical_shifts = create(:medical_shift, payd: true, user: user)
             unpaid_medical_shifts = create_list(:medical_shift, 2, payd: false, user: user)
             second_hospital_name = unpaid_medical_shifts.second.hospital_name
-            second_workload = unpaid_medical_shifts.second.workload_in_hour
+            second_workload = unpaid_medical_shifts.second.workload_humanize
             second_shift = unpaid_medical_shifts.second.parsed_shift
             first_hospital_name = unpaid_medical_shifts.first.hospital_name
-            first_workload = unpaid_medical_shifts.first.workload_in_hour
+            first_workload = unpaid_medical_shifts.first.workload_humanize
             first_shift = unpaid_medical_shifts.first.parsed_shift
 
             get api_v1_medical_shifts_path, params: { payd: "false" }, headers: auth_token_for(user)
@@ -162,7 +162,7 @@ RSpec.describe "MedicalShifts" do
               {
                 "id" => unpaid_medical_shifts.second.id,
                 "hospital_name" => unpaid_medical_shifts.second.hospital_name,
-                "workload" => unpaid_medical_shifts.second.workload_in_hour,
+                "workload" => unpaid_medical_shifts.second.workload_humanize,
                 "date" => unpaid_medical_shifts.second.start_date.strftime("%d/%m/%Y"),
                 "hour" => unpaid_medical_shifts.second.start_hour.strftime("%H:%M"),
                 "amount_cents" => unpaid_medical_shifts.second.amount.format,
@@ -173,7 +173,7 @@ RSpec.describe "MedicalShifts" do
               {
                 "id" => unpaid_medical_shifts.first.id,
                 "hospital_name" => unpaid_medical_shifts.first.hospital_name,
-                "workload" => unpaid_medical_shifts.first.workload_in_hour,
+                "workload" => unpaid_medical_shifts.first.workload_humanize,
                 "date" => unpaid_medical_shifts.first.start_date.strftime("%d/%m/%Y"),
                 "hour" => unpaid_medical_shifts.first.start_hour.strftime("%H:%M"),
                 "amount_cents" => unpaid_medical_shifts.first.amount.format,
@@ -248,13 +248,13 @@ RSpec.describe "MedicalShifts" do
           post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
 
           hospital_name = MedicalShift.last.hospital_name
-          workload = MedicalShift.last.workload_in_hour
+          workload = MedicalShift.last.workload_humanize
           shift = MedicalShift.last.parsed_shift
 
           expect(response.parsed_body.symbolize_keys).to include(
             id: MedicalShift.last.id,
             hospital_name: MedicalShift.last.hospital_name,
-            workload: MedicalShift.last.workload_in_hour,
+            workload: MedicalShift.last.workload_humanize,
             date: MedicalShift.last.start_date.strftime("%d/%m/%Y"),
             hour: MedicalShift.last.start_hour.strftime("%H:%M"),
             amount_cents: MedicalShift.last.amount.format,
@@ -332,7 +332,7 @@ RSpec.describe "MedicalShifts" do
             put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
 
             hospital_name = medical_shift.reload.hospital_name
-            workload = medical_shift.reload.workload_in_hour
+            workload = medical_shift.reload.workload_humanize
             shift = medical_shift.reload.parsed_shift
 
             expect(response.parsed_body.symbolize_keys).to include(

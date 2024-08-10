@@ -73,7 +73,7 @@ RSpec.describe MedicalShift do
     end
 
     context "when is nighttime" do
-      let(:medical_shift) { create(:medical_shift, start_hour: '22:00', workload: :twenty_four) }
+      let(:medical_shift) { create(:medical_shift, start_hour: "22:00", workload: :twenty_four) }
 
       it { expect(shift).to eq("#{medical_shift.hospital_name} | 24h | Noturno") }
     end
