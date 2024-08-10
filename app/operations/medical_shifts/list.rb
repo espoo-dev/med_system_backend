@@ -14,7 +14,7 @@ module MedicalShifts
     private
 
     def filtered_query
-      query = MedicalShift.includes([:hospital])
+      query = scope
       query = apply_month_filter(query)
       query = apply_hospital_filter(query)
       apply_payd_filter(query)
@@ -25,7 +25,7 @@ module MedicalShifts
     end
 
     def apply_hospital_filter(query)
-      params[:hospital_id].present? ? query.by_hospital(hospital_id: params[:hospital_id]) : query
+      params[:hospital_name].present? ? query.by_hospital(hospital_name: params[:hospital_name]) : query
     end
 
     def apply_payd_filter(query)

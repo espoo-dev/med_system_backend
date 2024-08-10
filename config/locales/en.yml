@@ -30,4 +30,8 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  enumerations:
+    medical_shifts/workloads:
+      six: 6h
+      twelve: 12h
+      twenty_four: 24h

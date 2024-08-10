@@ -12,10 +12,12 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     amount_cents: Field::Number,
-    date: Field::DateTime,
-    hospital: Field::BelongsTo,
+    start_date: Field::Date,
+    start_hour: Field::Time,
+    hospital_name: Field::String,
     user: Field::BelongsTo,
-    was_paid: Field::Boolean,
+    payd: Field::Boolean,
+    shift: Field::String,
     workload: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
@@ -29,8 +31,10 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     amount_cents
-    date
-    hospital
+    start_date
+    start_hour
+    shift
+    hospital_name
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -38,10 +42,12 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     amount_cents
-    date
-    hospital
+    start_date
+    start_hour
+    hospital_name
     user
-    was_paid
+    payd
+    shift
     workload
     created_at
     updated_at
@@ -52,10 +58,11 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     amount_cents
-    date
-    hospital
+    start_date
+    start_hour
+    hospital_name
     user
-    was_paid
+    payd
     workload
   ].freeze
 

@@ -37,10 +37,18 @@ RSpec.describe MedicalShifts::Update, type: :operation do
       it "returns error" do
         medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX)
 
-        result = described_class.result(id: medical_shift.id.to_s, attributes: { workload: nil, date: nil })
+        result = described_class.result(
+          id: medical_shift.id.to_s,
+          attributes: {
+            workload: nil,
+            start_date: nil,
+            start_hour: nil
+          }
+        )
+        erro = result.medical_shift.errors.full_messages
 
         expect(result.error).to eq(:invalid_record)
-        expect(result.medical_shift.errors.full_messages).to eq(["Workload can't be blank", "Date can't be blank"])
+        expect(erro).to eq(["Workload can't be blank", "Start date can't be blank", "Start hour can't be blank"])
       end
     end
   end

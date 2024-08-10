@@ -10,7 +10,7 @@ module MedicalShifts
     end
 
     def call
-      relation.where(user_id: user_id).where(was_paid: false).sum(:amount_cents)
+      relation.where(user_id: user_id).where(payd: false).sum(:amount_cents)
     end
   end
 end

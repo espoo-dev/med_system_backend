@@ -10,7 +10,7 @@ module MedicalShifts
     end
 
     def call
-      relation.where("EXTRACT(MONTH FROM date) = ?", month)
+      relation.where("EXTRACT(MONTH FROM start_date) = ?", month)
     end
   end
 end
