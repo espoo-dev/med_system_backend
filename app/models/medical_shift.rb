@@ -9,6 +9,7 @@ class MedicalShift < ApplicationRecord
 
   scope :by_hospital, MedicalShifts::ByHospitalQuery
   scope :by_month, MedicalShifts::ByMonthQuery
+  scope :by_year, MedicalShifts::ByYearQuery
   scope :by_payd, MedicalShifts::ByPaydQuery
 
   validates :workload, presence: true

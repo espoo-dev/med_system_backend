@@ -88,6 +88,20 @@ RSpec.describe MedicalShifts::List, type: :operation do
           expect(result.medical_shifts.to_a).to match_array(unpaid_medical_shifts)
         end
       end
+
+      context "when there is filter by year" do
+        subject(:result) { described_class.result(scope: MedicalShift.all, params: { year: "2023" }) }
+
+        let(:user) { create(:user) }
+        let(:medical_shifts) { create_list(:medical_shift, 2, start_date: "2024-01-01", user: user) }
+
+        before do
+          medical_shifts
+          MedicalShift.last.update(start_date: "2023-01-01")
+        end
+
+        it { expect(result.medical_shifts).to eq [MedicalShift.last] }
+      end
     end
   end
 end
