@@ -25,9 +25,11 @@ class MedicalShift < ApplicationRecord
     daytime_start = Time.new(2000, 0o1, 0o1, 0o7, 0o0, 0o0, 0o0)
     daytime_finish = Time.new(2000, 0o1, 0o1, 18, 59, 0o0, 0o0)
 
-    return self.shift = "Diurno" if start_hour.between?(daytime_start, daytime_finish)
+    if start_hour.between?(daytime_start, daytime_finish)
+      return self.shift = I18n.t("medical_shifts.attributes.shift.daytime")
+    end
 
-    self.shift = "Noturno"
+    self.shift = I18n.t("medical_shifts.attributes.shift.nighttime")
   end
 
   def parsed_title
