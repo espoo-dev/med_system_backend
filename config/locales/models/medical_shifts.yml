@@ -2,5 +2,5 @@ en:
   medical_shifts:
     attributes:
       shift:
-        nighttime: "Noturno"
-        daytime: "Diurno"
+        nighttime: "Nighttime"
+        daytime: "Daytime"
