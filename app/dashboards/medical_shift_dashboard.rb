@@ -18,6 +18,7 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
     user: Field::BelongsTo,
     payd: Field::Boolean,
     shift: Field::String,
+    title: Field::String,
     workload: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
@@ -49,6 +50,7 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
     payd
     shift
     workload
+    title
     created_at
     updated_at
   ].freeze

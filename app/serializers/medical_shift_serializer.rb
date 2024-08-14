@@ -3,6 +3,9 @@
 class MedicalShiftSerializer < ActiveModel::Serializer
   attributes :id, :hospital_name, :workload, :date, :hour, :amount_cents, :payd, :shift, :title
 
+  delegate :shift, to: :object
+  delegate :title, to: :object
+
   def date
     object.start_date.strftime("%d/%m/%Y")
   end

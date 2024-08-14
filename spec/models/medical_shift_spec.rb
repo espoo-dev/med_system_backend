@@ -31,8 +31,8 @@ RSpec.describe MedicalShift do
     end
   end
 
-  describe ".parsed_shift" do
-    subject(:shift) { medical_shift.parsed_shift }
+  describe ".shift" do
+    subject(:shift) { medical_shift.shift }
 
     context "when is daytime" do
       context "when after 12am" do
@@ -63,8 +63,8 @@ RSpec.describe MedicalShift do
     end
   end
 
-  describe ".parsed_title" do
-    subject(:shift) { medical_shift.parsed_title }
+  describe ".title" do
+    subject(:shift) { medical_shift.title }
 
     context "when is daytime" do
       let(:medical_shift) { create(:medical_shift, workload: :six) }
