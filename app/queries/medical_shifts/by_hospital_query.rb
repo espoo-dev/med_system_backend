@@ -2,15 +2,15 @@
 
 module MedicalShifts
   class ByHospitalQuery < ApplicationQuery
-    attr_reader :hospital_id, :relation
+    attr_reader :hospital_name, :relation
 
-    def initialize(hospital_id:, relation: MedicalShift)
-      @hospital_id = hospital_id
+    def initialize(hospital_name:, relation: MedicalShift)
+      @hospital_name = hospital_name
       @relation = relation
     end
 
     def call
-      relation.where(hospital_id: hospital_id)
+      relation.where(hospital_name: hospital_name)
     end
   end
 end

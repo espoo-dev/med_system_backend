@@ -1,0 +1,6 @@
+en:
+  medical_shifts:
+    attributes:
+      shift:
+        nighttime: "Nighttime"
+        daytime: "Daytime"

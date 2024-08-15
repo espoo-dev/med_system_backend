@@ -10,7 +10,7 @@ module MedicalShifts
     end
 
     def call
-      payd == "true" ? relation.where(was_paid: true) : relation.where(was_paid: false)
+      payd == "true" ? relation.where(payd: true) : relation.where(payd: false)
     end
   end
 end

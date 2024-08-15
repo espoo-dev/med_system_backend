@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_13_115003) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_04_173936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -95,18 +95,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_115003) do
   end
 
   create_table "medical_shifts", force: :cascade do |t|
-    t.bigint "hospital_id", null: false
     t.string "workload", null: false
-    t.datetime "date", null: false
+    t.date "start_date", null: false
     t.integer "amount_cents", default: 0, null: false
-    t.boolean "was_paid", default: false, null: false
+    t.boolean "payd", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.index ["date"], name: "index_medical_shifts_on_date"
-    t.index ["hospital_id"], name: "index_medical_shifts_on_hospital_id"
+    t.string "hospital_name", default: "", null: false
+    t.time "start_hour", null: false
+    t.index ["payd"], name: "index_medical_shifts_on_payd"
+    t.index ["start_date"], name: "index_medical_shifts_on_start_date"
     t.index ["user_id"], name: "index_medical_shifts_on_user_id"
-    t.index ["was_paid"], name: "index_medical_shifts_on_was_paid"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -174,7 +174,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_115003) do
   add_foreign_key "event_procedures", "patients"
   add_foreign_key "event_procedures", "procedures"
   add_foreign_key "event_procedures", "users"
-  add_foreign_key "medical_shifts", "hospitals"
   add_foreign_key "medical_shifts", "users"
   add_foreign_key "patients", "users"
   add_foreign_key "port_values", "cbhpms"

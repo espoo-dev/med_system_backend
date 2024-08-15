@@ -2,13 +2,14 @@
 
 FactoryBot.define do
   factory :medical_shift do
-    hospital
     user
 
+    hospital_name { "Hospital Test" }
     workload { MedicalShifts::Workloads::SIX }
-    date { "2024-01-29 10:51:23" }
+    start_date { "2024-01-29" }
+    start_hour { "10:51:23" }
     amount_cents { 1 }
-    was_paid { false }
+    payd { false }
 
     traits_for_enum(:workload, MedicalShifts::Workloads.list)
   end

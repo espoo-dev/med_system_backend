@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
 class MedicalShiftSerializer < ActiveModel::Serializer
-  attributes :id, :hospital_name, :workload, :date, :amount_cents, :was_paid
-
-  def hospital_name
-    object.hospital.name
-  end
+  attributes :id, :hospital_name, :workload, :date, :hour, :amount_cents, :payd, :shift, :title
 
   def date
-    object.date.strftime("%d/%m/%Y")
+    object.start_date.strftime("%d/%m/%Y")
+  end
+
+  def hour
+    object.start_hour.strftime("%H:%M")
   end
 
   def amount_cents
     object.amount.format
+  end
+
+  def workload
+    object.workload_humanize
   end
 end
