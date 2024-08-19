@@ -334,6 +334,17 @@ RSpec.describe "MedicalShifts" do
 
       it { expect(response).to have_http_status(:ok) }
 
+      context "when does not find medical_shifts" do
+        let(:fake_id) { 9999 }
+
+        before do
+          delete "/api/v1/medical_shifts/#{fake_id}", headers: headers
+        end
+
+        it { expect(response).to have_http_status(:not_found) }
+        it { expect(response.parsed_body[:error]).to eq("Couldn't find MedicalShift with 'id'=#{fake_id}") }
+      end
+
       context "when medical_shift cannot be destroyed" do
         before do
           allow(MedicalShift).to receive(:find).with(medical_shift.id.to_s).and_return(medical_shift)
