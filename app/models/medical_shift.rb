@@ -5,7 +5,6 @@ class MedicalShift < ApplicationRecord
 
   monetize :amount
 
-  belongs_to :hospital
   belongs_to :user
 
   scope :by_hospital, MedicalShifts::ByHospitalQuery
@@ -13,8 +12,22 @@ class MedicalShift < ApplicationRecord
   scope :by_payd, MedicalShifts::ByPaydQuery
 
   validates :workload, presence: true
-  validates :date, presence: true
+  validates :start_date, presence: true
+  validates :start_hour, presence: true
   validates :amount_cents, presence: true
 
   validates :amount_cents, numericality: { greater_than_or_equal_to: 0 }
+
+  def shift
+    daytime_start = Time.new(2000, 0o1, 0o1, 0o7, 0o0, 0o0, 0o0)
+    daytime_finish = Time.new(2000, 0o1, 0o1, 18, 59, 0o0, 0o0)
+
+    return I18n.t("medical_shifts.attributes.shift.daytime") if start_hour.between?(daytime_start, daytime_finish)
+
+    I18n.t("medical_shifts.attributes.shift.nighttime")
+  end
+
+  def title
+    "#{hospital_name} | #{workload_humanize} | #{shift}"
+  end
 end

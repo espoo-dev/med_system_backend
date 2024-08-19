@@ -25,15 +25,6 @@ RSpec.describe MedicalShifts::List, type: :operation do
         expect(result.medical_shifts).to eq [tomorrow_medical_shift, today_medical_shift, yesterday_medical_shift]
       end
 
-      it "includes hospital" do
-        user = create(:user)
-        create(:medical_shift, user: user)
-
-        result = described_class.result(scope: MedicalShift.all, params: {})
-
-        expect(result.medical_shifts.first.association(:hospital).loaded?).to be true
-      end
-
       context "when has pagination via page and per_page" do
         it "returns the medical_shifts paginated" do
           user = create(:user)
@@ -51,8 +42,8 @@ RSpec.describe MedicalShifts::List, type: :operation do
       context "when there is the filter per month" do
         it "returns medical_shifts per month" do
           user = create(:user)
-          february_medical_shift = create(:medical_shift, date: "2023-02-15", user: user)
-          _september_medical_shift = create(:medical_shift, date: "2023-09-26", user: user)
+          february_medical_shift = create(:medical_shift, start_date: "2023-02-15", user: user)
+          _september_medical_shift = create(:medical_shift, start_date: "2023-09-26", user: user)
 
           result = described_class.result(scope: MedicalShift.all, params: { month: "2" })
 
@@ -64,12 +55,12 @@ RSpec.describe MedicalShifts::List, type: :operation do
         it "returns medical_shifts per hospital" do
           user = create(:user)
           hospital = create(:hospital)
-          hospital_medical_shift = create(:medical_shift, hospital: hospital, user: user)
+          hospital_medical_shift = create(:medical_shift, hospital_name: hospital.name, user: user)
           _another_hospital_medical_shift = create(:medical_shift, user: user)
 
           result = described_class.result(
             scope: MedicalShift.all,
-            params: { hospital_id: hospital.id.to_s }
+            params: { hospital_name: hospital.name }
           )
 
           expect(result.medical_shifts).to eq [hospital_medical_shift]
@@ -79,8 +70,8 @@ RSpec.describe MedicalShifts::List, type: :operation do
       context "when there is the filter per payd" do
         it "returns paid medical_shifts" do
           user = create(:user)
-          paid_medical_shifts = create_list(:medical_shift, 3, was_paid: true, user: user)
-          _unpaid_medical_shifts = create_list(:medical_shift, 3, was_paid: false, user: user)
+          paid_medical_shifts = create_list(:medical_shift, 3, payd: true, user: user)
+          _unpaid_medical_shifts = create_list(:medical_shift, 3, payd: false, user: user)
 
           result = described_class.result(scope: MedicalShift.all, params: { payd: "true" })
 
@@ -89,8 +80,8 @@ RSpec.describe MedicalShifts::List, type: :operation do
 
         it "returns unpaid medical_shifts" do
           user = create(:user)
-          _paid_medical_shifts = create_list(:medical_shift, 3, was_paid: true, user: user)
-          unpaid_medical_shifts = create_list(:medical_shift, 3, was_paid: false, user: user)
+          _paid_medical_shifts = create_list(:medical_shift, 3, payd: true, user: user)
+          unpaid_medical_shifts = create_list(:medical_shift, 3, payd: false, user: user)
 
           result = described_class.result(scope: MedicalShift.all, params: { payd: "false" })
 

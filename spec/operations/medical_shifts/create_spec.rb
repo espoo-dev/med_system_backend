@@ -8,11 +8,12 @@ RSpec.describe MedicalShifts::Create, type: :operation do
       it "is successful" do
         user = create(:user)
         attributes = {
-          hospital_id: create(:hospital).id,
+          hospital_name: create(:hospital).name,
           workload: MedicalShifts::Workloads::SIX,
-          date: "2024-01-29 10:51:23",
+          start_date: "2024-01-29",
+          start_hour: "10:51:23",
           amount_cents: 1,
-          was_paid: false
+          payd: false
         }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
@@ -23,13 +24,13 @@ RSpec.describe MedicalShifts::Create, type: :operation do
       it "creates a new medical shift" do
         user = create(:user)
         attributes = {
-          hospital_id: create(:hospital).id,
+          hospital_name: create(:hospital).name,
           workload: MedicalShifts::Workloads::SIX,
-          date: "2024-01-29 10:51:23",
+          start_date: "2024-01-29",
+          start_hour: "10:51:23",
           amount_cents: 1,
-          was_paid: false
+          payd: false
         }
-
         result = described_class.result(attributes: attributes, user_id: user.id)
 
         expect(result.medical_shift).to be_persisted
@@ -39,7 +40,7 @@ RSpec.describe MedicalShifts::Create, type: :operation do
     context "with invalid attributes" do
       it "fails" do
         user = create(:user)
-        attributes = { amount_cents: 1, was_paid: false }
+        attributes = { amount_cents: 1, payd: false }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
 
@@ -48,7 +49,7 @@ RSpec.describe MedicalShifts::Create, type: :operation do
 
       it "does not create a new medical shift" do
         user = create(:user)
-        attributes = { amount_cents: 1, was_paid: false }
+        attributes = { amount_cents: 1, payd: false }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
 
@@ -58,16 +59,16 @@ RSpec.describe MedicalShifts::Create, type: :operation do
 
       it "returns an error" do
         user = create(:user)
-        attributes = { amount_cents: 1, was_paid: false }
+        attributes = { amount_cents: 1, payd: false }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
 
         expect(result.error).to eq(:invalid_record)
         expect(result.medical_shift.errors.full_messages).to eq(
           [
-            "Hospital must exist",
             "Workload can't be blank",
-            "Date can't be blank"
+            "Start date can't be blank",
+            "Start hour can't be blank"
           ]
         )
       end
