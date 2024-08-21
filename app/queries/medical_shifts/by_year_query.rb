@@ -10,7 +10,7 @@ module MedicalShifts
     end
 
     def call
-      relation.where("EXTRACT(YEAR FROM start_date) = ?", year)
+      relation.where(start_date: range_all_year(year))
     end
   end
 end
