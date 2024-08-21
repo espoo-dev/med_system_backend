@@ -31,20 +31,20 @@ RSpec.describe MedicalShift do
     end
   end
 
-  describe ".parsed_shift" do
-    subject(:shift) { medical_shift.parsed_shift }
+  describe ".shift" do
+    subject(:shift) { medical_shift.shift }
 
     context "when is daytime" do
       context "when after 12am" do
         let(:medical_shift) { create(:medical_shift, start_hour: "18:59") }
 
-        it { expect(shift).to eq("Diurno") }
+        it { expect(shift).to eq("Daytime") }
       end
 
       context "when before 12am" do
         let(:medical_shift) { create(:medical_shift, start_hour: "07:00") }
 
-        it { expect(shift).to eq("Diurno") }
+        it { expect(shift).to eq("Daytime") }
       end
     end
 
@@ -52,30 +52,30 @@ RSpec.describe MedicalShift do
       context "when after 12am" do
         let(:medical_shift) { create(:medical_shift, start_hour: "19:00") }
 
-        it { expect(shift).to eq("Noturno") }
+        it { expect(shift).to eq("Nighttime") }
       end
 
       context "when before 12am" do
         let(:medical_shift) { create(:medical_shift, start_hour: "6:59") }
 
-        it { expect(shift).to eq("Noturno") }
+        it { expect(shift).to eq("Nighttime") }
       end
     end
   end
 
-  describe ".parsed_title" do
-    subject(:shift) { medical_shift.parsed_title }
+  describe ".title" do
+    subject(:shift) { medical_shift.title }
 
     context "when is daytime" do
       let(:medical_shift) { create(:medical_shift, workload: :six) }
 
-      it { expect(shift).to eq("#{medical_shift.hospital_name} | 6h | Diurno") }
+      it { expect(shift).to eq("#{medical_shift.hospital_name} | 6h | Daytime") }
     end
 
     context "when is nighttime" do
       let(:medical_shift) { create(:medical_shift, start_hour: "22:00", workload: :twenty_four) }
 
-      it { expect(shift).to eq("#{medical_shift.hospital_name} | 24h | Noturno") }
+      it { expect(shift).to eq("#{medical_shift.hospital_name} | 24h | Nighttime") }
     end
   end
 end

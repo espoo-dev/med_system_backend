@@ -19,19 +19,16 @@ class MedicalShift < ApplicationRecord
 
   validates :amount_cents, numericality: { greater_than_or_equal_to: 0 }
 
-  before_create :parsed_shift
-  before_save :parsed_title # rubocop:disable Rails/ActiveRecordCallbacksOrder
-
-  def parsed_shift
+  def shift
     daytime_start = Time.new(2000, 0o1, 0o1, 0o7, 0o0, 0o0, 0o0)
     daytime_finish = Time.new(2000, 0o1, 0o1, 18, 59, 0o0, 0o0)
 
-    return self.shift = "Diurno" if start_hour.between?(daytime_start, daytime_finish)
+    return I18n.t("medical_shifts.attributes.shift.daytime") if start_hour.between?(daytime_start, daytime_finish)
 
-    self.shift = "Noturno"
+    I18n.t("medical_shifts.attributes.shift.nighttime")
   end
 
-  def parsed_title
-    self.title = "#{hospital_name} | #{workload_humanize} | #{parsed_shift}"
+  def title
+    "#{hospital_name} | #{workload_humanize} | #{shift}"
   end
 end

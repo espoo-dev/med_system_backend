@@ -104,8 +104,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_04_173936) do
     t.bigint "user_id", null: false
     t.string "hospital_name", default: "", null: false
     t.time "start_hour", null: false
-    t.string "title"
-    t.string "shift"
     t.index ["payd"], name: "index_medical_shifts_on_payd"
     t.index ["start_date"], name: "index_medical_shifts_on_start_date"
     t.index ["user_id"], name: "index_medical_shifts_on_user_id"
