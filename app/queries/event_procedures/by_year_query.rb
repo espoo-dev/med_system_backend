@@ -10,7 +10,7 @@ module EventProcedures
     end
 
     def call
-      relation.where("EXTRACT(YEAR FROM date) = ?", year)
+      relation.where(date: range_all_year(year))
     end
   end
 end
