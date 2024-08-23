@@ -43,7 +43,7 @@ module Api
         result = Patients::Destroy.result(id: patient.id.to_s)
 
         if result.success?
-          render json: result.patient, status: :ok
+          deleted_successfully_render(result.patient)
         else
           render json: result.error, status: :unprocessable_entity
         end

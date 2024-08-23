@@ -200,6 +200,7 @@ RSpec.describe "Patients" do
 
         delete "/api/v1/patients/#{patient.id}", headers: headers
 
+        expect(response.parsed_body[:message]).to eq("#{patient.class} deleted successfully.")
         expect(response).to have_http_status(:ok)
       end
 
