@@ -10,10 +10,10 @@ class ProcedurePolicy < ApplicationPolicy
   end
 
   def update?
-    user.present?
+    user.present? && owner?
   end
 
   def destroy?
-    user.present?
+    update?
   end
 end

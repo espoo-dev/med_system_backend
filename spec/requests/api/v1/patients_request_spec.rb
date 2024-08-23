@@ -141,11 +141,13 @@ RSpec.describe "Patients" do
     end
 
     context "when user is authenticated" do
+      let(:user) { create(:user) }
+
       context "when params are valid" do
-        let!(:patient) { create(:patient, name: "Old Name") }
+        let!(:patient) { create(:patient, user: user, name: "Old Name") }
 
         before do
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           put "/api/v1/patients/#{patient.id}", params: { name: "New Name" }, headers: headers
         end
 
@@ -162,10 +164,10 @@ RSpec.describe "Patients" do
       end
 
       context "when params are invalid" do
-        let!(:patient) { create(:patient) }
+        let!(:patient) { create(:patient, user: user) }
 
         before do
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           put "/api/v1/patients/#{patient.id}", params: { name: nil }, headers: headers
         end
 
@@ -183,6 +185,8 @@ RSpec.describe "Patients" do
   end
 
   describe "DELETE api/v1/patients/:id" do
+    let(:user) { create(:user) }
+
     context "when user is not authenticated" do
       let!(:patient) { create(:patient) }
 
@@ -195,8 +199,8 @@ RSpec.describe "Patients" do
 
     context "when user is authenticated" do
       it "returns ok" do
-        patient = create(:patient)
-        headers = auth_token_for(create(:user))
+        patient = create(:patient, user: user)
+        headers = auth_token_for(user)
 
         delete "/api/v1/patients/#{patient.id}", headers: headers
 
@@ -206,9 +210,9 @@ RSpec.describe "Patients" do
 
       context "when patient cannot be destroyed" do
         it "returns unprocessable_content" do
-          patient = create(:patient)
+          patient = create(:patient, user: user)
           create(:event_procedure, patient:)
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
 
           delete "/api/v1/patients/#{patient.id}", headers: headers
 
@@ -216,9 +220,9 @@ RSpec.describe "Patients" do
         end
 
         it "returns errors" do
-          patient = create(:patient)
+          patient = create(:patient, user: user)
           create(:event_procedure, patient:)
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
 
           delete "/api/v1/patients/#{patient.id}", headers: headers
 

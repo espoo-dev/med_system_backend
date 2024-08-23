@@ -73,5 +73,12 @@ RSpec.describe EventProcedurePolicy do
 
       expect(described_class.new(nil, event_procedure).destroy?).to be false
     end
+
+    context "when belongs to other user" do
+      let(:user) { create(:user) }
+      let(:event_procedure) { create(:event_procedure) }
+
+      it { expect(described_class.new(user, event_procedure).destroy?).to be false }
+    end
   end
 end
