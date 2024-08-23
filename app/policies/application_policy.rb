@@ -8,8 +8,8 @@ class ApplicationPolicy
     @record = record
   end
 
-  def owner?
-    user == record.user
+  def is_user_owner?
+    user.present? && user == record.user
   end
 
   def index?

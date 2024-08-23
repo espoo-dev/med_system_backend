@@ -3,82 +3,39 @@
 require "rails_helper"
 
 RSpec.describe EventProcedurePolicy do
-  describe "Scope" do
-    it "returns all event_procedures for user" do
-      user = create(:user)
-      event_procedure = create(:event_procedure, user: user)
+  let(:user) { create(:user) }
+  let(:event_procedure) { create(:event_procedure, user: user) }
+  let(:event_procedure_without_user) { create(:event_procedure) }
 
-      scope = described_class::Scope.new(user, EventProcedure.all).resolve
+  describe EventProcedurePolicy::Scope do
+    subject(:result) { instance.resolve }
 
-      expect(scope).to eq [event_procedure]
+    let(:instance) { described_class.new(user, EventProcedure.all) }
+
+    context "when has user" do
+      it { expect(result).to eq [event_procedure] }
     end
 
-    it "returns no event_procedures for unregistered user" do
-      create(:event_procedure)
-      scope = described_class::Scope.new(nil, EventProcedure.all).resolve
+    context "when has no user" do
+      let(:user) { nil }
 
-      expect(scope).to eq []
-    end
-  end
-
-  describe "#index?" do
-    it "returns true for user" do
-      user = create(:user)
-
-      expect(described_class.new(user, EventProcedure).index?).to be true
-    end
-
-    it "returns false for unregistered user" do
-      expect(described_class.new(nil, EventProcedure).index?).to be false
+      it { expect(result).to eq [] }
     end
   end
 
-  describe "#create?" do
-    it "returns true for user" do
-      user = create(:user)
-
-      expect(described_class.new(user, EventProcedure).create?).to be true
-    end
-
-    it "returns false for unregistered user" do
-      expect(described_class.new(nil, EventProcedure).create?).to be false
+  permissions :index?, :create? do
+    context "when has no user" do
+      it { expect(described_class).not_to permit(nil, event_procedure) }
     end
   end
 
-  describe "#update?" do
-    it "returns true for user" do
-      user = create(:user)
-      event_procedure = create(:event_procedure, user: user)
-
-      expect(described_class.new(user, event_procedure).update?).to be true
+  permissions :update?, :destroy? do
+    context "when user is owner" do
+      it { expect(described_class).to permit(user, event_procedure) }
     end
 
-    it "returns false for unregistered user" do
-      event_procedure = create(:event_procedure)
-
-      expect(described_class.new(nil, event_procedure).update?).to be false
-    end
-  end
-
-  describe "#destroy?" do
-    it "returns true for user" do
-      user = create(:user)
-      event_procedure = create(:event_procedure, user: user)
-
-      expect(described_class.new(user, event_procedure).destroy?).to be true
-    end
-
-    it "returns false for unregistered user" do
-      event_procedure = create(:event_procedure)
-
-      expect(described_class.new(nil, event_procedure).destroy?).to be false
-    end
-
-    context "when belongs to other user" do
-      let(:user) { create(:user) }
-      let(:event_procedure) { create(:event_procedure) }
-
-      it { expect(described_class.new(user, event_procedure).destroy?).to be false }
+    context "when user is not owner" do
+      it { expect(described_class).not_to permit(user, event_procedure_without_user) }
     end
   end
 end

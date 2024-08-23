@@ -13,10 +13,10 @@ class EventProcedurePolicy < ApplicationPolicy
   end
 
   def update?
-    user.present? && owner?
+    is_user_owner?
   end
 
   def destroy?
-    update?
+    is_user_owner?
   end
 end

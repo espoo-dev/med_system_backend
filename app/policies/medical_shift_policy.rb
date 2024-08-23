@@ -13,6 +13,6 @@ class MedicalShiftPolicy < ApplicationPolicy
   end
 
   def update?
-    user.present? && record.user == user
+    is_user_owner?
   end
 end
