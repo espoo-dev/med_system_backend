@@ -11,7 +11,7 @@ RSpec.describe ApplicationPolicy do
     it { expect(described_class).not_to permit(nil, nil) }
   end
 
-  permissions :is_user_owner? do
+  permissions :user_owner? do
     context "when user is owner" do
       it { expect(described_class).to permit(user, patient) }
     end

@@ -8,7 +8,7 @@ class ApplicationPolicy
     @record = record
   end
 
-  def is_user_owner?
+  def user_owner?
     user.present? && user == record.user
   end
 

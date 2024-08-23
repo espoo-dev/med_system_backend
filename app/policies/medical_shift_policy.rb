@@ -13,6 +13,6 @@ class MedicalShiftPolicy < ApplicationPolicy
   end
 
   def update?
-    is_user_owner?
+    user_owner?
   end
 end
