@@ -67,17 +67,20 @@ RSpec.describe MedicalShiftPolicy do
     end
 
     describe "#delete?" do
-      context "when has a user" do
-        let(:user) { create(:user) }
-        let(:medical_shift) { create(:medical_shift) }
+      let(:user) { create(:user) }
+      let(:medical_shift_no_user) { create(:medical_shift) }
+      let(:medical_shift_user) { create(:medical_shift, user: user) }
 
-        it { expect(described_class.new(user, medical_shift).destroy?).to be true }
+      context "when has a user" do
+        it { expect(described_class.new(user, medical_shift_user).destroy?).to be true }
       end
 
       context "when does not have a user" do
-        let(:medical_shift) { create(:medical_shift) }
+        it { expect(described_class.new(nil, medical_shift_no_user).destroy?).to be false }
+      end
 
-        it { expect(described_class.new(nil, medical_shift).destroy?).to be false }
+      context "when belongs to other owner" do
+        it { expect(described_class.new(user, medical_shift_no_user).destroy?).to be false }
       end
     end
   end

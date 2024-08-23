@@ -383,6 +383,7 @@ RSpec.describe "MedicalShifts" do
 
       before { delete "/api/v1/medical_shifts/#{medical_shift.id}", headers: headers }
 
+      it { expect(response.parsed_body[:message]).to eq("#{medical_shift.class} deleted successfully.") }
       it { expect(response).to have_http_status(:ok) }
 
       context "when does not find medical_shifts" do
