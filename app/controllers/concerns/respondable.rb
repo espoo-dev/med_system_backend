@@ -4,6 +4,6 @@ module Respondable
   extend ActiveSupport::Concern
 
   def deleted_successfully_render(record)
-    render json: { message: "#{record.class} deleted successfully." }, status: :ok
+    render json: { message: I18n.t("controllers.actions.delete.success", class_name: record.class) }, status: :ok
   end
 end
