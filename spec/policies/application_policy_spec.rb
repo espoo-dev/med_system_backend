@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe ApplicationPolicy do
   let(:user) { create(:user) }
   let(:patient) { create(:patient, user: user) }
-  let(:patient_without_user) { create(:patient) }
+  let(:another_owner_patient) { create(:patient) }
 
   permissions :index?, :show?, :create?, :new?, :update?, :edit?, :destroy? do
     it { expect(described_class).not_to permit(nil, nil) }
@@ -17,7 +17,7 @@ RSpec.describe ApplicationPolicy do
     end
 
     context "when user is not owner" do
-      it { expect(described_class).not_to permit(user, patient_without_user) }
+      it { expect(described_class).not_to permit(user, another_owner_patient) }
     end
 
     context "when has no user" do
