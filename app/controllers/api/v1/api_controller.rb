@@ -4,6 +4,8 @@ module Api
   module V1
     class ApiController < ActionController::API
       include Pundit::Authorization
+      include Respondable
+
       after_action :verify_authorized
 
       before_action :authenticate_devise_api_token!

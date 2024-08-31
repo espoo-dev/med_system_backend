@@ -1,0 +1,6 @@
+en:
+  controllers:
+    actions:
+      delete:
+        success: "%{class_name} deleted successfully."
+

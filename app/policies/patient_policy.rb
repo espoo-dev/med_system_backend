@@ -13,10 +13,10 @@ class PatientPolicy < ApplicationPolicy
   end
 
   def update?
-    user.present?
+    user_owner?
   end
 
   def destroy?
-    user.present?
+    user_owner?
   end
 end

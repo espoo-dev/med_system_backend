@@ -105,14 +105,16 @@ RSpec.describe "Procedures" do
   end
 
   describe "PUT /api/v1/procedures/:id" do
+    let(:user) { create(:user) }
+
     context "when user is authenticated" do
       context "with valid attributes" do
         it "returns ok" do
-          procedure = create(:procedure)
+          procedure = create(:procedure, user: user)
 
           params = { name: "New Procedure Name", amount_cents: 1000 }
 
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           put "/api/v1/procedures/#{procedure.id}", params: params, headers: headers
 
           expect(response).to have_http_status(:ok)
@@ -121,18 +123,18 @@ RSpec.describe "Procedures" do
 
       context "with invalid attributes" do
         it "returns unprocessable_content" do
-          procedure = create(:procedure)
+          procedure = create(:procedure, user: user)
 
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           put "/api/v1/procedures/#{procedure.id}", params: { name: nil }, headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
-          procedure = create(:procedure)
+          procedure = create(:procedure, user: user)
 
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           put "/api/v1/procedures/#{procedure.id}", params: { name: nil }, headers: headers
 
           expect(response.parsed_body.symbolize_keys).to include(
@@ -156,36 +158,39 @@ RSpec.describe "Procedures" do
   end
 
   describe "DELETE /api/v1/procedures/:id" do
+    let(:user) { create(:user) }
+
     context "when user is authenticated" do
       it "returns ok" do
-        procedure = create(:procedure)
+        procedure = create(:procedure, user: user)
 
-        headers = auth_token_for(create(:user))
+        headers = auth_token_for(user)
         delete "/api/v1/procedures/#{procedure.id}", headers: headers
 
+        expect(response.parsed_body[:message]).to eq("#{procedure.class} deleted successfully.")
         expect(response).to have_http_status(:ok)
       end
 
       context "when procedure cannot be destroyed" do
         it "returns unprocessable_content" do
-          procedure = create(:procedure)
+          procedure = create(:procedure, user: user)
 
           allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
           allow(procedure).to receive(:destroy).and_return(false)
 
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           delete "/api/v1/procedures/#{procedure.id}", headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
-          procedure = create(:procedure)
+          procedure = create(:procedure, user: user)
 
           allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
           allow(procedure).to receive(:destroy).and_return(false)
 
-          headers = auth_token_for(create(:user))
+          headers = auth_token_for(user)
           delete "/api/v1/procedures/#{procedure.id}", headers: headers
 
           expect(response.parsed_body).to eq("cannot_destroy")

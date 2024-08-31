@@ -554,6 +554,7 @@ RSpec.describe "EventProcedures" do
         headers = auth_token_for(user)
         delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
 
+        expect(response.parsed_body[:message]).to eq("#{event_procedure.class} deleted successfully.")
         expect(response).to have_http_status(:ok)
       end
 
