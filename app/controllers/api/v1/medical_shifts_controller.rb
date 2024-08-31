@@ -45,6 +45,18 @@ module Api
         end
       end
 
+      def destroy
+        authorize(medical_shift)
+
+        result = MedicalShifts::Destroy.result(id: medical_shift.id.to_s)
+
+        if result.success?
+          render json: { message: "MedicalShift deleted successfully." }, status: :ok
+        else
+          render json: result.error, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def medical_shift
