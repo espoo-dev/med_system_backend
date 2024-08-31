@@ -90,5 +90,18 @@ RSpec.describe EventProcedures::List, type: :operation do
         expect(result.event_procedures.count).to eq 5
       end
     end
+
+    context "when there is filter by year" do
+      subject(:result) { described_class.result(scope: EventProcedure.all, params: { year: "2023" }) }
+
+      let(:event_procedures) { create_list(:event_procedure, 2, date: "2024-01-01") }
+
+      before do
+        event_procedures
+        EventProcedure.last.update(date: "2023-01-01")
+      end
+
+      it { expect(result.event_procedures).to eq [EventProcedure.last] }
+    end
   end
 end

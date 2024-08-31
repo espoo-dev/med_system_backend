@@ -21,6 +21,7 @@ class EventProcedure < ApplicationRecord
 
   scope :by_month, EventProcedures::ByMonthQuery
   scope :by_payd, EventProcedures::ByPaydQuery
+  scope :by_year, EventProcedures::ByYearQuery
   scope :date_between, EventProcedures::ByDateBetween
 
   validates :date, presence: true
