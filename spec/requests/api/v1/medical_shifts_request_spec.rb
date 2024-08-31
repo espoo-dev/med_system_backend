@@ -373,4 +373,49 @@ RSpec.describe "MedicalShifts" do
       end
     end
   end
+
+  describe "DELETE /api/v1/medical_shifts/:id" do
+    let(:user) { create(:user) }
+    let(:medical_shift) { create(:medical_shift, user_id: user.id) }
+
+    context "when user is authenticated" do
+      let(:headers) { auth_token_for(user) }
+
+      before { delete "/api/v1/medical_shifts/#{medical_shift.id}", headers: headers }
+
+      it { expect(response.parsed_body[:message]).to eq("#{medical_shift.class} deleted successfully.") }
+      it { expect(response).to have_http_status(:ok) }
+
+      context "when does not find medical_shifts" do
+        let(:fake_id) { 9999 }
+
+        before do
+          delete "/api/v1/medical_shifts/#{fake_id}", headers: headers
+        end
+
+        it { expect(response).to have_http_status(:not_found) }
+        it { expect(response.parsed_body[:error]).to eq("Couldn't find MedicalShift with 'id'=#{fake_id}") }
+      end
+
+      context "when medical_shift cannot be destroyed" do
+        before do
+          allow(MedicalShift).to receive(:find).with(medical_shift.id.to_s).and_return(medical_shift)
+          allow(medical_shift).to receive(:destroy).and_return(false)
+
+          delete "/api/v1/medical_shifts/#{medical_shift.id}", headers: headers
+        end
+
+        it { expect(response).to have_http_status(:unprocessable_content) }
+        it { expect(response.parsed_body).to eq("cannot_destroy") }
+      end
+    end
+
+    context "when user is not authenticated" do
+      let(:medical_shift) { create(:medical_shift, user_id: user.id) }
+
+      before { delete "/api/v1/medical_shifts/#{medical_shift.id}", headers: {} }
+
+      it { expect(response).to have_http_status(:unauthorized) }
+    end
+  end
 end

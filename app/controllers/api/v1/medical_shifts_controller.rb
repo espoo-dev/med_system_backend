@@ -10,7 +10,7 @@ module Api
         authorized_scope = policy_scope(MedicalShift)
         medical_shifts = MedicalShifts::List.result(
           scope: authorized_scope,
-          params: params.permit(:page, :per_page, :month, :payd, :hospital_name).to_h
+          params: params.permit(:page, :per_page, :month, :year, :payd, :hospital_name).to_h
         ).medical_shifts
 
         amount_cents = MedicalShifts::TotalAmountCents.call(user_id: current_user.id)
@@ -42,6 +42,18 @@ module Api
           render json: result.medical_shift, status: :ok
         else
           render json: result.medical_shift.errors, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        authorize(medical_shift)
+
+        result = MedicalShifts::Destroy.result(id: medical_shift.id.to_s)
+
+        if result.success?
+          render json: { message: "MedicalShift deleted successfully." }, status: :ok
+        else
+          render json: result.error, status: :unprocessable_entity
         end
       end
 

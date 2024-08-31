@@ -3,67 +3,47 @@
 require "rails_helper"
 
 RSpec.describe MedicalShiftPolicy do
+  let(:user) { create(:user) }
+  let(:medical_shift) { create(:medical_shift, user: user) }
+  let(:medical_shift_without_user) { create(:medical_shift) }
+
   describe "Scope" do
-    it "returns all medical_shifts for user" do
-      user = create(:user)
-      medical_shift = create(:medical_shift, user: user)
+    subject(:result) { instance.resolve }
 
-      scope = described_class::Scope.new(user, MedicalShift.all).resolve
+    let(:instance) { described_class::Scope.new(user, MedicalShift.all) }
 
-      expect(scope).to eq [medical_shift]
+    context "when has user" do
+      it { expect(result).to eq [medical_shift] }
     end
 
-    it "returns no medical_shifts for unregistered user" do
-      create(:medical_shift)
-      scope = described_class::Scope.new(nil, MedicalShift.all).resolve
+    context "when has no user" do
+      let(:user) { nil }
 
-      expect(scope).to eq []
+      it { expect(result).to eq [] }
     end
   end
 
-  describe "#index?" do
-    it "returns true for user" do
-      user = create(:user)
-
-      expect(described_class.new(user, MedicalShift).index?).to be true
+  permissions :index?, :create? do
+    context "when has user" do
+      it { expect(described_class).to permit(user, medical_shift) }
     end
 
-    it "returns false for unregistered user" do
-      expect(described_class.new(nil, MedicalShift).index?).to be false
+    context "when has no user" do
+      it { expect(described_class).not_to permit(nil, medical_shift) }
     end
   end
 
-  describe "#create?" do
-    it "returns true for user" do
-      user = create(:user)
-
-      expect(described_class.new(user, MedicalShift).create?).to be true
+  permissions :update?, :destroy? do
+    context "when has user" do
+      it { expect(described_class).to permit(user, medical_shift) }
     end
 
-    it "returns false for unregistered user" do
-      expect(described_class.new(nil, MedicalShift).create?).to be false
-    end
-  end
-
-  describe "#update?" do
-    it "returns true for user" do
-      user = create(:user)
-      medical_shift = create(:medical_shift, user: user)
-
-      expect(described_class.new(user, medical_shift).update?).to be true
+    context "when has no user" do
+      it { expect(described_class).not_to permit(nil, medical_shift) }
     end
 
-    it "returns false for unregistered user" do
-      medical_shift = create(:medical_shift)
-
-      expect(described_class.new(nil, medical_shift).update?).to be false
-    end
-
-    it "returns false for another user" do
-      user = create(:user)
-      medical_shift = create(:medical_shift)
-
-      expect(described_class.new(user, medical_shift).update?).to be false
+    context "when user is not owner" do
+      it { expect(described_class).not_to permit(user, medical_shift_without_user) }
     end
   end
 end

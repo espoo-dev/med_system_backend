@@ -16,11 +16,16 @@ module EventProcedures
     def filtered_query
       query = scope.includes(%i[procedure patient hospital health_insurance])
       query = apply_month_filter(query)
+      query = apply_year_filter(query)
       apply_payd_filter(query)
     end
 
     def apply_month_filter(query)
       params[:month].present? ? query.by_month(month: params[:month]) : query
+    end
+
+    def apply_year_filter(query)
+      params[:year].present? ? query.by_year(year: params[:year]) : query
     end
 
     def apply_payd_filter(query)

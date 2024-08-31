@@ -15,4 +15,8 @@ class MedicalShiftPolicy < ApplicationPolicy
   def update?
     user_owner?
   end
+
+  def destroy?
+    user_owner?
+  end
 end
