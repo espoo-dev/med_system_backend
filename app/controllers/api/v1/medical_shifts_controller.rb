@@ -3,8 +3,17 @@
 module Api
   module V1
     class MedicalShiftsController < ApiController
-      after_action :verify_authorized, except: :index
+      after_action :verify_authorized, except: [:index, :hospital_name_suggestion_index]
       after_action :verify_policy_scoped, only: :index
+
+      def hospital_name_suggestion_index
+        result = MedicalShifts::HospitalNameSuggestion.call
+
+        render json: {
+          names: result.names
+        }, status: :ok
+      end
+      
 
       def index
         authorized_scope = policy_scope(MedicalShift)

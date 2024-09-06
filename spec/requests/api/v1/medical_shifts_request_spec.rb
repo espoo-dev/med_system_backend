@@ -418,4 +418,53 @@ RSpec.describe "MedicalShifts" do
       it { expect(response).to have_http_status(:unauthorized) }
     end
   end
+
+  describe "GET ap1/v1/medical_shifts/hospital_name_suggestion" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        get hospital_name_suggestion_api_v1_medical_shifts_path
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "returns error message" do
+        get hospital_name_suggestion_api_v1_medical_shifts_path
+
+        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
+      end
+    end
+
+    context "when user is authenticated" do
+      context "when there are medical_shifts" do
+        it "returns ok" do
+          get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
+
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns hospital_names" do
+          user = create(:user)
+          medical_shifts_same_hospital_name = create_list(:medical_shift, 2, user: user)
+          medical_shifts_another_hospital_name = create(:medical_shift, hospital_name: "Another hostpital Test")
+          get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(user)
+
+          expect(response.parsed_body["names"].count).to eq(2)
+          expect(response.parsed_body["names"]).to eq(
+            [
+              medical_shifts_another_hospital_name.hospital_name,
+              medical_shifts_same_hospital_name.first.hospital_name
+            ]
+          )
+        end
+      end
+
+      context "when there are no medical_shifts" do
+        it "returns empty array" do
+          get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
+
+          expect(response.parsed_body.symbolize_keys).to eq({ names: [] })
+        end
+      end
+    end
+  end
 end
