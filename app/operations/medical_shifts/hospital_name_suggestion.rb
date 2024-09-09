@@ -2,12 +2,11 @@
 
 module MedicalShifts
   class HospitalNameSuggestion < Actor
-    input :user_id, type: Integer
+    input :scope, type: Enumerable
     output :names, type: Array
 
     def call
-      self.names = MedicalShift.where(user_id: user_id)
-        .select(:hospital_name)
+      self.names = scope.select(:hospital_name)
         .distinct
         .order(:hospital_name)
         .pluck(:hospital_name)

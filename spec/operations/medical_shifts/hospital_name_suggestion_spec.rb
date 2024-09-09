@@ -8,7 +8,8 @@ RSpec.describe MedicalShifts::HospitalNameSuggestion, type: :operation do
       let(:user) { create(:user) }
 
       it 'returns an empty list' do
-        result = described_class.result(user_id: user.id)
+        scope = MedicalShift.where(user:)
+        result = described_class.result(scope:)
 
         expect(result.names).to be_empty
       end
@@ -26,7 +27,8 @@ RSpec.describe MedicalShifts::HospitalNameSuggestion, type: :operation do
       end
 
       it 'returns unique names' do
-        result = described_class.result(user_id: user.id)
+        scope = MedicalShift.where(user:)
+        result = described_class.result(scope:)
 
         expected_names = ['City Hospital', 'County Hospital']
         expect(result.names).to match_array(expected_names)

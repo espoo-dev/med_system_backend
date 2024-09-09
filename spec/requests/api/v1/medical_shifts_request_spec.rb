@@ -450,6 +450,8 @@ RSpec.describe "MedicalShifts" do
             hospital_name: "Another hostpital Test",
             user: user
           )
+          medical_shift_another_user = create_list(:medical_shift, 4, hospital_name: "Another user")
+
           get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(user)
 
           expect(response.parsed_body["names"].count).to eq(2)
