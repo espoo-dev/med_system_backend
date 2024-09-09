@@ -4,6 +4,10 @@ class MedicalShiftPolicy < ApplicationPolicy
   class Scope < CurrentUserScope
   end
 
+  def hospital_name_suggestion_index?
+    user.present?
+  end
+
   def index?
     user.present?
   end
