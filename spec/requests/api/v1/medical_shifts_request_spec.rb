@@ -492,4 +492,34 @@ RSpec.describe "MedicalShifts" do
       end
     end
   end
+
+  describe "GET ap1/v1/medical_shifts/amount_suggestions" do
+    context "when user is not authenticated" do
+      it "retuns unauthorized status" do
+        get amount_suggestions_api_v1_medical_shifts_path
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "returns error message" do
+        get amount_suggestions_api_v1_medical_shifts_path
+
+        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
+      end
+    end
+
+    context "when user is authenticated" do
+      it "returns amounts" do
+        user = create(:user)
+        create_list(:medical_shift, 2, user:, amount_cents: 2000)
+        create_list(:medical_shift, 3, user:, amount_cents: 3000)
+        create_list(:medical_shift, 4, hospital_name: "Another user")
+
+        get amount_suggestions_api_v1_medical_shifts_path, headers: auth_token_for(user)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body["amounts"]).to eq([2000, 3000])
+      end
+    end
+  end
 end
