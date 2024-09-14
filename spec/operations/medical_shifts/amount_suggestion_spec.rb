@@ -10,7 +10,7 @@ RSpec.describe MedicalShifts::AmountSuggestion, type: :operation do
       it "returns an empty list" do
         result = described_class.result(scope: MedicalShift.all)
 
-        expect(result.amounts).to be_empty
+        expect(result.amounts_cents).to be_empty
       end
     end
 
@@ -28,8 +28,8 @@ RSpec.describe MedicalShifts::AmountSuggestion, type: :operation do
       it "returns unique amounts" do
         result = described_class.result(scope: MedicalShift.all)
 
-        expected_amounts = [1000, 2000, 3000]
-        expect(result.amounts).to match_array(expected_amounts)
+        expected_amounts = ["R$10.00", "R$20.00", "R$30.00"]
+        expect(result.amounts_cents).to match_array(expected_amounts)
       end
     end
   end
