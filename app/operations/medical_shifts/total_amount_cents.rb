@@ -10,9 +10,9 @@ module MedicalShifts
     output :unpaid, type: String
 
     def call
-      self.total = Money.new(MedicalShifts::SumTotalAmountQuery.call(user_id:, month:), "BRL").format
-      self.payd = Money.new(MedicalShifts::SumPaydAmountQuery.call(user_id:, month:), "BRL").format
-      self.unpaid = Money.new(MedicalShifts::SumUnpaidAmountQuery.call(user_id:, month:), "BRL").format
+      self.total = Money.new(SumTotalAmountQuery.call(user_id:, month:), "BRL").format
+      self.payd = Money.new(SumPaydAmountQuery.call(user_id:, month:), "BRL").format
+      self.unpaid = Money.new(SumUnpaidAmountQuery.call(user_id:, month:), "BRL").format
     end
   end
 end
