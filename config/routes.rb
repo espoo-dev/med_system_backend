@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resources :health_insurances, only: %i[index create]
       resources :hospitals, only: %i[index create update destroy]
       resources :medical_shifts, only: %i[index create update destroy] do
-        get 'hospital_name_suggestion', to: 'medical_shifts#hospital_name_suggestion_index' , on: :collection
+        get "hospital_name_suggestion", to: "medical_shifts#hospital_name_suggestion_index", on: :collection
       end
       resources :patients, only: %i[index create update destroy]
       resources :procedures, only: %i[index create update destroy]

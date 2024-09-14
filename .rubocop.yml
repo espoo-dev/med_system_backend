@@ -54,8 +54,7 @@ Lint/SuppressedException:
   AllowComments: true
 
 Metrics/AbcSize:
-  Exclude:
-    - app/controllers/**/*
+  Enabled: false
 
 Metrics/BlockLength:
   Exclude:
