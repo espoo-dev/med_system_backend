@@ -11,7 +11,10 @@ module MedicalShifts
         .order(:amount_cents)
         .pluck(:amount_cents)
         .map do |amount|
-          Money.new(amount, "BRL").format
+          Money.new(amount, "BRL").format(
+            thousands_separator: ".",
+            decimal_mark: ","
+          )
         end
     end
   end

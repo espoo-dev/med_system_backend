@@ -19,16 +19,16 @@ RSpec.describe MedicalShifts::AmountSuggestion, type: :operation do
       let(:another_user) { create(:user) }
 
       before do
-        create(:medical_shift, user:, amount_cents: 1000)
-        create(:medical_shift, user:, amount_cents: 1000) # Duplicate amount
-        create(:medical_shift, user:, amount_cents: 2000)
-        create(:medical_shift, user:, amount_cents: 3000)
+        create(:medical_shift, user:, amount_cents: 100_000)
+        create(:medical_shift, user:, amount_cents: 100_000) # Duplicate amount
+        create(:medical_shift, user:, amount_cents: 200_000)
+        create(:medical_shift, user:, amount_cents: 300_000)
       end
 
       it "returns unique amounts" do
         result = described_class.result(scope: MedicalShift.all)
 
-        expected_amounts = ["R$10.00", "R$20.00", "R$30.00"]
+        expected_amounts = ["R$1.000,00", "R$2.000,00", "R$3.000,00"]
         expect(result.amounts_cents).to match_array(expected_amounts)
       end
     end
