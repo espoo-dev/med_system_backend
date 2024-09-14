@@ -509,7 +509,7 @@ RSpec.describe "MedicalShifts" do
     end
 
     context "when user is authenticated" do
-      it "returns amounts" do
+      it "returns amounts_cents" do
         user = create(:user)
         create_list(:medical_shift, 2, user:, amount_cents: 2000)
         create_list(:medical_shift, 3, user:, amount_cents: 3000)
@@ -518,7 +518,7 @@ RSpec.describe "MedicalShifts" do
         get amount_suggestions_api_v1_medical_shifts_path, headers: auth_token_for(user)
 
         expect(response).to have_http_status(:ok)
-        expect(response.parsed_body["amounts"]).to eq([2000, 3000])
+        expect(response.parsed_body["amounts_cents"]).to eq(["R$20.00", "R$30.00"])
       end
     end
   end

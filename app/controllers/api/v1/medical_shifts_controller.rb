@@ -22,7 +22,7 @@ module Api
         result = MedicalShifts::AmountSuggestion.result(
           scope: policy_scope(MedicalShift)
         )
-        render json: { amounts: result.amounts }, status: :ok
+        render json: { amounts_cents: result.amounts_cents }, status: :ok
       end
 
       def index
