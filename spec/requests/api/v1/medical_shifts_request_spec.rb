@@ -511,9 +511,9 @@ RSpec.describe "MedicalShifts" do
     context "when user is authenticated" do
       it "returns amounts" do
         user = create(:user)
-        medical_shifts_same_hospital_name1 = create_list(:medical_shift, 2, user:, amount_cents: 2000)
-        medical_shifts_same_hospital_name2 = create_list(:medical_shift, 3, user:, amount_cents: 3000)
-        medical_shift_another_user = create_list(:medical_shift, 4, hospital_name: "Another user")
+        create_list(:medical_shift, 2, user:, amount_cents: 2000)
+        create_list(:medical_shift, 3, user:, amount_cents: 3000)
+        create_list(:medical_shift, 4, hospital_name: "Another user")
 
         get amount_suggestions_api_v1_medical_shifts_path, headers: auth_token_for(user)
 
