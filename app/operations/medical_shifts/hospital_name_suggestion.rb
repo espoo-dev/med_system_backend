@@ -6,7 +6,7 @@ module MedicalShifts
     output :names, type: Array
 
     def call
-      self.names = scope.select(:hospital_name)
+      self.names = scope
         .distinct
         .order(:hospital_name)
         .pluck(:hospital_name)

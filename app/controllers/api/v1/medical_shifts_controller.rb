@@ -16,6 +16,15 @@ module Api
         }, status: :ok
       end
 
+      def amount_suggestions_index
+        authorize(MedicalShift)
+
+        result = MedicalShifts::AmountSuggestion.result(
+          scope: policy_scope(MedicalShift)
+        )
+        render json: { amounts: result.amounts }, status: :ok
+      end
+
       def index
         authorize(MedicalShift)
         authorized_scope = policy_scope(MedicalShift)

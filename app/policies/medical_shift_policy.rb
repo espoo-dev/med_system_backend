@@ -8,6 +8,10 @@ class MedicalShiftPolicy < ApplicationPolicy
     user.present?
   end
 
+  def amount_suggestions_index?
+    user.present?
+  end
+
   def index?
     user.present?
   end
