@@ -87,6 +87,25 @@ RSpec.describe "MedicalShifts" do
             expect(response.parsed_body["medical_shifts"].count).to eq(1)
             expect(response.parsed_body["medical_shifts"].first["id"]).to eq(february_medical_shift.id)
           end
+
+          it "returns medical_shifts amount data per month" do
+            user = create(:user)
+            create(
+              :medical_shift, start_date: "2023-02-15", user:, amount_cents: 1000,
+              payd: true
+            )
+            create(
+              :medical_shift, start_date: "2023-02-15", user:, amount_cents: 2000,
+              payd: false
+            )
+            _september_medical_shift = create(:medical_shift, start_date: "2023-09-26", user: user)
+
+            get api_v1_medical_shifts_path, params: { month: "2" }, headers: auth_token_for(user)
+
+            expect(response.parsed_body["total"]).to eq("R$30.00")
+            expect(response.parsed_body["total_payd"]).to eq("R$10.00")
+            expect(response.parsed_body["total_unpaid"]).to eq("R$20.00")
+          end
         end
 
         context "when has filters by hospital" do
@@ -450,7 +469,7 @@ RSpec.describe "MedicalShifts" do
             hospital_name: "Another hostpital Test",
             user: user
           )
-          medical_shift_another_user = create_list(:medical_shift, 4, hospital_name: "Another user")
+          create_list(:medical_shift, 4, hospital_name: "Another user")
 
           get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(user)
 
