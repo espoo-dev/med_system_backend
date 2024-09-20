@@ -14,11 +14,11 @@ RSpec.describe MedicalShifts::List, type: :operation do
         expect(result.success?).to be true
       end
 
-      it "returns medical_shifts ordered by created_at desc" do
+      it "returns medical_shifts ordered by start_date desc" do
         user = create(:user)
-        today_medical_shift = create(:medical_shift, created_at: Time.zone.today, user: user)
-        yesterday_medical_shift = create(:medical_shift, created_at: Time.zone.yesterday, user: user)
-        tomorrow_medical_shift = create(:medical_shift, created_at: Time.zone.tomorrow, user: user)
+        today_medical_shift = create(:medical_shift, start_date: Time.zone.today, user: user)
+        yesterday_medical_shift = create(:medical_shift, start_date: Time.zone.yesterday, user: user)
+        tomorrow_medical_shift = create(:medical_shift, start_date: Time.zone.tomorrow, user: user)
 
         result = described_class.result(scope: MedicalShift.all, params: {})
 
