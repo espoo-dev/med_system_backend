@@ -8,7 +8,7 @@ module MedicalShifts
     output :medical_shifts, type: Enumerable
 
     def call
-      self.medical_shifts = filtered_query.order(created_at: :desc).page(params[:page]).per(params[:per_page])
+      self.medical_shifts = filtered_query.order(start_date: :desc).page(params[:page]).per(params[:per_page])
     end
 
     private
