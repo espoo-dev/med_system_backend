@@ -4,6 +4,7 @@ module EventProcedures
   class TotalAmountCents < Actor
     input :user_id, type: Integer
     input :month, type: String, allow_nil: true
+    input :year, type: String, allow_nil: true
 
     output :total, type: String
     output :payd, type: String
@@ -18,15 +19,15 @@ module EventProcedures
     private
 
     def calculate_total
-      Money.new(EventProcedures::SumTotalAmountQuery.call(user_id: user_id, month: month), "BRL").format
+      Money.new(SumAmountQuery.call(user_id:, month:, year:), "BRL").format
     end
 
     def calculate_paid
-      Money.new(EventProcedures::SumPaydAmountQuery.call(user_id: user_id, month: month), "BRL").format
+      Money.new(SumAmountQuery.call(user_id:, month:, year:, payd: true), "BRL").format
     end
 
     def calculate_unpaid
-      Money.new(EventProcedures::SumUnpaidAmountQuery.call(user_id: user_id, month: month), "BRL").format
+      Money.new(SumAmountQuery.call(user_id:, month:, year:, payd: false), "BRL").format
     end
   end
 end
