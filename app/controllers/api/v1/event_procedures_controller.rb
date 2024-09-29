@@ -13,7 +13,7 @@ module Api
           params: params.permit(:page, :per_page, :month, :year, :payd).to_h
         ).event_procedures
 
-        total_amount_cents = EventProcedures::TotalAmountCents.call(user_id: current_user.id, month: params[:month])
+        total_amount_cents = EventProcedures::TotalAmountCents.call(total_amount_cents_params)
 
         render json: {
           total: total_amount_cents.total,
@@ -101,6 +101,14 @@ module Api
           event_procedures,
           each_serializer: EventProcedureSerializer
         )
+      end
+
+      def total_amount_cents_params
+        {
+          user_id: current_user.id,
+          month: params[:month],
+          year: params[:year]
+        }
       end
     end
   end

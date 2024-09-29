@@ -4,6 +4,7 @@ module EventProcedures
   class TotalAmountCents < Actor
     input :user_id, type: Integer
     input :month, type: String, allow_nil: true
+    input :year, type: String, allow_nil: true
 
     output :total, type: String
     output :payd, type: String

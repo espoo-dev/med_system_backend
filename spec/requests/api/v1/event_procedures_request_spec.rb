@@ -50,6 +50,20 @@ RSpec.describe "EventProcedures" do
       end
     end
 
+    context "when has filters by year" do
+      let!(:user) { create(:user) }
+
+      it "returns event_procedures per month" do
+        headers = auth_token_for(user)
+        create_list(:event_procedure, 3, date: "2023-02-15", user_id: user.id)
+        _month_5_event_procedure = create_list(:event_procedure, 5, date: "2024-05-26", user_id: user.id)
+
+        get("/api/v1/event_procedures", params: { year: "2023" }, headers: headers)
+
+        expect(response.parsed_body["event_procedures"].length).to eq(3)
+      end
+    end
+
     context "when filtering by payd" do
       context "when payd is 'true'" do
         let!(:user) { create(:user) }
