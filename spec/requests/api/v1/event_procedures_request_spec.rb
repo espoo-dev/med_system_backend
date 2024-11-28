@@ -94,6 +94,22 @@ RSpec.describe "EventProcedures" do
       end
     end
 
+    context "when has filters by hospital name" do
+      it "returns event_procedures per hospital name" do
+        user = create(:user)
+        header_token = auth_token_for(user)
+        hospital_cariri = create(:hospital, name: "Hospital de Cariri")
+        hospital_sao_matheus = create(:hospital, name: "Hospital São Matheus")
+        create(:event_procedure, hospital: hospital_cariri, user_id: user.id)
+        create(:event_procedure, hospital: hospital_sao_matheus, user_id: user.id)
+
+        get "/api/v1/event_procedures", headers: header_token, params: { hospital_name: "Hospital de Cariri" }
+
+        expect(response.parsed_body["event_procedures"].length).to eq(1)
+        expect(response.parsed_body["event_procedures"].first["hospital"]).to eq("Hospital de Cariri")
+      end
+    end
+
     context "when has pagination via page and per_page" do
       let!(:user) { create(:user) }
 
