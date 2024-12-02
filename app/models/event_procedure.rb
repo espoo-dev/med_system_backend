@@ -23,6 +23,7 @@ class EventProcedure < ApplicationRecord
   scope :by_payd, EventProcedures::ByPaydQuery
   scope :by_year, EventProcedures::ByYearQuery
   scope :date_between, EventProcedures::ByDateBetween
+  scope :by_hospital_name, EventProcedures::ByHospitalNameQuery
 
   validates :date, presence: true
   validates :patient_service_number, presence: true
