@@ -102,8 +102,9 @@ RSpec.describe "EventProcedures" do
         hospital_sao_matheus = create(:hospital, name: "Hospital São Matheus")
         create(:event_procedure, hospital: hospital_cariri, user_id: user.id)
         create(:event_procedure, hospital: hospital_sao_matheus, user_id: user.id)
+        hospital_params = { hospital: { name: "Hospital de Cariri" } }
 
-        get "/api/v1/event_procedures", headers: header_token, params: { hospital_name: "Hospital de Cariri" }
+        get "/api/v1/event_procedures", headers: header_token, params: hospital_params
 
         expect(response.parsed_body["event_procedures"].length).to eq(1)
         expect(response.parsed_body["event_procedures"].first["hospital"]).to eq("Hospital de Cariri")

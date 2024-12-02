@@ -38,7 +38,7 @@ module EventProcedures
     end
 
     def apply_hospital_filter(query)
-      params[:hospital_name].present? ? query.by_hospital_name(hospital_name: params[:hospital_name]) : query
+      params.dig(:hospital, :name).present? ? query.by_hospital_name(hospital_name: params[:hospital][:name]) : query
     end
   end
 end
