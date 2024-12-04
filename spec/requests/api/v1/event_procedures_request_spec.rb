@@ -111,6 +111,23 @@ RSpec.describe "EventProcedures" do
       end
     end
 
+    context "when has filters by health_insurance name" do
+      it "returns event_procedures per health_insurance name" do
+        user = create(:user)
+        header_token = auth_token_for(user)
+        amil = create(:health_insurance, name: "Amil")
+        unimed = create(:health_insurance, name: "Unimed")
+        create(:event_procedure, health_insurance: amil, user_id: user.id)
+        create(:event_procedure, health_insurance: unimed, user_id: user.id)
+        health_insurance_params = { health_insurance: { name: "Unimed" } }
+
+        get "/api/v1/event_procedures", headers: header_token, params: health_insurance_params
+
+        expect(response.parsed_body["event_procedures"].length).to eq(1)
+        expect(response.parsed_body["event_procedures"].first["health_insurance"]).to eq("Unimed")
+      end
+    end
+
     context "when has pagination via page and per_page" do
       let!(:user) { create(:user) }
 
