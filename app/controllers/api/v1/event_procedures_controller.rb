@@ -10,7 +10,7 @@ module Api
         authorized_scope = policy_scope(EventProcedure)
         event_procedures = EventProcedures::List.result(
           scope: authorized_scope,
-          params: params.permit(:page, :per_page, :month, :year, :payd, hospital: [:name]).to_h
+          params: event_procedure_permitted_query_params
         ).event_procedures
 
         total_amount_cents = EventProcedures::TotalAmountCents.call(total_amount_cents_params)
@@ -79,6 +79,18 @@ module Api
           health_insurance_attributes: %i[
             id name custom
           ]
+        ).to_h
+      end
+
+      def event_procedure_permitted_query_params
+        params.permit(
+          :page,
+          :per_page,
+          :month,
+          :year,
+          :payd,
+          hospital: [:name],
+          health_insurance: [:name]
         ).to_h
       end
 
