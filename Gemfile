@@ -51,6 +51,8 @@ gem "packwerk", "3.1.0"
 gem "paper_trail", "15.1.0"
 # Use pg as the database for Active Record
 gem "pg", "1.5.4"
+# Prawn is a pure Ruby PDF generation library [https://github.com/cortiz/prawn-rails]
+gem "prawn-rails", "1.6.0"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "6.4.2"
 # Minimal authorization through OO design and pure Ruby classes

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index]
 
       get "/event_procedures_dashboard/amount_by_day", to: "event_procedures_dashboard#amount_by_day"
+      get "/pdf_reports/generate", to: "pdf_reports#generate", defaults: { format: :pdf }
     end
   end
 end
