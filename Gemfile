@@ -49,6 +49,8 @@ gem "omniauth-strava"
 gem "packwerk", "3.1.0"
 # Track changes to your models, for auditing or versioning.
 gem "paper_trail", "15.1.0"
+# This library provides a number of PDF::Reader based tools for use in testing PDF output.
+gem "pdf-inspector", "1.3.0"
 # Use pg as the database for Active Record
 gem "pg", "1.5.4"
 # Prawn is a pure Ruby PDF generation library [https://github.com/cortiz/prawn-rails]
