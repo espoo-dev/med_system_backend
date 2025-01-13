@@ -8,6 +8,10 @@ class MedicalShiftsReportPdf
     @items = items
     @amount = amount
     @title = title
+    @header_footer_height = 100
+    @line_spacing = 15
+    @text_box_padding = 10
+    @right_text_offset = 110
   end
 
   def generate
@@ -31,18 +35,18 @@ class MedicalShiftsReportPdf
   end
 
   def add_body
-    pdf.move_down 10
+    pdf.move_down @line_spacing
 
     items.each do |item|
       start_new_page_if_needed
       pdf.stroke_horizontal_rule
       add_item_details(item)
-      pdf.move_down 10
+      pdf.move_down @line_spacing
     end
   end
 
   def start_new_page_if_needed
-    return unless pdf.cursor < 100
+    return unless pdf.cursor < @header_footer_height
 
     pdf.start_new_page
     add_header
@@ -56,10 +60,11 @@ class MedicalShiftsReportPdf
 
   def add_item_line(left_text, right_text)
     pdf.bounding_box([0, pdf.cursor], width: pdf.bounds.width) do
-      pdf.text_box left_text, at: [3, pdf.cursor - 10], size: 10, align: :left
-      pdf.text_box right_text, at: [pdf.bounds.width - 110, pdf.cursor - 10], size: 10, align: :right
+      pdf.text_box left_text, at: [3, pdf.cursor - @text_box_padding], size: 10, align: :left
+      pdf.text_box right_text, at: [pdf.bounds.width - @right_text_offset, pdf.cursor - @text_box_padding], size: 10,
+        align: :right
     end
-    pdf.move_down 15
+    pdf.move_down @line_spacing
   end
 
   def truncate_text(text, length = 35)
