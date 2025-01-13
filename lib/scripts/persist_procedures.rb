@@ -25,7 +25,8 @@ module Scripts
           procedure_instance = procedure_build(procedure[:code], procedure[:name])
 
           save_procedure!(procedure_instance, procedure[:port], procedure[:anesthetic_port])
-        end; nil
+        end
+        nil
       rescue StandardError => e
         raise StandardError, e.message
       end
