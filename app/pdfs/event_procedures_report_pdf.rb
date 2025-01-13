@@ -49,9 +49,9 @@ class EventProceduresReportPdf
   end
 
   def add_item_details(item)
-    add_item_line(truncate_text(item.patient.name), (item.payd ? "Pago" : "A Receber").to_s)
+    add_item_line(truncate_text(item.patient.name), item_paid?(item))
     add_item_line(truncate_text(item.procedure.name), item.procedure.amount.format)
-    add_item_line(truncate_text(item.health_insurance.name), item.date.strftime("%d/%m/%Y"))
+    add_item_line(truncate_text(item.health_insurance.name), item_date(item))
   end
 
   def add_item_line(left_text, right_text)
@@ -64,5 +64,13 @@ class EventProceduresReportPdf
 
   def truncate_text(text, length = 35)
     text.length > length ? "#..." : text
+  end
+
+  def item_paid?(item)
+    item.payd ? "Pago" : "A Receber"
+  end
+
+  def item_date(item)
+    item.date.strftime("%d/%m/%Y")
   end
 end

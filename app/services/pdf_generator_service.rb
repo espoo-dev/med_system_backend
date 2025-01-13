@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PdfGenerator
+class PdfGeneratorService
   attr_reader :relation, :amount, :entity_name
 
   def initialize(relation:, amount:, entity_name:)
@@ -15,19 +15,15 @@ class PdfGenerator
 
   private
 
-  def pdf_title
-    entity_name == "event_procedures" ? "Procedimentos" : "Plantões"
-  end
-
   def generate_event_procedures_pdf
     Prawn::Document.new do |pdf|
-      EventProceduresReportPdf.new(pdf: pdf, items: relation, amount: amount, title: pdf_title).generate
+      EventProceduresReportPdf.new(pdf: pdf, items: relation, amount: amount, title: "Procedimentos").generate
     end
   end
 
   def generate_medical_shifts_pdf
     Prawn::Document.new do |pdf|
-      MedicalShiftsReportPdf.new(pdf: pdf, items: relation, amount: amount, title: pdf_title).generate
+      MedicalShiftsReportPdf.new(pdf: pdf, items: relation, amount: amount, title: "Plantões").generate
     end
   end
 end

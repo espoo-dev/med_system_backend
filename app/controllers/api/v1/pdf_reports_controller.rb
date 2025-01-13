@@ -38,7 +38,7 @@ module Api
         ).event_procedures
         total_amount_cents = EventProcedures::TotalAmountCents.call(total_amount_cents_params)
 
-        PdfGenerator.new(
+        PdfGeneratorService.new(
           relation: event_procedures,
           amount: total_amount_cents,
           entity_name: permitted_query_params[:entity_name]
@@ -46,7 +46,6 @@ module Api
       end
 
       def medical_shifts_pdf
-        authorize(MedicalShift)
         authorized_scope = policy_scope(MedicalShift)
         medical_shifts = MedicalShifts::List.result(
           scope: authorized_scope,
@@ -54,7 +53,7 @@ module Api
         ).medical_shifts
         total_amount_cents = MedicalShifts::TotalAmountCents.call(user_id: current_user.id, month: params[:month])
 
-        PdfGenerator.new(
+        PdfGeneratorService.new(
           relation: medical_shifts,
           amount: total_amount_cents,
           entity_name: permitted_query_params[:entity_name]

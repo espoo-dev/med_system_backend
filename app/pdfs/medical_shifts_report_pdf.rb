@@ -49,9 +49,9 @@ class MedicalShiftsReportPdf
   end
 
   def add_item_details(item)
-    add_item_line(truncate_text(item.patient.name), (item.payd ? "Pago" : "A Receber").to_s)
-    add_item_line(truncate_text(item.procedure.name), item.procedure.amount.format)
-    add_item_line(truncate_text(item.health_insurance.name), item.date.strftime("%d/%m/%Y"))
+    add_item_line(truncate_text(item.hospital_name), item_start_date(item))
+    add_item_line(item_workload(item), item.amount.format)
+    add_item_line(item_start_hour(item), item_paid?(item))
   end
 
   def add_item_line(left_text, right_text)
@@ -64,5 +64,25 @@ class MedicalShiftsReportPdf
 
   def truncate_text(text, length = 35)
     text.length > length ? "#..." : text
+  end
+
+  def item_shift(item)
+    item.shift == "Daytime" ? "Diurno" : "Noturno"
+  end
+
+  def item_workload(item)
+    "#{item_shift(item)} - #{item.workload_humanize}"
+  end
+
+  def item_start_date(item)
+    item.start_date.strftime("%d/%m/%Y")
+  end
+
+  def item_start_hour(item)
+    "Início: #{item.start_hour.strftime('%H:%M')}"
+  end
+
+  def item_paid?(item)
+    item.payd ? "Pago" : "A Receber"
   end
 end
