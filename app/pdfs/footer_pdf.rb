@@ -9,7 +9,7 @@ class FooterPdf
     @footer_height = 50
     @footer_spacing = 15
     @footer_font_size = 10
-    @right_text_offset = 50
+    @right_text_offset = 100
   end
 
   def generate
