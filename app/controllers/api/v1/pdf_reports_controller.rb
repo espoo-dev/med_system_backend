@@ -41,7 +41,8 @@ module Api
         PdfGeneratorService.new(
           relation: event_procedures,
           amount: total_amount_cents,
-          entity_name: permitted_query_params[:entity_name]
+          entity_name: permitted_query_params[:entity_name],
+          email: current_user.email
         ).generate_pdf
       end
 
@@ -56,7 +57,8 @@ module Api
         PdfGeneratorService.new(
           relation: medical_shifts,
           amount: total_amount_cents,
-          entity_name: permitted_query_params[:entity_name]
+          entity_name: permitted_query_params[:entity_name],
+          email: current_user.email
         ).generate_pdf
       end
 

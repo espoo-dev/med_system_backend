@@ -9,7 +9,7 @@ RSpec.describe MedicalShiftsReportPdf, type: :pdf do
     amount = MedicalShifts::TotalAmountCents.call(user_id: user.id, month: nil)
     medical_shifts = create_list(:medical_shift, 3, user_id: user.id)
 
-    described_class.new(pdf: pdf, amount: amount, items: medical_shifts, title: "Plantões").generate
+    described_class.new(pdf: pdf, amount: amount, items: medical_shifts, title: "Plantões", email: user.email).generate
     rendered_pdf = pdf.render
     text_analysis = PDF::Inspector::Text.analyze(rendered_pdf)
 

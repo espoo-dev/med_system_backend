@@ -9,7 +9,9 @@ RSpec.describe EventProceduresReportPdf, type: :pdf do
     amount = EventProcedures::TotalAmountCents.call(user_id: user.id, month: nil, year: nil)
     event_procedures = create_list(:event_procedure, 3, user_id: user.id)
 
-    described_class.new(pdf: pdf, amount: amount, items: event_procedures, title: "Procedimentos").generate
+    described_class.new(
+      pdf: pdf, amount: amount, items: event_procedures, title: "Procedimentos", email: user.email
+    ).generate
     rendered_pdf = pdf.render
     text_analysis = PDF::Inspector::Text.analyze(rendered_pdf)
 

@@ -1,20 +1,49 @@
 # frozen_string_literal: true
 
 class HeaderPdf
-  attr_reader :pdf, :title
+  attr_reader :pdf, :title, :email
 
-  def initialize(pdf:, title:)
+  HEADER_FONT_SIZE = 12
+  TITLE_FONT_SIZE = 20
+  EMAIL_FONT_SIZE = 10
+  PROJECT_FONT_SIZE = 12
+
+  def initialize(pdf:, title:, email:)
     @pdf = pdf
     @title = title
-    @header_spacing = 20
-    @header_font_size = 12
-    @title_font_size = 20
+    @email = email
   end
 
   def generate
+    pdf.bounding_box([0, pdf.cursor], width: pdf.bounds.width) do
+      pdf_logo
+      pdf.text_box "Distrito Médico", at: [60, pdf.cursor - 10], size: PROJECT_FONT_SIZE, style: :bold
+      pdf.text_box email, at: [60, pdf.cursor - 25], size: EMAIL_FONT_SIZE
+      pdf.text_box title, at: [60, pdf.cursor - 45], size: TITLE_FONT_SIZE, align: :center
+      header_current_date
+    end
+    header_spacing
+  end
+
+  private
+
+  def logo_path
+    Rails.root.join("app/assets/images/logo.png")
+  end
+
+  def pdf_logo
+    pdf.image logo_path, width: 50, at: [0, pdf.cursor]
+  end
+
+  def header_spacing
+    pdf.move_down 50
+  end
+
+  def title_font_size
+    20
+  end
+
+  def header_current_date
     pdf.text "Data: #{Time.zone.now.strftime('%d/%m/%Y')}", align: :right, size: @header_font_size
-    pdf.move_down @header_spacing
-    pdf.text title, align: :center, size: @title_font_size, style: :bold
-    pdf.move_down @header_spacing
   end
 end

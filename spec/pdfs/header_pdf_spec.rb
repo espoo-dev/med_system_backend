@@ -4,14 +4,15 @@ require "rails_helper"
 
 RSpec.describe HeaderPdf, type: :pdf do
   it "generates a header with the correct content" do
+    user = create(:user)
     pdf = Prawn::Document.new
     date = "Data: #{Time.zone.now.strftime('%d/%m/%Y')}"
     title = "Procedimentos"
 
-    described_class.new(pdf: pdf, title: title).generate
+    described_class.new(pdf: pdf, title: title, email: user.email).generate
     rendered_pdf = pdf.render
     text_analysis = PDF::Inspector::Text.analyze(rendered_pdf)
 
-    expect(text_analysis.strings).to include(date, title)
+    expect(text_analysis.strings).to include(date, title, user.email)
   end
 end

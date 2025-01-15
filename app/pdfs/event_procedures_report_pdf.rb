@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class EventProceduresReportPdf
-  attr_reader :pdf, :items, :amount, :title
+  attr_reader :pdf, :items, :amount, :title, :email
 
-  def initialize(pdf:, items:, amount:, title:)
+  def initialize(pdf:, items:, amount:, title:, email:)
     @pdf = pdf
     @items = items
     @amount = amount
     @title = title
+    @email = email
     @header_footer_height = 100
     @line_spacing = 15
     @text_box_padding = 10
@@ -24,7 +25,7 @@ class EventProceduresReportPdf
 
   def add_header
     pdf.repeat(:all) do
-      HeaderPdf.new(pdf: pdf, title: title).generate
+      HeaderPdf.new(pdf: pdf, title: title, email: email).generate
     end
   end
 
@@ -50,6 +51,7 @@ class EventProceduresReportPdf
 
     pdf.start_new_page
     add_header
+    pdf.move_down 20
   end
 
   def add_item_details(item)
