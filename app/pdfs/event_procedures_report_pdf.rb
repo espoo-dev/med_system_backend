@@ -30,9 +30,8 @@ class EventProceduresReportPdf
   end
 
   def add_footer
-    pdf.repeat(:all, dynamic: true) do
-      FooterPdf.new(pdf: pdf, amount: amount).generate
-    end
+    pdf.go_to_page(pdf.page_count)
+    FooterPdf.new(pdf: pdf, amount: amount).generate
   end
 
   def add_body
