@@ -56,7 +56,10 @@ class EventProceduresReportPdf
   def add_item_details(item)
     add_item_line(truncate_text(item.patient.name), item_paid?(item))
     add_item_line(truncate_text(item.procedure.name), item.total_amount.format)
-    add_item_line(truncate_text(item.health_insurance.name), item_date(item))
+    add_item_line(
+      "#{truncate_text(item.hospital.name)} - #{truncate_text(item.health_insurance.name)}",
+      item_date(item)
+    )
   end
 
   def add_item_line(left_text, right_text)
