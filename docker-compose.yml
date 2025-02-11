@@ -46,6 +46,7 @@ services:
     hostname: web-app-container
     ports:
       - "3000:3000"
+    command: rails server -b 0.0.0.0 -p 3000
     depends_on:
       sidekiq:
         condition: service_started
