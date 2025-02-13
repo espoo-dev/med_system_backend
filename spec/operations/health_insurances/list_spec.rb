@@ -42,8 +42,11 @@ RSpec.describe HealthInsurances::List, type: :operation do
       end
 
       it "returns no health insurances for user without any" do
-        new_user = create(:user)
-        result = described_class.call(user: new_user)
+        user1 = create(:user)
+        create(:health_insurance, custom: true, user: user1)
+        user2 = create(:user)
+
+        result = described_class.call(user: user2)
 
         expect(result.health_insurances).to be_empty
       end
