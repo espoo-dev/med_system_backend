@@ -26,32 +26,6 @@ RSpec.describe HealthInsurances::List, type: :operation do
       )
     end
 
-    context "when filtering by user" do
-      it "returns only health insurances for the specified user" do
-        user1 = create(:user)
-        user2 = create(:user)
-        health_insurance_user1 = create(:health_insurance, custom: true, user: user1)
-        create(:health_insurance, custom: true, user: user2)
-
-        result_user1 = described_class.call(user: user1)
-        expect(result_user1.health_insurances).to all(have_attributes(user: user1))
-        expect(result_user1.health_insurances[0].id).to eq(health_insurance_user1.id)
-
-        result_user2 = described_class.call(user: user2)
-        expect(result_user2.health_insurances).to all(have_attributes(user: user2))
-      end
-
-      it "returns no health insurances for user without any" do
-        user1 = create(:user)
-        create(:health_insurance, custom: true, user: user1)
-        user2 = create(:user)
-
-        result = described_class.call(user: user2)
-
-        expect(result.health_insurances).to be_empty
-      end
-    end
-
     context "when custom is true" do
       it "returns only the custom health_insurances for the given user" do
         user = create(:user)

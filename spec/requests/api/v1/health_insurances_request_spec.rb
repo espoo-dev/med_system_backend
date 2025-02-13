@@ -18,8 +18,7 @@ RSpec.describe "HealthInsurances" do
 
         before do
           headers = auth_token_for(create(:user))
-          params = { custom: false }
-          get "/api/v1/health_insurances", headers: headers, params: params
+          get "/api/v1/health_insurances", headers: headers
         end
 
         it "returns ok" do
@@ -63,7 +62,7 @@ RSpec.describe "HealthInsurances" do
         before do
           create_list(:health_insurance, 8)
           headers = auth_token_for(create(:user))
-          get "/api/v1/health_insurances", params: { page: 2, per_page: 5, custom: false }, headers: headers
+          get "/api/v1/health_insurances", params: { page: 2, per_page: 5 }, headers: headers
         end
 
         it "returns only 3 health_insurances" do
