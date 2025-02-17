@@ -23,7 +23,7 @@ module HealthInsurances
       if %w[true false].include?(params[:custom])
         query.by_custom(custom: params[:custom], user: user)
       else
-        query.where(custom: false)
+        query.where(user: user)
       end
     end
   end
