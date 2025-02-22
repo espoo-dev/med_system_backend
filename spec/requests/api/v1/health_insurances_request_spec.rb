@@ -44,6 +44,102 @@ RSpec.describe "HealthInsurances" do
         end
       end
 
+      context "when Custom param is true" do
+        let!(:user) { create(:user) }
+        let!(:health_insurance_custom) { create(:health_insurance, custom: true, user: user) }
+        let(:health_insurance_not_custom) { create(:health_insurance, custom: false, user: user) }
+        let(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
+
+        before do
+          headers = auth_token_for(user)
+          params = { custom: true }
+          get "/api/v1/health_insurances", headers: headers, params: params
+        end
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns health_insurances" do
+          expect(response.parsed_body[0]).to eq(
+            {
+              "id" => health_insurance_custom.id,
+              "name" => health_insurance_custom.name,
+              "custom" => true,
+              "user_id" => user.id
+            }
+          )
+        end
+      end
+
+      context "when Custom param is false" do
+        let!(:user) { create(:user) }
+        let(:health_insurance_custom) { create(:health_insurance, custom: true, user: user) }
+        let!(:health_insurance_not_custom) { create(:health_insurance, custom: false, user: user) }
+        let(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
+
+        before do
+          headers = auth_token_for(user)
+          params = { custom: false }
+          get "/api/v1/health_insurances", headers: headers, params: params
+        end
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns health_insurances" do
+          expect(response.parsed_body[0]).to eq(
+            {
+              "id" => health_insurance_not_custom.id,
+              "name" => health_insurance_not_custom.name,
+              "custom" => false,
+              "user_id" => user.id
+            }
+          )
+        end
+      end
+
+      context "when Custom param is missing" do
+        let!(:user) { create(:user) }
+        let!(:health_insurance_custom) { create(:health_insurance, custom: true, user: user) }
+        let!(:health_insurance_not_custom) { create(:health_insurance, custom: false, user: user) }
+        let!(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
+
+        before do
+          headers = auth_token_for(user)
+          params = {}
+          get "/api/v1/health_insurances", headers: headers, params: params
+        end
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns health_insurances" do
+          expect(response.parsed_body).to include(
+            {
+              "id" => health_insurance_custom.id,
+              "name" => health_insurance_custom.name,
+              "custom" => true,
+              "user_id" => user.id
+            },
+            {
+              "id" => health_insurance_not_custom.id,
+              "name" => health_insurance_not_custom.name,
+              "custom" => false,
+              "user_id" => user.id
+            },
+            {
+              "id" => health_insurance_default.id,
+              "name" => health_insurance_default.name,
+              "custom" => false,
+              "user_id" => nil
+            }
+          )
+        end
+      end
+
       context "when there are no health insurances" do
         before do
           headers = auth_token_for(create(:user))
