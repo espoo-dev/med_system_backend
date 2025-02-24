@@ -76,7 +76,7 @@ RSpec.describe "HealthInsurances" do
         let!(:user) { create(:user) }
         let(:health_insurance_custom) { create(:health_insurance, custom: true, user: user) }
         let!(:health_insurance_not_custom) { create(:health_insurance, custom: false, user: user) }
-        let(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
+        let!(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
 
         before do
           headers = auth_token_for(user)
@@ -89,12 +89,18 @@ RSpec.describe "HealthInsurances" do
         end
 
         it "returns health_insurances" do
-          expect(response.parsed_body[0]).to eq(
+          expect(response.parsed_body).to include(
             {
               "id" => health_insurance_not_custom.id,
               "name" => health_insurance_not_custom.name,
               "custom" => false,
               "user_id" => user.id
+            },
+            {
+              "id" => health_insurance_default.id,
+              "name" => health_insurance_default.name,
+              "custom" => false,
+              "user_id" => nil
             }
           )
         end
