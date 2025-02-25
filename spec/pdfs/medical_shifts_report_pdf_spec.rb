@@ -6,8 +6,8 @@ RSpec.describe MedicalShiftsReportPdf, type: :pdf do
   it "generates a report with the correct content" do
     user = create(:user)
     pdf = Prawn::Document.new
-    amount = MedicalShifts::TotalAmountCents.call(user_id: user.id, month: nil)
     medical_shifts = create_list(:medical_shift, 3, user_id: user.id)
+    amount = MedicalShifts::TotalAmountCents.call(medical_shifts: medical_shifts)
 
     described_class.new(pdf: pdf, amount: amount, items: medical_shifts, title: "Plantões", email: user.email).generate
     rendered_pdf = pdf.render

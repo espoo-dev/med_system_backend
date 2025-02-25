@@ -2,17 +2,16 @@
 
 module MedicalShifts
   class TotalAmountCents < Actor
-    input :user_id, type: Integer
-    input :month, type: String, allow_nil: true
+    input :medical_shifts
 
     output :total, type: String
     output :payd, type: String
     output :unpaid, type: String
 
     def call
-      self.total = Money.new(SumTotalAmountQuery.call(user_id:, month:), "BRL").format
-      self.payd = Money.new(SumPaydAmountQuery.call(user_id:, month:), "BRL").format
-      self.unpaid = Money.new(SumUnpaidAmountQuery.call(user_id:, month:), "BRL").format
+      self.total = Money.new(medical_shifts.sum(&:amount_cents), "BRL").format
+      self.payd = Money.new(medical_shifts.select(&:payd).sum(&:amount_cents), "BRL").format
+      self.unpaid = Money.new(medical_shifts.reject(&:payd).sum(&:amount_cents), "BRL").format
     end
   end
 end
