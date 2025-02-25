@@ -28,7 +28,7 @@ RSpec.describe PdfGeneratorService, type: :service do
       it "generates medical_shifts pdf" do
         user = create(:user)
         medical_shifts = create_list(:medical_shift, 9, user: user)
-        amount = MedicalShifts::TotalAmountCents.call(user_id: medical_shifts.first.user_id, month: nil)
+        amount = MedicalShifts::TotalAmountCents.call(medical_shifts: [medical_shifts[0]])
         pdf = described_class.new(
           relation: medical_shifts, amount: amount, entity_name: "medical_shifts", email: user.email
         ).generate_pdf

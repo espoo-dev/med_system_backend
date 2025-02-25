@@ -52,7 +52,7 @@ module Api
           scope: authorized_scope,
           params: permitted_query_params
         ).medical_shifts
-        total_amount_cents = MedicalShifts::TotalAmountCents.call(user_id: current_user.id, month: params[:month])
+        total_amount_cents = MedicalShifts::TotalAmountCents.call(medical_shifts: medical_shifts)
 
         PdfGeneratorService.new(
           relation: medical_shifts,
