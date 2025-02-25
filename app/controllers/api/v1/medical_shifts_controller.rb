@@ -33,7 +33,7 @@ module Api
           params: params.permit(:page, :per_page, :month, :year, :payd, :hospital_name).to_h
         ).medical_shifts
 
-        amount_cents = MedicalShifts::TotalAmountCents.call(user_id: current_user.id, month: params[:month])
+        amount_cents = MedicalShifts::TotalAmountCents.call(medical_shifts: medical_shifts)
 
         render json: {
           total: amount_cents.total,
