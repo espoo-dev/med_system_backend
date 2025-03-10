@@ -8,7 +8,7 @@ RSpec.describe PdfGeneratorService, type: :service do
       it "generates event_procedures pdf" do
         user = create(:user)
         event_procedures = create_list(:event_procedure, 11)
-        amount = EventProcedures::TotalAmountCents.call(user_id: event_procedures.first.user_id, month: nil, year: nil)
+        amount = EventProcedures::TotalAmountCents.call(event_procedures: event_procedures)
         pdf = described_class.new(
           relation: event_procedures, amount: amount, entity_name: "event_procedures", email: user.email
         ).generate_pdf

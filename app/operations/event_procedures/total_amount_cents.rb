@@ -21,19 +21,42 @@ module EventProcedures
     end
 
     def calculate_total(user_procedures)
-      convert_money(user_procedures.sum(&:amount_cents))
+      procedures_by_id = {}
+      user_procedures.each do |procedure|
+        procedures_by_id[procedure.id] = procedure
+      end
+      total = 0
+      event_procedures.each do |event_procedure|
+        procedure = procedures_by_id[event_procedure.procedure_id]
+        total += procedure.amount_cents if procedure
+      end
+      convert_money(total)
     end
 
     def calculate_payd(user_procedures)
-      payd_procedures_ids = event_procedures.select(&:payd).pluck(:procedure_id)
-      payd_procedures = user_procedures.where(id: payd_procedures_ids)
-      convert_money(payd_procedures.sum(&:amount_cents))
+      procedures_by_id = {}
+      user_procedures.each do |procedure|
+        procedures_by_id[procedure.id] = procedure
+      end
+      total = 0
+      event_procedures.select(&:payd).each do |event_procedure|
+        procedure = procedures_by_id[event_procedure.procedure_id]
+        total += procedure.amount_cents if procedure
+      end
+      convert_money(total)
     end
 
     def calculate_unpayd(user_procedures)
-      unpayd_procudures_ids = event_procedures.reject(&:payd).pluck(:procedure_id)
-      unpayd_procudures = user_procedures.where(id: unpayd_procudures_ids)
-      convert_money(unpayd_procudures.sum(&:amount_cents))
+      procedures_by_id = {}
+      user_procedures.each do |procedure|
+        procedures_by_id[procedure.id] = procedure
+      end
+      total = 0
+      event_procedures.reject(&:payd).each do |event_procedure|
+        procedure = procedures_by_id[event_procedure.procedure_id]
+        total += procedure.amount_cents if procedure
+      end
+      convert_money(total)
     end
   end
 end
