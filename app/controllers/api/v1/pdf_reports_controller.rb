@@ -36,7 +36,7 @@ module Api
           scope: authorized_scope,
           params: permitted_query_params
         ).event_procedures
-        total_amount_cents = EventProcedures::TotalAmountCents.call(total_amount_cents_params)
+        total_amount_cents = EventProcedures::TotalAmountCents.call(event_procedures: event_procedures)
 
         PdfGeneratorService.new(
           relation: event_procedures,
