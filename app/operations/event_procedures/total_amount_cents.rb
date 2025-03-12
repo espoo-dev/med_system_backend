@@ -2,32 +2,29 @@
 
 module EventProcedures
   class TotalAmountCents < Actor
-    input :user_id, type: Integer
-    input :month, type: String, allow_nil: true
-    input :year, type: String, allow_nil: true
+    input :event_procedures
 
     output :total, type: String
     output :payd, type: String
     output :unpaid, type: String
 
     def call
-      self.total = calculate_total
-      self.payd = calculate_paid
-      self.unpaid = calculate_unpaid
+      procedures_by_id = Procedure.where(id: event_procedures.pluck(:procedure_id)).index_by(&:id)
+
+      self.total = calculate_amount(event_procedures, procedures_by_id)
+      self.payd = calculate_amount(event_procedures.select(&:payd), procedures_by_id)
+      self.unpaid = calculate_amount(event_procedures.reject(&:payd), procedures_by_id)
     end
 
-    private
-
-    def calculate_total
-      Money.new(SumAmountQuery.call(user_id:, month:, year:), "BRL").format
+    def convert_money(amount_cents)
+      Money.new(amount_cents, "BRL").format
     end
 
-    def calculate_paid
-      Money.new(SumAmountQuery.call(user_id:, month:, year:, payd: true), "BRL").format
-    end
-
-    def calculate_unpaid
-      Money.new(SumAmountQuery.call(user_id:, month:, year:, payd: false), "BRL").format
+    def calculate_amount(filtered_event_procedures, procedures_by_id)
+      total_cents = filtered_event_procedures.sum do |event_procedure|
+        procedures_by_id[event_procedure.procedure_id]&.amount_cents.to_i
+      end
+      convert_money(total_cents)
     end
   end
 end

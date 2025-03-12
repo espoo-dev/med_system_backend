@@ -6,8 +6,8 @@ RSpec.describe EventProceduresReportPdf, type: :pdf do
   it "generates a report with the correct content" do
     user = create(:user)
     pdf = Prawn::Document.new
-    amount = EventProcedures::TotalAmountCents.call(user_id: user.id, month: nil, year: nil)
     event_procedures = create_list(:event_procedure, 3, user_id: user.id)
+    amount = EventProcedures::TotalAmountCents.call(event_procedures: event_procedures)
 
     described_class.new(
       pdf: pdf, amount: amount, items: event_procedures, title: "Procedimentos", email: user.email

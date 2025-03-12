@@ -5,11 +5,9 @@ require "rails_helper"
 RSpec.describe FooterPdf, type: :pdf do
   it "generates a footer with the correct content" do
     user = create(:user)
-    create_list(:event_procedure, 3, user_id: user.id)
+    event_procedures = create_list(:event_procedure, 3, user_id: user.id)
     total_amount_cents = EventProcedures::TotalAmountCents.call(
-      user_id: user.id,
-      month: nil,
-      year: nil
+      event_procedures: event_procedures
     )
     pdf = Prawn::Document.new
 
