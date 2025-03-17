@@ -365,7 +365,8 @@ RSpec.describe "EventProcedures" do
             params = {
               patient_attributes: { id: patient.id },
               procedure_attributes: { id: procedure.id },
-              health_insurance_attributes: { id: health_insurance.id }
+              health_insurance_attributes: { id: health_insurance.id },
+              urgency: nil
             }
             post "/api/v1/event_procedures", params: params, headers: headers
 

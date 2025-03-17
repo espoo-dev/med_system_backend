@@ -256,7 +256,8 @@ RSpec.describe EventProcedures::Create, type: :operation do
         attributes = {
           patient_attributes: { id: patient.id },
           procedure_attributes: { id: procedure.id },
-          health_insurance_attributes: { id: health_insurance.id }
+          health_insurance_attributes: { id: health_insurance.id },
+          urgency: nil
         }
         result = described_class.result(attributes: attributes, user_id: user.id)
 
@@ -280,7 +281,8 @@ RSpec.describe EventProcedures::Create, type: :operation do
           attributes = {
             patient_attributes: { id: nil },
             procedure_attributes: { id: procedure.id },
-            health_insurance_attributes: { id: health_insurance.id }
+            health_insurance_attributes: { id: health_insurance.id },
+            urgency: nil
           }
           result = described_class.result(attributes: attributes, user_id: user.id)
 
