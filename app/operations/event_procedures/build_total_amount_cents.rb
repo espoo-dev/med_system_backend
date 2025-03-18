@@ -8,6 +8,8 @@ module EventProcedures
 
     URGENCY_PERCENTAGE = 0.3
     ANESTHETIC_PORT_ZERO_AMOUNT = "3"
+    APARTMENT_FACTOR = 2
+    STANDARD_FACTOR = 1
 
     def call
       self.total_amount_cents = (base_amount_cents + urgency_amount.to_i) * apartment_multiplier
@@ -47,7 +49,7 @@ module EventProcedures
     end
 
     def apartment_multiplier
-      event_procedure.apartment? ? 2 : 1
+      event_procedure.apartment? ? APARTMENT_FACTOR : STANDARD_FACTOR
     end
 
     def urgency_amount
