@@ -10,24 +10,28 @@ RSpec.describe EventProcedures::TotalAmountCents, type: :operation do
       expect(described_class.result(event_procedures: [event_procedure])).to be_success
     end
 
-    it "returns the amount_cents total, paid and unpaid of event_procedures" do
+    it "correctly calculates total, paid and unpaid amounts" do
       user = create(:user)
-      procedure_5000 = create(:procedure, amount_cents: 5000)
-      procedure_2000 = create(:procedure, amount_cents: 2000)
-      payd_amount_cents = create_list(
+      procedure_5000 = create(:procedure, amount_cents: 5000, custom: true, user: user)
+      procedure_2000 = create(:procedure, amount_cents: 2000, custom: true, user: user)
+      paid_event_procedures = create_list(
         :event_procedure, 3,
         procedure: procedure_5000,
         user: user,
-        payd: true
+        payd: true,
+        urgency: false
       )
-      unpayd_event_procedure = create_list(
+      unpaid_event_procedures = create_list(
         :event_procedure, 2,
         procedure: procedure_2000,
         user: user,
-        payd: false
+        payd: false,
+        urgency: false
       )
-      event_procedures = payd_amount_cents + unpayd_event_procedure
+
+      event_procedures = paid_event_procedures + unpaid_event_procedures
       total_amount_cents = described_class.call(event_procedures: event_procedures)
+
       expect(total_amount_cents.total).to eq("R$190.00")
       expect(total_amount_cents.payd).to eq("R$150.00")
       expect(total_amount_cents.unpaid).to eq("R$40.00")
