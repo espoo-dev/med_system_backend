@@ -18,6 +18,20 @@ RSpec.describe "Procedures" do
       end
     end
 
+    # context "when user is not authenticated test" do
+    #   let(:request_path) { "/api/v1/procedures" }
+
+    #   include_context "when user is not authenticated"
+
+    #   it "returns unauthorized" do
+    #     expect(response).to have_http_status(:unauthorized)
+    #   end
+
+    #   it "returns error message" do
+    #     expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
+    #   end
+    # end
+
     context "when user is authenticated" do
       let!(:user) { create(:user) }
 
