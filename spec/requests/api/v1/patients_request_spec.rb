@@ -3,23 +3,20 @@
 require "rails_helper"
 
 RSpec.describe "Patients" do
-  describe "GET ap1/v1/patients" do
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        get "/api/v1/patients"
+  let!(:user) { create(:user) }
+  let(:headers) { auth_token_for(user) }
 
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+  describe "GET ap1/v1/patients" do
+    let(:path) { "/api/v1/patients" }
+    let(:http_method) { :get }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       context "when there are patients" do
         let!(:patients) { create_list(:patient, 2, user:) }
-        let(:user) { create(:user) }
 
         before do
-          headers = auth_token_for(user)
-          get "/api/v1/patients", headers:
+          get path, headers: headers
         end
 
         it "returns ok" do
@@ -44,8 +41,7 @@ RSpec.describe "Patients" do
 
       context "when there are no patients" do
         before do
-          headers = auth_token_for(create(:user))
-          get "/api/v1/patients", headers: headers
+          get path, headers: headers
         end
 
         it "returns ok" do
@@ -58,12 +54,9 @@ RSpec.describe "Patients" do
       end
 
       context "when has pagination via page and per_page" do
-        let(:user) { create(:user) }
-
         before do
           create_list(:patient, 8, user:)
-          headers = auth_token_for(user)
-          get "/api/v1/patients", params: { page: 2, per_page: 5 }, headers: headers
+          get path, params: { page: 2, per_page: 5 }, headers: headers
         end
 
         it "returns only 3 patients" do
@@ -71,29 +64,21 @@ RSpec.describe "Patients" do
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 
   describe "POST api/v1/patients" do
-    context "when user is not authenticated" do
-      let(:attributes) { { name: "John" } }
+    let(:path) { "/api/v1/patients" }
+    let(:http_method) { :post }
+    let(:params) { { name: "John" } }
 
-      before do
-        post "/api/v1/patients", params: attributes
-      end
-
-      it "returns unauthorized" do
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    include_context "when user is not authenticated"
 
     context "when user is authenticated" do
       context "when params are valid" do
-        let(:attributes) { { name: "John" } }
-        let(:user) { create(:user) }
-
         before do
-          headers = auth_token_for(user)
-          post "/api/v1/patients", params: attributes, headers:
+          post path, params: params, headers: headers
         end
 
         it "returns created" do
@@ -103,7 +88,7 @@ RSpec.describe "Patients" do
         it "returns patient" do
           expect(response.parsed_body.symbolize_keys).to include(
             id: be_present,
-            name: attributes[:name]
+            name: params[:name]
           )
         end
       end
@@ -112,8 +97,7 @@ RSpec.describe "Patients" do
         let(:invalid_attributes) { { name: nil } }
 
         before do
-          headers = auth_token_for(create(:user))
-          post "/api/v1/patients", params: invalid_attributes, headers: headers
+          post path, params: invalid_attributes, headers: headers
         end
 
         it "returns unprocessable_content" do
@@ -130,25 +114,17 @@ RSpec.describe "Patients" do
   end
 
   describe "PUT api/v1/patients/:id" do
-    context "when user is not authenticated" do
-      let!(:patient) { create(:patient) }
-
-      it "returns unauthorized" do
-        put "/api/v1/patients/#{patient.id}", params: { name: "John" }, headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    let!(:patient) { create(:patient, user: user) }
+    let(:params) { { name: "John" } }
+    let(:path) { "/api/v1/patients/#{patient.id}" }
+    let(:http_method) { :put }
 
     context "when user is authenticated" do
-      let(:user) { create(:user) }
-
       context "when params are valid" do
         let!(:patient) { create(:patient, user: user, name: "Old Name") }
 
         before do
-          headers = auth_token_for(user)
-          put "/api/v1/patients/#{patient.id}", params: { name: "New Name" }, headers: headers
+          put path, params: { name: "New Name" }, headers: headers
         end
 
         it "returns ok" do
@@ -164,11 +140,8 @@ RSpec.describe "Patients" do
       end
 
       context "when params are invalid" do
-        let!(:patient) { create(:patient, user: user) }
-
         before do
-          headers = auth_token_for(user)
-          put "/api/v1/patients/#{patient.id}", params: { name: nil }, headers: headers
+          put path, params: { name: nil }, headers: headers
         end
 
         it "returns unprocessable_content" do
@@ -182,27 +155,19 @@ RSpec.describe "Patients" do
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 
   describe "DELETE api/v1/patients/:id" do
-    let(:user) { create(:user) }
-
-    context "when user is not authenticated" do
-      let!(:patient) { create(:patient) }
-
-      it "returns unauthorized" do
-        delete "/api/v1/patients/#{patient.id}", headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    let!(:patient) { create(:patient, user: user) }
+    let(:path) { "/api/v1/patients/#{patient.id}" }
+    let(:http_method) { :delete }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       it "returns ok" do
-        patient = create(:patient, user: user)
-        headers = auth_token_for(user)
-
-        delete "/api/v1/patients/#{patient.id}", headers: headers
+        delete path, headers: headers
 
         expect(response.parsed_body[:message]).to eq("#{patient.class} deleted successfully.")
         expect(response).to have_http_status(:ok)
@@ -210,21 +175,17 @@ RSpec.describe "Patients" do
 
       context "when patient cannot be destroyed" do
         it "returns unprocessable_content" do
-          patient = create(:patient, user: user)
           create(:event_procedure, patient:)
-          headers = auth_token_for(user)
 
-          delete "/api/v1/patients/#{patient.id}", headers: headers
+          delete path, headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do
-          patient = create(:patient, user: user)
           create(:event_procedure, patient:)
-          headers = auth_token_for(user)
 
-          delete "/api/v1/patients/#{patient.id}", headers: headers
+          delete path, headers: headers
 
           expect(response.parsed_body).to eq(
             { "error" => "Cannot delete record because of dependent event_procedures" }
@@ -232,5 +193,7 @@ RSpec.describe "Patients" do
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 end

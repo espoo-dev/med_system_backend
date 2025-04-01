@@ -4,15 +4,16 @@ require "rails_helper"
 
 RSpec.describe "Users" do
   describe "GET /api/v1/users" do
-    context "when user authenticated" do
-      let(:token) { api_token(user) }
+    let(:token) { api_token(user) }
+    let(:path) { "/api/v1/users" }
+    let(:headers) { auth_token_for(user) }
 
+    context "when user authenticated" do
       context "when user is authorized" do
         let!(:user) { create(:user, admin: true) }
 
         context "when data is valid" do
           before do
-            headers = auth_token_for(user)
             get "/api/v1/users", params: {}, headers: headers
           end
 
@@ -38,11 +39,10 @@ RSpec.describe "Users" do
       end
 
       context "when user is unauthorized" do
-        let!(:user) { create(:user) }
+        let(:user) { create(:user) }
 
         before do
-          headers = auth_token_for(user)
-          get "/api/v1/users", params: {}, headers: headers
+          get path, params: {}, headers: headers
         end
 
         it { expect(response).to have_http_status(:unauthorized) }
@@ -56,7 +56,7 @@ RSpec.describe "Users" do
     context "when user unauthenticated" do
       context "when has user" do
         before do
-          get "/api/v1/users"
+          get path
         end
 
         it { expect(response).to have_http_status(:unauthorized) }

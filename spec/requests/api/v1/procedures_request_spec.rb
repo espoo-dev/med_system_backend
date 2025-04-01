@@ -3,28 +3,19 @@
 require "rails_helper"
 
 RSpec.describe "Procedures" do
+  let!(:user) { create(:user) }
+  let(:headers) { auth_token_for(user) }
+
   describe "GET /api/v1/procedures" do
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        get "/api/v1/procedures", params: {}, headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "returns error message" do
-        get "/api/v1/procedures"
-
-        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
-      end
-    end
+    let(:path) { "/api/v1/procedures" }
+    let(:http_method) { :get }
+    let(:params) { {} }
 
     context "when user is authenticated" do
-      let!(:user) { create(:user) }
-
       before do
         create_list(:procedure, 5)
-        headers = auth_token_for(user)
-        get("/api/v1/procedures", params: {}, headers: headers)
+
+        get(path, params: {}, headers: headers)
       end
 
       it "returns ok" do
@@ -37,63 +28,50 @@ RSpec.describe "Procedures" do
     end
 
     context "when has pagination via page and per_page" do
-      let!(:user) { create(:user) }
-
       before do
         create_list(:procedure, 8)
-        headers = auth_token_for(user)
-        get "/api/v1/procedures", params: { page: 2, per_page: 5 }, headers: headers
+
+        get path, params: { page: 2, per_page: 5 }, headers: headers
       end
 
       it "returns only 3 procedures" do
         expect(response.parsed_body.length).to eq(3)
       end
     end
+
+    include_context "when user is not authenticated"
   end
 
   describe "POST /api/v1/procedures" do
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        post "/api/v1/procedures", params: {}, headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "returns error message" do
-        post "/api/v1/procedures"
-
-        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
-      end
-    end
+    let(:path) { "/api/v1/procedures" }
+    let(:http_method) { :post }
+    let(:headers) { auth_token_for(user) }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       context "with valid params" do
-        let!(:user) { create(:user) }
-        let(:headers) { auth_token_for(user) }
         let(:attributes) do
           { name: "Test Procedure", code: "03.02.04.01-5", amount_cents: 1000 }
         end
 
         it "returns created" do
-          post "/api/v1/procedures", params: attributes, headers: headers
+          post path, params: attributes, headers: headers
 
           expect(response).to have_http_status(:created)
         end
       end
 
       context "with invalid params" do
-        let!(:user) { create(:user) }
-        let(:headers) { auth_token_for(user) }
         let(:invalid_attributes) { { name: nil, code: nil } }
 
         it "returns unprocessable_entity" do
-          post "/api/v1/procedures", params: invalid_attributes, headers: headers
+          post path, params: invalid_attributes, headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
-          post "/api/v1/procedures", params: invalid_attributes, headers: headers
+          post path, params: invalid_attributes, headers: headers
 
           expect(response.parsed_body.symbolize_keys).to include(
             name: ["can't be blank"],
@@ -102,20 +80,20 @@ RSpec.describe "Procedures" do
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 
   describe "PUT /api/v1/procedures/:id" do
-    let(:user) { create(:user) }
+    let(:procedure) { create(:procedure, user: user) }
+    let(:http_method) { :put }
+    let(:params) { { name: "New Procedure Name", amount_cents: 1000 } }
+    let(:path) { "/api/v1/procedures/#{procedure.id}" }
 
     context "when user is authenticated" do
       context "with valid attributes" do
         it "returns ok" do
-          procedure = create(:procedure, user: user)
-
-          params = { name: "New Procedure Name", amount_cents: 1000 }
-
-          headers = auth_token_for(user)
-          put "/api/v1/procedures/#{procedure.id}", params: params, headers: headers
+          put path, params: params, headers: headers
 
           expect(response).to have_http_status(:ok)
         end
@@ -123,19 +101,13 @@ RSpec.describe "Procedures" do
 
       context "with invalid attributes" do
         it "returns unprocessable_content" do
-          procedure = create(:procedure, user: user)
-
-          headers = auth_token_for(user)
-          put "/api/v1/procedures/#{procedure.id}", params: { name: nil }, headers: headers
+          put path, params: { name: nil }, headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
-          procedure = create(:procedure, user: user)
-
-          headers = auth_token_for(user)
-          put "/api/v1/procedures/#{procedure.id}", params: { name: nil }, headers: headers
+          put path, params: { name: nil }, headers: headers
 
           expect(response.parsed_body.symbolize_keys).to include(
             name: ["can't be blank"]
@@ -144,28 +116,18 @@ RSpec.describe "Procedures" do
       end
     end
 
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        procedure = create(:procedure)
-
-        params = { name: "New Procedure Name", amount_cents: 1000 }
-
-        put "/api/v1/procedures/#{procedure.id}", params: params, headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    include_context "when user is not authenticated"
   end
 
   describe "DELETE /api/v1/procedures/:id" do
-    let(:user) { create(:user) }
+    let(:procedure) { create(:procedure, user: user) }
+    let(:http_method) { :delete }
+    let(:path) { "/api/v1/procedures/#{procedure.id}" }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       it "returns ok" do
-        procedure = create(:procedure, user: user)
-
-        headers = auth_token_for(user)
-        delete "/api/v1/procedures/#{procedure.id}", headers: headers
+        delete path, headers: headers
 
         expect(response.parsed_body[:message]).to eq("#{procedure.class} deleted successfully.")
         expect(response).to have_http_status(:ok)
@@ -173,39 +135,25 @@ RSpec.describe "Procedures" do
 
       context "when procedure cannot be destroyed" do
         it "returns unprocessable_content" do
-          procedure = create(:procedure, user: user)
-
           allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
           allow(procedure).to receive(:destroy).and_return(false)
 
-          headers = auth_token_for(user)
-          delete "/api/v1/procedures/#{procedure.id}", headers: headers
+          delete path, headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
-          procedure = create(:procedure, user: user)
-
           allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
           allow(procedure).to receive(:destroy).and_return(false)
 
-          headers = auth_token_for(user)
-          delete "/api/v1/procedures/#{procedure.id}", headers: headers
+          delete path, headers: headers
 
           expect(response.parsed_body).to eq("cannot_destroy")
         end
       end
     end
 
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        procedure = create(:procedure)
-
-        delete "/api/v1/procedures/#{procedure.id}", headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    include_context "when user is not authenticated"
   end
 end
