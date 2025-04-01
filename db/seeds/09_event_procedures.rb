@@ -21,13 +21,13 @@ event_procedure_default = EventProcedure.create!(
   urgency: false,
   room_type: :ward,
   user_id: user.id,
-  payd: false,
+  payd: true,
   payment: :health_insurance,
   cbhpm_id: cbhpm.id
 )
 
-total_amount_cents_procedure_default = EventProcedures::BuildTotalAmountCents.result(event_procedure: event_procedure_default)
-event_procedure_default.update(total_amount_cents: total_amount_cents_procedure_default)
+event_procedure_default_updated = EventProcedures::BuildTotalAmountCents.result(event_procedure: event_procedure_default)
+event_procedure_default.update(total_amount_cents: event_procedure_default_updated.total_amount_cents)
 
 EventProcedure.create!(
   procedure_id: procedure_custom.id,
