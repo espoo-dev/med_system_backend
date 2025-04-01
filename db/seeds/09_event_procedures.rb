@@ -26,7 +26,9 @@ event_procedure_default = EventProcedure.create!(
   cbhpm_id: cbhpm.id
 )
 
-event_procedure_default_updated = EventProcedures::BuildTotalAmountCents.result(event_procedure: event_procedure_default)
+event_procedure_default_updated = EventProcedures::BuildTotalAmountCents.result(
+  event_procedure: event_procedure_default
+)
 event_procedure_default.update(total_amount_cents: event_procedure_default_updated.total_amount_cents)
 
 EventProcedure.create!(
