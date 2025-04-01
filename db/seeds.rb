@@ -3,7 +3,7 @@
 # Not proud of, but we are using this as a place to run scripts,
 # since we can't run rake tasks or access console on render free version
 
-# Rails.logger.debug "Seeding default data..."
+# Rails.logger.debug "Seeding data..."
 # Dir[Rails.root.join("db/seeds/*.rb")].each do |seed|
 #   load seed
 # end
