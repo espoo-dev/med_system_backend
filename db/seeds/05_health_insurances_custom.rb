@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-$stdout.puts "7. Creating custom Health Insurance..."
+Rails.logger.debug "7. Creating custom Health Insurance..."
 
 user = User.last
 health_insurance = HealthInsurance.create!(
@@ -8,4 +8,4 @@ health_insurance = HealthInsurance.create!(
   custom: true,
   user_id: user.id
 )
-$stdout.puts "Created custom Health Insurance: #{health_insurance.name}"
+Rails.logger.debug { "Created custom Health Insurance: #{health_insurance.name}" }

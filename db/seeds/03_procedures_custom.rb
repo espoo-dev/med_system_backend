@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-$stdout.puts "8. Creating custom Procedure..."
+Rails.logger.debug "8. Creating custom Procedure..."
 
 user = User.last
 procedure = Procedure.create!(
@@ -11,4 +11,4 @@ procedure = Procedure.create!(
   custom: true,
   user_id: user.id
 )
-$stdout.puts "Created custom Procedure: #{procedure.name} (#{procedure.code})"
+Rails.logger.debug { "Created custom Procedure: #{procedure.name} (#{procedure.code})" }

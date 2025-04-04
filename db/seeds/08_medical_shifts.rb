@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-$stdout.puts "9. Creating Medical Shifts..."
+Rails.logger.debug "9. Creating Medical Shifts..."
 
 date = Date.yesterday
 user = User.last
@@ -25,4 +25,4 @@ MedicalShift.create!(
   hospital_name: hospital.name
 )
 
-$stdout.puts "Created Medical Shifts for user on #{date}"
+Rails.logger.debug { "Created Medical Shifts for user on #{date}" }

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-$stdout.puts "1. Creating User..."
+Rails.logger.debug "1. Creating User..."
 
 user = User.create!(
   email: "user@email.com",
   password: "qwe123",
   password_confirmation: "qwe123"
 )
-$stdout.puts "Created User with email: #{user.email}"
-$stdout.puts "User's password: #{user.password}"
+Rails.logger.debug { "Created User with email: #{user.email}" }
+Rails.logger.debug { "User's password: #{user.password}" }

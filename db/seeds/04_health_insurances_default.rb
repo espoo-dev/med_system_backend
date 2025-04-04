@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-$stdout.puts "4. Creating default Health Insurances..."
+Rails.logger.debug "4. Creating default Health Insurances..."
 
 health_insurance_data = [
   "São Camilo",
@@ -18,4 +18,4 @@ health_insurance_data.each do |name|
   HealthInsurance.create!(name: name)
 end
 
-$stdout.puts "Created #{health_insurance_data.count} default Health Insurances..."
+Rails.logger.debug { "Created #{health_insurance_data.count} default Health Insurances..." }
