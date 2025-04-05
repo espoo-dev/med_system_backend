@@ -8,12 +8,14 @@ module Api
 
       def index
         authorized_scope = policy_scope(EventProcedure)
-        event_procedures = EventProcedures::List.result(
+        listed_event_procedures = EventProcedures::List.result(
           scope: authorized_scope,
           params: event_procedure_permitted_query_params
-        ).event_procedures
+        )
+        event_procedures = listed_event_procedures.event_procedures
+        event_procedures_unpaginated = listed_event_procedures.event_procedures_unpaginated
 
-        total_amount_cents = EventProcedures::TotalAmountCents.call(event_procedures: event_procedures)
+        total_amount_cents = EventProcedures::TotalAmountCents.call(event_procedures: event_procedures_unpaginated)
 
         render json: {
           total: total_amount_cents.total,

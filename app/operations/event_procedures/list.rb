@@ -6,9 +6,11 @@ module EventProcedures
     input :params, type: Hash, default: -> { {} }
 
     output :event_procedures, type: Enumerable
+    output :event_procedures_unpaginated, type: Enumerable
 
     def call
-      self.event_procedures = filtered_query.order(date: :desc).page(params[:page]).per(params[:per_page])
+      self.event_procedures_unpaginated = filtered_query.order(date: :desc)
+      self.event_procedures = event_procedures_unpaginated.page(params[:page]).per(params[:per_page])
     end
 
     private

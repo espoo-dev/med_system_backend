@@ -106,12 +106,17 @@ RSpec.describe "EventProcedures" do
 
     context "when has pagination via page and per_page" do
       before do
-        create_list(:event_procedure, 8, user_id: user.id)
+        procedure = create(:procedure, custom: true, user: user, amount_cents: 5000)
+        create_list(:event_procedure, 8, user_id: user.id, total_amount_cents: 5000, procedure: procedure)
         get path, params: { page: 2, per_page: 5 }, headers: headers
       end
 
       it "returns only 3 event_procedures" do
         expect(response.parsed_body["event_procedures"].length).to eq(3)
+      end
+
+      it "returns total values without consider page and per_page params" do
+        expect(response.parsed_body["total"]).to eq("R$400.00")
       end
     end
   end

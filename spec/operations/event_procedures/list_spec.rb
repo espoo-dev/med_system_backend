@@ -103,5 +103,22 @@ RSpec.describe EventProcedures::List, type: :operation do
 
       it { expect(result.event_procedures).to eq [EventProcedure.last] }
     end
+
+    describe "event_procedures_unpaginated" do
+      context "when there are event procedures outside of pagination" do
+        let!(:event_procedures) { create_list(:event_procedure, 11) }
+
+        it "returns all event procedures" do
+          result = described_class.result(
+            scope: EventProcedure.all,
+            params: { page: "1", per_page: "5" }
+          )
+          event_procedures_paginated = result.event_procedures
+          event_procedures_unpaginated = result.event_procedures_unpaginated
+          expect(event_procedures_unpaginated).to match_array(event_procedures)
+          expect(event_procedures_paginated.count).to eq(5)
+        end
+      end
+    end
   end
 end
