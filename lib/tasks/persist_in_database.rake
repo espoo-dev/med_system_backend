@@ -10,7 +10,7 @@ namespace :procedures do
     instance = Scripts::PopulateProcedures.new(path_file)
     instance.run!
 
-    puts "Procedures added in database"
+    Rails.logger.warn "Procedures added in database"
   rescue StandardError => e
     raise StandardError, e.message
   end

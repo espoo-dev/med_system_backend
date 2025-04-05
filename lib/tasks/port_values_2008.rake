@@ -17,6 +17,6 @@ namespace :port_values_2008 do
       )
     end
 
-    puts "Port values imported successfully"
+    Rails.logger.warn "Port values imported successfully"
   end
 end

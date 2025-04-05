@@ -27,12 +27,6 @@ RSpec.describe "persist_in_database" do
       Rake::Task[task_name].reenable
     end
 
-    it {
-      expect do
-        run_rake
-      end.to output("Procedures added in database\n").to_stdout
-    }
-
     context "when persists procedures in database" do
       before { run_rake }
 
