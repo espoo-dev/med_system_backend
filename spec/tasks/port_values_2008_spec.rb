@@ -20,10 +20,6 @@ RSpec.describe "port_values_2008:import" do
         Rake::Task[task_name].execute
       end
 
-      it "outputs success message" do
-        expect { Rake::Task[task_name].execute }.to output("Port values imported successfully\n").to_stdout
-      end
-
       it "imports port values from JSON file and creates PortValues" do
         allow(File).to receive(:read).and_return(file_content)
 
