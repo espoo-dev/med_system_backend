@@ -3,28 +3,20 @@
 require "rails_helper"
 
 RSpec.describe "EventProcedures" do
+  let!(:user) { create(:user) }
+  let(:headers) { auth_token_for(user) }
+
   describe "GET /api/v1/event_procedures" do
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        get "/api/v1/event_procedures", params: {}, headers: {}
+    let(:path) { "/api/v1/event_procedures" }
+    let(:http_method) { :get }
+    let(:params) { {} }
 
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "returns error message" do
-        get "/api/v1/event_procedures"
-
-        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
-      end
-    end
+    include_context "when user is not authenticated"
 
     context "when user is authenticated" do
-      let!(:user) { create(:user) }
-
       before do
         create_list(:event_procedure, 5, user_id: user.id)
-        headers = auth_token_for(user)
-        get("/api/v1/event_procedures", params: {}, headers: headers)
+        get(path, params: {}, headers: headers)
       end
 
       it "returns ok" do
@@ -37,28 +29,22 @@ RSpec.describe "EventProcedures" do
     end
 
     context "when has filters by month" do
-      let!(:user) { create(:user) }
-
       it "returns event_procedures per month" do
-        headers = auth_token_for(user)
         create_list(:event_procedure, 3, date: "2023-02-15", user_id: user.id)
         _month_5_event_procedure = create_list(:event_procedure, 5, date: "2023-05-26", user_id: user.id)
 
-        get("/api/v1/event_procedures", params: { month: "2" }, headers: headers)
+        get(path, params: { month: "2" }, headers: headers)
 
         expect(response.parsed_body["event_procedures"].length).to eq(3)
       end
     end
 
     context "when has filters by year" do
-      let!(:user) { create(:user) }
-
       it "returns event_procedures per month" do
-        headers = auth_token_for(user)
         create_list(:event_procedure, 3, date: "2023-02-15", user_id: user.id)
         _month_5_event_procedure = create_list(:event_procedure, 5, date: "2024-05-26", user_id: user.id)
 
-        get("/api/v1/event_procedures", params: { year: "2023" }, headers: headers)
+        get(path, params: { year: "2023" }, headers: headers)
 
         expect(response.parsed_body["event_procedures"].length).to eq(3)
       end
@@ -66,28 +52,22 @@ RSpec.describe "EventProcedures" do
 
     context "when filtering by payd" do
       context "when payd is 'true'" do
-        let!(:user) { create(:user) }
-
         it "returns only paid event_procedures" do
-          headers = auth_token_for(user)
           create_list(:event_procedure, 3, payd: true, user_id: user.id)
           _unpayd_event_procedures = create_list(:event_procedure, 5, payd: false, user_id: user.id)
 
-          get("/api/v1/event_procedures", params: { payd: "true" }, headers: headers)
+          get(path, params: { payd: "true" }, headers: headers)
 
           expect(response.parsed_body["event_procedures"].length).to eq(3)
         end
       end
 
       context "when payd is 'false'" do
-        let!(:user) { create(:user) }
-
         it "returns only unpaid event_procedures" do
-          headers = auth_token_for(user)
           create_list(:event_procedure, 3, payd: true, user_id: user.id)
           _unpayd_event_procedures = create_list(:event_procedure, 5, payd: false, user_id: user.id)
 
-          get("/api/v1/event_procedures", params: { payd: "false" }, headers: headers)
+          get(path, params: { payd: "false" }, headers: headers)
 
           expect(response.parsed_body["event_procedures"].length).to eq(5)
         end
@@ -96,15 +76,13 @@ RSpec.describe "EventProcedures" do
 
     context "when has filters by hospital name" do
       it "returns event_procedures per hospital name" do
-        user = create(:user)
-        header_token = auth_token_for(user)
         hospital_cariri = create(:hospital, name: "Hospital de Cariri")
         hospital_sao_matheus = create(:hospital, name: "Hospital São Matheus")
         create(:event_procedure, hospital: hospital_cariri, user_id: user.id)
         create(:event_procedure, hospital: hospital_sao_matheus, user_id: user.id)
         hospital_params = { hospital: { name: "Hospital de Cariri" } }
 
-        get "/api/v1/event_procedures", headers: header_token, params: hospital_params
+        get path, headers: headers, params: hospital_params
 
         expect(response.parsed_body["event_procedures"].length).to eq(1)
         expect(response.parsed_body["event_procedures"].first["hospital"]).to eq("Hospital de Cariri")
@@ -113,15 +91,13 @@ RSpec.describe "EventProcedures" do
 
     context "when has filters by health_insurance name" do
       it "returns event_procedures per health_insurance name" do
-        user = create(:user)
-        header_token = auth_token_for(user)
         amil = create(:health_insurance, name: "Amil")
         unimed = create(:health_insurance, name: "Unimed")
         create(:event_procedure, health_insurance: amil, user_id: user.id)
         create(:event_procedure, health_insurance: unimed, user_id: user.id)
         health_insurance_params = { health_insurance: { name: "Unimed" } }
 
-        get "/api/v1/event_procedures", headers: header_token, params: health_insurance_params
+        get path, headers: headers, params: health_insurance_params
 
         expect(response.parsed_body["event_procedures"].length).to eq(1)
         expect(response.parsed_body["event_procedures"].first["health_insurance"]).to eq("Unimed")
@@ -129,26 +105,30 @@ RSpec.describe "EventProcedures" do
     end
 
     context "when has pagination via page and per_page" do
-      let!(:user) { create(:user) }
-
       before do
-        headers = auth_token_for(user)
-        create_list(:event_procedure, 8, user_id: user.id)
-        get "/api/v1/event_procedures", params: { page: 2, per_page: 5 }, headers: headers
+        procedure = create(:procedure, custom: true, user: user, amount_cents: 5000)
+        create_list(:event_procedure, 8, user_id: user.id, total_amount_cents: 5000, procedure: procedure)
+        get path, params: { page: 2, per_page: 5 }, headers: headers
       end
 
       it "returns only 3 event_procedures" do
         expect(response.parsed_body["event_procedures"].length).to eq(3)
       end
+
+      it "returns total values without consider page and per_page params" do
+        expect(response.parsed_body["total"]).to eq("R$400.00")
+      end
     end
   end
 
   describe "POST /api/v1/event_procedures" do
+    let(:path) { "/api/v1/event_procedures" }
+    let(:http_method) { :post }
+
     context "when user is authenticated" do
       context "with valid attributes" do
         context "when patient exists" do
           it "returns created" do
-            user = create(:user)
             cbhpm = create(:cbhpm)
             procedure = create(:procedure)
             create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -167,14 +147,12 @@ RSpec.describe "EventProcedures" do
               health_insurance_attributes: { id: create(:health_insurance).id }
             }
 
-            headers = auth_token_for(user)
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response).to have_http_status(:created)
           end
 
           it "returns event_procedure" do
-            user = create(:user)
             patient = create(:patient)
             procedure = create(:procedure, amount_cents: 20_000, description: "nice description")
             cbhpm = create(:cbhpm)
@@ -196,8 +174,7 @@ RSpec.describe "EventProcedures" do
               cbhpm_id: cbhpm.id
             }
 
-            headers = auth_token_for(user)
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response.parsed_body).to include(
               "procedure" => EventProcedure.last.procedure.name,
@@ -218,7 +195,6 @@ RSpec.describe "EventProcedures" do
 
         context "when patient does not exist" do
           it "returns created" do
-            user = create(:user)
             procedure = create(:procedure)
             health_insurance = create(:health_insurance)
             cbhpm = create(:cbhpm)
@@ -239,14 +215,12 @@ RSpec.describe "EventProcedures" do
               health_insurance_attributes: { id: health_insurance.id }
             }
 
-            headers = auth_token_for(user)
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response).to have_http_status(:created)
           end
 
           it "returns event_procedure" do
-            user = create(:user)
             procedure = create(:procedure)
             cbhpm = create(:cbhpm)
             create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -266,8 +240,7 @@ RSpec.describe "EventProcedures" do
               health_insurance_attributes: { id: health_insurance.id }
             }
 
-            headers = auth_token_for(user)
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response.parsed_body).to include(
               "procedure" => EventProcedure.last.procedure.name,
@@ -285,7 +258,6 @@ RSpec.describe "EventProcedures" do
 
         context "when procedure does not exist" do
           it "returns created" do
-            user = create(:user)
             patient = create(:patient)
             health_insurance = create(:health_insurance)
             cbhpm = create(:cbhpm)
@@ -305,8 +277,7 @@ RSpec.describe "EventProcedures" do
               health_insurance_attributes: { id: health_insurance.id }
             }
 
-            headers = auth_token_for(user)
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response).to have_http_status(:created)
           end
@@ -314,7 +285,6 @@ RSpec.describe "EventProcedures" do
 
         context "when health_insurance does not exist" do
           it "returns created" do
-            user = create(:user)
             patient = create(:patient)
             procedure = create(:procedure)
             cbhpm = create(:cbhpm)
@@ -335,8 +305,7 @@ RSpec.describe "EventProcedures" do
               health_insurance_attributes: health_insurance_attributes
             }
 
-            headers = auth_token_for(user)
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response).to have_http_status(:created)
           end
@@ -346,19 +315,17 @@ RSpec.describe "EventProcedures" do
       context "with invalid attributes" do
         context "when patient_id and patient_name are nil" do
           it "returns unprocessable_content" do
-            headers = auth_token_for(create(:user))
             params = {
               patient_attributes: { id: nil },
               procedure_attributes: { id: nil },
               health_insurance_attributes: { id: nil }
             }
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response).to have_http_status(:unprocessable_content)
           end
 
           it "returns error message" do
-            headers = auth_token_for(create(:user))
             patient = create(:patient)
             procedure = create(:procedure)
             health_insurance = create(:health_insurance)
@@ -367,7 +334,7 @@ RSpec.describe "EventProcedures" do
               procedure_attributes: { id: procedure.id },
               health_insurance_attributes: { id: health_insurance.id }
             }
-            post "/api/v1/event_procedures", params: params, headers: headers
+            post path, params: params, headers: headers
 
             expect(response.parsed_body).to eq(
               "cbhpm" => ["must exist"],
@@ -382,16 +349,10 @@ RSpec.describe "EventProcedures" do
       end
     end
 
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        health_insurance = create(:health_insurance)
-        procedure = create(:procedure)
-        cbhpm = create(:cbhpm)
-        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
-        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-        patient = create(:patient)
-        params = {
-
+    include_context "when user is not authenticated" do
+      let(:health_insurance) { create(:health_insurance) }
+      let(:params) do
+        {
           hospital_id: create(:hospital).id,
           patient_service_number: "1234567890",
           date: Time.zone.now.to_date,
@@ -403,19 +364,25 @@ RSpec.describe "EventProcedures" do
           procedure_attributes: { id: procedure.id },
           health_insurance_attributes: { id: health_insurance.id }
         }
+      end
+      let(:procedure) { create(:procedure) }
+      let(:cbhpm) { create(:cbhpm) }
+      let(:patient) { create(:patient) }
 
-        post "/api/v1/event_procedures", params: params, headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
+      before do
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
       end
     end
   end
 
   describe "PUT /api/v1/event_procedures/:id" do
+    let(:path) { "/api/v1/event_procedures/#{event_procedure.id}" }
+    let(:http_method) { :put }
+
     context "when user is authenticated" do
       context "with valid attributes and the record belongs to the user" do
         it "returns ok" do
-          user = create(:user)
           health_insurance = create(:health_insurance)
           procedure = create(:procedure)
           cbhpm = create(:cbhpm)
@@ -445,14 +412,12 @@ RSpec.describe "EventProcedures" do
             health_insurance_attributes: { id: health_insurance.id }
           }
 
-          headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: headers
 
           expect(response).to have_http_status(:ok)
         end
 
         it "updates event_procedure" do
-          user = create(:user)
           health_insurance = create(:health_insurance)
           procedure = create(:procedure, name: "Angioplastia transluminal")
           patient = create(:patient)
@@ -473,7 +438,6 @@ RSpec.describe "EventProcedures" do
             urgency: true
           }
 
-          headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: headers
 
           expect(event_procedure.reload.urgency).to be true
@@ -484,7 +448,6 @@ RSpec.describe "EventProcedures" do
 
       context "with valid attributes and the record not belongs to the user" do
         it "returns unauthorized" do
-          user = create(:user)
           health_insurance = create(:health_insurance)
           procedure = create(:procedure)
           cbhpm = create(:cbhpm)
@@ -513,7 +476,6 @@ RSpec.describe "EventProcedures" do
             health_insurance_attributes: { id: health_insurance.id }
           }
 
-          headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: headers
 
           expect(response).to have_http_status(:unauthorized)
@@ -522,7 +484,6 @@ RSpec.describe "EventProcedures" do
 
       context "with invalid attributes" do
         it "returns unprocessable_content" do
-          user = create(:user)
           health_insurance = create(:health_insurance)
           procedure = create(:procedure)
           cbhpm = create(:cbhpm)
@@ -538,14 +499,12 @@ RSpec.describe "EventProcedures" do
             user_id: user.id
           )
 
-          headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error message" do
-          user = create(:user)
           health_insurance = create(:health_insurance)
           procedure = create(:procedure)
           cbhpm = create(:cbhpm)
@@ -561,7 +520,6 @@ RSpec.describe "EventProcedures" do
             user_id: user.id
           )
 
-          headers = auth_token_for(user)
           put "/api/v1/event_procedures/#{event_procedure.id}", params: { date: nil }, headers: headers
 
           expect(response.parsed_body).to eq(["Date can't be blank"])
@@ -569,12 +527,11 @@ RSpec.describe "EventProcedures" do
       end
     end
 
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        user = create(:user)
-        event_procedure = create(:event_procedure, user_id: user.id)
+    include_context "when user is not authenticated" do
+      let(:event_procedure) { create(:event_procedure, user_id: user.id) }
 
-        params = {
+      let(:params) do
+        {
           procedure_id: create(:procedure).id,
           patient_id: create(:patient).id,
           hospital_id: create(:hospital).id,
@@ -585,21 +542,19 @@ RSpec.describe "EventProcedures" do
           room_type: EventProcedures::RoomTypes::WARD,
           payment: EventProcedures::Payments::HEALTH_INSURANCE
         }
-
-        put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
 
   describe "DELETE /api/v1/event_procedures/:id" do
+    let(:path) { "/api/v1/event_procedures/#{event_procedure.id}" }
+    let(:http_method) { :delete }
+    let(:params) { {} }
+
     context "when user is authenticated" do
       it "returns ok" do
-        user = create(:user)
         event_procedure = create(:event_procedure, user_id: user.id)
 
-        headers = auth_token_for(user)
         delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
 
         expect(response.parsed_body[:message]).to eq("#{event_procedure.class} deleted successfully.")
@@ -608,26 +563,22 @@ RSpec.describe "EventProcedures" do
 
       context "when event_procedure cannot be destroyed" do
         it "returns unprocessable_content" do
-          user = create(:user)
           event_procedure = create(:event_procedure, user_id: user.id)
 
           allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
           allow(event_procedure).to receive(:destroy).and_return(false)
 
-          headers = auth_token_for(user)
           delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error message" do
-          user = create(:user)
           event_procedure = create(:event_procedure, user_id: user.id)
 
           allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
           allow(event_procedure).to receive(:destroy).and_return(false)
 
-          headers = auth_token_for(user)
           delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
 
           expect(response.parsed_body).to eq("cannot_destroy")
@@ -635,14 +586,8 @@ RSpec.describe "EventProcedures" do
       end
     end
 
-    context "when user is not authenticated" do
-      it "returns unauthorized" do
-        event_procedure = create(:event_procedure)
-
-        delete "/api/v1/event_procedures/#{event_procedure.id}", headers: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
+    include_context "when user is not authenticated" do
+      let(:event_procedure) { create(:event_procedure) }
     end
   end
 end

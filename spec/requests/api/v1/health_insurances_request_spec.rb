@@ -3,23 +3,21 @@
 require "rails_helper"
 
 RSpec.describe "HealthInsurances" do
-  describe "GET /api/v1/health_insurances" do
-    context "when user is not authenticated" do
-      it "returns unauthorized status" do
-        get "/api/v1/health_insurances"
+  let!(:user) { create(:user) }
+  let(:headers) { auth_token_for(user) }
 
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+  describe "GET /api/v1/health_insurances" do
+    let(:path) { "/api/v1/health_insurances" }
+    let(:http_method) { :get }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       context "when there are health insurances" do
         let!(:health_insurances) { create_list(:health_insurance, 2) }
 
         before do
-          headers = auth_token_for(create(:user))
           params = { custom: false }
-          get "/api/v1/health_insurances", headers: headers, params: params
+          get path, headers: headers, params: params
         end
 
         it "returns ok" do
@@ -45,13 +43,11 @@ RSpec.describe "HealthInsurances" do
       end
 
       context "when Custom param is true" do
-        let!(:user) { create(:user) }
         let!(:health_insurance_custom) { create(:health_insurance, custom: true, user: user) }
         let(:health_insurance_not_custom) { create(:health_insurance, custom: false, user: user) }
         let(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
 
         before do
-          headers = auth_token_for(user)
           params = { custom: true }
           get "/api/v1/health_insurances", headers: headers, params: params
         end
@@ -73,13 +69,11 @@ RSpec.describe "HealthInsurances" do
       end
 
       context "when Custom param is false" do
-        let!(:user) { create(:user) }
         let(:health_insurance_custom) { create(:health_insurance, custom: true, user: user) }
         let!(:health_insurance_not_custom) { create(:health_insurance, custom: false, user: user) }
         let!(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
 
         before do
-          headers = auth_token_for(user)
           params = { custom: false }
           get "/api/v1/health_insurances", headers: headers, params: params
         end
@@ -107,15 +101,13 @@ RSpec.describe "HealthInsurances" do
       end
 
       context "when Custom param is missing" do
-        let!(:user) { create(:user) }
         let!(:health_insurance_custom) { create(:health_insurance, custom: true, user: user) }
         let!(:health_insurance_not_custom) { create(:health_insurance, custom: false, user: user) }
         let!(:health_insurance_default) { create(:health_insurance, custom: false, user: nil) }
 
         before do
-          headers = auth_token_for(user)
           params = {}
-          get "/api/v1/health_insurances", headers: headers, params: params
+          get path, headers: headers, params: params
         end
 
         it "returns ok" do
@@ -148,8 +140,7 @@ RSpec.describe "HealthInsurances" do
 
       context "when there are no health insurances" do
         before do
-          headers = auth_token_for(create(:user))
-          get "/api/v1/health_insurances", headers: headers
+          get path, headers: headers
         end
 
         it "returns ok" do
@@ -164,8 +155,7 @@ RSpec.describe "HealthInsurances" do
       context "when has pagination via page and per_page" do
         before do
           create_list(:health_insurance, 8)
-          headers = auth_token_for(create(:user))
-          get "/api/v1/health_insurances", params: { page: 2, per_page: 5, custom: false }, headers: headers
+          get path, params: { page: 2, per_page: 5, custom: false }, headers: headers
         end
 
         it "returns only 3 health_insurances" do
@@ -173,24 +163,23 @@ RSpec.describe "HealthInsurances" do
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 
   describe "POST /api/v1/health_insurances" do
-    context "when user is not authenticated" do
-      it "returns unauthorized status" do
-        post "/api/v1/health_insurances"
+    let(:path) { "/api/v1/health_insurances" }
+    let(:http_method) { :post }
+    let(:params) { {} }
 
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+    include_context "when user is not authenticated"
 
     context "when user is authenticated" do
       context "when params are valid" do
         let(:health_insurance_params) { attributes_for(:health_insurance) }
 
         before do
-          headers = auth_token_for(create(:user))
-          post "/api/v1/health_insurances", params: health_insurance_params, headers: headers
+          post path, params: health_insurance_params, headers: headers
         end
 
         it "returns created" do
@@ -209,7 +198,6 @@ RSpec.describe "HealthInsurances" do
         let(:health_insurance_params) { { name: nil } }
 
         before do
-          headers = auth_token_for(create(:user))
           post "/api/v1/health_insurances", params: health_insurance_params, headers: headers
         end
 

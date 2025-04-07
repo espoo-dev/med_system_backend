@@ -3,33 +3,25 @@
 require "rails_helper"
 
 RSpec.describe "MedicalShifts" do
+  let!(:user) { create(:user) }
+  let(:headers) { auth_token_for(user) }
+
   describe "GET ap1/v1/medical_shifts" do
-    context "when user is not authenticated" do
-      it "retuns unauthorized status" do
-        get api_v1_medical_shifts_path
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "returns error message" do
-        get api_v1_medical_shifts_path
-
-        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
-      end
-    end
+    let(:path) { api_v1_medical_shifts_path }
+    let(:http_method) { :get }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       context "when there are medical_shifts" do
         it "returns ok" do
-          get api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
+          get path, headers: headers
 
           expect(response).to have_http_status(:ok)
         end
 
         it "returns medical_shifts" do
-          user = create(:user)
           medical_shifts = create_list(:medical_shift, 2, user: user)
-          get api_v1_medical_shifts_path, headers: auth_token_for(user)
+          get path, headers: headers
           second_hospital_name = medical_shifts.second.hospital_name
           second_workload = medical_shifts.second.workload_humanize
           second_shift = medical_shifts.second.shift
@@ -66,11 +58,8 @@ RSpec.describe "MedicalShifts" do
 
         context "when has pagination via page and per_page" do
           it "paginates medical_shifts" do
-            user = create(:user)
             create_list(:medical_shift, 5, user: user)
-            headers = auth_token_for(user)
-
-            get api_v1_medical_shifts_path, params: { page: 1, per_page: 2 }, headers: headers
+            get path, params: { page: 1, per_page: 2 }, headers: headers
 
             expect(response.parsed_body["medical_shifts"].count).to eq(2)
           end
@@ -78,18 +67,16 @@ RSpec.describe "MedicalShifts" do
 
         context "when has filters by month" do
           it "returns medical_shifts per month" do
-            user = create(:user)
             february_medical_shift = create(:medical_shift, start_date: "2023-02-15", user: user)
             _september_medical_shift = create(:medical_shift, start_date: "2023-09-26", user: user)
 
-            get api_v1_medical_shifts_path, params: { month: "2" }, headers: auth_token_for(user)
+            get path, params: { month: "2" }, headers: headers
 
             expect(response.parsed_body["medical_shifts"].count).to eq(1)
             expect(response.parsed_body["medical_shifts"].first["id"]).to eq(february_medical_shift.id)
           end
 
           it "returns medical_shifts amount data per month" do
-            user = create(:user)
             create(
               :medical_shift, start_date: "2023-02-15", user:, amount_cents: 1000,
               payd: true
@@ -100,7 +87,7 @@ RSpec.describe "MedicalShifts" do
             )
             _september_medical_shift = create(:medical_shift, start_date: "2023-09-26", user: user)
 
-            get api_v1_medical_shifts_path, params: { month: "2" }, headers: auth_token_for(user)
+            get path, params: { month: "2" }, headers: headers
 
             expect(response.parsed_body["total"]).to eq("R$30.00")
             expect(response.parsed_body["total_payd"]).to eq("R$10.00")
@@ -110,12 +97,11 @@ RSpec.describe "MedicalShifts" do
 
         context "when has filters by hospital" do
           it "returns medical_shifts per hospital" do
-            user = create(:user)
             hospital = create(:hospital)
             hospital_medical_shift = create(:medical_shift, hospital_name: hospital.name, user: user)
             _another_hospital_medical_shift = create(:medical_shift)
 
-            get api_v1_medical_shifts_path, params: { hospital_name: hospital.name }, headers: auth_token_for(user)
+            get path, params: { hospital_name: hospital.name }, headers: headers
 
             expect(response.parsed_body["medical_shifts"].count).to eq(1)
             expect(response.parsed_body["medical_shifts"].first["id"]).to eq(hospital_medical_shift.id)
@@ -124,7 +110,6 @@ RSpec.describe "MedicalShifts" do
 
         context "when filtering by payd" do
           it "returns paid medical_shifts" do
-            user = create(:user)
             paid_medical_shifts = create_list(:medical_shift, 2, payd: true, user: user)
             _unpaid_medical_shifts = create(:medical_shift, payd: false, user: user)
             second_hospital_name = paid_medical_shifts.second.hospital_name
@@ -134,7 +119,7 @@ RSpec.describe "MedicalShifts" do
             first_workload = paid_medical_shifts.first.workload_humanize
             first_shift = paid_medical_shifts.first.shift
 
-            get api_v1_medical_shifts_path, params: { payd: "true" }, headers: auth_token_for(user)
+            get path, params: { payd: "true" }, headers: headers
 
             expect(response.parsed_body["medical_shifts"].count).to eq(2)
             expect(response.parsed_body["medical_shifts"]).to include(
@@ -164,7 +149,6 @@ RSpec.describe "MedicalShifts" do
           end
 
           it "returns unpaid medical_shifts" do
-            user = create(:user)
             _paid_medical_shifts = create(:medical_shift, payd: true, user: user)
             unpaid_medical_shifts = create_list(:medical_shift, 2, payd: false, user: user)
             second_hospital_name = unpaid_medical_shifts.second.hospital_name
@@ -174,7 +158,7 @@ RSpec.describe "MedicalShifts" do
             first_workload = unpaid_medical_shifts.first.workload_humanize
             first_shift = unpaid_medical_shifts.first.shift
 
-            get api_v1_medical_shifts_path, params: { payd: "false" }, headers: auth_token_for(user)
+            get path, params: { payd: "false" }, headers: headers
 
             expect(response.parsed_body["medical_shifts"].count).to eq(2)
             expect(response.parsed_body["medical_shifts"]).to include(
@@ -207,7 +191,7 @@ RSpec.describe "MedicalShifts" do
 
       context "when there are no medical_shifts" do
         it "returns empty array" do
-          get api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
+          get path, headers: headers
 
           expect(response.parsed_body.symbolize_keys).to eq(
             {
@@ -220,18 +204,22 @@ RSpec.describe "MedicalShifts" do
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 
   describe "POST api/v1/medical_shifts" do
+    let(:path) { api_v1_medical_shifts_path }
+
     context "when user is not authenticated" do
       it "retuns unauthorized status" do
-        post api_v1_medical_shifts_path, params: { hospital_name: create(:hospital).id }
+        post path, params: { hospital_name: create(:hospital).id }
 
         expect(response).to have_http_status(:unauthorized)
       end
 
       it "returns error message" do
-        post api_v1_medical_shifts_path, params: { payd: true }
+        post path, params: { payd: true }
 
         expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
       end
@@ -249,7 +237,7 @@ RSpec.describe "MedicalShifts" do
             payd: false
           }
 
-          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+          post path, params: params, headers: headers
 
           expect(response).to have_http_status(:created)
         end
@@ -264,7 +252,7 @@ RSpec.describe "MedicalShifts" do
             payd: false
           }
 
-          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+          post path, params: params, headers: headers
 
           hospital_name = MedicalShift.last.hospital_name
           workload = MedicalShift.last.workload_humanize
@@ -288,7 +276,7 @@ RSpec.describe "MedicalShifts" do
         it "returns unprocessable_content status" do
           params = { amount_cents: 1, payd: false }
 
-          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+          post path, params: params, headers: headers
 
           expect(response).to have_http_status(:unprocessable_content)
         end
@@ -296,7 +284,7 @@ RSpec.describe "MedicalShifts" do
         it "returns error message" do
           params = { amount_cents: 1, payd: false }
 
-          post api_v1_medical_shifts_path, params: params, headers: auth_token_for(create(:user))
+          post path, params: params, headers: headers
 
           expect(response.parsed_body).to eq(
             {
@@ -311,6 +299,8 @@ RSpec.describe "MedicalShifts" do
   end
 
   describe "PUT api/v1/medical_shifts/:id" do
+    let(:http_method) { :put }
+
     context "when user is not authenticated" do
       it "retuns unauthorized status" do
         put api_v1_medical_shift_path(create(:medical_shift)), params: { hospital_name: create(:hospital).name }
@@ -322,10 +312,9 @@ RSpec.describe "MedicalShifts" do
     context "when user is authenticated" do
       context "when updating another user's medical_shift" do
         it "returns unauthorized status" do
-          user = create(:user)
           medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX)
           params = { workload: MedicalShifts::Workloads::TWELVE }
-          put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+          put api_v1_medical_shift_path(medical_shift), params: params, headers: headers
 
           expect(response).to have_http_status(:unauthorized)
         end
@@ -334,21 +323,19 @@ RSpec.describe "MedicalShifts" do
       context "when updating user's medical_shift" do
         context "with valid params" do
           it "returns ok status" do
-            user = create(:user)
             medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
             params = { workload: MedicalShifts::Workloads::TWELVE }
 
-            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: headers
 
             expect(response).to have_http_status(:ok)
           end
 
           it "updates medical_shift" do
-            user = create(:user)
             medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
             params = { workload: MedicalShifts::Workloads::TWELVE }
 
-            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: headers
 
             hospital_name = medical_shift.reload.hospital_name
             workload = medical_shift.reload.workload_humanize
@@ -370,21 +357,19 @@ RSpec.describe "MedicalShifts" do
 
         context "with invalid params" do
           it "returns unprocessable_content status" do
-            user = create(:user)
             medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
             params = { workload: nil }
 
-            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: headers
 
             expect(response).to have_http_status(:unprocessable_content)
           end
 
           it "returns error message" do
-            user = create(:user)
             medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX, user: user)
             params = { workload: nil }
 
-            put api_v1_medical_shift_path(medical_shift), params: params, headers: auth_token_for(user)
+            put api_v1_medical_shift_path(medical_shift), params: params, headers: headers
 
             expect(response.parsed_body).to eq({ "workload" => ["can't be blank"] })
           end
@@ -394,13 +379,13 @@ RSpec.describe "MedicalShifts" do
   end
 
   describe "DELETE /api/v1/medical_shifts/:id" do
-    let(:user) { create(:user) }
+    let(:path) { "/api/v1/medical_shifts/#{medical_shift.id}" }
+    let(:http_method) { :delete }
     let(:medical_shift) { create(:medical_shift, user_id: user.id) }
+    let(:params) { {} }
 
     context "when user is authenticated" do
-      let(:headers) { auth_token_for(user) }
-
-      before { delete "/api/v1/medical_shifts/#{medical_shift.id}", headers: headers }
+      before { delete path, headers: headers }
 
       it { expect(response.parsed_body[:message]).to eq("#{medical_shift.class} deleted successfully.") }
       it { expect(response).to have_http_status(:ok) }
@@ -421,7 +406,7 @@ RSpec.describe "MedicalShifts" do
           allow(MedicalShift).to receive(:find).with(medical_shift.id.to_s).and_return(medical_shift)
           allow(medical_shift).to receive(:destroy).and_return(false)
 
-          delete "/api/v1/medical_shifts/#{medical_shift.id}", headers: headers
+          delete path, headers: headers
         end
 
         it { expect(response).to have_http_status(:unprocessable_content) }
@@ -429,40 +414,23 @@ RSpec.describe "MedicalShifts" do
       end
     end
 
-    context "when user is not authenticated" do
-      let(:medical_shift) { create(:medical_shift, user_id: user.id) }
-
-      before { delete "/api/v1/medical_shifts/#{medical_shift.id}", headers: {} }
-
-      it { expect(response).to have_http_status(:unauthorized) }
-    end
+    include_context "when user is not authenticated"
   end
 
   describe "GET ap1/v1/medical_shifts/hospital_name_suggestion" do
-    context "when user is not authenticated" do
-      it "retuns unauthorized status" do
-        get hospital_name_suggestion_api_v1_medical_shifts_path
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "returns error message" do
-        get hospital_name_suggestion_api_v1_medical_shifts_path
-
-        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
-      end
-    end
+    let(:path) { hospital_name_suggestion_api_v1_medical_shifts_path }
+    let(:http_method) { :get }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       context "when there are medical_shifts" do
         it "returns ok" do
-          get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
+          get path, headers: headers
 
           expect(response).to have_http_status(:ok)
         end
 
         it "returns hospital_names" do
-          user = create(:user)
           medical_shifts_same_hospital_name = create_list(:medical_shift, 2, user: user)
           medical_shifts_another_hospital_name = create(
             :medical_shift,
@@ -471,7 +439,7 @@ RSpec.describe "MedicalShifts" do
           )
           create_list(:medical_shift, 4, hospital_name: "Another user")
 
-          get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(user)
+          get path, headers: headers
 
           expect(response.parsed_body["names"].count).to eq(2)
           expect(response.parsed_body["names"]).to eq(
@@ -485,41 +453,34 @@ RSpec.describe "MedicalShifts" do
 
       context "when there are no medical_shifts" do
         it "returns empty array" do
-          get hospital_name_suggestion_api_v1_medical_shifts_path, headers: auth_token_for(create(:user))
+          get path, headers: headers
 
           expect(response.parsed_body.symbolize_keys).to eq({ names: [] })
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 
   describe "GET ap1/v1/medical_shifts/amount_suggestions" do
-    context "when user is not authenticated" do
-      it "retuns unauthorized status" do
-        get amount_suggestions_api_v1_medical_shifts_path
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "returns error message" do
-        get amount_suggestions_api_v1_medical_shifts_path
-
-        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
-      end
-    end
+    let(:path) { amount_suggestions_api_v1_medical_shifts_path }
+    let(:http_method) { :get }
+    let(:params) { {} }
 
     context "when user is authenticated" do
       it "returns amounts_cents" do
-        user = create(:user)
         create_list(:medical_shift, 2, user:, amount_cents: 200_000)
         create_list(:medical_shift, 3, user:, amount_cents: 300_000)
         create_list(:medical_shift, 4, hospital_name: "Another user")
 
-        get amount_suggestions_api_v1_medical_shifts_path, headers: auth_token_for(user)
+        get path, headers: headers
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["amounts_cents"]).to eq(["R$2.000,00", "R$3.000,00"])
       end
     end
+
+    include_context "when user is not authenticated"
   end
 end

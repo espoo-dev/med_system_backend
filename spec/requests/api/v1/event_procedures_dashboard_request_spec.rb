@@ -8,19 +8,9 @@ RSpec.describe "EventProcedures" do
     let(:params) { { start_date: "01/06/2000", end_date: "05/06/2000" } }
 
     describe "authentication" do
-      context "when user is not authenticated" do
-        let(:params) { {} }
-        let(:headers) { {} }
-
-        it "returns unauthorized" do
-          do_request
-          expect(response).to have_http_status(:unauthorized)
-        end
-
-        it "returns error message" do
-          do_request
-          expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
-        end
+      include_context "when user is not authenticated" do
+        let(:path) { "/api/v1/event_procedures_dashboard/amount_by_day" }
+        let(:http_method) { :get }
       end
 
       context "when user is authenticated as not admin" do
