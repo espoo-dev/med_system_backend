@@ -8,10 +8,17 @@
 ## Getting Started
 
 - create a .env file based on .env.example and copy the content of .env.example to .env (`$ cp .env.example .env`)
-- docker compose build
-- docker compose run web bundle install
-- docker compose run web bin/rails db:setup
-- bin/dev
+- run `docker compose build`
+- run `docker compose exec web bundle install`
+- On `db/seeds.rb` uncomment the lines:
+```ruby
+Rails.logger.debug "Seeding data..."
+Dir[Rails.root.join("db/seeds/*.rb")].each do |seed|
+  load seed
+end
+```
+- run `docker compose exec web rails db:reset`
+- run `docker compose exec web bin/dev`
 - visit http://localhost:3000/
 
 ## Run tests
