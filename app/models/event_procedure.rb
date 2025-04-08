@@ -2,7 +2,6 @@
 
 class EventProcedure < ApplicationRecord
   acts_as_paranoid
-
   has_enumeration_for :room_type, with: EventProcedures::RoomTypes, create_helpers: true
   has_enumeration_for :payment, with: EventProcedures::Payments, create_helpers: true
 
@@ -31,4 +30,6 @@ class EventProcedure < ApplicationRecord
   validates :room_type, presence: true, if: -> { health_insurance? }
   validates :urgency, inclusion: [true, false], if: -> { health_insurance? }
   validates :payment, presence: true
+
+  validates_with CustomAndUrgencyValidator
 end
