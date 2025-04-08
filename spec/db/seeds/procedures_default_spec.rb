@@ -2,19 +2,19 @@
 
 require "rails_helper"
 
-RSpec.describe "Procedures seed" do
+RSpec.describe "Default Procedures seed" do
   let(:seed_file) { Rails.root.join("db/seeds/02_procedures_default.rb") }
 
   before do
-    Procedure.destroy_all if defined?(Procedure)
-    PortValue.destroy_all if defined?(PortValue)
-    CbhpmProcedure.destroy_all if defined?(CbhpmProcedure)
-    Cbhpm.destroy_all if defined?(Cbhpm)
+    Procedure.destroy_all
+    PortValue.destroy_all
+    CbhpmProcedure.destroy_all
+    Cbhpm.destroy_all
 
     allow(Rake::Task).to receive(:clear)
     allow(Rails.application).to receive(:load_tasks)
 
-    cbhpm = Cbhpm.create!(year: 2008, name: "5 edition") if defined?(Cbhpm)
+    cbhpm = Cbhpm.create!(year: 2008, name: "5 edition")
 
     port_values_task = instance_double(Rake::Task)
     allow(port_values_task).to receive(:invoke) do
@@ -71,9 +71,9 @@ RSpec.describe "Procedures seed" do
   end
 
   it "creates records in the database" do
-    initial_procedure_count = defined?(Procedure) ? Procedure.count : 0
-    initial_port_value_count = defined?(PortValue) ? PortValue.count : 0
-    initial_cbhpm_procedure_count = defined?(CbhpmProcedure) ? CbhpmProcedure.count : 0
+    initial_procedure_count = Procedure.count
+    initial_port_value_count = PortValue.count
+    initial_cbhpm_procedure_count = CbhpmProcedure.count
 
     load seed_file
 
