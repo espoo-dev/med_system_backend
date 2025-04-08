@@ -31,4 +31,6 @@ class EventProcedure < ApplicationRecord
   validates :room_type, presence: true, if: -> { health_insurance? }
   validates :urgency, inclusion: [true, false], if: -> { health_insurance? }
   validates :payment, presence: true
+
+  validates_with CustomAndUrgencyValidator
 end
