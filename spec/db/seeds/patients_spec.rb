@@ -6,8 +6,6 @@ RSpec.describe "Patients seed" do
   let(:seed_file) { Rails.root.join("db/seeds/07_patients.rb") }
 
   before do
-    Patient.destroy_all
-    User.destroy_all
     create(:user)
   end
 

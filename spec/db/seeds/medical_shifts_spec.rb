@@ -6,9 +6,6 @@ RSpec.describe "Medical Shifts seed" do
   let(:seed_file) { Rails.root.join("db/seeds/08_medical_shifts.rb") }
 
   before do
-    MedicalShift.destroy_all
-    Hospital.destroy_all
-    User.destroy_all
     create(:hospital)
     create(:user)
   end

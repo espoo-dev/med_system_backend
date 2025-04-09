@@ -6,14 +6,6 @@ RSpec.describe "Event Procedures seed" do
   let(:seed_file) { Rails.root.join("db/seeds/09_event_procedures.rb") }
 
   before do
-    User.destroy_all
-    Patient.destroy_all
-    Hospital.destroy_all
-    Procedure.destroy_all
-    HealthInsurance.destroy_all
-    Cbhpm.destroy_all
-    EventProcedure.destroy_all
-
     user = create(:user)
     create(:patient, user: user)
     create(:hospital)

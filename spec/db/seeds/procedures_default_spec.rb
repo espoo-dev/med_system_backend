@@ -6,11 +6,6 @@ RSpec.describe "Default Procedures seed" do
   let(:seed_file) { Rails.root.join("db/seeds/02_procedures_default.rb") }
 
   before do
-    Procedure.destroy_all
-    PortValue.destroy_all
-    CbhpmProcedure.destroy_all
-    Cbhpm.destroy_all
-
     allow(Rake::Task).to receive(:clear)
     allow(Rails.application).to receive(:load_tasks)
 

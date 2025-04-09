@@ -3,10 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "User seeds" do
-  before do
-    User.destroy_all
-  end
-
   describe "users.rb seed" do
     let(:seed_file) { Rails.root.join("db/seeds/01_users.rb") }
 
