@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Default Procedures seed" do
+  subject(:load_seed) { load seed_file }
+
   let(:seed_file) { Rails.root.join("db/seeds/02_procedures_default.rb") }
 
   before do
@@ -62,20 +64,12 @@ RSpec.describe "Default Procedures seed" do
   end
 
   it "runs without errors" do
-    expect { load seed_file }.not_to raise_error
-  end
-
-  it "starts with no records in the database" do
-    expect(PortValue.count).to be(0)
-    expect(Procedure.count).to be(0)
-    expect(CbhpmProcedure.count).to be(0)
+    expect { load_seed }.not_to raise_error
   end
 
   it "creates records in the database" do
-    load seed_file
-
-    expect(PortValue.count).to be(3)
-    expect(Procedure.count).to be(3)
-    expect(CbhpmProcedure.count).to be(3)
+    expect { load_seed }.to change(PortValue, :count).from(0).to(3)
+      .and change(Procedure, :count).from(0).to(3)
+      .and change(CbhpmProcedure, :count).from(0).to(3)
   end
 end
