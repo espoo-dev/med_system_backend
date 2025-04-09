@@ -310,4 +310,6 @@ Devise.setup do |config|
   config.api.configure do |api|
     api.access_token.expires_in = 1.month
   end
+
+  config.secret_key = Rails.application.secret_key_base
 end
