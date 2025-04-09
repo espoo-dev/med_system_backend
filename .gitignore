@@ -39,3 +39,5 @@
 # Ignore all environment files (except example).
 /.env*
 !.env.example
+
+lib/data/procedures/
