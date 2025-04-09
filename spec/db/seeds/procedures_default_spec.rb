@@ -65,15 +65,17 @@ RSpec.describe "Default Procedures seed" do
     expect { load seed_file }.not_to raise_error
   end
 
-  it "creates records in the database" do
-    initial_procedure_count = Procedure.count
-    initial_port_value_count = PortValue.count
-    initial_cbhpm_procedure_count = CbhpmProcedure.count
+  it "starts with no records in the database" do
+    expect(PortValue.count).to be(0)
+    expect(Procedure.count).to be(0)
+    expect(CbhpmProcedure.count).to be(0)
+  end
 
+  it "creates records in the database" do
     load seed_file
 
-    expect(Procedure.count).to be > initial_procedure_count
-    expect(PortValue.count).to be > initial_port_value_count
-    expect(CbhpmProcedure.count).to be > initial_cbhpm_procedure_count
+    expect(PortValue.count).to be(3)
+    expect(Procedure.count).to be(3)
+    expect(CbhpmProcedure.count).to be(3)
   end
 end

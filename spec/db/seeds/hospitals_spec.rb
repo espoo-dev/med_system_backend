@@ -10,10 +10,10 @@ RSpec.describe "Hospitals seed" do
   end
 
   it "creates records in the database" do
-    initial_hospital_count = Hospital.count
+    expect(Hospital.count).to be(0)
 
     load seed_file
 
-    expect(Hospital.count).to be > initial_hospital_count
+    expect(Hospital.count).to be(1)
   end
 end

@@ -23,4 +23,4 @@ else
   end
 end
 
-Rails.logger.debug "Created default Procedures!"
+Rails.logger.debug { "Created #{batch_files.count} default Procedures!" }

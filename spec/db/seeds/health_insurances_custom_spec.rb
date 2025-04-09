@@ -14,10 +14,10 @@ RSpec.describe "Custom Health Insurances seed" do
   end
 
   it "creates records in the database" do
-    initial_health_insurance_count = HealthInsurance.count
+    expect(HealthInsurance.count).to be(0)
 
     load seed_file
 
-    expect(HealthInsurance.count).to be > initial_health_insurance_count
+    expect(HealthInsurance.count).to be(1)
   end
 end

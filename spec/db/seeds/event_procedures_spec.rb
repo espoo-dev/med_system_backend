@@ -21,10 +21,10 @@ RSpec.describe "Event Procedures seed" do
   end
 
   it "creates records in the database" do
-    initial_event_procedures_count = EventProcedure.count
+    expect(EventProcedure.count).to be(0)
 
     load seed_file
 
-    expect(EventProcedure.count).to be > initial_event_procedures_count
+    expect(EventProcedure.count).to be(15)
   end
 end

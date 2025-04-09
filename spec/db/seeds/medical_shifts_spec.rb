@@ -15,10 +15,10 @@ RSpec.describe "Medical Shifts seed" do
   end
 
   it "creates records in the database" do
-    initial_medical_shift_count = MedicalShift.count
+    expect(MedicalShift.count).to be(0)
 
     load seed_file
 
-    expect(MedicalShift.count).to be > initial_medical_shift_count
+    expect(MedicalShift.count).to be(2)
   end
 end

@@ -14,10 +14,10 @@ RSpec.describe "Custom Procedures seed" do
   end
 
   it "creates records in the database" do
-    initial_procedure_count = Procedure.count
+    expect(Procedure.count).to be(0)
 
     load seed_file
 
-    expect(Procedure.count).to be > initial_procedure_count
+    expect(Procedure.count).to be(1)
   end
 end
