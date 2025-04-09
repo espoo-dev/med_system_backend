@@ -32,5 +32,13 @@ class EventProcedure < ApplicationRecord
   validates :urgency, inclusion: [true, false], if: -> { health_insurance? }
   validates :payment, presence: true
 
-  validates_with CustomAndUrgencyValidator
+  validate :custom_and_urgency_cannot_both_be_true
+
+  private
+
+  def custom_and_urgency_cannot_both_be_true
+    return unless procedure&.custom && urgency
+
+    errors.add(:base, "EventProcedure cannot have both custom and urgency as true")
+  end
 end

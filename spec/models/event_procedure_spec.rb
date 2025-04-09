@@ -50,15 +50,17 @@ RSpec.describe EventProcedure do
   end
 
   describe "validations" do
-    let(:event) { build(:event_procedure, urgency: true, procedure_attributes: { custom: true }) }
-
     it { is_expected.to validate_presence_of(:date) }
     it { is_expected.to validate_presence_of(:patient_service_number) }
     it { is_expected.to validate_presence_of(:room_type) }
     it { is_expected.to validate_presence_of(:payment) }
 
-    it "is invalid when custom and urgency are both true" do
-      expect(event).not_to be_valid
+    context "when validating custom and urgency" do
+      let(:event) { build(:event_procedure, urgency: true, procedure_attributes: { custom: true }) }
+
+      it "is invalid when both are true" do
+        expect(event).not_to be_valid
+      end
     end
   end
 
