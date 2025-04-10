@@ -75,14 +75,6 @@ module Api
           health_insurance: [:name]
         ).to_h
       end
-
-      def total_amount_cents_params
-        {
-          user_id: current_user.id,
-          month: permitted_query_params[:month],
-          year: permitted_query_params[:year]
-        }
-      end
     end
   end
 end
