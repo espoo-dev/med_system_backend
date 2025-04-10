@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+Rails.logger.debug "4. Creating default Health Insurances..."
+
 health_insurance_data = [
   "São Camilo",
   "ISSEC",
@@ -15,3 +17,5 @@ health_insurance_data = [
 health_insurance_data.each do |name|
   HealthInsurance.create!(name: name)
 end
+
+Rails.logger.debug { "Created #{health_insurance_data.count} default Health Insurances..." }

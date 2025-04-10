@@ -8,10 +8,10 @@
 ## Getting Started
 
 - create a .env file based on .env.example and copy the content of .env.example to .env (`$ cp .env.example .env`)
-- docker compose build
-- docker compose run web bundle install
-- docker compose run web bin/rails db:setup
-- bin/dev
+- run `docker compose build`
+- run `docker compose up -d`
+- run `docker compose exec web bin/setup`
+- run `bin/dev`
 - visit http://localhost:3000/
 
 ## Run tests
