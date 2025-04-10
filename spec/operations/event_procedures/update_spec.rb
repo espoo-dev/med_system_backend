@@ -11,12 +11,12 @@ RSpec.describe EventProcedures::Update, type: :operation do
         create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
         create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
         event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm)
-        attributes = { date: Time.zone.yesterday, payd: true }
+        attributes = { date: Time.zone.yesterday, paid: true }
         described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
         expect(event_procedure.reload.attributes).to include(
           "date" => attributes[:date],
-          "payd" => attributes[:payd]
+          "paid" => attributes[:paid]
         )
       end
 
@@ -250,7 +250,7 @@ RSpec.describe EventProcedures::Update, type: :operation do
         create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
         create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
         event_procedure = create(:event_procedure, cbhpm: cbhpm, procedure: procedure)
-        attributes = { date: Time.zone.yesterday, payd: true }
+        attributes = { date: Time.zone.yesterday, paid: true }
         result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
         expect(result).to be_success
@@ -268,7 +268,7 @@ RSpec.describe EventProcedures::Update, type: :operation do
       end
 
       it "fails" do
-        attributes = { date: nil, payd: false }
+        attributes = { date: nil, paid: false }
         result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
         expect(result).to be_failure
