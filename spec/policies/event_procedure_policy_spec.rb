@@ -3,51 +3,57 @@
 require "rails_helper"
 
 RSpec.describe EventProcedurePolicy do
+  subject(:policy) { described_class }
+
   let(:user) { create(:user) }
   let(:event_procedure) { create(:event_procedure, user: user) }
-  let(:other_user_event_preocedure) { create(:event_procedure) }
+  let(:other_event_procedure) { create(:event_procedure) }
 
-  describe EventProcedurePolicy::Scope do
-    subject(:result) { instance.resolve }
-
-    let(:instance) { described_class.new(user, EventProcedure.all) }
+  describe "Scope" do
+    subject(:resolved_scope) { described_class::Scope.new(current_user, EventProcedure.all).resolve }
 
     before do
       event_procedure
-      other_user_event_preocedure
+      other_event_procedure
     end
 
-    context "when has user" do
-      it { expect(result).to eq [event_procedure] }
+    context "when user is the owner" do
+      let(:current_user) { user }
+
+      it "includes only the user's own records" do
+        expect(resolved_scope).to eq [event_procedure]
+      end
     end
 
-    context "when has no user" do
-      let(:instance) { described_class.new(nil, EventProcedure.all) }
+    context "when user is nil" do
+      let(:current_user) { nil }
 
-      it { expect(result).to eq [] }
+      it "returns an empty scope" do
+        expect(resolved_scope).to eq []
+      end
     end
 
-    context "when user is not owner" do
-      let(:another_user) { create(:user) }
-      let(:instance) { described_class.new(another_user, EventProcedure.all) }
+    context "when user is not the owner" do
+      let(:current_user) { create(:user) }
 
-      it { expect(result).to eq [] }
+      it "returns an empty scope" do
+        expect(resolved_scope).to eq []
+      end
     end
   end
 
   permissions :index?, :create? do
-    context "when has no user" do
-      it { expect(described_class).not_to permit(nil, event_procedure) }
+    context "when user is nil" do
+      it { is_expected.not_to permit(nil, event_procedure) }
+    end
+
+    context "when user is present" do
+      it { is_expected.to permit(user, event_procedure) }
     end
   end
 
   permissions :update?, :destroy? do
-    context "when user is owner" do
-      it { expect(described_class).to permit(user, event_procedure) }
-    end
-
-    context "when user is not owner" do
-      it { expect(described_class).not_to permit(user, other_user_event_preocedure) }
-    end
+    it { is_expected.to permit(user, event_procedure) }
+    it { is_expected.not_to permit(user, other_event_procedure) }
   end
 end

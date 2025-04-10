@@ -127,4 +127,5 @@ group :test do
   gem "shoulda-matchers", "5.3.0"
   gem "simplecov", "0.22.0", require: false
   gem "spring-commands-rspec", "1.0.4"
+  gem "pundit-matchers", "~> 4.0"
 end

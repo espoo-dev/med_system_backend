@@ -7,46 +7,45 @@ RSpec.describe PatientPolicy do
   let(:patient) { create(:patient, user: user) }
   let(:patient_another_user) { create(:patient) }
 
-  describe PatientPolicy::Scope do
-    subject(:result) { instance.resolve }
-
-    let(:instance) { described_class.new(user, Patient.all) }
+  describe "Scope" do
+    subject(:policy_scope) { described_class::Scope.new(current_user, Patient.all).resolve }
 
     before do
       patient
       patient_another_user
     end
 
-    context "when has user" do
-      it { expect(result).to eq [patient] }
+    context "when user is the owner" do
+      let(:current_user) { user }
+
+      it { is_expected.to eq [patient] }
     end
 
-    context "when has no user" do
-      let(:instance) { described_class.new(nil, Patient.all) }
+    context "when user is nil" do
+      let(:current_user) { nil }
 
-      it { expect(result).to eq [] }
+      it { is_expected.to eq [] }
     end
 
-    context "when user is not owner" do
-      let(:another_user) { create(:user) }
-      let(:instance) { described_class.new(another_user, Patient.all) }
+    context "when user is not the owner" do
+      let(:current_user) { create(:user) }
 
-      it { expect(result).to eq [] }
+      it { is_expected.to eq [] }
     end
   end
 
   permissions :index?, :create? do
-    context "when has no user" do
+    context "when user is nil" do
       it { expect(described_class).not_to permit(nil, patient) }
     end
   end
 
   permissions :update?, :destroy? do
-    context "when user is not owner" do
+    context "when user is not the owner" do
       it { expect(described_class).not_to permit(user, patient_another_user) }
     end
 
-    context "when user is owner" do
+    context "when user is the owner" do
       it { expect(described_class).to permit(user, patient) }
     end
   end
