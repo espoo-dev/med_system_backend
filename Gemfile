@@ -20,7 +20,7 @@ gem "bootsnap", "1.18.3", require: false
 # gem "image_processing", "~> 1.2"
 
 # Devise is a flexible authentication solution for Rails based on Warden [https://github.com/heartcombo/devise]
-gem "devise", "4.9.2"
+gem "devise", "4.9.4"
 # devise-api authenticate API requests [https://github.com/nejdetkadir/devise-api]
 gem "devise-api", github: "nejdetkadir/devise-api", branch: "main"
 # Enumerations for Ruby with some magic powers!
