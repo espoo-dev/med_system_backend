@@ -192,6 +192,23 @@ RSpec.describe "Patients" do
           )
         end
       end
+
+      context "when theres an error on destroy" do
+        it "returns unprocessable_content" do
+          patient = create(:patient, user: user)
+
+          result_object = Struct.new(:success?, :error).new(
+            false,
+            { error: "Error message." }
+          )
+
+          allow(Patients::Destroy).to receive(:result).with(id: patient.id.to_s).and_return(result_object)
+
+          delete "/api/v1/patients/#{patient.id}", headers: headers
+
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+      end
     end
 
     include_context "when user is not authenticated"

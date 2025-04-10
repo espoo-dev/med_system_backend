@@ -39,10 +39,6 @@ class HeaderPdf
     pdf.move_down 50
   end
 
-  def title_font_size
-    20
-  end
-
   def header_current_date
     pdf.text "Data: #{Time.zone.now.strftime('%d/%m/%Y')}", align: :right, size: @header_font_size
   end
