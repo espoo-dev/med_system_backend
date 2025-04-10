@@ -76,7 +76,7 @@ class EventProceduresReportPdf
   end
 
   def item_paid?(item)
-    item.payd ? "Pago" : "A Receber"
+    item.paid ? "Pago" : "A Receber"
   end
 
   def item_date(item)

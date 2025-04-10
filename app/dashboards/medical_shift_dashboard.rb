@@ -16,7 +16,7 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
     start_hour: Field::Time,
     hospital_name: Field::String,
     user: Field::BelongsTo,
-    payd: Field::Boolean,
+    paid: Field::Boolean,
     shift: Field::String,
     title: Field::String,
     workload: Field::String,
@@ -47,7 +47,7 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
     start_hour
     hospital_name
     user
-    payd
+    paid
     shift
     workload
     title
@@ -64,7 +64,7 @@ class MedicalShiftDashboard < Administrate::BaseDashboard
     start_hour
     hospital_name
     user
-    payd
+    paid
     workload
   ].freeze
 

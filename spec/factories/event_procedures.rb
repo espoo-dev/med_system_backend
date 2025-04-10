@@ -12,7 +12,7 @@ FactoryBot.define do
     patient_service_number { "202312150001" }
     date { "2023-12-15 16:02:00" }
     urgency { false }
-    payd { false }
+    paid { false }
     room_type { EventProcedures::RoomTypes::WARD }
     total_amount_cents { procedure.amount_cents }
     payment { EventProcedures::Payments::HEALTH_INSURANCE }

@@ -18,7 +18,7 @@ module MedicalShifts
       query = apply_month_filter(query)
       query = apply_year_filter(query)
       query = apply_hospital_filter(query)
-      apply_payd_filter(query)
+      apply_paid_filter(query)
     end
 
     def apply_month_filter(query)
@@ -33,8 +33,8 @@ module MedicalShifts
       params[:hospital_name].present? ? query.by_hospital(hospital_name: params[:hospital_name]) : query
     end
 
-    def apply_payd_filter(query)
-      %w[true false].include?(params[:payd]) ? query.by_payd(payd: params[:payd]) : query
+    def apply_paid_filter(query)
+      %w[true false].include?(params[:paid]) ? query.by_paid(paid: params[:paid]) : query
     end
   end
 end

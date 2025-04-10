@@ -67,23 +67,23 @@ RSpec.describe MedicalShifts::List, type: :operation do
         end
       end
 
-      context "when there is the filter per payd" do
+      context "when there is the filter per paid" do
         it "returns paid medical_shifts" do
           user = create(:user)
-          paid_medical_shifts = create_list(:medical_shift, 3, payd: true, user: user)
-          _unpaid_medical_shifts = create_list(:medical_shift, 3, payd: false, user: user)
+          paid_medical_shifts = create_list(:medical_shift, 3, paid: true, user: user)
+          _unpaid_medical_shifts = create_list(:medical_shift, 3, paid: false, user: user)
 
-          result = described_class.result(scope: MedicalShift.all, params: { payd: "true" })
+          result = described_class.result(scope: MedicalShift.all, params: { paid: "true" })
 
           expect(result.medical_shifts.to_a).to match_array(paid_medical_shifts)
         end
 
         it "returns unpaid medical_shifts" do
           user = create(:user)
-          _paid_medical_shifts = create_list(:medical_shift, 3, payd: true, user: user)
-          unpaid_medical_shifts = create_list(:medical_shift, 3, payd: false, user: user)
+          _paid_medical_shifts = create_list(:medical_shift, 3, paid: true, user: user)
+          unpaid_medical_shifts = create_list(:medical_shift, 3, paid: false, user: user)
 
-          result = described_class.result(scope: MedicalShift.all, params: { payd: "false" })
+          result = described_class.result(scope: MedicalShift.all, params: { paid: "false" })
 
           expect(result.medical_shifts.to_a).to match_array(unpaid_medical_shifts)
         end

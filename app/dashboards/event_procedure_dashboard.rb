@@ -16,7 +16,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     hospital: Field::BelongsTo,
     patient: Field::BelongsTo,
     patient_service_number: Field::String,
-    payd: Field::Boolean,
+    paid: Field::Boolean,
     procedure: Field::BelongsTo,
     room_type: Field::String,
     total_amount_cents: Field::Number,
@@ -36,7 +36,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     procedure
     user
     date
-    payd
+    paid
     total_amount_cents
   ].freeze
 
@@ -49,7 +49,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     hospital
     patient
     patient_service_number
-    payd
+    paid
     procedure
     room_type
     total_amount_cents
@@ -68,7 +68,7 @@ class EventProcedureDashboard < Administrate::BaseDashboard
     hospital
     patient
     patient_service_number
-    payd
+    paid
     procedure
     room_type
     total_amount_cents

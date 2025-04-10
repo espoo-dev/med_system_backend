@@ -19,8 +19,8 @@ module Api
 
         render json: {
           total: total_amount_cents.total,
-          total_payd: total_amount_cents.payd,
-          total_unpayd: total_amount_cents.unpaid,
+          total_paid: total_amount_cents.paid,
+          total_unpaid: total_amount_cents.unpaid,
           event_procedures: serialized_event_procedures(event_procedures)
         }, status: :ok
       end
@@ -69,7 +69,7 @@ module Api
           :date,
           :urgency,
           :amount_cents,
-          :payd,
+          :paid,
           :room_type,
           :payment,
           patient_attributes: %i[
@@ -90,7 +90,7 @@ module Api
           :per_page,
           :month,
           :year,
-          :payd,
+          :paid,
           hospital: [:name],
           health_insurance: [:name]
         ).to_h

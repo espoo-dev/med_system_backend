@@ -25,7 +25,7 @@ module EventProcedures
       query = apply_year_filter(query)
       query = apply_hospital_filter(query)
       query = apply_health_insurance_filter(query)
-      apply_payd_filter(query)
+      apply_paid_filter(query)
     end
 
     def apply_month_filter(query)
@@ -36,8 +36,8 @@ module EventProcedures
       params[:year].present? ? query.by_year(year: params[:year]) : query
     end
 
-    def apply_payd_filter(query)
-      %w[true false].include?(params[:payd]) ? query.by_payd(payd: params[:payd]) : query
+    def apply_paid_filter(query)
+      %w[true false].include?(params[:paid]) ? query.by_paid(paid: params[:paid]) : query
     end
 
     def apply_hospital_filter(query)

@@ -5,13 +5,13 @@ module EventProcedures
     input :event_procedures
 
     output :total, type: String
-    output :payd, type: String
+    output :paid, type: String
     output :unpaid, type: String
 
     def call
       self.total = calculate_amount(event_procedures)
-      self.payd = calculate_amount(event_procedures.select(&:payd))
-      self.unpaid = calculate_amount(event_procedures.reject(&:payd))
+      self.paid = calculate_amount(event_procedures.select(&:paid))
+      self.unpaid = calculate_amount(event_procedures.reject(&:paid))
     end
 
     def convert_money(amount_cents)

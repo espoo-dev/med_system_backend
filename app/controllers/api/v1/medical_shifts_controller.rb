@@ -30,14 +30,14 @@ module Api
         authorized_scope = policy_scope(MedicalShift)
         medical_shifts = MedicalShifts::List.result(
           scope: authorized_scope,
-          params: params.permit(:page, :per_page, :month, :year, :payd, :hospital_name).to_h
+          params: params.permit(:page, :per_page, :month, :year, :paid, :hospital_name).to_h
         ).medical_shifts
 
         amount_cents = MedicalShifts::TotalAmountCents.call(medical_shifts: medical_shifts)
 
         render json: {
           total: amount_cents.total,
-          total_payd: amount_cents.payd,
+          total_paid: amount_cents.paid,
           total_unpaid: amount_cents.unpaid,
           medical_shifts: serialized_medical_shifts(medical_shifts)
         }, status: :ok
@@ -84,7 +84,7 @@ module Api
       end
 
       def medical_shift_params
-        params.permit(:hospital_name, :workload, :start_date, :start_hour, :amount_cents, :payd).to_h
+        params.permit(:hospital_name, :workload, :start_date, :start_hour, :amount_cents, :paid).to_h
       end
 
       def serialized_medical_shifts(medical_shifts)

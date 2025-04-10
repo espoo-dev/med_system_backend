@@ -13,7 +13,7 @@ RSpec.describe MedicalShifts::Create, type: :operation do
           start_date: "2024-01-29",
           start_hour: "10:51:23",
           amount_cents: 1,
-          payd: false
+          paid: false
         }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
@@ -29,7 +29,7 @@ RSpec.describe MedicalShifts::Create, type: :operation do
           start_date: "2024-01-29",
           start_hour: "10:51:23",
           amount_cents: 1,
-          payd: false
+          paid: false
         }
         result = described_class.result(attributes: attributes, user_id: user.id)
 
@@ -40,7 +40,7 @@ RSpec.describe MedicalShifts::Create, type: :operation do
     context "with invalid attributes" do
       it "fails" do
         user = create(:user)
-        attributes = { amount_cents: 1, payd: false }
+        attributes = { amount_cents: 1, paid: false }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
 
@@ -49,7 +49,7 @@ RSpec.describe MedicalShifts::Create, type: :operation do
 
       it "does not create a new medical shift" do
         user = create(:user)
-        attributes = { amount_cents: 1, payd: false }
+        attributes = { amount_cents: 1, paid: false }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
 
@@ -59,7 +59,7 @@ RSpec.describe MedicalShifts::Create, type: :operation do
 
       it "returns an error" do
         user = create(:user)
-        attributes = { amount_cents: 1, payd: false }
+        attributes = { amount_cents: 1, paid: false }
 
         result = described_class.result(attributes: attributes, user_id: user.id)
 

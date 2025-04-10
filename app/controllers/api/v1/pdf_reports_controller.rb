@@ -68,7 +68,7 @@ module Api
           :per_page,
           :month,
           :year,
-          :payd,
+          :paid,
           :entity_name,
           :disposition,
           hospital: [:name],

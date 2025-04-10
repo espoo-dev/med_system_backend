@@ -50,24 +50,24 @@ RSpec.describe "EventProcedures" do
       end
     end
 
-    context "when filtering by payd" do
-      context "when payd is 'true'" do
+    context "when filtering by paid" do
+      context "when paid is 'true'" do
         it "returns only paid event_procedures" do
-          create_list(:event_procedure, 3, payd: true, user_id: user.id)
-          _unpayd_event_procedures = create_list(:event_procedure, 5, payd: false, user_id: user.id)
+          create_list(:event_procedure, 3, paid: true, user_id: user.id)
+          _unpaid_event_procedures = create_list(:event_procedure, 5, paid: false, user_id: user.id)
 
-          get(path, params: { payd: "true" }, headers: headers)
+          get(path, params: { paid: "true" }, headers: headers)
 
           expect(response.parsed_body["event_procedures"].length).to eq(3)
         end
       end
 
-      context "when payd is 'false'" do
+      context "when paid is 'false'" do
         it "returns only unpaid event_procedures" do
-          create_list(:event_procedure, 3, payd: true, user_id: user.id)
-          _unpayd_event_procedures = create_list(:event_procedure, 5, payd: false, user_id: user.id)
+          create_list(:event_procedure, 3, paid: true, user_id: user.id)
+          _unpaid_event_procedures = create_list(:event_procedure, 5, paid: false, user_id: user.id)
 
-          get(path, params: { payd: "false" }, headers: headers)
+          get(path, params: { paid: "false" }, headers: headers)
 
           expect(response.parsed_body["event_procedures"].length).to eq(5)
         end
@@ -170,7 +170,7 @@ RSpec.describe "EventProcedures" do
               patient_attributes: { id: patient.id },
               procedure_attributes: { id: procedure.id },
               health_insurance_attributes: { id: health_insurance.id },
-              payd: true,
+              paid: true,
               cbhpm_id: cbhpm.id
             }
 
@@ -186,7 +186,7 @@ RSpec.describe "EventProcedures" do
               "room_type" => EventProcedures::RoomTypes::WARD,
               "payment" => EventProcedures::Payments::HEALTH_INSURANCE,
               "urgency" => false,
-              "payd" => true,
+              "paid" => true,
               "precedure_value" => "R$200.00",
               "precedure_description" => "nice description"
             )

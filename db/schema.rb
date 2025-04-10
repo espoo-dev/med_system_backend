@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_04_173936) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_10_123456) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_04_173936) do
     t.datetime "updated_at", null: false
     t.integer "total_amount_cents"
     t.bigint "user_id", null: false
-    t.boolean "payd", default: false, null: false
+    t.boolean "paid", default: false, null: false
     t.string "payment", default: "health_insurance", null: false
     t.integer "cbhpm_id", default: 1, null: false
     t.datetime "deleted_at"
@@ -98,13 +98,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_04_173936) do
     t.string "workload", null: false
     t.date "start_date", null: false
     t.integer "amount_cents", default: 0, null: false
-    t.boolean "payd", default: false, null: false
+    t.boolean "paid", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.string "hospital_name", default: "", null: false
     t.time "start_hour", null: false
-    t.index ["payd"], name: "index_medical_shifts_on_payd"
+    t.index ["paid"], name: "index_medical_shifts_on_paid"
     t.index ["start_date"], name: "index_medical_shifts_on_start_date"
     t.index ["user_id"], name: "index_medical_shifts_on_user_id"
   end

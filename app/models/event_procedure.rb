@@ -20,7 +20,7 @@ class EventProcedure < ApplicationRecord
   accepts_nested_attributes_for :health_insurance
 
   scope :by_month, EventProcedures::ByMonthQuery
-  scope :by_payd, EventProcedures::ByPaydQuery
+  scope :by_paid, EventProcedures::ByPaidQuery
   scope :by_year, EventProcedures::ByYearQuery
   scope :date_between, EventProcedures::ByDateBetween
   scope :by_hospital_name, EventProcedures::ByHospitalNameQuery

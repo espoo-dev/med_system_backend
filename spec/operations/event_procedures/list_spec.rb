@@ -56,25 +56,25 @@ RSpec.describe EventProcedures::List, type: :operation do
       end
     end
 
-    context "when has filters by payd" do
+    context "when has filters by paid" do
       it "returns paid event_procedures" do
         user = create(:user)
-        payd_event_procedures = create_list(:event_procedure, 3, payd: true, user: user)
-        _unpayd_event_procedures = create_list(:event_procedure, 3, payd: false, user: user)
+        paid_event_procedures = create_list(:event_procedure, 3, paid: true, user: user)
+        _unpaid_event_procedures = create_list(:event_procedure, 3, paid: false, user: user)
 
-        result = described_class.result(scope: EventProcedure.all, params: { payd: "true" })
+        result = described_class.result(scope: EventProcedure.all, params: { paid: "true" })
 
-        expect(result.event_procedures.to_a).to match_array(payd_event_procedures)
+        expect(result.event_procedures.to_a).to match_array(paid_event_procedures)
       end
 
       it "returns unpaid event_procedures" do
         user = create(:user)
-        _payd_event_procedures = create_list(:event_procedure, 3, payd: true, user: user)
-        unpayd_event_procedures = create_list(:event_procedure, 3, payd: false, user: user)
+        _paid_event_procedures = create_list(:event_procedure, 3, paid: true, user: user)
+        unpaid_event_procedures = create_list(:event_procedure, 3, paid: false, user: user)
 
-        result = described_class.result(scope: EventProcedure.all, params: { payd: "false" })
+        result = described_class.result(scope: EventProcedure.all, params: { paid: "false" })
 
-        expect(result.event_procedures.to_a).to match_array(unpayd_event_procedures)
+        expect(result.event_procedures.to_a).to match_array(unpaid_event_procedures)
       end
     end
 
