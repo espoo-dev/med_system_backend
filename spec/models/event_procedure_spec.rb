@@ -54,6 +54,15 @@ RSpec.describe EventProcedure do
     it { is_expected.to validate_presence_of(:patient_service_number) }
     it { is_expected.to validate_presence_of(:room_type) }
     it { is_expected.to validate_presence_of(:payment) }
+
+    context "when validating custom and urgency" do
+      let(:event) { build(:event_procedure, urgency: true, procedure_attributes: { custom: true }) }
+
+      it "is invalid" do
+        expect(event).not_to be_valid
+        expect(event.errors[:base]).to include("Custom procedures can't be urgent")
+      end
+    end
   end
 
   describe ".enumerations" do
