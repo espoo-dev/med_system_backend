@@ -8,42 +8,54 @@ RSpec.describe MedicalShiftPolicy do
   let(:medical_shift_without_user) { create(:medical_shift) }
 
   describe "Scope" do
-    subject(:result) { instance.resolve }
+    subject(:policy_scope) { described_class::Scope.new(current_user, MedicalShift.all).resolve }
 
-    let(:instance) { described_class::Scope.new(user, MedicalShift.all) }
+    context "when user is present" do
+      let(:current_user) { user }
 
-    context "when has user" do
-      it { expect(result).to eq [medical_shift] }
+      before do
+        medical_shift
+        medical_shift_without_user
+      end
+
+      it { is_expected.to eq [medical_shift] }
     end
 
-    context "when has no user" do
-      let(:user) { nil }
+    context "when user is nil" do
+      let(:current_user) { nil }
 
-      it { expect(result).to eq [] }
+      before do
+        medical_shift
+        medical_shift_without_user
+      end
+
+      it { is_expected.to eq [] }
     end
   end
 
-  permissions :index?, :create? do
+  describe "permissions" do
     context "when has user" do
-      it { expect(described_class).to permit(user, medical_shift) }
+      subject { described_class.new(user, medical_shift) }
+
+      it { is_expected.to permit_actions(%i[index create hospital_name_suggestion_index amount_suggestions_index]) }
     end
 
     context "when has no user" do
-      it { expect(described_class).not_to permit(nil, medical_shift) }
-    end
-  end
+      subject { described_class.new(nil, medical_shift) }
 
-  permissions :update?, :destroy? do
-    context "when has user" do
-      it { expect(described_class).to permit(user, medical_shift) }
+      it { is_expected.to forbid_all_actions }
     end
 
-    context "when has no user" do
-      it { expect(described_class).not_to permit(nil, medical_shift) }
+    context "when user is owner" do
+      subject { described_class.new(user, medical_shift) }
+
+      it { is_expected.to permit_actions(%i[index create update destroy]) }
     end
 
     context "when user is not owner" do
-      it { expect(described_class).not_to permit(user, medical_shift_without_user) }
+      subject { described_class.new(user, medical_shift_without_user) }
+
+      it { is_expected.to forbid_actions(%i[update destroy]) }
     end
   end
 end

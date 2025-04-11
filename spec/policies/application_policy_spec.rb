@@ -7,8 +7,12 @@ RSpec.describe ApplicationPolicy do
   let(:patient) { create(:patient, user: user) }
   let(:another_owner_patient) { create(:patient) }
 
-  permissions :index?, :show?, :create?, :new?, :update?, :edit?, :destroy? do
-    it { expect(described_class).not_to permit(nil, nil) }
+  describe "permissions" do
+    subject { described_class.new(nil, nil) }
+
+    it "forbids all default actions when no user is present" do
+      is_expected.to forbid_all_actions
+    end
   end
 
   permissions :user_owner? do

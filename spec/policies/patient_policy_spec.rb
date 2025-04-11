@@ -7,47 +7,56 @@ RSpec.describe PatientPolicy do
   let(:patient) { create(:patient, user: user) }
   let(:patient_another_user) { create(:patient) }
 
-  describe PatientPolicy::Scope do
-    subject(:result) { instance.resolve }
-
-    let(:instance) { described_class.new(user, Patient.all) }
+  describe "Scope" do
+    subject(:policy_scope) { described_class::Scope.new(current_user, Patient.all).resolve }
 
     before do
       patient
       patient_another_user
     end
 
-    context "when has user" do
-      it { expect(result).to eq [patient] }
+    context "when user is the owner" do
+      let(:current_user) { user }
+
+      it { is_expected.to eq [patient] }
     end
 
-    context "when has no user" do
-      let(:instance) { described_class.new(nil, Patient.all) }
+    context "when user is nil" do
+      let(:current_user) { nil }
 
-      it { expect(result).to eq [] }
+      it { is_expected.to eq [] }
     end
 
-    context "when user is not owner" do
-      let(:another_user) { create(:user) }
-      let(:instance) { described_class.new(another_user, Patient.all) }
+    context "when user is not the owner" do
+      let(:current_user) { create(:user) }
 
-      it { expect(result).to eq [] }
-    end
-  end
-
-  permissions :index?, :create? do
-    context "when has no user" do
-      it { expect(described_class).not_to permit(nil, patient) }
+      it { is_expected.to eq [] }
     end
   end
 
-  permissions :update?, :destroy? do
-    context "when user is not owner" do
-      it { expect(described_class).not_to permit(user, patient_another_user) }
+  describe "permissions" do
+    context "when user is nil" do
+      subject { described_class.new(nil, patient) }
+
+      it { is_expected.to forbid_all_actions }
+    end
+
+    context "when user is present" do
+      subject { described_class.new(user, patient) }
+
+      it { is_expected.to permit_actions(%i[index create]) }
     end
 
     context "when user is owner" do
-      it { expect(described_class).to permit(user, patient) }
+      subject { described_class.new(user, patient) }
+
+      it { is_expected.to permit_actions(%i[index create update destroy]) }
+    end
+
+    context "when user is not owner" do
+      subject { described_class.new(user, patient_another_user) }
+
+      it { is_expected.to forbid_actions(%i[update destroy]) }
     end
   end
 end

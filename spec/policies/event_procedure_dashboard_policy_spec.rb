@@ -8,12 +8,14 @@ RSpec.describe EventProcedureDashboardPolicy do
   let(:event_procedure) { create(:event_procedure) }
 
   permissions :amount_by_day? do
-    context "when user is admin" do
-      it { expect(described_class).to permit(admin, event_procedure) }
+    subject { described_class }
+
+    context "when the user is an admin" do
+      it { is_expected.to permit(admin, event_procedure) }
     end
 
-    context "when user is not admin" do
-      it { expect(described_class).not_to permit(user, event_procedure) }
+    context "when the user is not an admin" do
+      it { is_expected.not_to permit(user, event_procedure) }
     end
   end
 end
