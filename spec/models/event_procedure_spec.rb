@@ -58,8 +58,9 @@ RSpec.describe EventProcedure do
     context "when validating custom and urgency" do
       let(:event) { build(:event_procedure, urgency: true, procedure_attributes: { custom: true }) }
 
-      it "is invalid when both are true" do
+      it "is invalid" do
         expect(event).not_to be_valid
+        expect(event.errors[:base]).to include("Custom procedures can't be urgent")
       end
     end
   end
