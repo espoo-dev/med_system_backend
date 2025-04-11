@@ -34,19 +34,29 @@ RSpec.describe PatientPolicy do
     end
   end
 
-  permissions :index?, :create? do
+  describe "permissions" do
     context "when user is nil" do
-      it { expect(described_class).not_to permit(nil, patient) }
-    end
-  end
+      subject { described_class.new(nil, patient) }
 
-  permissions :update?, :destroy? do
-    context "when user is not the owner" do
-      it { expect(described_class).not_to permit(user, patient_another_user) }
+      it { is_expected.to forbid_all_actions }
     end
 
-    context "when user is the owner" do
-      it { expect(described_class).to permit(user, patient) }
+    context "when user is present" do
+      subject { described_class.new(user, patient) }
+
+      it { is_expected.to permit_actions(%i[index create]) }
+    end
+
+    context "when user is owner" do
+      subject { described_class.new(user, patient) }
+
+      it { is_expected.to permit_actions(%i[index create update destroy]) }
+    end
+
+    context "when user is not owner" do
+      subject { described_class.new(user, patient_another_user) }
+
+      it { is_expected.to forbid_actions(%i[update destroy]) }
     end
   end
 end

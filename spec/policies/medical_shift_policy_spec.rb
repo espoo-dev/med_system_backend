@@ -33,27 +33,29 @@ RSpec.describe MedicalShiftPolicy do
     end
   end
 
-  permissions :index?, :create? do
-    context "when user is present" do
-      it { expect(described_class).to permit(user, medical_shift) }
+  describe "permissions" do
+    context "when has user" do
+      subject { described_class.new(user, medical_shift) }
+
+      it { is_expected.to permit_actions(%i[index create hospital_name_suggestion_index amount_suggestions_index]) }
     end
 
-    context "when user is nil" do
-      it { expect(described_class).not_to permit(nil, medical_shift) }
-    end
-  end
+    context "when has no user" do
+      subject { described_class.new(nil, medical_shift) }
 
-  permissions :update?, :destroy? do
+      it { is_expected.to forbid_all_actions }
+    end
+
     context "when user is owner" do
-      it { expect(described_class).to permit(user, medical_shift) }
-    end
+      subject { described_class.new(user, medical_shift) }
 
-    context "when user is nil" do
-      it { expect(described_class).not_to permit(nil, medical_shift) }
+      it { is_expected.to permit_actions(%i[index create update destroy]) }
     end
 
     context "when user is not owner" do
-      it { expect(described_class).not_to permit(user, medical_shift_without_user) }
+      subject { described_class.new(user, medical_shift_without_user) }
+
+      it { is_expected.to forbid_actions(%i[update destroy]) }
     end
   end
 end

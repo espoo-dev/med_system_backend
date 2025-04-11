@@ -3,8 +3,6 @@
 require "rails_helper"
 
 RSpec.describe EventProcedurePolicy do
-  subject(:policy) { described_class }
-
   let(:user) { create(:user) }
   let(:event_procedure) { create(:event_procedure, user: user) }
   let(:other_event_procedure) { create(:event_procedure) }
@@ -42,18 +40,29 @@ RSpec.describe EventProcedurePolicy do
     end
   end
 
-  permissions :index?, :create? do
-    context "when user is nil" do
-      it { is_expected.not_to permit(nil, event_procedure) }
+  describe "permissions" do
+    context "when has no user" do
+      subject { described_class.new(nil, event_procedure) }
+
+      it { is_expected.to forbid_all_actions }
     end
 
     context "when user is present" do
-      it { is_expected.to permit(user, event_procedure) }
-    end
-  end
+      subject { described_class.new(user, event_procedure) }
 
-  permissions :update?, :destroy? do
-    it { is_expected.to permit(user, event_procedure) }
-    it { is_expected.not_to permit(user, other_event_procedure) }
+      it { is_expected.to permit_actions(%i[index create]) }
+    end
+
+    context "when user is owner" do
+      subject { described_class.new(user, event_procedure) }
+
+      it { is_expected.to permit_actions(%i[index create update destroy]) }
+    end
+
+    context "when user is not owner" do
+      subject { described_class.new(user, other_event_procedure) }
+
+      it { is_expected.to forbid_actions(%i[update destroy]) }
+    end
   end
 end
