@@ -7,11 +7,11 @@ RSpec.describe HospitalPolicy do
   let(:hospital) { create(:hospital) }
 
   permissions :index?, :create?, :update?, :destroy? do
-    context "when user is present" do
+    context "when has user" do
       it { expect(described_class).to permit(user, hospital) }
     end
 
-    context "when user is nil" do
+    context "when has no user" do
       it { expect(described_class).not_to permit(nil, hospital) }
     end
   end
