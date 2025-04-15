@@ -116,14 +116,6 @@ module Api
           each_serializer: EventProcedureSerializer
         )
       end
-
-      def total_amount_cents_params
-        {
-          user_id: current_user.id,
-          month: params[:month],
-          year: params[:year]
-        }
-      end
     end
   end
 end
