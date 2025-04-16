@@ -21,7 +21,7 @@ event_procedure_default = EventProcedure.create!(
   urgency: true,
   room_type: :apartment,
   user_id: user.id,
-  payd: true,
+  paid: true,
   payment: :health_insurance,
   cbhpm_id: cbhpm.id
 )
@@ -63,7 +63,7 @@ custom_event_procedures_data_unpaid.each do |data|
     room_type: :ward,
     total_amount_cents: data[:amount],
     user_id: user.id,
-    payd: false,
+    paid: false,
     payment: :others,
     cbhpm_id: cbhpm.id
   )
@@ -81,7 +81,7 @@ custom_paid_event_procedures_data_paid.each do |data|
     room_type: :ward,
     total_amount_cents: data[:amount],
     user_id: user.id,
-    payd: true,
+    paid: true,
     payment: :health_insurance,
     cbhpm_id: cbhpm.id
   )
