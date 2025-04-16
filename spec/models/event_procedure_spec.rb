@@ -97,7 +97,9 @@ RSpec.describe EventProcedure do
     context "when patient_attributes are provided" do
       it "creates patient" do
         event_procedure = build(
-          :event_procedure, user: user,
+          :event_procedure,
+          user: user,
+          patient: nil,
           patient_attributes: { name: "John Doe", user_id: user.id }
         )
 
@@ -109,7 +111,11 @@ RSpec.describe EventProcedure do
 
     context "when patient_attributes are not provided" do
       it "does not create patient" do
-        event_procedure = build(:event_procedure, patient_attributes: { id: nil, name: nil })
+        event_procedure = build(
+          :event_procedure,
+          patient: nil,
+          patient_attributes: { name: nil, user_id: nil }
+        )
 
         expect(event_procedure.save).to be_falsey
         expect(event_procedure.errors[:"patient.name"]).to include("can't be blank")

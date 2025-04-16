@@ -24,7 +24,7 @@ RSpec.describe EventProcedures::List, type: :operation do
     it "includes the associations" do # rubocop:disable RSpec/MultipleExpectations
       user = create(:user)
       procedure = create(:procedure, name: "Tireoidectomia")
-      patient = create(:patient, name: "John Doe")
+      patient = create(:patient, name: "John Doe", user: user)
       hospital = create(:hospital, name: "General Hospital")
       health_insurance = create(:health_insurance, name: "Insurance Corp")
       create_list(
