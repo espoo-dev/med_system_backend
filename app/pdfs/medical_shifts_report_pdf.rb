@@ -89,6 +89,6 @@ class MedicalShiftsReportPdf
   end
 
   def item_paid?(item)
-    item.payd ? "Pago" : "A Receber"
+    item.paid ? "Pago" : "A Receber"
   end
 end

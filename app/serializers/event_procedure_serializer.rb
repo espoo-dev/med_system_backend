@@ -2,7 +2,7 @@
 
 class EventProcedureSerializer < ActiveModel::Serializer
   attributes :id, :cbhpm_id, :procedure, :patient, :hospital, :health_insurance, :patient_service_number, :date,
-    :room_type, :payment, :urgency, :payd, :total_amount_cents, :precedure_value, :precedure_description
+    :room_type, :payment, :urgency, :paid, :total_amount_cents, :precedure_value, :precedure_description
 
   def total_amount_cents
     object.total_amount.format
