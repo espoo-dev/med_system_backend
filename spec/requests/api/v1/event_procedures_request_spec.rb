@@ -133,8 +133,9 @@ RSpec.describe "EventProcedures" do
             procedure = create(:procedure)
             create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
             create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-            patient = create(:patient)
+            patient = create(:patient, user: user)
             params = {
+              user_id: user.id,
               hospital_id: create(:hospital).id,
               cbhpm_id: cbhpm.id,
               patient_service_number: "1234567890",
@@ -153,7 +154,7 @@ RSpec.describe "EventProcedures" do
           end
 
           it "returns event_procedure" do
-            patient = create(:patient)
+            patient = create(:patient, user: user)
             procedure = create(:procedure, amount_cents: 20_000, description: "nice description")
             cbhpm = create(:cbhpm)
             create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -258,7 +259,7 @@ RSpec.describe "EventProcedures" do
 
         context "when procedure does not exist" do
           it "returns created" do
-            patient = create(:patient)
+            patient = create(:patient, user: user)
             health_insurance = create(:health_insurance)
             cbhpm = create(:cbhpm)
             create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
@@ -285,7 +286,7 @@ RSpec.describe "EventProcedures" do
 
         context "when health_insurance does not exist" do
           it "returns created" do
-            patient = create(:patient)
+            patient = create(:patient, user: user)
             procedure = create(:procedure)
             cbhpm = create(:cbhpm)
             create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -326,7 +327,7 @@ RSpec.describe "EventProcedures" do
           end
 
           it "returns error message" do
-            patient = create(:patient)
+            patient = create(:patient, user: user)
             procedure = create(:procedure)
             health_insurance = create(:health_insurance)
             params = {
@@ -388,7 +389,7 @@ RSpec.describe "EventProcedures" do
           cbhpm = create(:cbhpm)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
           create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-          patient = create(:patient)
+          patient = create(:patient, user: user)
           event_procedure = create(
             :event_procedure,
             health_insurance_id: health_insurance.id,
@@ -420,7 +421,7 @@ RSpec.describe "EventProcedures" do
         it "updates event_procedure" do
           health_insurance = create(:health_insurance)
           procedure = create(:procedure, name: "Angioplastia transluminal")
-          patient = create(:patient)
+          patient = create(:patient, user: user)
           cbhpm = create(:cbhpm)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, port: "12C", anesthetic_port: "6")
           create(:port_value, cbhpm: cbhpm, port: "12C", anesthetic_port: "6", amount_cents: 60_500)
@@ -448,14 +449,15 @@ RSpec.describe "EventProcedures" do
 
       context "with valid attributes and the record not belongs to the user" do
         it "returns unauthorized" do
+          other_user = create(:user)
+          patient = create(:patient, user: other_user)
           health_insurance = create(:health_insurance)
           procedure = create(:procedure)
           cbhpm = create(:cbhpm)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
           create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-          patient = create(:patient)
           event_procedure = create(
-            :event_procedure,
+            :event_procedure, user: other_user,
             health_insurance_id: health_insurance.id,
             procedure_id: procedure.id,
             patient_id: patient.id,
@@ -489,7 +491,7 @@ RSpec.describe "EventProcedures" do
           cbhpm = create(:cbhpm)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
           create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-          patient = create(:patient)
+          patient = create(:patient, user: user)
           event_procedure = create(
             :event_procedure,
             health_insurance_id: health_insurance.id,
@@ -510,7 +512,7 @@ RSpec.describe "EventProcedures" do
           cbhpm = create(:cbhpm)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
           create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-          patient = create(:patient)
+          patient = create(:patient, user: user)
           event_procedure = create(
             :event_procedure,
             health_insurance_id: health_insurance.id,

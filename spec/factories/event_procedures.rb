@@ -6,7 +6,6 @@ FactoryBot.define do
     health_insurance
     hospital
     user
-    patient { build(:patient, user: user) }
     procedure
 
     patient_service_number { "202312150001" }
@@ -28,9 +27,10 @@ FactoryBot.define do
 
     after(:build) do |event_procedure, evaluator|
       event_procedure.user ||= build(:user)
-      unless event_procedure.patient
-        event_procedure.patient = build(:patient, evaluator.patient_attributes || { user: event_procedure.user })
-      end
+      event_procedure.patient ||= build(
+        :patient,
+        (evaluator.patient_attributes || {}).merge(user: event_procedure.user)
+      )
       event_procedure.procedure = build(:procedure, evaluator.procedure_attributes) if evaluator.procedure_attributes
 
       if evaluator.health_insurance_attributes

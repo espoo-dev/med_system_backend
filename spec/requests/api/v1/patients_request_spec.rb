@@ -160,7 +160,7 @@ RSpec.describe "Patients" do
   end
 
   describe "DELETE api/v1/patients/:id" do
-    let!(:patient) { create(:patient, user: user) }
+    let(:patient) { create(:patient, user: user) }
     let(:path) { "/api/v1/patients/#{patient.id}" }
     let(:http_method) { :delete }
     let(:params) { {} }
@@ -175,7 +175,7 @@ RSpec.describe "Patients" do
 
       context "when patient cannot be destroyed" do
         it "returns unprocessable_content" do
-          create(:event_procedure, patient:)
+          create(:event_procedure, patient: patient, user: user)
 
           delete path, headers: headers
 
@@ -183,7 +183,7 @@ RSpec.describe "Patients" do
         end
 
         it "returns errors" do
-          create(:event_procedure, patient:)
+          create(:event_procedure, patient: patient, user: user)
 
           delete path, headers: headers
 
