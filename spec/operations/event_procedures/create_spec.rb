@@ -113,7 +113,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
               health_insurance_id: create(:health_insurance).id,
               patient_service_number: "1234567890",
               date: Time.zone.now.to_date,
-              urgency: true,
+              urgency: false,
               room_type: EventProcedures::RoomTypes::WARD,
               payment: EventProcedures::Payments::HEALTH_INSURANCE,
               patient_attributes: { id: patient.id, user_id: user.id },

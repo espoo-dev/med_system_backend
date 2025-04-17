@@ -38,7 +38,7 @@ RSpec.describe "MedicalShifts" do
               "date" => medical_shifts.second.start_date.strftime("%d/%m/%Y"),
               "hour" => medical_shifts.second.start_hour.strftime("%H:%M"),
               "amount_cents" => medical_shifts.second.amount.format,
-              "payd" => medical_shifts.second.payd,
+              "paid" => medical_shifts.second.paid,
               "shift" => medical_shifts.second.shift,
               "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}"
             },
@@ -49,7 +49,7 @@ RSpec.describe "MedicalShifts" do
               "date" => medical_shifts.first.start_date.strftime("%d/%m/%Y"),
               "hour" => medical_shifts.first.start_hour.strftime("%H:%M"),
               "amount_cents" => medical_shifts.first.amount.format,
-              "payd" => medical_shifts.first.payd,
+              "paid" => medical_shifts.first.paid,
               "shift" => medical_shifts.first.shift,
               "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}"
             }
@@ -79,18 +79,18 @@ RSpec.describe "MedicalShifts" do
           it "returns medical_shifts amount data per month" do
             create(
               :medical_shift, start_date: "2023-02-15", user:, amount_cents: 1000,
-              payd: true
+              paid: true
             )
             create(
               :medical_shift, start_date: "2023-02-15", user:, amount_cents: 2000,
-              payd: false
+              paid: false
             )
             _september_medical_shift = create(:medical_shift, start_date: "2023-09-26", user: user)
 
             get path, params: { month: "2" }, headers: headers
 
             expect(response.parsed_body["total"]).to eq("R$30.00")
-            expect(response.parsed_body["total_payd"]).to eq("R$10.00")
+            expect(response.parsed_body["total_paid"]).to eq("R$10.00")
             expect(response.parsed_body["total_unpaid"]).to eq("R$20.00")
           end
         end
@@ -108,10 +108,10 @@ RSpec.describe "MedicalShifts" do
           end
         end
 
-        context "when filtering by payd" do
+        context "when filtering by paid" do
           it "returns paid medical_shifts" do
-            paid_medical_shifts = create_list(:medical_shift, 2, payd: true, user: user)
-            _unpaid_medical_shifts = create(:medical_shift, payd: false, user: user)
+            paid_medical_shifts = create_list(:medical_shift, 2, paid: true, user: user)
+            _unpaid_medical_shifts = create(:medical_shift, paid: false, user: user)
             second_hospital_name = paid_medical_shifts.second.hospital_name
             second_workload = paid_medical_shifts.second.workload_humanize
             second_shift = paid_medical_shifts.second.shift
@@ -119,7 +119,7 @@ RSpec.describe "MedicalShifts" do
             first_workload = paid_medical_shifts.first.workload_humanize
             first_shift = paid_medical_shifts.first.shift
 
-            get path, params: { payd: "true" }, headers: headers
+            get path, params: { paid: "true" }, headers: headers
 
             expect(response.parsed_body["medical_shifts"].count).to eq(2)
             expect(response.parsed_body["medical_shifts"]).to include(
@@ -130,7 +130,7 @@ RSpec.describe "MedicalShifts" do
                 "date" => paid_medical_shifts.second.start_date.strftime("%d/%m/%Y"),
                 "hour" => paid_medical_shifts.second.start_hour.strftime("%H:%M"),
                 "amount_cents" => paid_medical_shifts.second.amount.format,
-                "payd" => paid_medical_shifts.second.payd,
+                "paid" => paid_medical_shifts.second.paid,
                 "shift" => paid_medical_shifts.second.shift,
                 "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}"
               },
@@ -141,7 +141,7 @@ RSpec.describe "MedicalShifts" do
                 "date" => paid_medical_shifts.first.start_date.strftime("%d/%m/%Y"),
                 "hour" => paid_medical_shifts.first.start_hour.strftime("%H:%M"),
                 "amount_cents" => paid_medical_shifts.first.amount.format,
-                "payd" => paid_medical_shifts.first.payd,
+                "paid" => paid_medical_shifts.first.paid,
                 "shift" => paid_medical_shifts.first.shift,
                 "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}"
               }
@@ -149,8 +149,8 @@ RSpec.describe "MedicalShifts" do
           end
 
           it "returns unpaid medical_shifts" do
-            _paid_medical_shifts = create(:medical_shift, payd: true, user: user)
-            unpaid_medical_shifts = create_list(:medical_shift, 2, payd: false, user: user)
+            _paid_medical_shifts = create(:medical_shift, paid: true, user: user)
+            unpaid_medical_shifts = create_list(:medical_shift, 2, paid: false, user: user)
             second_hospital_name = unpaid_medical_shifts.second.hospital_name
             second_workload = unpaid_medical_shifts.second.workload_humanize
             second_shift = unpaid_medical_shifts.second.shift
@@ -158,7 +158,7 @@ RSpec.describe "MedicalShifts" do
             first_workload = unpaid_medical_shifts.first.workload_humanize
             first_shift = unpaid_medical_shifts.first.shift
 
-            get path, params: { payd: "false" }, headers: headers
+            get path, params: { paid: "false" }, headers: headers
 
             expect(response.parsed_body["medical_shifts"].count).to eq(2)
             expect(response.parsed_body["medical_shifts"]).to include(
@@ -169,7 +169,7 @@ RSpec.describe "MedicalShifts" do
                 "date" => unpaid_medical_shifts.second.start_date.strftime("%d/%m/%Y"),
                 "hour" => unpaid_medical_shifts.second.start_hour.strftime("%H:%M"),
                 "amount_cents" => unpaid_medical_shifts.second.amount.format,
-                "payd" => unpaid_medical_shifts.second.payd,
+                "paid" => unpaid_medical_shifts.second.paid,
                 "shift" => unpaid_medical_shifts.second.shift,
                 "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}"
               },
@@ -180,7 +180,7 @@ RSpec.describe "MedicalShifts" do
                 "date" => unpaid_medical_shifts.first.start_date.strftime("%d/%m/%Y"),
                 "hour" => unpaid_medical_shifts.first.start_hour.strftime("%H:%M"),
                 "amount_cents" => unpaid_medical_shifts.first.amount.format,
-                "payd" => unpaid_medical_shifts.first.payd,
+                "paid" => unpaid_medical_shifts.first.paid,
                 "shift" => unpaid_medical_shifts.first.shift,
                 "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}"
               }
@@ -196,7 +196,7 @@ RSpec.describe "MedicalShifts" do
           expect(response.parsed_body.symbolize_keys).to eq(
             {
               total: "R$0.00",
-              total_payd: "R$0.00",
+              total_paid: "R$0.00",
               total_unpaid: "R$0.00",
               medical_shifts: []
             }
@@ -219,7 +219,7 @@ RSpec.describe "MedicalShifts" do
       end
 
       it "returns error message" do
-        post path, params: { payd: true }
+        post path, params: { paid: true }
 
         expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
       end
@@ -234,7 +234,7 @@ RSpec.describe "MedicalShifts" do
             start_date: "2024-01-29",
             start_hour: "10:51:23",
             amount_cents: 1,
-            payd: false
+            paid: false
           }
 
           post path, params: params, headers: headers
@@ -249,7 +249,7 @@ RSpec.describe "MedicalShifts" do
             start_date: "2024-01-29",
             start_hour: "10:51:23",
             amount_cents: 1,
-            payd: false
+            paid: false
           }
 
           post path, params: params, headers: headers
@@ -265,7 +265,7 @@ RSpec.describe "MedicalShifts" do
             date: MedicalShift.last.start_date.strftime("%d/%m/%Y"),
             hour: MedicalShift.last.start_hour.strftime("%H:%M"),
             amount_cents: MedicalShift.last.amount.format,
-            payd: params[:payd],
+            paid: params[:paid],
             shift: MedicalShift.last.shift,
             title: "#{hospital_name} | #{workload} | #{shift}"
           )
@@ -274,7 +274,7 @@ RSpec.describe "MedicalShifts" do
 
       context "with invalid params" do
         it "returns unprocessable_content status" do
-          params = { amount_cents: 1, payd: false }
+          params = { amount_cents: 1, paid: false }
 
           post path, params: params, headers: headers
 
@@ -282,7 +282,7 @@ RSpec.describe "MedicalShifts" do
         end
 
         it "returns error message" do
-          params = { amount_cents: 1, payd: false }
+          params = { amount_cents: 1, paid: false }
 
           post path, params: params, headers: headers
 
@@ -348,7 +348,7 @@ RSpec.describe "MedicalShifts" do
               date: medical_shift.start_date.strftime("%d/%m/%Y"),
               hour: medical_shift.start_hour.strftime("%H:%M"),
               amount_cents: medical_shift.amount.format,
-              payd: medical_shift.payd,
+              paid: medical_shift.paid,
               shift: medical_shift.reload.shift,
               title: "#{hospital_name} | #{workload} | #{shift}"
             )

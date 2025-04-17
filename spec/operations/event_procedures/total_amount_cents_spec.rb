@@ -19,14 +19,14 @@ RSpec.describe EventProcedures::TotalAmountCents, type: :operation do
         :event_procedure, 3,
         procedure: procedure_5000,
         user: user,
-        payd: true,
+        paid: true,
         urgency: false
       )
       unpaid_event_procedures = create_list(
         :event_procedure, 2,
         procedure: procedure_2000,
         user: user,
-        payd: false,
+        paid: false,
         urgency: false
       )
 
@@ -34,7 +34,7 @@ RSpec.describe EventProcedures::TotalAmountCents, type: :operation do
       total_amount_cents = described_class.call(event_procedures: event_procedures)
 
       expect(total_amount_cents.total).to eq("R$190.00")
-      expect(total_amount_cents.payd).to eq("R$150.00")
+      expect(total_amount_cents.paid).to eq("R$150.00")
       expect(total_amount_cents.unpaid).to eq("R$40.00")
     end
   end

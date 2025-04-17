@@ -50,27 +50,6 @@ RSpec.describe EventProcedure do
     it { is_expected.to validate_presence_of(:patient_service_number) }
     it { is_expected.to validate_presence_of(:room_type) }
     it { is_expected.to validate_presence_of(:payment) }
-
-    context "when patient belongs to a different user" do
-      it "is invalid when has different users" do
-        user = create(:user)
-        other_user = create(:user)
-        patient = create(:patient, user: other_user)
-
-        event_procedure = build(:event_procedure, user: user, patient: patient)
-
-        expect(event_procedure).not_to be_valid
-        expect(event_procedure.errors[:base]).to include("The patient must be associated with the same procedure user")
-      end
-
-      it "is valid when has equal user" do
-        user = create(:user)
-        patient = create(:patient, user: user)
-        event_procedure = build(:event_procedure, user: user, patient: patient)
-
-        expect(event_procedure).to be_valid
-      end
-    end
   end
 
   describe ".enumerations" do

@@ -20,7 +20,7 @@ class EventProcedure < ApplicationRecord
   accepts_nested_attributes_for :health_insurance
 
   scope :by_month, EventProcedures::ByMonthQuery
-  scope :by_payd, EventProcedures::ByPaydQuery
+  scope :by_paid, EventProcedures::ByPaidQuery
   scope :by_year, EventProcedures::ByYearQuery
   scope :date_between, EventProcedures::ByDateBetween
   scope :by_hospital_name, EventProcedures::ByHospitalNameQuery
@@ -33,6 +33,7 @@ class EventProcedure < ApplicationRecord
   validates :payment, presence: true
 
   validate :match_patient_event_procedure_user
+  validate :custom_and_urgency_cannot_be_true
 
   private
 
@@ -42,5 +43,11 @@ class EventProcedure < ApplicationRecord
     return unless patient.user_id != user_id
 
     errors.add(:base, "The patient must be associated with the same procedure user")
+  end
+
+  def custom_and_urgency_cannot_be_true
+    return unless procedure&.custom && urgency
+
+    errors.add(:base, "Custom procedures can't be urgent")
   end
 end

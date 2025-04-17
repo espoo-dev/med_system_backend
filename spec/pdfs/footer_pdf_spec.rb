@@ -18,6 +18,6 @@ RSpec.describe FooterPdf, type: :pdf do
 
     expect(text_analysis.strings).to include("Total", total_amount_cents.total)
     expect(text_analysis.strings).to include("A Receber", total_amount_cents.unpaid)
-    expect(text_analysis.strings).to include("Recebidos", total_amount_cents.payd)
+    expect(text_analysis.strings).to include("Recebidos", total_amount_cents.paid)
   end
 end
