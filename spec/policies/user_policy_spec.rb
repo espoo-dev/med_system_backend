@@ -6,13 +6,17 @@ RSpec.describe UserPolicy do
   let(:user) { create(:user) }
   let(:admin) { create(:user, admin: true) }
 
-  permissions :index? do
+  describe "permissions" do
     context "when user is admin" do
-      it { expect(described_class).to permit(admin, user) }
+      subject {described_class.new(admin, user)}
+
+      it { is_expected.to permit_actions(%i[index]) }
     end
 
     context "when user is not admin" do
-      it { expect(described_class).not_to permit(user, user) }
+      subject {described_class.new(user, user)}
+
+      it { is_expected.to forbid_actions(%i[index]) }
     end
   end
 end

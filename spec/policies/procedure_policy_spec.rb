@@ -7,19 +7,29 @@ RSpec.describe ProcedurePolicy do
   let(:procedure) { create(:procedure, user: user) }
   let(:procedure_without_user) { create(:procedure) }
 
-  permissions :index?, :create? do
+  describe "permissions" do
     context "when has no user" do
-      it { expect(described_class).not_to permit(nil, procedure) }
-    end
-  end
+      subject { described_class.new(nil, procedure) }
 
-  permissions :update?, :destroy? do
-    context "when user is not owner" do
-      it { expect(described_class).not_to permit(user, procedure_without_user) }
+      it { is_expected.to forbid_all_actions }
+    end
+
+    context "when user is present" do
+      subject { described_class.new(user, procedure) }
+
+      it { is_expected.to permit_actions(%i[index create]) }
     end
 
     context "when user is owner" do
-      it { expect(described_class).to permit(user, procedure) }
+      subject { described_class.new(user, procedure) }
+
+      it { is_expected.to permit_actions(%i[index create update destroy]) }
+    end
+
+    context "when user is not owner" do
+      subject { described_class.new(user, procedure_without_user) }
+
+      it { is_expected.to forbid_actions(%i[update destroy]) }
     end
   end
 end
