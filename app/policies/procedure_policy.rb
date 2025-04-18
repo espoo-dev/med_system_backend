@@ -6,7 +6,7 @@ class ProcedurePolicy < ApplicationPolicy
   end
 
   def create?
-    user.present?
+    user_owner?
   end
 
   def update?

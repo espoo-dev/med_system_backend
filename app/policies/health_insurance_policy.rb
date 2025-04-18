@@ -6,6 +6,6 @@ class HealthInsurancePolicy < ApplicationPolicy
   end
 
   def create?
-    user.present?
+    user_owner?
   end
 end
