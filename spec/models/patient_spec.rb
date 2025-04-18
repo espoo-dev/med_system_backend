@@ -15,16 +15,17 @@ RSpec.describe Patient do
   describe "deletable?" do
     subject { patient.deletable? }
 
-    let(:patient) { create(:patient, event_procedures:) }
+    let(:user) { create(:user) }
+    let(:patient) { create(:patient, user: user) }
 
     context "when patient has no event_procedures" do
-      let(:event_procedures) { [] }
-
       it { is_expected.to be_truthy }
     end
 
     context "when patient has event_procedures" do
-      let(:event_procedures) { create_list(:event_procedure, 1) }
+      before do
+        create(:event_procedure, patient: patient, user: user)
+      end
 
       it { is_expected.to be_falsy }
     end

@@ -3,10 +3,12 @@
 require "rails_helper"
 
 RSpec.describe EventProcedures::Create, type: :operation do
+  let(:user) { create(:user) }
+  let(:patient) { create(:patient, user: user) }
+
   describe ".result" do
     context "when params are valid" do
       it "is successful" do
-        user = create(:user)
         cbhpm = create(:cbhpm)
         procedure = create(:procedure)
         create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -19,7 +21,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           urgency: false,
           room_type: EventProcedures::RoomTypes::WARD,
           payment: EventProcedures::Payments::HEALTH_INSURANCE,
-          patient_attributes: { id: create(:patient).id },
+          patient_attributes: { id: patient.id, user_id: user.id },
           procedure_attributes: { id: procedure.id },
           health_insurance_attributes: { id: create(:health_insurance).id }
         }
@@ -30,7 +32,6 @@ RSpec.describe EventProcedures::Create, type: :operation do
       end
 
       it "creates a new event_procedure" do
-        user = create(:user)
         cbhpm = create(:cbhpm)
         procedure = create(:procedure)
         create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -43,7 +44,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
           urgency: true,
           room_type: EventProcedures::RoomTypes::WARD,
           payment: EventProcedures::Payments::HEALTH_INSURANCE,
-          patient_attributes: { id: create(:patient).id },
+          patient_attributes: { id: patient.id, user_id: user.id },
           procedure_attributes: { id: procedure.id },
           health_insurance_attributes: { id: create(:health_insurance).id }
         }
@@ -68,7 +69,6 @@ RSpec.describe EventProcedures::Create, type: :operation do
 
       context "when create a new patient" do
         it "creates and does not duplicate the creation" do
-          user = create(:user)
           cbhpm = create(:cbhpm)
           procedure = create(:procedure)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -94,7 +94,6 @@ RSpec.describe EventProcedures::Create, type: :operation do
       context "when create a new procedure" do
         context "when procedure attributes are valid" do
           it "does not duplicate the creation" do
-            user = create(:user)
             cbhpm = create(:cbhpm)
             procedure = create(:procedure)
             create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -117,7 +116,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
               urgency: false,
               room_type: EventProcedures::RoomTypes::WARD,
               payment: EventProcedures::Payments::HEALTH_INSURANCE,
-              patient_attributes: { id: create(:patient).id },
+              patient_attributes: { id: patient.id, user_id: user.id },
               procedure_attributes: procedure_attributes,
               health_insurance_attributes: { id: create(:health_insurance).id }
             }
@@ -163,7 +162,6 @@ RSpec.describe EventProcedures::Create, type: :operation do
       context "when create a new health_insurance" do
         context "when health_insurance attributes are valid" do
           it "does not duplicate the creation" do
-            user = create(:user)
             cbhpm = create(:cbhpm)
             procedure = create(:procedure)
             create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
@@ -182,7 +180,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
               urgency: nil,
               room_type: nil,
               payment: EventProcedures::Payments::OTHERS,
-              patient_attributes: { id: create(:patient).id },
+              patient_attributes: { id: patient.id, user_id: user.id },
               procedure_attributes: { id: procedure.id },
               health_insurance_attributes: health_insurance_attributes
             }
@@ -249,9 +247,7 @@ RSpec.describe EventProcedures::Create, type: :operation do
       end
 
       it "returns errors" do
-        user = create(:user)
         procedure = create(:procedure)
-        patient = create(:patient)
         health_insurance = create(:health_insurance)
         attributes = {
           patient_attributes: { id: patient.id },

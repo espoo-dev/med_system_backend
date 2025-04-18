@@ -5,12 +5,13 @@ require "rails_helper"
 RSpec.describe EventProcedures::BuildTotalAmountCents, type: :operation do
   describe ".result" do
     it "returns a success" do
+      user = create(:user)
       cbhpm = create(:cbhpm)
       procedure = create(:procedure)
       create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
       create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-      event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm)
-
+      patient = create(:patient, user: user)
+      event_procedure = create(:event_procedure, user: user, procedure: procedure, cbhpm: cbhpm, patient: patient)
       expect(described_class.result(event_procedure: event_procedure)).to be_success
     end
 
