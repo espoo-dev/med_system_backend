@@ -32,12 +32,12 @@ class EventProcedure < ApplicationRecord
   validates :urgency, inclusion: [true, false], if: -> { health_insurance? }
   validates :payment, presence: true
 
-  validate :match_patient_event_procedure_user
+  validate :match_user_with_patient_user
   validate :custom_and_urgency_cannot_be_true
 
   private
 
-  def match_patient_event_procedure_user
+  def match_user_with_patient_user
     return if patient.nil? || user.nil?
 
     return unless patient.user_id != user_id
