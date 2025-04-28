@@ -110,6 +110,9 @@ group :development do
   gem "web-console", "4.2.1"
 
   gem "brakeman", "6.1.2"
+
+  # Preview mail in the browser instead of sending.
+  gem "letter_opener"
   gem "reek", "6.3.0"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -121,11 +124,11 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara", "3.40.0"
+  gem "pundit-matchers", "~> 4.0"
   gem "rspec-rails", "6.0.3"
   gem "rspec-sidekiq", "4.0.2"
   gem "selenium-webdriver", "4.12.0"
   gem "shoulda-matchers", "5.3.0"
   gem "simplecov", "0.22.0", require: false
   gem "spring-commands-rspec", "1.0.4"
-  gem "pundit-matchers", "~> 4.0"
 end
