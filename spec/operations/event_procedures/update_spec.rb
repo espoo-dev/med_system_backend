@@ -22,17 +22,21 @@ RSpec.describe EventProcedures::Update, type: :operation do
 
       context "when patient_attributes are provided" do
         it "update event_procedure association patient" do
-          old_patient = create(:patient, name: "Old Patient")
-          new_patient = create(:patient, name: "New Patient name")
+          user = create(:user)
+          old_patient = create(:patient, name: "Old Patient", user: user)
+          new_patient = create(:patient, name: "New Patient name", user: user)
           cbhpm = create(:cbhpm)
           procedure = create(:procedure)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
           create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-          event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm, patient: old_patient)
+          event_procedure = create(
+            :event_procedure, procedure: procedure, cbhpm: cbhpm, patient: old_patient,
+            user: user
+          )
           attributes = {
             urgency: true,
             room_type: EventProcedures::RoomTypes::WARD,
-            patient_attributes: { id: new_patient.id, name: nil }
+            patient_attributes: { id: new_patient.id, name: nil, user: user }
           }
           result = described_class.result(id: event_procedure.id.to_s, attributes: attributes)
 
@@ -41,13 +45,13 @@ RSpec.describe EventProcedures::Update, type: :operation do
         end
 
         it "creates a new patient and does not duplicate the creation" do
-          patient = create(:patient, name: "Old Patient")
           user = create(:user)
+          patient = create(:patient, name: "Old Patient", user: user)
           cbhpm = create(:cbhpm)
           procedure = create(:procedure)
           create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
           create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
-          event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm, patient: patient)
+          event_procedure = create(:event_procedure, procedure: procedure, cbhpm: cbhpm, patient: patient, user: user)
           attributes = {
             urgency: true,
             room_type: EventProcedures::RoomTypes::WARD,

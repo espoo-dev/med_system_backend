@@ -32,9 +32,17 @@ class EventProcedure < ApplicationRecord
   validates :urgency, inclusion: [true, false], if: -> { health_insurance? }
   validates :payment, presence: true
 
+  validate :match_user_with_patient_user
   validate :custom_and_urgency_cannot_be_true
 
   private
+
+  def match_user_with_patient_user
+    return if patient.nil? || user.nil?
+    return if patient.user_id == user_id
+
+    errors.add(:base, "The patient must be associated with the same procedure user")
+  end
 
   def custom_and_urgency_cannot_be_true
     return unless procedure&.custom && urgency

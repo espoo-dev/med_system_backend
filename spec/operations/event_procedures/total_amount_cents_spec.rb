@@ -6,7 +6,8 @@ RSpec.describe EventProcedures::TotalAmountCents, type: :operation do
   describe ".result" do
     it "is successful" do
       user = create(:user)
-      event_procedure = create(:event_procedure, user_id: user.id)
+      patient = create(:patient, user: user)
+      event_procedure = create(:event_procedure, user_id: user.id, patient: patient)
       expect(described_class.result(event_procedures: [event_procedure])).to be_success
     end
 
