@@ -112,7 +112,7 @@ group :development do
   gem "brakeman", "6.1.2"
 
   # Preview mail in the browser instead of sending.
-  gem "letter_opener"
+  gem "letter_opener", "1.10.0"
   gem "reek", "6.3.0"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
