@@ -39,8 +39,7 @@ class EventProcedure < ApplicationRecord
 
   def match_user_with_patient_user
     return if patient.nil? || user.nil?
-
-    return unless patient.user_id != user_id
+    return if patient.user_id == user_id
 
     errors.add(:base, "The patient must be associated with the same procedure user")
   end
