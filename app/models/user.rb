@@ -2,10 +2,10 @@
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, :api,
-    :omniauthable, omniauth_providers: %i[github strava]
+    :omniauthable, :confirmable, omniauth_providers: %i[github strava]
 
   has_many :event_procedures, dependent: :destroy
   has_many :medical_shifts, dependent: :destroy
