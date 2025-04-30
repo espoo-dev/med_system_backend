@@ -38,5 +38,11 @@ RSpec.describe User do
       user = create(:user)
       expect(user).not_to be_active_for_authentication
     end
+
+    it "allows login after confirmation" do
+      user = create(:user)
+      user.confirm
+      expect(user).to be_active_for_authentication
+    end
   end
 end
