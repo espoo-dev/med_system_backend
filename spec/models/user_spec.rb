@@ -16,4 +16,27 @@ RSpec.describe User do
   describe "validations" do
     it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   end
+
+  describe "confirmations" do
+    it "is not confirmed by default" do
+      user = create(:user)
+      expect(user).not_to be_confirmed
+    end
+
+    it "can be confirmed" do
+      user = create(:user)
+      user.confirm
+      expect(user).to be_confirmed
+    end
+
+    it "generates a confirmation token" do
+      user = create(:user)
+      expect(user.confirmation_token).not_to be_nil
+    end
+
+    it "do not allow login before confirmation" do
+      user = create(:user)
+      expect(user).not_to be_active_for_authentication
+    end
+  end
 end
