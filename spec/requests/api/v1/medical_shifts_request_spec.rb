@@ -385,10 +385,7 @@ RSpec.describe "MedicalShifts" do
     let(:params) { {} }
 
     context "when user is authenticated" do
-      before { delete path, headers: headers }
-
-      it { expect(response.parsed_body[:message]).to eq("#{medical_shift.class} deleted successfully.") }
-      it { expect(response).to have_http_status(:ok) }
+      include_examples "delete request returns ok", MedicalShift
 
       context "when does not find medical_shifts" do
         let(:fake_id) { 9999 }

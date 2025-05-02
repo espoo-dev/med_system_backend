@@ -554,14 +554,9 @@ RSpec.describe "EventProcedures" do
     let(:params) { {} }
 
     context "when user is authenticated" do
-      it "returns ok" do
-        event_procedure = create(:event_procedure, user_id: user.id)
+      let(:event_procedure) { create(:event_procedure, user_id: user.id) }
 
-        delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
-
-        expect(response.parsed_body[:message]).to eq("#{event_procedure.class} deleted successfully.")
-        expect(response).to have_http_status(:ok)
-      end
+      include_examples "delete request returns ok", EventProcedure
 
       context "when event_procedure cannot be destroyed" do
         it "returns unprocessable_content" do
