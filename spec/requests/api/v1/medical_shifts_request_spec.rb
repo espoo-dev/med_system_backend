@@ -383,10 +383,9 @@ RSpec.describe "MedicalShifts" do
     let(:http_method) { :delete }
     let(:medical_shift) { create(:medical_shift, user_id: user.id) }
     let(:params) { {} }
-    let(:model_class) { MedicalShift }
 
     context "when user is authenticated" do
-      include_examples "delete request returns ok"
+      include_examples "delete request returns ok", MedicalShift
 
       context "when does not find medical_shifts" do
         let(:fake_id) { 9999 }

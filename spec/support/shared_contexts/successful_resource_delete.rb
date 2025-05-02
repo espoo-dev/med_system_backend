@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples "delete request returns ok" do
+RSpec.shared_examples "delete request returns ok" do |model_class|
   it "returns ok" do
     send(http_method, path, params: params, headers: headers)
 

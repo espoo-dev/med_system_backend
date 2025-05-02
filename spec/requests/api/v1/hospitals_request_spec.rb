@@ -168,12 +168,9 @@ RSpec.describe "Hospitals" do
     let(:hospital) { create(:hospital) }
     let(:http_method) { :delete }
     let(:params) { {} }
-    let(:model_class) { Hospital }
-
-    include_context "when user is not authenticated"
 
     context "when user is authenticated" do
-      include_examples "delete request returns ok"
+      include_examples "delete request returns ok", Hospital
 
       context "when hospital cannot be destroyed" do
         it "returns unprocessable_content" do
@@ -195,5 +192,7 @@ RSpec.describe "Hospitals" do
         end
       end
     end
+
+    include_context "when user is not authenticated"
   end
 end

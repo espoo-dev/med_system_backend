@@ -164,10 +164,9 @@ RSpec.describe "Patients" do
     let(:path) { "/api/v1/patients/#{patient.id}" }
     let(:http_method) { :delete }
     let(:params) { {} }
-    let(:model_class) { Patient }
 
     context "when user is authenticated" do
-      include_examples "delete request returns ok"
+      include_examples "delete request returns ok", Patient
 
       context "when patient cannot be destroyed" do
         it "returns unprocessable_content" do

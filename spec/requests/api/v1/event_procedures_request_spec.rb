@@ -552,12 +552,11 @@ RSpec.describe "EventProcedures" do
     let(:path) { "/api/v1/event_procedures/#{event_procedure.id}" }
     let(:http_method) { :delete }
     let(:params) { {} }
-    let(:model_class) { EventProcedure }
 
     context "when user is authenticated" do
       let(:event_procedure) { create(:event_procedure, user_id: user.id) }
 
-      include_examples "delete request returns ok"
+      include_examples "delete request returns ok", EventProcedure
 
       context "when event_procedure cannot be destroyed" do
         it "returns unprocessable_content" do
