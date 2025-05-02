@@ -41,7 +41,7 @@ module Api
         result = Procedures::Destroy.result(id: procedure.id.to_s)
 
         if result.success?
-          render json: { message: "Procedure deleted successfully." }, status: :ok
+          deleted_successfully_render(result.procedure)
         else
           render json: result.error, status: :unprocessable_entity
         end
