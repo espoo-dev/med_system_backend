@@ -168,16 +168,12 @@ RSpec.describe "Hospitals" do
     let(:hospital) { create(:hospital) }
     let(:http_method) { :delete }
     let(:params) { {} }
+    let(:model_class) { Hospital }
 
     include_context "when user is not authenticated"
 
     context "when user is authenticated" do
-      it "returns ok" do
-        delete path, headers: headers
-
-        expect(response.parsed_body[:message]).to eq("#{hospital.class} deleted successfully.")
-        expect(response).to have_http_status(:ok)
-      end
+      include_examples "delete request returns ok"
 
       context "when hospital cannot be destroyed" do
         it "returns unprocessable_content" do

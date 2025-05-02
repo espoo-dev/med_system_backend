@@ -124,14 +124,10 @@ RSpec.describe "Procedures" do
     let(:http_method) { :delete }
     let(:path) { "/api/v1/procedures/#{procedure.id}" }
     let(:params) { {} }
+    let(:model_class) { Procedure }
 
     context "when user is authenticated" do
-      it "returns ok" do
-        delete path, headers: headers
-
-        expect(response.parsed_body[:message]).to eq("#{procedure.class} deleted successfully.")
-        expect(response).to have_http_status(:ok)
-      end
+      include_examples "delete request returns ok"
 
       context "when procedure cannot be destroyed" do
         it "returns unprocessable_content" do
