@@ -10,7 +10,7 @@ module EventProcedures
     end
 
     def call
-      EventProcedure.where("date >= ? AND date <= ?", start_date, end_date)
+      EventProcedure.where(date: start_date..end_date)
     end
   end
 end

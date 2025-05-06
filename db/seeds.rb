@@ -5,7 +5,7 @@
 
 if Rails.env.development?
   Rails.logger.debug "Seeding data..."
-  Dir[Rails.root.join("db/seeds/*.rb")].each do |seed|
+  Rails.root.glob("db/seeds/*.rb").each do |seed|
     load seed
   end
 else
