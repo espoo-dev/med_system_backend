@@ -72,25 +72,25 @@ RSpec.describe EventProcedure do
       end
     end
 
-    context 'when patient belongs to a different user' do
-      it 'is invalid when patient and event_procedure have different users' do
+    context "when patient belongs to a different user" do
+      it "is invalid when patient and event_procedure have different users" do
         user = create(:user)
         other_user = create(:user)
         patient = create(:patient, user: other_user)
-  
+
         event_procedure = build(:event_procedure, user: user, patient: patient)
-  
+
         expect(event_procedure).not_to be_valid
         expect(event_procedure.errors[:base]).to include("The patient must be associated with the same procedure user")
       end
     end
-  
-    context 'when patient belongs to the same user' do
-      it 'is valid when patient and event_procedure have the same user' do
+
+    context "when patient belongs to the same user" do
+      it "is valid when patient and event_procedure have the same user" do
         user = create(:user)
         patient = create(:patient, user: user)
         event_procedure = build(:event_procedure, user: user, patient: patient)
-  
+
         expect(event_procedure).to be_valid
       end
     end

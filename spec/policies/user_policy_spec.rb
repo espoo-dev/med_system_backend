@@ -8,13 +8,13 @@ RSpec.describe UserPolicy do
 
   describe "permissions" do
     context "when user is admin" do
-      subject {described_class.new(admin, user)}
+      subject { described_class.new(admin, user) }
 
       it { is_expected.to permit_actions(%i[index]) }
     end
 
     context "when user is not admin" do
-      subject {described_class.new(user, user)}
+      subject { described_class.new(user, user) }
 
       it { is_expected.to forbid_actions(%i[index]) }
     end
