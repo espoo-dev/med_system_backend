@@ -66,5 +66,19 @@ RSpec.describe "Users" do
         }
       end
     end
+
+    context "when token is expired" do
+      let(:user) { create(:user, admin: true) }
+
+      it "returns unauthorized for token expiration" do
+        get "/api/v1/users", headers: headers
+        expect(response).to have_http_status(:ok)
+
+        travel 40.minutes
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.parsed_body["error_description"]).to eq(["Invalid token"])
+      end
+    end
   end
 end
