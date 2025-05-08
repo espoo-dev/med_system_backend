@@ -45,4 +45,37 @@ RSpec.describe User do
       expect(user).to be_active_for_authentication
     end
   end
+
+  describe "password reset" do
+    let(:user) { create(:user, email: "test@email.com") }
+
+    before do
+      user.confirm
+    end
+
+    it "sends password reset email" do
+      expect { user.send_reset_password_instructions }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it "generates reset password token" do
+      expect(user.reset_password_token).to be_nil
+      user.send_reset_password_instructions
+      expect(user.reset_password_token).not_to be_nil
+    end
+
+    it "resets password" do
+      user.send_reset_password_instructions
+      new_password = "new_secure_password"
+      user.reset_password(new_password, new_password)
+      expect(user.valid_password?(new_password)).to be(true)
+    end
+
+    it "clears reset password token after password reset" do
+      user.send_reset_password_instructions
+      expect(user.reset_password_token).not_to be_nil
+      new_password = "new_secure_password"
+      user.reset_password(new_password, new_password)
+      expect(user.reset_password_token).to be_nil
+    end
+  end
 end
