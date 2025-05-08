@@ -1,0 +1,23 @@
+pt-BR:
+  devise:
+    api:
+      error_response:
+        invalid_authentication: "E-mail ou senha inválidos"
+        invalid_token: "Token inválido"
+        expired_token: "O token expirou"
+        expired_refresh_token: "O token de atualização expirou"
+        revoked_token: "O token foi revogado"
+        refresh_token_disabled: "O token de atualização está desabilitado para esta aplicação"
+        sign_up_disabled: "O cadastro está desabilitado para esta aplicação"
+        invalid_refresh_token: "Token de atualização inválido"
+        invalid_email: "E-mail inválido"
+        invalid_resource_owner: "Usuário inválido"
+        resource_owner_create_error: "Não foi possível criar o usuário"
+        devise_api_token_create_error: "Não foi possível criar o token"
+        devise_api_token_revoke_error: "Não foi possível revogar o token"
+        lockable:
+          locked: "Sua conta está bloqueada"
+        confirmable:
+          unconfirmed: "Você precisa confirmar sua conta antes de continuar"
+        registerable:
+          signed_up_but_unconfirmed: "Uma mensagem com o link de confirmação foi enviada para o seu e-mail. Por favor, siga o link para ativar sua conta"

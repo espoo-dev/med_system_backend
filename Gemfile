@@ -23,6 +23,8 @@ gem "bootsnap", "1.18.3", require: false
 gem "devise", "4.9.4"
 # devise-api authenticate API requests [https://github.com/nejdetkadir/devise-api]
 gem "devise-api", github: "nejdetkadir/devise-api", branch: "main"
+# Add devise-i18n for automatic translation of Devise views and messages
+gem "devise-i18n", "~> 1.10"
 # Enumerations for Ruby with some magic powers!
 gem "enumerate_it", "4.0.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]

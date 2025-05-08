@@ -81,4 +81,37 @@ RSpec.describe "Users" do
       end
     end
   end
+
+  describe "Password recovery" do
+    subject(:get_new_password) { get "/users/password/new" }
+
+    let(:user) { create(:user, email: "email@email.com") }
+    let(:headers) { auth_token_for(user) }
+
+    it "returns ok" do
+      get_new_password
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "contains reset token" do
+      get_new_password
+      token = response.parsed_body.css('input[name="authenticity_token"]').first["value"]
+      expect(token).not_to be_nil
+    end
+
+    it "sends reset instructions" do
+      get_new_password
+
+      auth_token = response.parsed_body.css('input[name="authenticity_token"]').first["value"]
+
+      post "/users/password",
+        headers: headers,
+        params: {
+          authenticity_token: auth_token,
+          user: { email: user.email }
+        }
+
+      expect { user.reload }.to change(user, :reset_password_token)
+    end
+  end
 end
