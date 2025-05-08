@@ -66,6 +66,21 @@ RSpec.describe "Users" do
         }
       end
     end
+
+    context "when token is expired" do
+      let(:user) { create(:user, admin: true) }
+
+      it "returns unauthorized for token expiration" do
+        get path, headers: headers
+        expect(response).to have_http_status(:ok)
+
+        travel 61.minutes
+
+        get path, headers: headers
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.parsed_body["error_description"]).to eq(["Token has expired"])
+      end
+    end
   end
 
   describe "Password recovery" do
