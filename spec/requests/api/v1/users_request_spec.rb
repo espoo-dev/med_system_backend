@@ -100,4 +100,46 @@ RSpec.describe "Users" do
       expect { user.reload }.to change(user, :reset_password_token)
     end
   end
+
+  describe "DELETE /api/v1/users/destroy_self" do
+    context "when user unauthenticated" do
+      subject(:request_destroy_self) { delete "/api/v1/users/destroy_self" }
+
+      it "returns unauthorized status code" do
+        request_destroy_self
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "returns invalid_token message error" do
+        request_destroy_self
+        expect(response.parsed_body).to include({ error: "invalid_token" })
+      end
+    end
+
+    context "when user autheticated" do
+      subject(:request_destroy_self) do
+        delete "/api/v1/users/destroy_self",
+          headers: auth_token_for(existing_user),
+          params: { password: existing_user.password }
+      end
+
+      let(:existing_user) { create(:user, password: "qwe123") }
+
+      before do
+        request_destroy_self
+      end
+
+      it "returns ok" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns deletion message" do
+        expect(response.parsed_body).to include({ message: "Account deleted successfully" })
+      end
+
+      it "deletes user account" do
+        expect { existing_user.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
 end
