@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_30_144654) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -175,7 +175,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_30_144654) do
   add_foreign_key "event_procedures", "cbhpms"
   add_foreign_key "event_procedures", "health_insurances"
   add_foreign_key "event_procedures", "hospitals"
-  add_foreign_key "event_procedures", "patients"
+  add_foreign_key "event_procedures", "patients", on_delete: :cascade
   add_foreign_key "event_procedures", "procedures"
   add_foreign_key "event_procedures", "users"
   add_foreign_key "medical_shifts", "users"

@@ -11,6 +11,20 @@ module Api
         render json: users, status: :ok
       end
 
+      def destroy_self
+        authorize current_user, :destroy_self?
+
+        unless current_user.valid_password?(params[:password])
+          return render json: { error: "Wrong password" }, status: :unauthorized
+        end
+
+        if current_user.destroy
+          render json: { message: "Account deleted successfully" }, status: :ok
+        else
+          render json: { error: "Unable to delete account" }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def page
