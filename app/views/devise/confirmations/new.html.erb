@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="auth-container">
+    <h2 class="auth-title">Confirmation</h2>
+
+    <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="input">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+      </div>
+
+      <div class="submit">
+        <%= f.submit "Resend confirmation instructions" %>
+      </div>
+    <% end %>
+
+    <div class="devise-links">
+      <%= link_to "Login", new_session_path(resource_name) %>
+      <%= link_to "Inscrever-se", new_registration_path(resource_name) %>
+    </div>
+  </div>
+</div>
