@@ -150,7 +150,7 @@ RSpec.describe "Users" do
 
         before { request_destroy_self }
 
-        it "returns unauthorized status" do
+        it "returns unprocessable_content status" do
           expect(response).to have_http_status(:unprocessable_content)
         end
 
