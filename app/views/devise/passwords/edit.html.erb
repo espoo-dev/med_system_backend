@@ -1,19 +1,28 @@
 <div class="container">
   <div class="auth-container">
-    <h2 class="auth-title">Forgot your password?</h2>
+    <h2 class="auth-title">Change your password</h2>
 
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <%= f.hidden_field :reset_password_token %>
 
-      <div class="input">
-        <p><%= f.label :email %></p>
-        <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-      </div>
-
-      <div class="submit">
-        <%= f.submit "Send me password reset instructions" %>
-      </div>
+  <div class="input_password">
+    <p><%= f.label :password, "New password" %></p>
+    <% if @minimum_password_length %>
+      <p><em>(<%= @minimum_password_length %> characters minimum)</em></p>
     <% end %>
+    <p><%= f.password_field :password, autofocus: true, autocomplete: "new-password" %></p>
+  </div>
+
+  <div class="input_password">
+    <p><%= f.label :password_confirmation, "Confirm new password" %></p>
+    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
+  </div>
+
+  <div class="submit">
+    <%= f.submit "Change my password" %>
+  </div>
+<% end %>
 
     <div class="devise-links">
       <%= link_to "Login", new_session_path(resource_name) %>
