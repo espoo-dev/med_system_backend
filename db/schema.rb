@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_12_172117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -82,6 +82,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
     t.datetime "updated_at", null: false
     t.boolean "custom", default: false, null: false
     t.integer "user_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_health_insurances_on_deleted_at"
     t.index ["name", "user_id"], name: "index_health_insurances_on_name_and_user_id", unique: true
     t.index ["user_id"], name: "index_health_insurances_on_user_id"
   end
@@ -91,6 +93,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
     t.citext "address", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_hospitals_on_deleted_at"
     t.index ["name"], name: "index_hospitals_on_name", unique: true
   end
 
@@ -104,6 +108,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
     t.bigint "user_id", null: false
     t.string "hospital_name", default: "", null: false
     t.time "start_hour", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_medical_shifts_on_deleted_at"
     t.index ["paid"], name: "index_medical_shifts_on_paid"
     t.index ["start_date"], name: "index_medical_shifts_on_start_date"
     t.index ["user_id"], name: "index_medical_shifts_on_user_id"
@@ -114,6 +120,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_patients_on_deleted_at"
     t.index ["user_id"], name: "index_patients_on_user_id"
   end
 
@@ -137,7 +145,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
     t.text "description"
     t.boolean "custom", default: false, null: false
     t.integer "user_id"
+    t.datetime "deleted_at"
     t.index ["code"], name: "index_procedures_on_code", unique: true, where: "(custom = false)"
+    t.index ["deleted_at"], name: "index_procedures_on_deleted_at"
     t.index ["user_id"], name: "index_procedures_on_user_id"
   end
 
@@ -156,6 +166,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
     t.datetime "confirmation_sent_at", precision: nil
     t.text "confirmation_token"
     t.text "unconfirmed_email"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -175,7 +187,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_08_174727) do
   add_foreign_key "event_procedures", "cbhpms"
   add_foreign_key "event_procedures", "health_insurances"
   add_foreign_key "event_procedures", "hospitals"
-  add_foreign_key "event_procedures", "patients", on_delete: :cascade
+  add_foreign_key "event_procedures", "patients"
   add_foreign_key "event_procedures", "procedures"
   add_foreign_key "event_procedures", "users"
   add_foreign_key "medical_shifts", "users"

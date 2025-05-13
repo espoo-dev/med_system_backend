@@ -395,7 +395,7 @@ RSpec.describe "MedicalShifts" do
         end
 
         it { expect(response).to have_http_status(:not_found) }
-        it { expect(response.parsed_body[:error]).to eq("Couldn't find MedicalShift with 'id'=#{fake_id}") }
+        it { expect(response.parsed_body[:error]).to include("Couldn't find MedicalShift with 'id'=#{fake_id}") }
       end
 
       context "when medical_shift cannot be destroyed" do

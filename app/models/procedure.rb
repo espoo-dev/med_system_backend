@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Procedure < ApplicationRecord
+  acts_as_paranoid
+
   monetize :amount
 
   belongs_to :user, optional: true

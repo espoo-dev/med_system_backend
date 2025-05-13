@@ -138,7 +138,7 @@ RSpec.describe "Users" do
       end
 
       it "deletes user account" do
-        expect { existing_user.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(existing_user.reload.deleted?).to be true
       end
     end
   end

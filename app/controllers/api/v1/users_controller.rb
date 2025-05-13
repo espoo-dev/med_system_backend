@@ -14,14 +14,12 @@ module Api
       def destroy_self
         authorize current_user, :destroy_self?
 
-        unless current_user.valid_password?(params[:password])
-          return render json: { error: "Wrong password" }, status: :unauthorized
-        end
+        result = Users::DestroySelf.new(current_user, confirmation_password).call
 
-        if current_user.destroy
+        if result.success?
           render json: { message: "Account deleted successfully" }, status: :ok
         else
-          render json: { error: "Unable to delete account" }, status: :unprocessable_entity
+          render json: { message: "Unable to delete account. Error: #{result.error}" }, status: :unprocessable_entity
         end
       end
 
@@ -33,6 +31,10 @@ module Api
 
       def per_page
         params[:per_page]
+      end
+
+      def confirmation_password
+        params[:password]
       end
     end
   end
