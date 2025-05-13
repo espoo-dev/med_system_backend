@@ -116,29 +116,51 @@ RSpec.describe "Users" do
       end
     end
 
-    context "when user autheticated" do
-      subject(:request_destroy_self) do
-        delete "/api/v1/users/destroy_self",
-          headers: auth_token_for(existing_user),
-          params: { password: existing_user.password }
-      end
-
+    context "when user authenticated" do
       let(:existing_user) { create(:user, password: "qwe123") }
 
-      before do
-        request_destroy_self
+      context "with valid password" do
+        subject(:request_destroy_self) do
+          delete "/api/v1/users/destroy_self",
+            headers: auth_token_for(existing_user),
+            params: { password: "qwe123" }
+        end
+
+        before { request_destroy_self }
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns deletion message" do
+          expect(response.parsed_body).to include({ message: "Account deleted successfully" })
+        end
+
+        it "deletes user account" do
+          expect(existing_user.reload.deleted?).to be true
+        end
       end
 
-      it "returns ok" do
-        expect(response).to have_http_status(:ok)
-      end
+      context "with invalid password" do
+        subject(:request_destroy_self) do
+          delete "/api/v1/users/destroy_self",
+            headers: auth_token_for(existing_user),
+            params: { password: "wrong-password" }
+        end
 
-      it "returns deletion message" do
-        expect(response.parsed_body).to include({ message: "Account deleted successfully" })
-      end
+        before { request_destroy_self }
 
-      it "deletes user account" do
-        expect(existing_user.reload.deleted?).to be true
+        it "returns unauthorized status" do
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+
+        it "returns error message" do
+          expect(response.parsed_body).to include({ error: "Unable to delete account. Error: Wrong password" })
+        end
+
+        it "does not delete user" do
+          expect(existing_user.reload.deleted?).to be false
+        end
       end
     end
   end

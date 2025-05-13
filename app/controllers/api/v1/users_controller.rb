@@ -19,7 +19,7 @@ module Api
         if result.success?
           render json: { message: "Account deleted successfully" }, status: :ok
         else
-          render json: { message: "Unable to delete account. Error: #{result.error}" }, status: :unprocessable_entity
+          render json: { error: "Unable to delete account. Error: #{result.error}" }, status: :unprocessable_entity
         end
       end
 
