@@ -4,6 +4,8 @@ module Users
   class DestroySelf
     Result = Struct.new(:success?, :error)
 
+    attr_reader :user
+
     def initialize(user, password)
       @user = user
       @password = password
@@ -19,7 +21,7 @@ module Users
         destroy_procedures!
         destroy_health_insurances!
 
-        @user.destroy
+        user.destroy
       end
 
       Result.new(true, nil)
@@ -30,27 +32,27 @@ module Users
     private
 
     def valid_password?
-      @user.valid_password?(@password)
+      user.valid_password?(@password)
     end
 
     def destroy_event_procedures!
-      @user.event_procedures.destroy_all
+      user.event_procedures.destroy_all
     end
 
     def destroy_medical_shifts!
-      @user.medical_shifts.destroy_all
+      user.medical_shifts.destroy_all
     end
 
     def destroy_health_insurances!
-      @user.health_insurances.destroy_all
+      user.health_insurances.destroy_all
     end
 
     def destroy_procedures!
-      @user.procedures.destroy_all
+      user.procedures.destroy_all
     end
 
     def destroy_patients!
-      @user.patients.each do |patient|
+      user.patients.each do |patient|
         if patient.event_procedures.exists?(deleted_at: nil)
           raise ActiveRecord::InvalidForeignKey, "Patient ##{patient.id} has associated procedures"
         end
