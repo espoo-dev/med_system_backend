@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Users
-  class DestroySelf
+  class DestroySelf < Actor
     Result = Struct.new(:success?, :error)
 
     attr_reader :user
