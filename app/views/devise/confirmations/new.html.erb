@@ -1,17 +1,17 @@
 <div class="container">
   <div class="auth-container">
-    <h2 class="auth-title">Confirmation</h2>
+    <h2 class="auth-title"><%= t("devise.confirmations.new.title") %></h2>
 
     <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div class="input">
-        <%= f.label :email %>
+        <%= f.label :email, t("activerecord.attributes.#{resource_name}.email") %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
       </div>
 
       <div class="submit">
-        <%= f.submit "Resend confirmation instructions" %>
+        <%= f.submit t("devise.confirmations.new.resend_confirmation_instructions") %>
       </div>
     <% end %>
   </div>

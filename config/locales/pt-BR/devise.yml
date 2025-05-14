@@ -33,6 +33,7 @@ pt-BR:
     confirmations:
       confirmed: A sua conta foi confirmada com sucesso.
       new:
+        title: Confirmação de e-mail
         resend_confirmation_instructions: Reenviar instruções de confirmação
       send_instructions: Dentro de minutos, você receberá um email com as instruções de confirmação da sua conta.
       send_paranoid_instructions: Se o seu e-mail existir em nosso banco de dados, você receberá um email com instruções sobre como confirmar sua conta em alguns minutos.
@@ -50,8 +51,8 @@ pt-BR:
       confirmation_instructions:
         action: Confirmar minha conta
         greeting: Bem-vindo %{recipient}!
-        instruction: "Você pode confirmar sua conta através do link abaixo:"
-        subject: Instruções de confirmação
+        instruction: "Você pode confirmar sua conta através do link abaixo"
+        subject: Confirmação de conta
       email_changed:
         greeting: Olá %{recipient}!
         message: Estamos entrando em contato para notificá-lo de que seu e-mail está sendo alterado para %{email}.
@@ -64,10 +65,10 @@ pt-BR:
       reset_password_instructions:
         action: Redefinir minha senha
         greeting: Olá %{recipient}!
-        instruction: Alguém fez o pedido para redefinir sua senha, e você pode fazer isso clicando no link abaixo.
+        instruction: Recebemos uma solicitação para redefinir sua senha, click no botão abaixo para contiuar.
         instruction_2: Se você não fez este pedido, por favor ignore este e-mail.
         instruction_3: Sua senha não será alterada até que você acesse o link acima e crie uma nova.
-        subject: Instruções de redefinição de senha
+        subject: Redefinição de senha
       unlock_instructions:
         action: Desbloquear minha conta
         greeting: Olá %{recipient}!
@@ -79,11 +80,13 @@ pt-BR:
       success: Autorizado com sucesso de uma conta de %{kind}.
     passwords:
       edit:
+        minimum_length: "%{count} caracteres no mínimo"
         change_my_password: Alterar minha senha
         change_your_password: Alterar sua senha
         confirm_new_password: Confirme sua nova senha
         new_password: Nova senha
       new:
+        email: E-mail
         forgot_your_password: Esqueceu sua senha?
         send_me_reset_password_instructions: Enviar instruções para redefinição da senha
       no_token: Você não pode acessar esta página sem estar logado. Se você veio de um email de redefinição de senha, por favor certifique-se de ter digitado a URL corretamente.

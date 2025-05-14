@@ -1,32 +1,27 @@
 <div class="container">
   <div class="auth-container">
-    <h2 class="auth-title">Change your password</h2>
+    <h2 class="auth-title"><%= t("devise.passwords.edit.change_your_password") %></h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.hidden_field :reset_password_token %>
 
-  <div class="input_password">
-    <p><%= f.label :password, "New password" %></p>
-    <% if @minimum_password_length %>
-      <p><em>(<%= @minimum_password_length %> characters minimum)</em></p>
+      <div class="input_password">
+        <p><%= f.label :password, t("devise.passwords.edit.new_password") %></p>
+        <% if @minimum_password_length %>
+          <p><em>(<%= t("devise.passwords.edit.minimum_length", count: @minimum_password_length) %>)</em></p>
+        <% end %>
+        <p><%= f.password_field :password, autofocus: true, autocomplete: "new-password" %></p>
+      </div>
+
+      <div class="input_password">
+        <p><%= f.label :password_confirmation, t("devise.passwords.edit.confirm_new_password") %></p>
+        <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
+      </div>
+
+      <div class="submit">
+        <%= f.submit t("devise.passwords.edit.change_my_password") %>
+      </div>
     <% end %>
-    <p><%= f.password_field :password, autofocus: true, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="input_password">
-    <p><%= f.label :password_confirmation, "Confirm new password" %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="submit">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-    <div class="devise-links">
-      <%= link_to "Login", new_session_path(resource_name) %>
-      <%= link_to "Inscrever-se", new_registration_path(resource_name) %>
-    </div>
   </div>
 </div>
