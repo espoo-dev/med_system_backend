@@ -4,7 +4,7 @@ module Users
   class DestroySelf < Actor
     Result = Struct.new(:success?, :error)
 
-    attr_reader :user
+    attr_reader :user, :password
 
     def initialize(user, password)
       @user = user
@@ -24,7 +24,7 @@ module Users
     private
 
     def valid_password?
-      user.valid_password?(@password)
+      user.valid_password?(password)
     end
   end
 end
