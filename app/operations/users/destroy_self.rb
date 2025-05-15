@@ -14,7 +14,7 @@ module Users
     def call
       return Result.new(false, "Wrong password") unless valid_password?
 
-      ActiveRecord::Base.transaction { user.destroy }
+      ActiveRecord::Base.transaction { user.destroy_fully! }
 
       Result.new(true, nil)
     rescue StandardError => e
