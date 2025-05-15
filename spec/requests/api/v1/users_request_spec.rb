@@ -102,19 +102,11 @@ RSpec.describe "Users" do
   end
 
   describe "DELETE /api/v1/users/destroy_self" do
-    context "when user unauthenticated" do
-      subject(:request_destroy_self) { delete "/api/v1/users/destroy_self" }
+    let(:http_method) { :delete }
+    let(:params) { { password: "user_password" } }
+    let(:path) { "/api/v1/users/destroy_self" }
 
-      it "returns unauthorized status code" do
-        request_destroy_self
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it "returns invalid_token message error" do
-        request_destroy_self
-        expect(response.parsed_body).to include({ error: "invalid_token" })
-      end
-    end
+    include_context "when user is not authenticated"
 
     context "when user authenticated" do
       let(:existing_user) { create(:user, password: "qwe123") }
