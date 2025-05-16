@@ -9,7 +9,7 @@ class EventProcedurePolicy < ApplicationPolicy
   end
 
   def create?
-    user_owner?
+    user.present?
   end
 
   def update?
