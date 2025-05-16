@@ -160,22 +160,17 @@ RSpec.describe "Patients" do
   end
 
   describe "DELETE api/v1/patients/:id" do
-    let!(:patient) { create(:patient, user: user) }
+    let(:patient) { create(:patient, user: user) }
     let(:path) { "/api/v1/patients/#{patient.id}" }
     let(:http_method) { :delete }
     let(:params) { {} }
 
     context "when user is authenticated" do
-      it "returns ok" do
-        delete path, headers: headers
-
-        expect(response.parsed_body[:message]).to eq("#{patient.class} deleted successfully.")
-        expect(response).to have_http_status(:ok)
-      end
+      include_examples "delete request returns ok", Patient
 
       context "when patient cannot be destroyed" do
         it "returns unprocessable_content" do
-          create(:event_procedure, patient:)
+          create(:event_procedure, patient: patient, user: user)
 
           delete path, headers: headers
 
@@ -183,7 +178,7 @@ RSpec.describe "Patients" do
         end
 
         it "returns errors" do
-          create(:event_procedure, patient:)
+          create(:event_procedure, patient: patient, user: user)
 
           delete path, headers: headers
 

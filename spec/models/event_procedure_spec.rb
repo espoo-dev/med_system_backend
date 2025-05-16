@@ -4,9 +4,11 @@ require "rails_helper"
 
 RSpec.describe EventProcedure do
   describe "acts_as_paranoid" do
-    it "soft deletes the record" do
-      event_procedure = create(:event_procedure)
+    let(:user) { create(:user) }
+    let(:patient) { create(:patient, user: user) }
+    let(:event_procedure) { create(:event_procedure, user: user, patient: patient) }
 
+    it "soft deletes the record" do
       event_procedure.destroy
 
       expect(event_procedure.deleted_at).to be_present
@@ -14,24 +16,18 @@ RSpec.describe EventProcedure do
     end
 
     it "does not include the record in the default scope" do
-      event_procedure = create(:event_procedure)
-
       event_procedure.destroy
 
       expect(described_class.all).not_to include(event_procedure)
     end
 
     it "includes the record in the default scope when with_deleted is called" do
-      event_procedure = create(:event_procedure)
-
       event_procedure.destroy
 
       expect(described_class.with_deleted).to include(event_procedure)
     end
 
     it "restores a soft deleted record" do
-      event_procedure = create(:event_procedure)
-
       event_procedure.destroy
       event_procedure.recover!
 
@@ -75,6 +71,29 @@ RSpec.describe EventProcedure do
         expect(event).to be_valid
       end
     end
+
+    context "when patient belongs to a different user" do
+      it "is invalid when patient and event_procedure have different users" do
+        user = create(:user)
+        other_user = create(:user)
+        patient = create(:patient, user: other_user)
+
+        event_procedure = build(:event_procedure, user: user, patient: patient)
+
+        expect(event_procedure).not_to be_valid
+        expect(event_procedure.errors[:base]).to include("The patient must be associated with the same procedure user")
+      end
+    end
+
+    context "when patient belongs to the same user" do
+      it "is valid when patient and event_procedure have the same user" do
+        user = create(:user)
+        patient = create(:patient, user: user)
+        event_procedure = build(:event_procedure, user: user, patient: patient)
+
+        expect(event_procedure).to be_valid
+      end
+    end
   end
 
   describe ".enumerations" do
@@ -96,9 +115,16 @@ RSpec.describe EventProcedure do
   end
 
   describe "nested attributes for patient" do
+    let(:user) { create(:user) }
+
     context "when patient_attributes are provided" do
       it "creates patient" do
-        event_procedure = build(:event_procedure, patient_attributes: { id: nil, name: "John Doe" })
+        event_procedure = build(
+          :event_procedure,
+          user: user,
+          patient: nil,
+          patient_attributes: { name: "John Doe", user_id: user.id }
+        )
 
         expect { event_procedure.save }.to change(Patient, :count).by(1)
         expect(event_procedure.patient).to be_persisted
@@ -108,7 +134,11 @@ RSpec.describe EventProcedure do
 
     context "when patient_attributes are not provided" do
       it "does not create patient" do
-        event_procedure = build(:event_procedure, patient_attributes: { id: nil, name: nil })
+        event_procedure = build(
+          :event_procedure,
+          patient: nil,
+          patient_attributes: { name: nil, user_id: nil }
+        )
 
         expect(event_procedure.save).to be_falsey
         expect(event_procedure.errors[:"patient.name"]).to include("can't be blank")
@@ -120,6 +150,7 @@ RSpec.describe EventProcedure do
     context "when procedure_attributes are provided" do
       it "creates procedure" do
         user = create(:user)
+        patient = create(:patient, user: user)
         procedure_attributes = {
           id: nil,
           name: "procedure name",
@@ -129,7 +160,10 @@ RSpec.describe EventProcedure do
           custom: true,
           user_id: user.id
         }
-        event_procedure = build(:event_procedure, procedure_attributes: procedure_attributes)
+        event_procedure = build(
+          :event_procedure, user: user, patient: patient,
+          procedure_attributes: procedure_attributes
+        )
 
         expect { event_procedure.save }.to change(Procedure, :count).by(1)
         expect(event_procedure.procedure).to be_persisted
@@ -163,13 +197,17 @@ RSpec.describe EventProcedure do
     context "when health_insurance_attributes are provided" do
       it "creates health_insurance" do
         user = create(:user)
+        patient = create(:patient, user: user)
         health_insurance_attributes = {
           id: nil,
           name: "health_insurance name",
           custom: true,
           user_id: user.id
         }
-        event_procedure = build(:event_procedure, health_insurance_attributes: health_insurance_attributes)
+        event_procedure = build(
+          :event_procedure, user: user, patient: patient,
+          health_insurance_attributes: health_insurance_attributes
+        )
 
         expect { event_procedure.save }.to change(HealthInsurance, :count).by(1)
         expect(event_procedure.health_insurance).to be_persisted

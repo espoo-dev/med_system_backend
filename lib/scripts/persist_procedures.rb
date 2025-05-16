@@ -69,7 +69,7 @@ module Scripts
     end
 
     def procedures_persisted
-      @procedures_persisted ||= Procedure.all.pluck(:code)
+      @procedures_persisted ||= Procedure.pluck(:code)
     end
 
     def puts_message(message)
