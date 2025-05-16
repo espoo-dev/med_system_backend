@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @media only screen and (max-width: 600px) {
+        .container {
+          padding: 20px !important;
+        }
+        h1 {
+          font-size: 24px !important;
+        }
+        p, a {
+          font-size: 16px !important;
+        }
+      }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 0; font-family: sans-serif;">
+    <div class="container" style="max-width: 600px; padding: 40px;">
+      <h1 style="color: #333;"><%= t("devise.mailer.confirmation_instructions.subject") %></h1>
+
+      <p style="color: #555;">
+        <%= t("devise.mailer.confirmation_instructions.greeting", recipient: @resource.email) %>
+      </p>
+
+      <p style="color: #555;">
+        <%= t("devise.mailer.confirmation_instructions.instruction") %>
+      </p>
+
+      <p>
+        <a href="<%= confirmation_url(@resource, confirmation_token: @token) %>"
+           style="display: inline-block; background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">
+          <%= t("devise.mailer.confirmation_instructions.action") %>
+        </a>
+      </p>
+
+      <p style="color: #999; font-size: 12px; margin-top: 20px;">
+        <%= t("devise.mailer.reset_password_instructions.instruction_2") %>
+      </p>
+    </div>
+  </body>
+</html>
