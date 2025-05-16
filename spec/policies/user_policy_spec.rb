@@ -18,5 +18,17 @@ RSpec.describe UserPolicy do
 
       it { is_expected.to forbid_actions(%i[index]) }
     end
+
+    context "when user tries to destroy themselves" do
+      subject { described_class.new(user, user) }
+
+      it { is_expected.to permit_action(:destroy_self) }
+    end
+
+    context "when user tries to destroy another user" do
+      subject { described_class.new(user, admin) }
+
+      it { is_expected.to forbid_action(:destroy_self) }
+    end
   end
 end

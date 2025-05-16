@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class HealthInsurance < ApplicationRecord
+  acts_as_paranoid
+
   belongs_to :user, optional: true
 
   has_many :event_procedures, dependent: :destroy

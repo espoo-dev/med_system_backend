@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MedicalShift < ApplicationRecord
+  acts_as_paranoid
+
   has_enumeration_for :workload, with: MedicalShifts::Workloads, create_helpers: true
 
   monetize :amount
