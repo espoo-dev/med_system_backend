@@ -129,7 +129,7 @@ RSpec.describe "Users" do
         end
 
         it "deletes user account" do
-          expect(existing_user.reload.deleted?).to be true
+          expect { existing_user.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -142,12 +142,12 @@ RSpec.describe "Users" do
 
         before { request_destroy_self }
 
-        it "returns unprocessable_content status" do
-          expect(response).to have_http_status(:unprocessable_content)
+        it "returns unauthorized status" do
+          expect(response).to have_http_status(:unauthorized)
         end
 
         it "returns error message" do
-          expect(response.parsed_body).to include({ error: "Unable to delete account. Error: Wrong password" })
+          expect(response.parsed_body).to include({ error: "Wrong password" })
         end
 
         it "does not delete user" do

@@ -2,23 +2,17 @@
 
 module Users
   class DestroySelf < Actor
-    Result = Struct.new(:success?, :error)
-
-    attr_reader :user, :password
-
-    def initialize(user, password)
-      @user = user
-      @password = password
-    end
+    input :user, type: User
+    input :password, type: String
 
     def call
-      return Result.new(false, "Wrong password") unless valid_password?
+      return fail!(error: "Wrong password", status: :unauthorized) unless valid_password?
 
       ActiveRecord::Base.transaction { user.destroy_fully! }
 
-      Result.new(true, nil)
+      true
     rescue StandardError => e
-      Result.new(false, e.message)
+      fail!(error: e.message)
     end
 
     private
