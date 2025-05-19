@@ -12,7 +12,7 @@ module Api
       end
 
       def destroy_self
-        authorize current_user, :destroy_self?
+        authorize(current_user)
 
         result = Users::DestroySelf.result(user: current_user, password: confirmation_password)
 
