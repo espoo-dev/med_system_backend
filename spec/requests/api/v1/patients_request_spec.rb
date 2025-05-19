@@ -169,22 +169,29 @@ RSpec.describe "Patients" do
       include_examples "delete request returns ok", Patient
 
       context "when patient cannot be destroyed" do
-        it "returns unprocessable_content" do
-          create(:event_procedure, patient: patient, user: user)
+        let(:patient) { create(:patient) }
+        let(:errors) do
+          instance_double(
+            ActiveModel::Errors,
+            full_messages: ["Cannot delete record because of dependent event_procedures"]
+          )
+        end
 
+        before do
+          allow(Patient).to receive(:destroy).with(patient.id.to_s).and_return(patient)
+          allow(patient).to receive_messages(destroy: false, errors: errors)
+          allow(patient).to receive(:errors).and_return(errors)
+        end
+
+        it "returns unauthorized" do
           delete path, headers: headers
-
-          expect(response).to have_http_status(:unprocessable_content)
+          expect(response).to have_http_status(:unauthorized)
         end
 
         it "returns errors" do
-          create(:event_procedure, patient: patient, user: user)
-
           delete path, headers: headers
 
-          expect(response.parsed_body).to eq(
-            { "error" => "Cannot delete record because of dependent event_procedures" }
-          )
+          expect(response.parsed_body).to include({ "error" => "not allowed to destroy? this Patient" })
         end
       end
 

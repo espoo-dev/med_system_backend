@@ -11,6 +11,18 @@ module Api
         render json: users, status: :ok
       end
 
+      def destroy_self
+        authorize(current_user)
+
+        result = Users::DestroySelf.result(user: current_user, password: confirmation_password)
+
+        if result.success?
+          render json: { message: "Account deleted successfully" }, status: :ok
+        else
+          render json: { error: "Unable to delete account. Error: #{result.error}" }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def page
@@ -19,6 +31,10 @@ module Api
 
       def per_page
         params[:per_page]
+      end
+
+      def confirmation_password
+        params[:password]
       end
     end
   end

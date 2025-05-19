@@ -100,4 +100,60 @@ RSpec.describe "Users" do
       expect { user.reload }.to change(user, :reset_password_token)
     end
   end
+
+  describe "DELETE /api/v1/users/destroy_self" do
+    let(:http_method) { :delete }
+    let(:params) { { password: "user_password" } }
+    let(:path) { "/api/v1/users/destroy_self" }
+
+    include_context "when user is not authenticated"
+
+    context "when user authenticated" do
+      let(:existing_user) { create(:user, password: "qwe123") }
+
+      context "with valid password" do
+        subject(:request_destroy_self) do
+          delete "/api/v1/users/destroy_self",
+            headers: auth_token_for(existing_user),
+            params: { password: "qwe123" }
+        end
+
+        before { request_destroy_self }
+
+        it "returns ok" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns deletion message" do
+          expect(response.parsed_body).to include({ message: "Account deleted successfully" })
+        end
+
+        it "deletes user account" do
+          expect { existing_user.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context "with invalid password" do
+        subject(:request_destroy_self) do
+          delete "/api/v1/users/destroy_self",
+            headers: auth_token_for(existing_user),
+            params: { password: "wrong-password" }
+        end
+
+        before { request_destroy_self }
+
+        it "returns unprocessable content status" do
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+
+        it "returns error message" do
+          expect(response.parsed_body).to include({ error: "Unable to delete account. Error: Wrong password" })
+        end
+
+        it "does not delete user" do
+          expect(existing_user.reload.deleted?).to be false
+        end
+      end
+    end
+  end
 end

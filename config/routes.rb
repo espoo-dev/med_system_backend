@@ -29,7 +29,11 @@ Rails.application.routes.draw do
       end
       resources :patients, only: %i[index create update destroy]
       resources :procedures, only: %i[index create update destroy]
-      resources :users, only: [:index]
+      resources :users, only: [:index] do
+        collection do
+          delete :destroy_self
+        end
+      end
 
       get "/event_procedures_dashboard/amount_by_day", to: "event_procedures_dashboard#amount_by_day"
       get "/pdf_reports/generate", to: "pdf_reports#generate", defaults: { format: :pdf }
