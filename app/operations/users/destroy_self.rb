@@ -6,13 +6,9 @@ module Users
     input :password, type: String
 
     def call
-      return fail!(error: "Wrong password", status: :unauthorized) unless valid_password?
+      fail!(error: "Wrong password") unless valid_password?
 
       ActiveRecord::Base.transaction { user.destroy_fully! }
-
-      true
-    rescue StandardError => e
-      fail!(error: e.message)
     end
 
     private

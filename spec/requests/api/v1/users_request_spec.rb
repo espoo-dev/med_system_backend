@@ -142,12 +142,12 @@ RSpec.describe "Users" do
 
         before { request_destroy_self }
 
-        it "returns unauthorized status" do
-          expect(response).to have_http_status(:unauthorized)
+        it "returns unprocessable content status" do
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error message" do
-          expect(response.parsed_body).to include({ error: "Wrong password" })
+          expect(response.parsed_body).to include({ error: "Unable to delete account. Error: Wrong password" })
         end
 
         it "does not delete user" do
