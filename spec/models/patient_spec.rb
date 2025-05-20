@@ -3,6 +3,13 @@
 require "rails_helper"
 
 RSpec.describe Patient do
+  describe "soft delete behavior" do
+    let(:user) { create(:user) }
+    let(:patient) { create(:patient, user: user) }
+
+    it_behaves_like "acts as paranoid", :patient
+  end
+
   describe "associations" do
     it { is_expected.to have_many(:event_procedures).dependent(:destroy) }
     it { is_expected.to belong_to(:user) }

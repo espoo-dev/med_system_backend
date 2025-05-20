@@ -3,6 +3,13 @@
 require "rails_helper"
 
 RSpec.describe MedicalShift do
+  describe "soft delete behavior" do
+    let(:user) { create(:user) }
+    let(:medical_shift) { create(:medical_shift, user: user) }
+
+    it_behaves_like "acts as paranoid", :medical_shift
+  end
+
   describe "associations" do
     it { is_expected.to belong_to(:user) }
   end
