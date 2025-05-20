@@ -3,6 +3,13 @@
 require "rails_helper"
 
 RSpec.describe HealthInsurance do
+  describe "soft delete behavior" do
+    let(:user) { create(:user) }
+    let(:health_insurance) { create(:health_insurance, user: user) }
+
+    it_behaves_like "acts as paranoid", :health_insurance
+  end
+
   describe "associations" do
     it { is_expected.to belong_to(:user).optional(true) }
 

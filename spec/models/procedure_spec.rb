@@ -3,6 +3,13 @@
 require "rails_helper"
 
 RSpec.describe Procedure do
+  describe "soft delete behavior" do
+    let(:user) { create(:user) }
+    let(:procedure) { create(:procedure, user: user) }
+
+    it_behaves_like "acts as paranoid", :procedure
+  end
+
   describe "associations" do
     it { is_expected.to belong_to(:user).optional(true) }
 

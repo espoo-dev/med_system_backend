@@ -3,6 +3,12 @@
 require "rails_helper"
 
 RSpec.describe Hospital do
+  describe "soft delete behavior" do
+    let(:hospital) { create(:hospital) }
+
+    it_behaves_like "acts as paranoid", :hospital
+  end
+
   describe "associations" do
     it { is_expected.to have_many(:event_procedures).dependent(:destroy) }
   end

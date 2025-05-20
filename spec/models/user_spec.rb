@@ -5,6 +5,12 @@ require "rails_helper"
 RSpec.describe User do
   subject { build(:user) }
 
+  describe "soft delete behavior" do
+    let(:user) { create(:user) }
+
+    it_behaves_like "acts as paranoid", :user
+  end
+
   describe "associations" do
     it { is_expected.to have_many(:event_procedures).dependent(:destroy) }
     it { is_expected.to have_many(:medical_shifts).dependent(:destroy) }
