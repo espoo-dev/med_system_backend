@@ -1,0 +1,6 @@
+pt-BR:
+  medical_shifts:
+    attributes:
+      shift:
+        nighttime: "Noite"
+        daytime: "Dia"
