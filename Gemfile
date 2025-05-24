@@ -14,6 +14,9 @@ gem "administrate", "0.20.1"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "1.18.3", require: false
 
+# Rack middleware for blocking & throttling 
+gem 'rack-attack'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
