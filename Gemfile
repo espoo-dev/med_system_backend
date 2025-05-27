@@ -78,6 +78,8 @@ gem "sentry-ruby", "5.17.3"
 gem "service_actor", "3.7.0"
 # Simple, efficient background processing for Ruby [https://github.com/sidekiq/sidekiq]
 gem "sidekiq", "7.2.4"
+# Middleware to track failed Sidekiq jobs [https://github.com/mhfs/sidekiq-failures]
+gem "sidekiq-failures", git: "https://github.com/mhfs/sidekiq-failures", branch: "master"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails", "3.5.1"
 # A sampling call-stack profiler for ruby 2.2+
