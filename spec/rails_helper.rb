@@ -73,4 +73,9 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   Rails.root.glob("spec/support/**/*.rb").each { |f| require f }
+
+  # Clears Rack:Attack cache between specs
+  config.before(:each) do
+    Rack::Attack.cache.store.clear if Rack::Attack.cache.store.respond_to?(:clear)
+  end
 end
