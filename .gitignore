@@ -41,3 +41,5 @@
 !.env.example
 
 lib/data/procedures/
+
+/.idea
