@@ -120,3 +120,11 @@ form {
 .oauth-buttons-cancel button:hover {
   background-color: #f0f0f0;
 }
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
