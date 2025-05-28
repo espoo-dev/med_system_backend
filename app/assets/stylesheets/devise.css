@@ -40,7 +40,8 @@ form {
   font-weight: 500;
 }
 
-.input input[type="email"] {
+.input input[type="email"],
+.input input[type="password"] {
   width: 94%;
   padding: 0.75rem;
   border: 1px solid #ccc;
@@ -70,4 +71,52 @@ form {
 
 .submit input[type="submit"]:hover {
   background: linear-gradient(to right, #1e40af, #2563eb);
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.auth-links a {
+  display: block;
+  color: #1e3a8a;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin: 0.2rem 0;
+  transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.oauth-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.oauth-buttons-cancel {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.oauth-buttons button,
+.oauth-buttons-cancel button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+
+.oauth-buttons button:hover,
+.oauth-buttons-cancel button:hover {
+  background-color: #f0f0f0;
 }
