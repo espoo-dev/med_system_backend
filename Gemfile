@@ -46,6 +46,8 @@ gem "multi_json", "1.15.0"
 # gem "newrelic_rpm", "9.9.0"
 # GitHub strategy for OmniAuth
 gem "omniauth-github"
+# GitHub strategy for Google
+gem "omniauth-google-oauth2"
 # Provides CSRF protection on OmniAuth request endpoint on Rails application.
 gem "omniauth-rails_csrf_protection"
 # GitHub strategy for Strava

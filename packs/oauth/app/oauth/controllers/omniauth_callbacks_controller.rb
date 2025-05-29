@@ -11,6 +11,10 @@ module Oauth
         oauth_sign_in
       end
 
+      def google_oauth2
+        oauth_sign_in
+      end
+
       def oauth_sign_in
         result = Oauth::Actors::FindOrCreateUser.result(auth: omniauth_env)
 

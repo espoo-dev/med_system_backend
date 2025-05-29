@@ -8,7 +8,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, :api,
     :omniauthable, :confirmable, :lockable,
-    omniauth_providers: %i[github strava]
+    omniauth_providers: %i[github strava google_oauth2]
 
   has_many :event_procedures, dependent: :destroy
   has_many :medical_shifts, dependent: :destroy
