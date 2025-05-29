@@ -61,6 +61,7 @@ Metrics/BlockLength:
     - "spec/**/*"
     - "config/environments/*"
     - "config/routes.rb"
+    - "config/initializers/devise.rb"
 
 Metrics/ClassLength:
   CountAsOne: ["array", "hash", "heredoc"]
