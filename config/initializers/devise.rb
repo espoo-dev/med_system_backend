@@ -264,6 +264,16 @@ Devise.setup do |config|
   config.omniauth :github, ENV.fetch("GITHUB_CLIENT_ID", nil), ENV.fetch("GITHUB_CLIENT_SECRET", nil),
     scope: "user,public_repo"
 
+  config.omniauth :google_oauth2,
+    ENV.fetch("GOOGLE_CLIENT_ID", nil),
+    ENV.fetch("GOOGLE_CLIENT_SECRET", nil),
+    {
+      scope: "userinfo.email,userinfo.profile",
+      prompt: "select_account",
+      image_aspect_ratio: "square",
+      image_size: 50
+    }
+
   config.omniauth :strava, ENV.fetch("STRAVA_CLIENT_ID", nil).to_i, ENV.fetch("STRAVA_CLIENT_SECRET", nil),
     scope: "profile:read_all", token_params: {
       client_id: ENV.fetch("STRAVA_CLIENT_ID", nil),

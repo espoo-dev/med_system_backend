@@ -5,7 +5,8 @@ module Oauth
     class FindOrCreateUser < Actor
       ALLOWED_PROVIDERS_HASH = {
         github: "github",
-        strava: "strava"
+        strava: "strava",
+        google: "google_oauth2"
       }.freeze
 
       input :auth, type: OmniAuth::AuthHash
@@ -28,6 +29,8 @@ module Oauth
           find_or_create_user(auth, ALLOWED_PROVIDERS_HASH[:github], auth.info.email)
         when ALLOWED_PROVIDERS_HASH[:strava]
           find_or_create_user(auth, ALLOWED_PROVIDERS_HASH[:strava], strava_generated_email(auth))
+        when ALLOWED_PROVIDERS_HASH[:google]
+          find_or_create_user(auth, ALLOWED_PROVIDERS_HASH[:google], auth.info.email)
         else
           fail!(error: :invalid_oauth_provider)
         end
