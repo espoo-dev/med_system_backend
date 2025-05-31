@@ -13,10 +13,10 @@ gem "acts_as_paranoid", "0.10.0"
 gem "administrate", "0.20.1"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "1.18.3", require: false
-# Send Devise's emails in background. Supports Resque, Sidekiq, Delayed::Job and QueueClassic.
-gem "devise-async", "1.0.0"
-# Rack middleware for blocking & throttling
+
+# Rack middleware for blocking & throttling 
 gem 'rack-attack'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]

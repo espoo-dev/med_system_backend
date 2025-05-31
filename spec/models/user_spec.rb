@@ -59,10 +59,8 @@ RSpec.describe User do
       user.confirm
     end
 
-    it "enqueues a password reset email" do
-      expect do
-        user.send_reset_password_instructions
-      end.to have_enqueued_job.on_queue("default")
+    it "sends password reset email" do
+      expect { user.send_reset_password_instructions }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
 
     it "generates reset password token" do
