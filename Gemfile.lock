@@ -161,9 +161,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-async (1.0.0)
-      activejob (>= 5.0)
-      devise (>= 4.0)
     devise-i18n (1.13.0)
       devise (>= 4.9.0)
       rails-i18n
@@ -608,7 +605,6 @@ DEPENDENCIES
   debug (= 1.9.2)
   devise (= 4.9.4)
   devise-api!
-  devise-async (= 1.0.0)
   devise-i18n (~> 1.10)
   dotenv-rails (= 3.1.2)
   enumerate_it (= 4.0.0)
