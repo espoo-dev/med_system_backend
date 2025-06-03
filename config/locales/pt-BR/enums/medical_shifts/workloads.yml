@@ -1,0 +1,6 @@
+pt-BR:
+  enumerations:
+    medical_shifts/workloads:
+      six: 6h
+      twelve: 12h
+      twenty_four: 24h
