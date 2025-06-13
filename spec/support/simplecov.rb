@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-require "simplecov"
+require 'simplecov'
+
+# Certifique-se de que o Rails está carregado antes de iniciar o SimpleCov
+if defined?(Rails)
+  Rails.application.eager_load!
+end
 
 SimpleCov.start do
   add_group "Controllers", "app/controllers"

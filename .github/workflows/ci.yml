@@ -82,6 +82,12 @@ jobs:
       - name: Install Yarn packages
         run: yarn install --check-files --pure-lockfile
 
+      - name: Clean up coverage cache
+        run: rm -rf coverage/
+
+      - name: Ensure coverage directory exists
+        run: mkdir -p coverage
+
       - name: Create database structure
         run: RAILS_ENV=test bin/rails db:create db:migrate
 
