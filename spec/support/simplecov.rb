@@ -13,7 +13,7 @@ SimpleCov.start do
   add_filter %r{^/spec/}
   add_filter "app/channels"
 end
-
+SimpleCov.minimum_coverage 100
 SimpleCov.at_exit do
   SimpleCov.result.format!
   exit(1) if SimpleCov.result.covered_percent < 100
