@@ -16,8 +16,6 @@ SimpleCov.start do
   minimum_coverage 100
 end
 
-Rails.application.eager_load! if defined?(Rails)
-
 SimpleCov.at_exit do
   SimpleCov.result.format!
   exit(1) if SimpleCov.result.covered_percent < 100
