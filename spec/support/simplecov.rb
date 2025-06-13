@@ -12,7 +12,11 @@ SimpleCov.start do
   add_filter "config"
   add_filter %r{^/spec/}
   add_filter "app/channels"
+
+  minimum_coverage 100
 end
+
+Rails.application.eager_load! if defined?(Rails)
 
 SimpleCov.at_exit do
   SimpleCov.result.format!
