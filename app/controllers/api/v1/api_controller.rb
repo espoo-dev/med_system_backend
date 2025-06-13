@@ -25,9 +25,6 @@ module Api
         render json: { error: message }, status: :unauthorized
       end
 
-      def render_unprocessable_entity(exception)
-        render json: { error: exception.message }, status: :unprocessable_entity
-      end
 
       def render_not_found(exception)
         render json: { error: exception.message }, status: :not_found
