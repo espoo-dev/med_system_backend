@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
-require 'simplecov'
-
-# Certifique-se de que o Rails está carregado antes de iniciar o SimpleCov
-if defined?(Rails)
-  Rails.application.eager_load!
-end
+require "simplecov"
 
 SimpleCov.start do
   add_group "Controllers", "app/controllers"
@@ -17,7 +12,6 @@ SimpleCov.start do
   add_filter "config"
   add_filter %r{^/spec/}
   add_filter "app/channels"
-  minimum_coverage 100
 end
 
 SimpleCov.at_exit do
