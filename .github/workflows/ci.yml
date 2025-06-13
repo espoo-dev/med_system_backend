@@ -70,6 +70,9 @@ jobs:
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
 
+      - name: Install Ruby dependencies
+        run: bundle install
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -79,8 +82,21 @@ jobs:
       - name: Install Yarn packages
         run: yarn install --check-files --pure-lockfile
 
+      - name: Clean up coverage cache
+        run: rm -rf coverage/
+
+      - name: Ensure coverage directory exists
+        run: mkdir -p coverage
+
       - name: Create database structure
         run: RAILS_ENV=test bin/rails db:create db:migrate
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for PostgreSQL..."
+            sleep 2
+          done
 
       - name: Configure sysctl limits
         run: |
@@ -89,6 +105,5 @@ jobs:
           sudo sysctl -w fs.file-max=262144
           sudo sysctl -w vm.max_map_count=262144
 
-      - name: Run tests
+      - name: Run tests and check coverage
         run: bundle exec rspec
-        # run: bundle exec bin/rspec spec --format progress -P ./*/**/*_spec.rb
