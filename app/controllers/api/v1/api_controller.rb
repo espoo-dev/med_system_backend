@@ -12,9 +12,7 @@ module Api
       before_action :set_paper_trail_whodunnit
 
       rescue_from Pundit::NotAuthorizedError, with: :render_unauthorized
-      rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-      rescue_from ActiveRecord::DeleteRestrictionError, with: :render_unprocessable_entity
       rescue_from ServiceActor::ArgumentError, with: :render_bad_request
 
       def current_user
@@ -23,10 +21,6 @@ module Api
 
       def render_unauthorized(message = "Unauthorized")
         render json: { error: message }, status: :unauthorized
-      end
-
-      def render_unprocessable_entity(exception)
-        render json: { error: exception.message }, status: :unprocessable_entity
       end
 
       def render_not_found(exception)
