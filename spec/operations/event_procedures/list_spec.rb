@@ -3,6 +3,7 @@
 require "rails_helper"
 
 RSpec.describe EventProcedures::List, type: :operation do
+
   describe ".result" do
     it "is successful" do
       result = described_class.result(scope: EventProcedure.all, params: {})
@@ -42,6 +43,21 @@ RSpec.describe EventProcedures::List, type: :operation do
       expect(result.event_procedures.first.patient.name).to eq "John Doe"
       expect(result.event_procedures.first.hospital.name).to eq "General Hospital"
       expect(result.event_procedures.first.health_insurance.name).to eq "Insurance Corp"
+    end
+
+    describe "N+1 query check" do
+      include QueryHelper
+      it "does not generate N+1 queries" do
+        create(:event_procedure, :with_port_values)
+
+        baseline = count_queries { described_class.result(scope: EventProcedure.all, params: {}) }
+
+        create(:event_procedure, :with_port_values)
+
+        after = count_queries { described_class.result(scope: EventProcedure.all, params: {}) }
+
+        expect(after).to eq(baseline), "Expected #{baseline} queries, but generated #{after}. N+1 detected."
+      end
     end
 
     context "when has filters by month" do

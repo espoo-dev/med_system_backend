@@ -117,7 +117,7 @@ group :development do
   gem "rubocop-rspec_rails", "!= 2.29.0", require: false
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console", "4.2.1"
-
+  gem "bullet"
   gem "brakeman", "6.1.2"
 
   # Preview mail in the browser instead of sending.
