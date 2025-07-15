@@ -16,7 +16,13 @@ module EventProcedures
     private
 
     def filtered_query
-      query = scope.includes(%i[procedure patient hospital health_insurance])
+      query = scope.includes(
+        :procedure,
+        :patient,
+        :hospital,
+        :health_insurance,
+        cbhpm: :port_values
+      )
       apply_all_filters(query)
     end
 
