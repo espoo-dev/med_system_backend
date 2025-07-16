@@ -154,6 +154,7 @@ GEM
     connection_pool (2.4.1)
     constant_resolver (0.2.0)
     crass (1.0.6)
+    csv (3.3.5)
     date (3.3.4)
     debug (1.9.2)
       irb (~> 1.10)
@@ -612,6 +613,7 @@ DEPENDENCIES
   brakeman (= 6.1.2)
   bullet
   capybara (= 3.40.0)
+  csv (= 3.3.5)
   debug (= 1.9.2)
   devise (= 4.9.4)
   devise-api!
