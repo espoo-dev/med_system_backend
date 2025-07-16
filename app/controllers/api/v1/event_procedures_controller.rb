@@ -6,24 +6,28 @@ module Api
       after_action :verify_authorized, except: :index
       after_action :verify_policy_scoped, only: :index
 
-      def index
-        authorized_scope = policy_scope(EventProcedure)
-        listed_event_procedures = EventProcedures::List.result(
-          scope: authorized_scope,
-          params: event_procedure_permitted_query_params
-        )
-        event_procedures = listed_event_procedures.event_procedures
-        event_procedures_unpaginated = listed_event_procedures.event_procedures_unpaginated
+    def index
+      authorized_scope = policy_scope(EventProcedure)
 
-        total_amount_cents = EventProcedures::TotalAmountCents.call(event_procedures: event_procedures_unpaginated)
+      listed_event_procedures = EventProcedures::List.result(
+        scope:  authorized_scope,
+        params: event_procedure_permitted_query_params
+      )
 
-        render json: {
-          total: total_amount_cents.total,
-          total_paid: total_amount_cents.paid,
-          total_unpaid: total_amount_cents.unpaid,
-          event_procedures: serialized_event_procedures(event_procedures)
-        }, status: :ok
-      end
+      event_procedures              = listed_event_procedures.event_procedures
+      event_procedures_unpaginated  = listed_event_procedures.event_procedures_unpaginated
+
+      total_amount_cents = EventProcedures::TotalAmountCents.call(
+        event_procedures: event_procedures_unpaginated
+      )
+
+      render json: {
+        total:        total_amount_cents.total,
+        total_paid:   total_amount_cents.paid,
+        total_unpaid: total_amount_cents.unpaid,
+        event_procedures: serialized_event_procedures(event_procedures)
+      }, status: :ok
+    end
 
       def create
         authorize(EventProcedure)

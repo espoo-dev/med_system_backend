@@ -6,6 +6,8 @@ class EventProcedure < ApplicationRecord
   has_enumeration_for :room_type, with: EventProcedures::RoomTypes, create_helpers: true
   has_enumeration_for :payment, with: EventProcedures::Payments, create_helpers: true
 
+  has_many :port_values, through: :cbhpm
+
   monetize :total_amount
 
   belongs_to :cbhpm

@@ -37,5 +37,11 @@ FactoryBot.define do
         event_procedure.health_insurance = build(:health_insurance, evaluator.health_insurance_attributes)
       end
     end
+
+    trait :with_port_values do
+      after(:create) do |ep|
+        create_list(:port_value, 2, cbhpm: ep.cbhpm)
+      end
+    end
   end
 end
