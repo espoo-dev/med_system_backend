@@ -16,5 +16,7 @@ class User < ApplicationRecord
   has_many :procedures, dependent: :destroy
   has_many :health_insurances, dependent: :destroy
 
-  validates :email, uniqueness: { case_sensitive: false }
+  def destroy
+    destroy_fully!
+  end
 end
