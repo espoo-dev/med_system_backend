@@ -29,6 +29,20 @@ pt-BR:
       user:
         one: Usuário
         other: Usuários
+    errors:
+      messages:
+        taken: "já está sendo usado"
+        blank: "não pode ficar em branco"
+        too_short: "é muito curta (mínimo de %{count} caracteres)"
+        invalid: "não é válido"
+        confirmation: "não confere"
+  errors:
+    messages:
+      taken: "já está sendo usado"
+      blank: "não pode ficar em branco"
+      too_short: "é muito curta (mínimo de %{count} caracteres)"
+      invalid: "não é válido"
+      confirmation: "não confere"
   devise:
     confirmations:
       confirmed: A sua conta foi confirmada com sucesso.
