@@ -66,10 +66,10 @@ Rails.application.configure do
 
   # The Bullet gem helps detect N+1 queries and other inefficiencies in ActiveRecord queries.
   config.after_initialize do
-    Bullet.enable        = true
-    Bullet.alert         = true
+    Bullet.enable = true
+    Bullet.alert = true
     Bullet.bullet_logger = true
-    Bullet.console       = true
+    Bullet.console = true
   end
 
   # Raises error for missing translations.
@@ -86,6 +86,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
+  # Use letter_opener to local development or resend to test real emails
   config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.delivery_method = :resend
   config.action_mailer.perform_deliveries = true
 end

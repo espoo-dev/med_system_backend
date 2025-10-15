@@ -73,6 +73,8 @@ gem "rack-cors", "2.0.2"
 gem "rails", "7.1.3.4"
 # Use Redis adapter to run Action Cable in production
 gem "redis", "5.2.0"
+# User resend.com to send emails
+gem "resend"
 # Sentry SDK for Rails
 gem "sentry-rails", "5.17.3"
 # Sentry SDK for Ruby
