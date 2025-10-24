@@ -75,7 +75,7 @@ RSpec.configure do |config|
   Rails.root.glob("spec/support/**/*.rb").each { |f| require f }
 
   # Clears Rack:Attack cache between specs
-  config.before(:each) do
+  config.before do
     Rack::Attack.cache.store.clear if Rack::Attack.cache.store.respond_to?(:clear)
   end
 end

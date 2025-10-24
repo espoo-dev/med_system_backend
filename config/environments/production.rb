@@ -99,16 +99,5 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "api.meusprocedimentos.com.br", protocol: "https" }
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "smtp.sendgrid.net",
-    port: 587,
-    domain: "meusprocedimentos.com.br",
-    user_name: Rails.application.credentials.dig(:smtp, :username),
-    password: Rails.application.credentials.dig(:smtp, :password),
-    authentication: "plain",
-    enable_starttls: true,
-    open_timeout: 5,
-    read_timeout: 5
-  }
+  config.action_mailer.delivery_method = :resend
 end

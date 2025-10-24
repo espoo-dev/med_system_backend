@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe EventProcedures::List, type: :operation do
-
   describe ".result" do
     it "is successful" do
       result = described_class.result(scope: EventProcedure.all, params: {})
