@@ -12,5 +12,9 @@ FactoryBot.define do
     paid { false }
 
     traits_for_enum(:workload, MedicalShifts::Workloads.list)
+
+    trait :with_recurrence do
+      medical_shift_recurrence
+    end
   end
 end

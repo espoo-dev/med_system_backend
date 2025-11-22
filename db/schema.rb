@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_28_125806) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_20_195423) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -98,6 +98,27 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_28_125806) do
     t.index ["name"], name: "index_hospitals_on_name", unique: true
   end
 
+  create_table "medical_shift_recurrences", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "frequency", null: false
+    t.integer "day_of_week"
+    t.integer "day_of_month"
+    t.date "start_date", null: false
+    t.date "end_date"
+    t.string "workload", null: false
+    t.time "start_hour", null: false
+    t.string "hospital_name", default: "", null: false
+    t.integer "amount_cents", default: 0, null: false
+    t.date "last_generated_until"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_medical_shift_recurrences_on_deleted_at"
+    t.index ["last_generated_until"], name: "index_medical_shift_recurrences_on_last_generated_until"
+    t.index ["user_id", "deleted_at"], name: "index_medical_shift_recurrences_on_user_id_and_deleted_at"
+    t.index ["user_id"], name: "index_medical_shift_recurrences_on_user_id"
+  end
+
   create_table "medical_shifts", force: :cascade do |t|
     t.string "workload", null: false
     t.date "start_date", null: false
@@ -109,7 +130,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_28_125806) do
     t.string "hospital_name", default: "", null: false
     t.time "start_hour", null: false
     t.datetime "deleted_at"
+    t.bigint "medical_shift_recurrence_id"
     t.index ["deleted_at"], name: "index_medical_shifts_on_deleted_at"
+    t.index ["medical_shift_recurrence_id"], name: "index_medical_shifts_on_medical_shift_recurrence_id"
     t.index ["paid"], name: "index_medical_shifts_on_paid"
     t.index ["start_date"], name: "index_medical_shifts_on_start_date"
     t.index ["user_id"], name: "index_medical_shifts_on_user_id"
@@ -193,6 +216,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_28_125806) do
   add_foreign_key "event_procedures", "patients"
   add_foreign_key "event_procedures", "procedures"
   add_foreign_key "event_procedures", "users"
+  add_foreign_key "medical_shift_recurrences", "users"
+  add_foreign_key "medical_shifts", "medical_shift_recurrences"
   add_foreign_key "medical_shifts", "users"
   add_foreign_key "patients", "users"
   add_foreign_key "port_values", "cbhpms"
