@@ -6,10 +6,10 @@ FactoryBot.define do
 
     frequency { "weekly" }
     day_of_week { 3 } # quarta-feira
-    start_date { Date.tomorrow }
-    workload { "12h" }
-    start_hour { "19:00" }
-    hospital_name { "Hospital Teste" }
+    start_date { Time.zone.today }
+    workload { MedicalShifts::Workloads::SIX }
+    start_hour { "19:00:00" }
+    hospital_name { create(:hospital).name }
     amount_cents { 120_000 }
 
     trait :weekly do
