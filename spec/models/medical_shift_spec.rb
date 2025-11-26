@@ -12,6 +12,7 @@ RSpec.describe MedicalShift do
 
   describe "associations" do
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:medical_shift_recurrence).optional }
   end
 
   describe "validations" do
@@ -83,6 +84,24 @@ RSpec.describe MedicalShift do
       let(:medical_shift) { create(:medical_shift, start_hour: "22:00", workload: :twenty_four) }
 
       it { expect(shift).to eq("#{medical_shift.hospital_name} | 24h | Nighttime") }
+    end
+  end
+
+  describe ".recurring?" do
+    context "when medical shift has a recurrence" do
+      it "returns true" do
+        medical_shift = create(:medical_shift, :with_recurrence)
+
+        expect(medical_shift.recurring?).to be true
+      end
+    end
+
+    context "when medical shift does not have a recurrence" do
+      it "returns false" do
+        medical_shift = create(:medical_shift)
+
+        expect(medical_shift.recurring?).to be false
+      end
     end
   end
 end

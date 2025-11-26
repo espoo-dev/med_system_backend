@@ -33,6 +33,7 @@ RSpec.describe "MedicalShifts" do
           expect(response.parsed_body["medical_shifts"]).to include(
             {
               "id" => medical_shifts.second.id,
+              "medical_shift_recurrence_id" => medical_shifts.second.medical_shift_recurrence_id.presence,
               "hospital_name" => medical_shifts.second.hospital_name,
               "workload" => medical_shifts.second.workload_humanize,
               "date" => medical_shifts.second.start_date.strftime("%d/%m/%Y"),
@@ -44,6 +45,7 @@ RSpec.describe "MedicalShifts" do
             },
             {
               "id" => medical_shifts.first.id,
+              "medical_shift_recurrence_id" => medical_shifts.first.medical_shift_recurrence_id.presence,
               "hospital_name" => medical_shifts.first.hospital_name,
               "workload" => medical_shifts.first.workload_humanize,
               "date" => medical_shifts.first.start_date.strftime("%d/%m/%Y"),
@@ -125,6 +127,7 @@ RSpec.describe "MedicalShifts" do
             expect(response.parsed_body["medical_shifts"]).to include(
               {
                 "id" => paid_medical_shifts.second.id,
+                "medical_shift_recurrence_id" => paid_medical_shifts.second.medical_shift_recurrence_id.presence,
                 "hospital_name" => paid_medical_shifts.second.hospital_name,
                 "workload" => paid_medical_shifts.second.workload_humanize,
                 "date" => paid_medical_shifts.second.start_date.strftime("%d/%m/%Y"),
@@ -136,6 +139,7 @@ RSpec.describe "MedicalShifts" do
               },
               {
                 "id" => paid_medical_shifts.first.id,
+                "medical_shift_recurrence_id" => paid_medical_shifts.first.medical_shift_recurrence_id.presence,
                 "hospital_name" => paid_medical_shifts.first.hospital_name,
                 "workload" => paid_medical_shifts.first.workload_humanize,
                 "date" => paid_medical_shifts.first.start_date.strftime("%d/%m/%Y"),
@@ -164,6 +168,7 @@ RSpec.describe "MedicalShifts" do
             expect(response.parsed_body["medical_shifts"]).to include(
               {
                 "id" => unpaid_medical_shifts.second.id,
+                "medical_shift_recurrence_id" => unpaid_medical_shifts.second.medical_shift_recurrence_id.presence,
                 "hospital_name" => unpaid_medical_shifts.second.hospital_name,
                 "workload" => unpaid_medical_shifts.second.workload_humanize,
                 "date" => unpaid_medical_shifts.second.start_date.strftime("%d/%m/%Y"),
@@ -175,6 +180,7 @@ RSpec.describe "MedicalShifts" do
               },
               {
                 "id" => unpaid_medical_shifts.first.id,
+                "medical_shift_recurrence_id" => unpaid_medical_shifts.first.medical_shift_recurrence_id.presence,
                 "hospital_name" => unpaid_medical_shifts.first.hospital_name,
                 "workload" => unpaid_medical_shifts.first.workload_humanize,
                 "date" => unpaid_medical_shifts.first.start_date.strftime("%d/%m/%Y"),

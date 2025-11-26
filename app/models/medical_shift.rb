@@ -8,6 +8,7 @@ class MedicalShift < ApplicationRecord
   monetize :amount
 
   belongs_to :user
+  belongs_to :medical_shift_recurrence, optional: true
 
   scope :by_hospital, MedicalShifts::ByHospitalQuery
   scope :by_month, MedicalShifts::ByMonthQuery
@@ -32,5 +33,9 @@ class MedicalShift < ApplicationRecord
 
   def title
     "#{hospital_name} | #{workload_humanize} | #{shift}"
+  end
+
+  def recurring?
+    medical_shift_recurrence_id.present?
   end
 end
