@@ -14,8 +14,8 @@ gem "administrate", "0.20.1"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "1.18.3", require: false
 
-# Rack middleware for blocking & throttling 
-gem 'rack-attack'
+# Rack middleware for blocking & throttling
+gem "rack-attack"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -109,6 +109,8 @@ group :development, :test do
 end
 
 group :development do
+  gem "brakeman", "6.1.2"
+  gem "bullet"
   # To ensure code consistency [https://docs.rubocop.org]
   gem "rubocop", "1.56.2"
   gem "rubocop-factory_bot", "!= 2.26.0", require: false
@@ -118,8 +120,6 @@ group :development do
   gem "rubocop-rspec_rails", "!= 2.29.0", require: false
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console", "4.2.1"
-  gem "bullet"
-  gem "brakeman", "6.1.2"
 
   # Preview mail in the browser instead of sending.
   gem "letter_opener", "1.10.0"

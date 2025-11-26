@@ -50,7 +50,7 @@ module MedicalShiftRecurrences
 
       # Caso contrário, encontra o próximo dia da semana
       days_ahead = target_wday - from_date.wday
-      days_ahead += 7 if days_ahead < 0
+      days_ahead += 7 if days_ahead.negative?
 
       from_date + days_ahead.days
     end
@@ -61,7 +61,7 @@ module MedicalShiftRecurrences
 
       # Caso contrário, encontra o próximo dia da semana
       days_ahead = target_wday - from_date.wday
-      days_ahead += 7 if days_ahead < 0
+      days_ahead += 7 if days_ahead.negative?
 
       from_date + days_ahead.days
     end
