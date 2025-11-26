@@ -3,6 +3,7 @@
 module Api
   module V1
     class MedicalShiftRecurrencesController < ApiController
+      before_action :set_recurrence, only: %i[destroy]
       after_action :verify_authorized, except: :index
       after_action :verify_policy_scoped, only: :index
 
@@ -32,7 +33,31 @@ module Api
         end
       end
 
+      def destroy
+        authorize(@recurrence)
+        result = MedicalShiftRecurrences::Cancel.call(
+          medical_shift_recurrence: @recurrence
+        )
+
+        if result.success?
+          render json: {
+            message: "Recurrence cancelled successfully",
+            shifts_cancelled: result.shifts_cancelled
+          }, status: :ok
+        else
+          render json: { errors: result.error }, status: :unprocessable_entity
+        end
+      end
+
       private
+
+      def set_recurrence
+        @recurrence = current_user.medical_shift_recurrences
+          .where(deleted_at: nil)
+          .find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: "Recurrence not found" }, status: :not_found
+      end
 
       def recurrence_params
         params.require(:medical_shift_recurrence).permit(

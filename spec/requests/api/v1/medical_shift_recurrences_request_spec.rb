@@ -484,4 +484,160 @@ RSpec.describe "MedicalShiftRecurrences" do
       end
     end
   end
+
+  describe "DELETE /api/v1/medical_shift_recurrences/:id" do
+    let!(:recurrence) do
+      create(
+        :medical_shift_recurrence,
+        user: user,
+        frequency: "weekly",
+        day_of_week: 1,
+        start_date: Date.tomorrow
+      )
+    end
+
+    before do
+      result = MedicalShiftRecurrences::Create.result(
+        attributes: recurrence.attributes.slice(
+          "frequency", "day_of_week", "start_date", "workload",
+          "start_hour", "hospital_name", "amount_cents"
+        ),
+        user_id: user.id
+      )
+
+      result.shifts_created.each do |shift|
+        shift.update!(medical_shift_recurrence: recurrence)
+      end
+    end
+
+    context "with valid recurrence" do
+      it "returns ok status" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "soft deletes the recurrence" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        expect(recurrence.reload.deleted?).to be true
+      end
+
+      it "returns success message" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        body = response.parsed_body
+
+        expect(body["message"]).to eq("Recurrence cancelled successfully")
+      end
+
+      it "returns the number of shifts cancelled" do
+        future_shifts_count = recurrence.medical_shifts
+          .where("start_date >= ?", Date.current)
+          .count
+
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        body = response.parsed_body
+
+        expect(body["shifts_cancelled"]).to eq(future_shifts_count)
+      end
+
+      it "soft deletes future shifts" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        active_future_shifts = MedicalShift
+          .where(medical_shift_recurrence: recurrence)
+          .where("start_date >= ?", Date.current)
+          .count
+
+        expect(active_future_shifts).to eq(0)
+      end
+    end
+
+    context "when recurrence does not exist" do
+      it "returns not found status" do
+        delete "/api/v1/medical_shift_recurrences/999999",
+          headers: auth_headers
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns error message" do
+        delete "/api/v1/medical_shift_recurrences/999999",
+          headers: auth_headers
+
+        body = response.parsed_body
+
+        expect(body["error"]).to eq("Recurrence not found")
+      end
+    end
+
+    context "when recurrence belongs to another user" do
+      let(:other_user_recurrence) do
+        create(:medical_shift_recurrence)
+      end
+
+      it "returns not found status" do
+        delete "/api/v1/medical_shift_recurrences/#{other_user_recurrence.id}",
+          headers: auth_headers
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when recurrence is already deleted" do
+      before do
+        recurrence.destroy
+      end
+
+      it "returns not found status" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "without authentication" do
+      it "returns unauthorized status" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when operation fails" do
+      before do
+        allow(MedicalShiftRecurrences::Cancel).to receive(:call)
+          .and_return(
+            double(
+              success?: false,
+              error: "Something went wrong"
+            )
+          )
+      end
+
+      it "returns unprocessable content status" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it "returns error message" do
+        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
+          headers: auth_headers
+
+        body = response.parsed_body
+
+        expect(body["errors"]).to eq("Something went wrong")
+      end
+    end
+  end
 end

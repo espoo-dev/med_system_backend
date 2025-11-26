@@ -35,7 +35,9 @@ FactoryBot.define do
     end
 
     trait :deleted do
-      deleted_at { Time.current }
+      after(:create) do |recurrence|
+        recurrence.destroy
+      end
     end
   end
 end

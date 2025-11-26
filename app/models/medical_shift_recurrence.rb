@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MedicalShiftRecurrence < ApplicationRecord
+  acts_as_paranoid
+
   FREQUENCIES = %w[weekly biweekly monthly_fixed_day].freeze
 
   has_enumeration_for :workload, with: MedicalShifts::Workloads, create_helpers: true

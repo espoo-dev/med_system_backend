@@ -52,9 +52,18 @@ RSpec.describe MedicalShiftRecurrencePolicy do
         medical_shift_recurrence
       end
 
-      it "includes deleted recurrences in scope" do
-        # NOTE: O scope não filtra deleted_at, isso é feito no controller
-        expect(policy_scope).to include(medical_shift_recurrence, deleted_recurrence)
+      it "does not include deleted recurrences by default" do
+        expect(policy_scope).to include(medical_shift_recurrence)
+        expect(policy_scope).not_to include(deleted_recurrence)
+      end
+
+      it "can include deleted recurrences when using with_deleted" do
+        scope_with_deleted = described_class::Scope.new(
+          current_user,
+          MedicalShiftRecurrence.with_deleted
+        ).resolve
+
+        expect(scope_with_deleted).to include(medical_shift_recurrence, deleted_recurrence)
       end
     end
   end

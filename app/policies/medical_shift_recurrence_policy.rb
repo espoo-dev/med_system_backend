@@ -11,4 +11,8 @@ class MedicalShiftRecurrencePolicy < ApplicationPolicy
   def create?
     user.present?
   end
+
+  def destroy?
+    user_owner?
+  end
 end
