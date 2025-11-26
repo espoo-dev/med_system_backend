@@ -27,6 +27,7 @@ Rails.application.routes.draw do
         get "hospital_name_suggestion", to: "medical_shifts#hospital_name_suggestion_index", on: :collection
         get "amount_suggestions", to: "medical_shifts#amount_suggestions_index", on: :collection
       end
+      resources :medical_shift_recurrences, only: %i[index create]
       resources :patients, only: %i[index create update destroy]
       resources :procedures, only: %i[index create update destroy]
       resources :users, only: [:index] do

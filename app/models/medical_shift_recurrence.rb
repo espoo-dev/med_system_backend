@@ -3,6 +3,10 @@
 class MedicalShiftRecurrence < ApplicationRecord
   FREQUENCIES = %w[weekly biweekly monthly_fixed_day].freeze
 
+  has_enumeration_for :workload, with: MedicalShifts::Workloads, create_helpers: true
+
+  monetize :amount
+
   belongs_to :user
 
   has_many :medical_shifts, dependent: :nullify

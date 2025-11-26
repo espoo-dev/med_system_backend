@@ -74,4 +74,19 @@ RSpec.describe MedicalShiftRecurrence do
       end
     end
   end
+
+  describe ".enumerations" do
+    it "has enumerations for workload" do
+      expect(described_class.enumerations).to include(workload: MedicalShifts::Workloads)
+    end
+  end
+
+  describe "monetization" do
+    it "monetizes amount attribute" do
+      medical_shift_recurrence = described_class.new(amount_cents: 10)
+
+      expect(medical_shift_recurrence.amount).to eq Money.new(10, "BRL")
+      expect(medical_shift_recurrence.amount.format).to eq "R$0.10"
+    end
+  end
 end

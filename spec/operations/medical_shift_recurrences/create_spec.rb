@@ -141,9 +141,9 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
           {
             frequency: "weekly",
             day_of_week: 3,
-            start_date: Date.tomorrow,
+            start_date: Time.zone.tomorrow,
             end_date: 2.months.from_now.to_date,
-            workload: "12h",
+            workload: MedicalShifts::Workloads::TWELVE,
             start_hour: "19:00",
             hospital_name: "Hospital Teste",
             amount_cents: 120_000
@@ -189,7 +189,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
         attributes = {
           frequency: "weekly",
           start_date: Date.tomorrow,
-          workload: "12h",
+          workload: MedicalShifts::Workloads::TWELVE,
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
           amount_cents: 120_000
@@ -245,7 +245,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
         attributes = {
           frequency: "monthly_fixed_day",
           start_date: Date.tomorrow,
-          workload: "12h",
+          workload: MedicalShifts::Workloads::TWELVE,
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
           amount_cents: 120_000
