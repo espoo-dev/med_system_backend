@@ -613,29 +613,29 @@ RSpec.describe "MedicalShiftRecurrences" do
     end
 
     context "when operation fails" do
-      before do
-        allow(MedicalShiftRecurrences::Cancel).to receive(:call)
-          .and_return(
-            double(
-              success?: false,
-              error: "Something went wrong"
-            )
-          )
+      let!(:recurrence) do
+        create(:medical_shift_recurrence, user: user)
       end
 
-      it "returns unprocessable content status" do
+      before do
+        # rubocop:disable RSpec/VerifiedDoubles
+        failed_result = double(
+          success?: false,
+          error: "Something went wrong"
+        )
+        # rubocop:enable RSpec/VerifiedDoubles
+
+        allow(MedicalShiftRecurrences::Cancel).to receive(:call)
+          .and_return(failed_result)
+
         delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
           headers: auth_headers
-
-        expect(response).to have_http_status(:unprocessable_content)
       end
+
+      it { expect(response).to have_http_status(:unprocessable_content) }
 
       it "returns error message" do
-        delete "/api/v1/medical_shift_recurrences/#{recurrence.id}",
-          headers: auth_headers
-
         body = response.parsed_body
-
         expect(body["errors"]).to eq("Something went wrong")
       end
     end
