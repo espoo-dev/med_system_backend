@@ -28,6 +28,21 @@ RSpec.describe "EventProcedures" do
       end
     end
 
+    context "when checking for N+1 queries" do
+      it "does not have N+1 queries" do
+        create_list(:event_procedure, 2, user_id: user.id)
+        get(path, params: {}, headers: headers) # Warmup
+
+        control_count = count_queries { get(path, params: {}, headers: headers) }
+
+        create_list(:event_procedure, 5, user_id: user.id)
+
+        final_count = count_queries { get(path, params: {}, headers: headers) }
+
+        expect(final_count).to be <= control_count
+      end
+    end
+
     context "when has filters by month" do
       it "returns event_procedures per month" do
         create_list(:event_procedure, 3, date: "2023-02-15", user_id: user.id)

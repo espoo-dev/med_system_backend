@@ -21,7 +21,8 @@ module EventProcedures
         :patient,
         :hospital,
         :health_insurance,
-        cbhpm: :port_values
+        cbhpm: :port_values,
+        procedure: :cbhpm_procedures
       )
       apply_all_filters(query)
     end
