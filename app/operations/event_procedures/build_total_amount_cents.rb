@@ -23,29 +23,30 @@ module EventProcedures
       cbhpm_procedure = find_cbhpm_procedure
       return 0 unless cbhpm_procedure
 
-      port_value = find_port_value(cbhpm_procedure)
-      return value_for_anesthetic_port_zero(event_procedure) unless port_value
+      port_value = find_port_value(cbhpm_procedure.anesthetic_port)
+      return value_for_anesthetic_port_zero unless port_value
 
       port_value.amount_cents.to_i
     end
 
-    def value_for_anesthetic_port_zero(event_procedure)
-      port = PortValue.find_by(cbhpm_id: event_procedure.cbhpm_id, anesthetic_port: ANESTHETIC_PORT_ZERO_AMOUNT)
-      port&.amount_cents.to_i
+    def value_for_anesthetic_port_zero
+      port_values_by_anesthetic_port[ANESTHETIC_PORT_ZERO_AMOUNT]&.amount_cents.to_i
     end
 
     def find_cbhpm_procedure
-      CbhpmProcedure.find_by(
-        procedure_id: event_procedure.procedure_id,
-        cbhpm_id: event_procedure.cbhpm_id
-      )
+      cbhpm_procedures_by_cbhpm_id[event_procedure.cbhpm_id]
     end
 
-    def find_port_value(cbhpm_procedure)
-      PortValue.find_by(
-        cbhpm_id: cbhpm_procedure.cbhpm_id,
-        anesthetic_port: cbhpm_procedure.anesthetic_port
-      )
+    def find_port_value(anesthetic_port)
+      port_values_by_anesthetic_port[anesthetic_port]
+    end
+
+    def cbhpm_procedures_by_cbhpm_id
+      @cbhpm_procedures_by_cbhpm_id ||= event_procedure.procedure.cbhpm_procedures.index_by(&:cbhpm_id)
+    end
+
+    def port_values_by_anesthetic_port
+      @port_values_by_anesthetic_port ||= event_procedure.cbhpm.port_values.index_by(&:anesthetic_port)
     end
 
     def apartment_multiplier
