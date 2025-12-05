@@ -9,6 +9,7 @@ module MedicalShiftRecurrences
     output :errors, type: Array, default: -> { [] }
 
     def call
+      Rails.logger.info(">>> Starting MedicalShiftRecurrences::GeneratePending for target_date: #{target_date}")
       self.processed = 0
       self.shifts_created = 0
       self.errors = []
@@ -16,6 +17,8 @@ module MedicalShiftRecurrences
       MedicalShiftRecurrence.needs_generation(target_date:).find_each do |recurrence|
         process_recurrence(recurrence)
       end
+
+      log_summary
     end
 
     private
@@ -37,6 +40,7 @@ module MedicalShiftRecurrences
       self.processed += 1
       self.shifts_created += created_count
     rescue StandardError => e
+      Rails.logger.error(">>> Error processing recurrence #{recurrence.id}: #{e.message}")
       errors << { recurrence_id: recurrence.id, error: e.message }
     end
 
@@ -50,6 +54,13 @@ module MedicalShiftRecurrences
         medical_shift_recurrence_id: recurrence.id,
         paid: false
       }
+    end
+
+    def log_summary
+      Rails.logger.info(
+        ">>> Finished MedicalShiftRecurrences::GeneratePending. " \
+        "Processed: #{processed}, Shifts Created: #{shifts_created}, Errors: #{errors.count}"
+      )
     end
   end
 end

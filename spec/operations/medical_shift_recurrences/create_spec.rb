@@ -69,12 +69,29 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
         end
       end
 
+      it "is successful when start_date is in the past" do
+        attributes = {
+          frequency: "weekly",
+          day_of_week: 1,
+          start_date: Time.zone.yesterday,
+          workload: "twelve",
+          start_hour: "19:00",
+          hospital_name: "Hospital Teste",
+          amount_cents: 120_000
+        }
+
+        result = described_class.result(attributes: attributes, user_id: user.id)
+
+        expect(result.success?).to be true
+        expect(result.medical_shift_recurrence).to be_persisted
+      end
+
       context "when creating biweekly recurrence" do
         let(:attributes) do
           {
             frequency: "biweekly",
             day_of_week: 5,
-            start_date: Date.current,
+            start_date: Time.zone.today,
             workload: "twenty_four",
             start_hour: "07:00",
             hospital_name: "Hospital Central",
@@ -164,7 +181,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
       it "fails when frequency is missing" do
         attributes = {
           day_of_week: 1,
-          start_date: Date.tomorrow,
+          start_date: Time.zone.tomorrow,
           workload: "12h",
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
@@ -188,7 +205,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
       it "returns an error for weekly without day_of_week" do
         attributes = {
           frequency: "weekly",
-          start_date: Date.tomorrow,
+          start_date: Time.zone.tomorrow,
           workload: MedicalShifts::Workloads::TWELVE,
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
@@ -207,7 +224,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
         attributes = {
           frequency: "weekly",
           day_of_month: 15,
-          start_date: Date.tomorrow,
+          start_date: Time.zone.tomorrow,
           workload: "12h",
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
@@ -226,7 +243,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
         attributes = {
           frequency: "monthly_fixed_day",
           day_of_week: 2,
-          start_date: Date.tomorrow,
+          start_date: Time.zone.tomorrow,
           workload: "12h",
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
@@ -244,7 +261,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
       it "returns an error for monthly_fixed_day without day_of_month" do
         attributes = {
           frequency: "monthly_fixed_day",
-          start_date: Date.tomorrow,
+          start_date: Time.zone.tomorrow,
           workload: MedicalShifts::Workloads::TWELVE,
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
@@ -259,31 +276,12 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
         )
       end
 
-      it "returns an error when start_date is in the past" do
-        attributes = {
-          frequency: "weekly",
-          day_of_week: 1,
-          start_date: Date.yesterday,
-          workload: "12h",
-          start_hour: "19:00",
-          hospital_name: "Hospital Teste",
-          amount_cents: 120_000
-        }
-
-        result = described_class.result(attributes: attributes, user_id: user.id)
-
-        expect(result.error).to be_present
-        expect(result.medical_shift_recurrence.errors.full_messages).to include(
-          match(/Start date/)
-        )
-      end
-
       it "returns an error when end_date is before start_date" do
         attributes = {
           frequency: "weekly",
           day_of_week: 1,
-          start_date: Date.tomorrow,
-          end_date: Date.current,
+          start_date: Time.zone.tomorrow,
+          end_date: Time.zone.today,
           workload: "12h",
           start_hour: "19:00",
           hospital_name: "Hospital Teste",
