@@ -14,6 +14,7 @@ module MedicalShiftRecurrences
       create_recurrence
       initialize_shifts_array
       generate_shifts
+      log_success
     end
 
     private
@@ -23,7 +24,10 @@ module MedicalShiftRecurrences
         attributes.reverse_merge(user_id: user_id)
       )
 
-      fail!(error: medical_shift_recurrence.errors.full_messages) unless medical_shift_recurrence.save
+      return if medical_shift_recurrence.save
+
+      log_error(medical_shift_recurrence.errors.full_messages)
+      fail!(error: medical_shift_recurrence.errors.full_messages)
     end
 
     def initialize_shifts_array
@@ -58,6 +62,19 @@ module MedicalShiftRecurrences
         medical_shift_recurrence_id: medical_shift_recurrence.id,
         paid: false
       }
+    end
+
+    def log_success
+      Rails.logger.info(
+        ">>> MedicalShiftRecurrence created successfully. ID: #{medical_shift_recurrence.id}, " \
+        "User ID: #{user_id}, Shifts Created: #{shifts_created.count}"
+      )
+    end
+
+    def log_error(errors)
+      Rails.logger.error(
+        ">>> Failed to create MedicalShiftRecurrence. User ID: #{user_id}, Errors: #{errors.join(', ')}"
+      )
     end
   end
 end

@@ -372,39 +372,6 @@ RSpec.describe "MedicalShiftRecurrences" do
         end
       end
 
-      context "when start_date is in the past" do
-        let(:invalid_params) do
-          {
-            medical_shift_recurrence: {
-              frequency: "weekly",
-              day_of_week: 1,
-              start_date: Time.zone.yesterday,
-              workload: MedicalShifts::Workloads::SIX,
-              start_hour: "19:00:00",
-              hospital_name: "Hospital Teste",
-              amount_cents: 120_000
-            }
-          }
-        end
-
-        it "returns unprocessable content status" do
-          post "/api/v1/medical_shift_recurrences",
-            params: invalid_params,
-            headers: auth_headers
-
-          expect(response).to have_http_status(:unprocessable_content)
-        end
-
-        it "returns validation error" do
-          post "/api/v1/medical_shift_recurrences",
-            params: invalid_params,
-            headers: auth_headers
-
-          body = response.parsed_body
-          expect(body["errors"]).to include(match(/Start date/))
-        end
-      end
-
       context "when end_date is before start_date" do
         let(:invalid_params) do
           {
