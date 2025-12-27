@@ -19,6 +19,14 @@ RSpec.describe MedicalShiftRecurrence do
 
     it { is_expected.to validate_numericality_of(:amount_cents).is_greater_than_or_equal_to(0) }
 
+    it { is_expected.to allow_value("#FF00aa").for(:color) }
+    it { is_expected.not_to allow_value("FF00aa").for(:color) }
+    it { is_expected.not_to allow_value("#fff").for(:color) }
+    it { is_expected.not_to allow_value("#ff00aaff").for(:color) }
+    it { is_expected.not_to allow_value("#ff00zz").for(:color) }
+    it { is_expected.not_to allow_value("random value").for(:color) }
+    it { is_expected.not_to allow_value("").for(:color) }
+
     context "when frequency is weekly" do
       it "requires day_of_week to be present and valid" do
         weekly = build(:medical_shift_recurrence, :weekly, day_of_week: nil)

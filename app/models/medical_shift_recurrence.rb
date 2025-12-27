@@ -19,6 +19,7 @@ class MedicalShiftRecurrence < ApplicationRecord
   validates :start_hour, presence: true
   validates :hospital_name, presence: true
   validates :amount_cents, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :color, format: { with: /\A#[a-fA-F0-9]{6}\z/ }
 
   validates :day_of_week, presence: true, if: lambda {
                                                 frequency.in?(%w[weekly biweekly])

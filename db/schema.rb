@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_20_195423) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_20_153000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_20_195423) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "color", default: "#ffffff", null: false
     t.index ["deleted_at"], name: "index_medical_shift_recurrences_on_deleted_at"
     t.index ["last_generated_until"], name: "index_medical_shift_recurrences_on_last_generated_until"
     t.index ["user_id", "deleted_at"], name: "index_medical_shift_recurrences_on_user_id_and_deleted_at"
@@ -131,6 +132,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_20_195423) do
     t.time "start_hour", null: false
     t.datetime "deleted_at"
     t.bigint "medical_shift_recurrence_id"
+    t.string "color", default: "#ffffff", null: false
     t.index ["deleted_at"], name: "index_medical_shifts_on_deleted_at"
     t.index ["medical_shift_recurrence_id"], name: "index_medical_shifts_on_medical_shift_recurrence_id"
     t.index ["paid"], name: "index_medical_shifts_on_paid"

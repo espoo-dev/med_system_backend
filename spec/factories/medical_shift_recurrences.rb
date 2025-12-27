@@ -11,6 +11,7 @@ FactoryBot.define do
     start_hour { "19:00:00" }
     hospital_name { create(:hospital).name }
     amount_cents { 120_000 }
+    color { "#ffffff" }
 
     trait :weekly do
       frequency { "weekly" }

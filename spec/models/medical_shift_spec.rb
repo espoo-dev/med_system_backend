@@ -22,6 +22,14 @@ RSpec.describe MedicalShift do
     it { is_expected.to validate_presence_of(:amount_cents) }
 
     it { is_expected.to validate_numericality_of(:amount_cents).is_greater_than_or_equal_to(0) }
+
+    it { is_expected.to allow_value("#FF00aa").for(:color) }
+    it { is_expected.not_to allow_value("FF00aa").for(:color) }
+    it { is_expected.not_to allow_value("#fff").for(:color) }
+    it { is_expected.not_to allow_value("#ff00aaff").for(:color) }
+    it { is_expected.not_to allow_value("#ff00zz").for(:color) }
+    it { is_expected.not_to allow_value("random value").for(:color) }
+    it { is_expected.not_to allow_value("").for(:color) }
   end
 
   describe ".enumerations" do

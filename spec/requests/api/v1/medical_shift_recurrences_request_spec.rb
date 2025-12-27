@@ -84,7 +84,8 @@ RSpec.describe "MedicalShiftRecurrences" do
           "start_date",
           "workload",
           "hospital_name",
-          "amount_cents"
+          "amount_cents",
+          "color"
         )
       end
 
@@ -121,7 +122,8 @@ RSpec.describe "MedicalShiftRecurrences" do
               workload: MedicalShifts::Workloads::SIX,
               start_hour: "19:00:00",
               hospital_name: "Hospital Teste",
-              amount_cents: 120_000
+              amount_cents: 120_000,
+              color: "#ffffff"
             }
           }
         end
@@ -142,7 +144,7 @@ RSpec.describe "MedicalShiftRecurrences" do
           end.to change(MedicalShiftRecurrence, :count).by(1)
         end
 
-        it "returns the created recurrence" do
+        it "returns the created recurrence" do # rubocop:disable Rspec/MultipleExpectations
           post "/api/v1/medical_shift_recurrences",
             params: valid_params,
             headers: auth_headers
@@ -152,6 +154,7 @@ RSpec.describe "MedicalShiftRecurrences" do
           expect(body["medical_shift_recurrence"]).to be_present
           expect(body["medical_shift_recurrence"]["frequency"]).to eq("weekly")
           expect(body["medical_shift_recurrence"]["day_of_week"]).to eq(1)
+          expect(body["medical_shift_recurrence"]["color"]).to eq("#ffffff")
         end
 
         it "generates shifts immediately" do
