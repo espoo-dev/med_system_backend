@@ -12,7 +12,8 @@ class MedicalShiftRecurrenceSerializer < ActiveModel::Serializer
     :hospital_name,
     :amount_cents,
     :last_generated_until,
-    :user_id
+    :user_id,
+    :color
 
   def amount_cents
     object.amount.format

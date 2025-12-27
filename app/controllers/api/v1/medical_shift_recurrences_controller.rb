@@ -69,7 +69,8 @@ module Api
           :workload,
           :start_hour,
           :hospital_name,
-          :amount_cents
+          :amount_cents,
+          :color
         ).to_h
       end
     end

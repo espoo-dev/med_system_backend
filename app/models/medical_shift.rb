@@ -21,6 +21,7 @@ class MedicalShift < ApplicationRecord
   validates :amount_cents, presence: true
 
   validates :amount_cents, numericality: { greater_than_or_equal_to: 0 }
+  validates :color, format: { with: /\A#[a-fA-F0-9]{6}\z/ }
 
   def shift
     daytime_start = Time.new(2000, 0o1, 0o1, 0o7, 0o0, 0o0, 0o0)

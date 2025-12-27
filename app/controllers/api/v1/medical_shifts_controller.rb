@@ -84,7 +84,7 @@ module Api
       end
 
       def medical_shift_params
-        params.permit(:hospital_name, :workload, :start_date, :start_hour, :amount_cents, :paid).to_h
+        params.permit(:hospital_name, :workload, :start_date, :start_hour, :amount_cents, :paid, :color).to_h
       end
 
       def serialized_medical_shifts(medical_shifts)

@@ -10,6 +10,7 @@ FactoryBot.define do
     start_hour { "10:51:23" }
     amount_cents { 1 }
     paid { false }
+    color { "#ffffff" }
 
     traits_for_enum(:workload, MedicalShifts::Workloads.list)
 

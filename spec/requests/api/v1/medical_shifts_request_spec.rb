@@ -41,7 +41,8 @@ RSpec.describe "MedicalShifts" do
               "amount_cents" => medical_shifts.second.amount.format,
               "paid" => medical_shifts.second.paid,
               "shift" => medical_shifts.second.shift,
-              "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}"
+              "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}",
+              "color" => medical_shifts.second.color
             },
             {
               "id" => medical_shifts.first.id,
@@ -53,7 +54,8 @@ RSpec.describe "MedicalShifts" do
               "amount_cents" => medical_shifts.first.amount.format,
               "paid" => medical_shifts.first.paid,
               "shift" => medical_shifts.first.shift,
-              "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}"
+              "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}",
+              "color" => medical_shifts.first.color
             }
           )
         end
@@ -135,7 +137,8 @@ RSpec.describe "MedicalShifts" do
                 "amount_cents" => paid_medical_shifts.second.amount.format,
                 "paid" => paid_medical_shifts.second.paid,
                 "shift" => paid_medical_shifts.second.shift,
-                "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}"
+                "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}",
+                "color" => paid_medical_shifts.second.color
               },
               {
                 "id" => paid_medical_shifts.first.id,
@@ -147,7 +150,8 @@ RSpec.describe "MedicalShifts" do
                 "amount_cents" => paid_medical_shifts.first.amount.format,
                 "paid" => paid_medical_shifts.first.paid,
                 "shift" => paid_medical_shifts.first.shift,
-                "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}"
+                "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}",
+                "color" => paid_medical_shifts.first.color
               }
             )
           end
@@ -176,7 +180,8 @@ RSpec.describe "MedicalShifts" do
                 "amount_cents" => unpaid_medical_shifts.second.amount.format,
                 "paid" => unpaid_medical_shifts.second.paid,
                 "shift" => unpaid_medical_shifts.second.shift,
-                "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}"
+                "title" => "#{second_hospital_name} | #{second_workload} | #{second_shift}",
+                "color" => unpaid_medical_shifts.second.color
               },
               {
                 "id" => unpaid_medical_shifts.first.id,
@@ -188,7 +193,8 @@ RSpec.describe "MedicalShifts" do
                 "amount_cents" => unpaid_medical_shifts.first.amount.format,
                 "paid" => unpaid_medical_shifts.first.paid,
                 "shift" => unpaid_medical_shifts.first.shift,
-                "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}"
+                "title" => "#{first_hospital_name} | #{first_workload} | #{first_shift}",
+                "color" => unpaid_medical_shifts.first.color
               }
             )
           end
@@ -255,7 +261,8 @@ RSpec.describe "MedicalShifts" do
             start_date: "2024-01-29",
             start_hour: "10:51:23",
             amount_cents: 1,
-            paid: false
+            paid: false,
+            color: "#000000"
           }
 
           post path, params: params, headers: headers
@@ -273,7 +280,8 @@ RSpec.describe "MedicalShifts" do
             amount_cents: MedicalShift.last.amount.format,
             paid: params[:paid],
             shift: MedicalShift.last.shift,
-            title: "#{hospital_name} | #{workload} | #{shift}"
+            title: "#{hospital_name} | #{workload} | #{shift}",
+            color: "#000000"
           )
         end
       end
