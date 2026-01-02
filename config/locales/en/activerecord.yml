@@ -1,0 +1,34 @@
+en:
+  activerecord:
+    models:
+      medical_shift_recurrence: "Medical Shift Recurrence"
+      medical_shift: "Medical Shift"
+    attributes:
+      medical_shift_recurrence:
+        day_of_week: "Day of week"
+        frequency: "Frequency"
+        start_date: "Start date"
+        workload: "Workload"
+        start_hour: "Start hour"
+        hospital_name: "Hospital name"
+        amount_cents: "Amount"
+        color: "Color"
+        day_of_month: "Day of month"
+        end_date: "End date"
+    errors:
+      models:
+        medical_shift_recurrence:
+          attributes:
+            day_of_week:
+              blank: "can't be blank"
+              not_a_number: "is not a number"
+              greater_than_or_equal_to: "must be greater than or equal to %{count}"
+              less_than_or_equal_to: "must be less than or equal to %{count}"
+      medical_shift:
+        color: "Color"
+        hospital_name: "Hospital name"
+        workload: "Workload"
+        start_date: "Start date"
+        start_hour: "Start hour"
+        amount_cents: "Amount"
+        paid: "Paid"

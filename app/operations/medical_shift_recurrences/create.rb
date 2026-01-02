@@ -60,7 +60,8 @@ module MedicalShiftRecurrences
         hospital_name: medical_shift_recurrence.hospital_name,
         amount_cents: medical_shift_recurrence.amount_cents,
         medical_shift_recurrence_id: medical_shift_recurrence.id,
-        paid: false
+        paid: false,
+        color: medical_shift_recurrence.color
       }
     end
 
