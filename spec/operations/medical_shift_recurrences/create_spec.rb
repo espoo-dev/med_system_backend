@@ -65,6 +65,7 @@ RSpec.describe MedicalShiftRecurrences::Create, type: :operation do
             expect(shift.hospital_name).to eq("Hospital Teste")
             expect(shift.amount_cents).to eq(120_000)
             expect(shift.paid).to be false
+            expect(shift.color).to eq("#ffffff")
           end
         end
       end
