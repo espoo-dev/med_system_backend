@@ -1,0 +1,40 @@
+pt-BR:
+  activerecord:
+    models:
+      medical_shift_recurrence: "Recorrência de Plantão"
+      medical_shift: "Plantão"
+    attributes:
+      medical_shift_recurrence:
+        day_of_week: "Dia da semana"
+        frequency: "Frequência"
+        start_date: "Data de início"
+        workload: "Carga horária"
+        start_hour: "Hora de início"
+        hospital_name: "Nome do hospital"
+        amount_cents: "Valor"
+        color: "Cor"
+        day_of_month: "Dia do mês"
+        end_date: "Data final"
+      medical_shift:
+        color: "Cor"
+        hospital_name: "Nome do hospital"
+        workload: "Carga horária"
+        start_date: "Data de início"
+        start_hour: "Hora de início"
+        amount_cents: "Valor"
+        paid: "Pago"
+    errors:
+      models:
+        medical_shift_recurrence:
+          attributes:
+            day_of_week:
+              blank: "não pode ficar em branco"
+              not_a_number: "não é um número"
+              greater_than_or_equal_to: "deve ser maior ou igual a %{count}"
+              less_than_or_equal_to: "deve ser menor ou igual a %{count}"
+            color:
+              invalid: "formato inválido"
+        medical_shift:
+          attributes:
+            color:
+              invalid: "formato inválido"
