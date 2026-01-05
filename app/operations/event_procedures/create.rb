@@ -12,6 +12,7 @@ module EventProcedures
         create_event_procedure
         assign_total_amount_cents(event_procedure)
       end
+      log_success
     end
 
     private
@@ -25,7 +26,10 @@ module EventProcedures
     def create_event_procedure
       self.event_procedure = EventProcedure.new(event_procedure_attributes)
 
-      fail!(error: event_procedure.errors) unless event_procedure.save
+      unless event_procedure.save
+        log_error("EventProcedure", event_procedure.errors.full_messages)
+        fail!(error: event_procedure.errors)
+      end
 
       event_procedure
     end
@@ -42,11 +46,17 @@ module EventProcedures
     end
 
     def validate_procedure(procedure)
-      fail!(error: procedure.errors) if procedure.errors.any?
+      return unless procedure.errors.any?
+
+      log_error("Procedure", procedure.errors.full_messages)
+      fail!(error: procedure.errors)
     end
 
     def validate_health_insurance(health_insurance)
-      fail!(error: health_insurance.errors) if health_insurance.errors.any?
+      return unless health_insurance.errors.any?
+
+      log_error("HealthInsurance", health_insurance.errors.full_messages)
+      fail!(error: health_insurance.errors)
     end
 
     def merge_attributes(patient, procedure, health_insurance)
@@ -73,6 +83,19 @@ module EventProcedures
 
     def find_or_create_procedure
       Procedures::FindOrCreate.result(params: attributes[:procedure_attributes]).procedure
+    end
+
+    def log_success
+      Rails.logger.info(
+        ">>> EventProcedure created successfully. ID: #{event_procedure.id}, User ID: #{user_id}"
+      )
+    end
+
+    def log_error(model_name, errors)
+      Rails.logger.error(
+        ">>> Failed to create EventProcedure. User ID: #{user_id}, " \
+        "#{model_name} Errors: #{errors.join(', ')}"
+      )
     end
   end
 end
