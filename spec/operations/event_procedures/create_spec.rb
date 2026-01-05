@@ -67,6 +67,31 @@ RSpec.describe EventProcedures::Create, type: :operation do
         expect(result.event_procedure.total_amount_cents).to eq(1300)
       end
 
+      it "logs the success message" do
+        cbhpm = create(:cbhpm)
+        procedure = create(:procedure)
+        create(:cbhpm_procedure, procedure: procedure, cbhpm: cbhpm, anesthetic_port: "1A")
+        create(:port_value, cbhpm: cbhpm, anesthetic_port: "1A", amount_cents: 1000)
+        params = {
+          hospital_id: create(:hospital).id,
+          cbhpm_id: cbhpm.id,
+          patient_service_number: "1234567890",
+          date: Time.zone.now,
+          urgency: false,
+          room_type: EventProcedures::RoomTypes::WARD,
+          payment: EventProcedures::Payments::HEALTH_INSURANCE,
+          patient_attributes: { id: patient.id, user_id: user.id },
+          procedure_attributes: { id: procedure.id },
+          health_insurance_attributes: { id: create(:health_insurance).id }
+        }
+
+        expect(Rails.logger).to receive(:info).with(
+          />>> EventProcedure created successfully. ID: \d+, User ID: #{user.id}/
+        )
+
+        described_class.result(attributes: params, user_id: user.id)
+      end
+
       context "when create a new patient" do
         it "creates and does not duplicate the creation" do
           cbhpm = create(:cbhpm)
@@ -266,6 +291,22 @@ RSpec.describe EventProcedures::Create, type: :operation do
             "Urgency is not included in the list"
           ]
         )
+      end
+
+      it "logs the error message" do
+        procedure = create(:procedure)
+        health_insurance = create(:health_insurance)
+        attributes = {
+          patient_attributes: { id: patient.id },
+          procedure_attributes: { id: procedure.id },
+          health_insurance_attributes: { id: health_insurance.id }
+        }
+
+        expect(Rails.logger).to receive(:error).with(
+          />>> Failed to create EventProcedure. User ID: #{user.id}, EventProcedure Errors:/
+        )
+
+        described_class.result(attributes: attributes, user_id: user.id)
       end
 
       context "when patient attributes are invalid" do
