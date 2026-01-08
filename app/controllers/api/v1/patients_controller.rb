@@ -52,7 +52,10 @@ module Api
       private
 
       def patient
-        @patient ||= Patients::Find.result(id: params[:id]).patient
+        @patient ||= Patients::Find.result(
+          id: params[:id],
+          scope: policy_scope(Patient)
+        ).patient
       end
 
       def patient_params

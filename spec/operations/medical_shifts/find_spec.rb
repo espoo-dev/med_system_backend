@@ -29,5 +29,29 @@ RSpec.describe MedicalShifts::Find, type: :operation do
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context "when using a scope" do
+      let(:user) { create(:user) }
+      let(:medical_shift) { create(:medical_shift, user: user) }
+      let(:other_medical_shift) { create(:medical_shift) }
+
+      it "returns found medical_shift when it exists in scope" do
+        result = described_class.result(
+          id: medical_shift.id.to_s,
+          scope: MedicalShift.where(user: user)
+        )
+
+        expect(result.medical_shift).to eq(medical_shift)
+      end
+
+      it "raises ActiveRecord::RecordNotFound when record exists but not in scope" do
+        expect do
+          described_class.result(
+            id: other_medical_shift.id.to_s,
+            scope: MedicalShift.where(user: user)
+          )
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

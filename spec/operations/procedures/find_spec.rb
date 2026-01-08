@@ -27,5 +27,30 @@ RSpec.describe Procedures::Find, type: :operation do
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context "when using a scope" do
+      let(:user) { create(:user) }
+      let(:other_user) { create(:user) }
+      let(:procedure) { create(:procedure, custom: true, user: user) }
+      let(:other_procedure) { create(:procedure, custom: true, user: other_user) }
+
+      it "returns found procedure when it exists in scope" do
+        result = described_class.result(
+          id: procedure.id.to_s,
+          scope: Procedure.where(user: user)
+        )
+
+        expect(result.procedure).to eq(procedure)
+      end
+
+      it "raises ActiveRecord::RecordNotFound when record exists but not in scope" do
+        expect do
+          described_class.result(
+            id: other_procedure.id.to_s,
+            scope: Procedure.where(user: user)
+          )
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

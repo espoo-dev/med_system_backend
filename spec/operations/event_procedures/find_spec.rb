@@ -27,5 +27,29 @@ RSpec.describe EventProcedures::Find, type: :operation do
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context "when using a scope" do
+      let(:user) { create(:user) }
+      let(:event_procedure) { create(:event_procedure, user: user) }
+      let(:other_event_procedure) { create(:event_procedure) }
+
+      it "returns found event_procedure when it exists in scope" do
+        result = described_class.result(
+          id: event_procedure.id.to_s,
+          scope: EventProcedure.where(user: user)
+        )
+
+        expect(result.event_procedure).to eq(event_procedure)
+      end
+
+      it "raises ActiveRecord::RecordNotFound when record exists but not in scope" do
+        expect do
+          described_class.result(
+            id: other_event_procedure.id.to_s,
+            scope: EventProcedure.where(user: user)
+          )
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

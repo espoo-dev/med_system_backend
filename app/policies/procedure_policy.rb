@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ProcedurePolicy < ApplicationPolicy
+  class Scope < CurrentUserScope
+  end
+
   def index?
     user.present?
   end

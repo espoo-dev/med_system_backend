@@ -325,12 +325,12 @@ RSpec.describe "MedicalShifts" do
 
     context "when user is authenticated" do
       context "when updating another user's medical_shift" do
-        it "returns unauthorized status" do
+        it "returns not_found to prevent ID enumeration" do
           medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX)
           params = { workload: MedicalShifts::Workloads::TWELVE }
           put api_v1_medical_shift_path(medical_shift), params: params, headers: headers
 
-          expect(response).to have_http_status(:unauthorized)
+          expect(response).to have_http_status(:not_found)
         end
       end
 

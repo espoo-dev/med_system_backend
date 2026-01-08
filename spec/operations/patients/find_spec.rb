@@ -29,5 +29,29 @@ RSpec.describe Patients::Find, type: :operation do
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context "when using a scope" do
+      let(:user) { create(:user) }
+      let(:patient) { create(:patient, user: user) }
+      let(:other_patient) { create(:patient) }
+
+      it "returns found patient when it exists in scope" do
+        result = described_class.result(
+          id: patient.id.to_s,
+          scope: Patient.where(user: user)
+        )
+
+        expect(result.patient).to eq(patient)
+      end
+
+      it "raises ActiveRecord::RecordNotFound when record exists but not in scope" do
+        expect do
+          described_class.result(
+            id: other_patient.id.to_s,
+            scope: Patient.where(user: user)
+          )
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

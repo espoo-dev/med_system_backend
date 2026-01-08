@@ -168,30 +168,12 @@ RSpec.describe "Patients" do
     context "when user is authenticated" do
       include_examples "delete request returns ok", Patient
 
-      context "when patient cannot be destroyed" do
+      context "when trying to destroy another user's patient" do
         let(:patient) { create(:patient) }
-        let(:errors) do
-          instance_double(
-            ActiveModel::Errors,
-            full_messages: ["Cannot delete record because of dependent event_procedures"]
-          )
-        end
 
-        before do
-          allow(Patient).to receive(:destroy).with(patient.id.to_s).and_return(patient)
-          allow(patient).to receive_messages(destroy: false, errors: errors)
-          allow(patient).to receive(:errors).and_return(errors)
-        end
-
-        it "returns unauthorized" do
+        it "returns not_found to prevent ID enumeration" do
           delete path, headers: headers
-          expect(response).to have_http_status(:unauthorized)
-        end
-
-        it "returns errors" do
-          delete path, headers: headers
-
-          expect(response.parsed_body).to include({ "error" => "not allowed to destroy? this Patient" })
+          expect(response).to have_http_status(:not_found)
         end
       end
 
