@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class HospitalPolicy < ApplicationPolicy
+  class Scope < ApplicationScope
+    def resolve
+      scope.all
+    end
+  end
+
   def index?
     user.present?
   end

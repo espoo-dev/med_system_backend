@@ -50,7 +50,10 @@ module Api
       private
 
       def procedure
-        @procedure ||= Procedures::Find.result(id: params[:id]).procedure
+        @procedure ||= Procedures::Find.result(
+          id: params[:id],
+          scope: policy_scope(Procedure)
+        ).procedure
       end
 
       def procedure_params

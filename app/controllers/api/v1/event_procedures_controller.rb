@@ -111,7 +111,10 @@ module Api
       end
 
       def event_procedure
-        @event_procedure ||= EventProcedures::Find.result(id: params[:id]).event_procedure
+        @event_procedure ||= EventProcedures::Find.result(
+          id: params[:id],
+          scope: policy_scope(EventProcedure)
+        ).event_procedure
       end
 
       def serialized_event_procedures(event_procedures)

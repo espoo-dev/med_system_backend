@@ -80,7 +80,10 @@ module Api
       private
 
       def medical_shift
-        @medical_shift ||= MedicalShifts::Find.result(id: params[:id]).medical_shift
+        @medical_shift ||= MedicalShifts::Find.result(
+          id: params[:id],
+          scope: policy_scope(MedicalShift)
+        ).medical_shift
       end
 
       def medical_shift_params

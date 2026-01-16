@@ -463,7 +463,7 @@ RSpec.describe "EventProcedures" do
       end
 
       context "with valid attributes and the record not belongs to the user" do
-        it "returns unauthorized" do
+        it "returns not_found to prevent ID enumeration" do
           other_user = create(:user)
           patient = create(:patient, user: other_user)
           health_insurance = create(:health_insurance)
@@ -495,7 +495,7 @@ RSpec.describe "EventProcedures" do
 
           put "/api/v1/event_procedures/#{event_procedure.id}", params: params, headers: headers
 
-          expect(response).to have_http_status(:unauthorized)
+          expect(response).to have_http_status(:not_found)
         end
       end
 

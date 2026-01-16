@@ -48,7 +48,10 @@ module Api
       private
 
       def hospital
-        @hospital ||= Hospitals::Find.result(id: params[:id]).hospital
+        @hospital ||= Hospitals::Find.result(
+          id: params[:id],
+          scope: policy_scope(Hospital)
+        ).hospital
       end
 
       def hospital_params
