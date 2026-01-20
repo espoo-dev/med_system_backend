@@ -40,6 +40,6 @@ class HeaderPdf
   end
 
   def header_current_date
-    pdf.text "Data: #{Time.zone.now.strftime('%d/%m/%Y')}", align: :right, size: @header_font_size
+    pdf.text_box Time.zone.now.strftime("%d/%m/%Y"), at: [60, pdf.cursor - 40], size: @header_font_size
   end
 end
