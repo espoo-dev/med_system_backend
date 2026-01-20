@@ -6,7 +6,7 @@ RSpec.describe HeaderPdf, type: :pdf do
   it "generates a header with the correct content" do
     user = create(:user)
     pdf = Prawn::Document.new
-    date = "Data: #{Time.zone.now.strftime('%d/%m/%Y')}"
+    date = Time.zone.now.strftime("%d/%m/%Y")
     title = "Procedimentos"
 
     described_class.new(pdf: pdf, title: title, email: user.email).generate
