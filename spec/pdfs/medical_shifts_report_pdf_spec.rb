@@ -16,7 +16,7 @@ RSpec.describe MedicalShiftsReportPdf, type: :pdf do
     medical_shifts.each do |medical_shift|
       expect(text_analysis.strings).to include(
         medical_shift.hospital_name,
-        medical_shift.amount.format,
+        medical_shift.amount.format(thousands_separator: ".", decimal_mark: ","),
         medical_shift.start_date.strftime("%d/%m/%Y")
       )
     end

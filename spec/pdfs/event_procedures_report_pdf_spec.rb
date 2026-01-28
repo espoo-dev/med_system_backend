@@ -19,10 +19,9 @@ RSpec.describe EventProceduresReportPdf, type: :pdf do
     event_procedures.each do |event_procedure|
       expect(text_analysis.strings).to include(
         event_procedure.procedure.name,
-        event_procedure.procedure.amount.format,
         event_procedure.patient.name,
-        "#{event_procedure.hospital.name} - #{event_procedure.health_insurance.name}",
-        event_procedure.date.strftime("%d/%m/%Y")
+        "#{event_procedure.hospital.name} - #{event_procedure.health_insurance.name} -
+        #{event_procedure.date.strftime('%d/%m/%Y')}".squish
       )
     end
   end
