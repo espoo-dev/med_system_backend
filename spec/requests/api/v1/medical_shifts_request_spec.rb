@@ -93,9 +93,9 @@ RSpec.describe "MedicalShifts" do
 
             get path, params: { month: "2" }, headers: headers
 
-            expect(response.parsed_body["total"]).to eq("R$30.00")
-            expect(response.parsed_body["total_paid"]).to eq("R$10.00")
-            expect(response.parsed_body["total_unpaid"]).to eq("R$20.00")
+            expect(response.parsed_body["total"]).to eq("R$30,00")
+            expect(response.parsed_body["total_paid"]).to eq("R$10,00")
+            expect(response.parsed_body["total_unpaid"]).to eq("R$20,00")
           end
         end
 
@@ -207,9 +207,9 @@ RSpec.describe "MedicalShifts" do
 
           expect(response.parsed_body.symbolize_keys).to eq(
             {
-              total: "R$0.00",
-              total_paid: "R$0.00",
-              total_unpaid: "R$0.00",
+              total: "R$0,00",
+              total_paid: "R$0,00",
+              total_unpaid: "R$0,00",
               medical_shifts: []
             }
           )

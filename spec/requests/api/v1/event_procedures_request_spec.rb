@@ -131,7 +131,7 @@ RSpec.describe "EventProcedures" do
       end
 
       it "returns total values without consider page and per_page params" do
-        expect(response.parsed_body["total"]).to eq("R$400.00")
+        expect(response.parsed_body["total"]).to eq("R$400,00")
       end
     end
   end

@@ -33,9 +33,9 @@ RSpec.describe EventProcedures::TotalAmountCents, type: :operation do
       event_procedures = paid_event_procedures + unpaid_event_procedures
       total_amount_cents = described_class.call(event_procedures: event_procedures)
 
-      expect(total_amount_cents.total).to eq("R$190.00")
-      expect(total_amount_cents.paid).to eq("R$150.00")
-      expect(total_amount_cents.unpaid).to eq("R$40.00")
+      expect(total_amount_cents.total).to eq("R$190,00")
+      expect(total_amount_cents.paid).to eq("R$150,00")
+      expect(total_amount_cents.unpaid).to eq("R$40,00")
     end
   end
 end
