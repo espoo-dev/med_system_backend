@@ -9,9 +9,15 @@ module MedicalShifts
     output :unpaid, type: String
 
     def call
-      self.total = Money.new(medical_shifts.sum(&:amount_cents), "BRL").format
-      self.paid = Money.new(medical_shifts.select(&:paid).sum(&:amount_cents), "BRL").format
-      self.unpaid = Money.new(medical_shifts.reject(&:paid).sum(&:amount_cents), "BRL").format
+      self.total = formatted_amount(medical_shifts.sum(&:amount_cents))
+      self.paid = formatted_amount(medical_shifts.select(&:paid).sum(&:amount_cents))
+      self.unpaid = formatted_amount(medical_shifts.reject(&:paid).sum(&:amount_cents))
+    end
+
+    private
+
+    def formatted_amount(value)
+      Money.new(value, "BRL").format(thousands_separator: ".", decimal_mark: ",")
     end
   end
 end

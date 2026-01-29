@@ -15,7 +15,7 @@ module EventProcedures
     end
 
     def convert_money(amount_cents)
-      Money.new(amount_cents, "BRL").format
+      Money.new(amount_cents, "BRL").format(thousands_separator: ".", decimal_mark: ",")
     end
 
     def calculate_amount(filtered_event_procedures)

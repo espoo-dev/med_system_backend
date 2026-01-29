@@ -29,9 +29,9 @@ RSpec.describe MedicalShifts::TotalAmountCents, type: :operation do
                 ]
       )
 
-      expect(result.total).to eq("R$45.00")
-      expect(result.paid).to eq("R$30.00")
-      expect(result.unpaid).to eq("R$15.00")
+      expect(result.total).to eq("R$45,00")
+      expect(result.paid).to eq("R$30,00")
+      expect(result.unpaid).to eq("R$15,00")
     end
   end
 end
