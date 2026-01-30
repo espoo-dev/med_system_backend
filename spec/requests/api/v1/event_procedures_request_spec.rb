@@ -203,7 +203,7 @@ RSpec.describe "EventProcedures" do
               "payment" => EventProcedures::Payments::HEALTH_INSURANCE,
               "urgency" => false,
               "paid" => true,
-              "precedure_value" => "R$200.00",
+              "precedure_value" => "R$200,00",
               "precedure_description" => "nice description"
             )
           end

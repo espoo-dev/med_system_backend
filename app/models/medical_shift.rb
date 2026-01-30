@@ -39,4 +39,8 @@ class MedicalShift < ApplicationRecord
   def recurring?
     medical_shift_recurrence_id.present?
   end
+
+  def formatted_amount
+    amount.format(thousands_separator: ".", decimal_mark: ",")
+  end
 end

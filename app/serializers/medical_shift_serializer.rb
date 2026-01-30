@@ -13,7 +13,7 @@ class MedicalShiftSerializer < ActiveModel::Serializer
   end
 
   def amount_cents
-    object.amount.format
+    object.formatted_amount
   end
 
   def workload
