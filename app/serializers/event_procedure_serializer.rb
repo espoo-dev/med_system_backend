@@ -5,7 +5,7 @@ class EventProcedureSerializer < ActiveModel::Serializer
     :room_type, :payment, :urgency, :paid, :total_amount_cents, :precedure_value, :precedure_description
 
   def total_amount_cents
-    object.total_amount.format
+    object.total_amount.format(thousands_separator: ".", decimal_mark: ",")
   end
 
   def procedure
