@@ -29,7 +29,7 @@ class EventProcedureSerializer < ActiveModel::Serializer
   end
 
   def precedure_value
-    object.procedure.amount.format
+    object.procedure.amount.format(thousands_separator: ".", decimal_mark: ",")
   end
 
   def precedure_description
