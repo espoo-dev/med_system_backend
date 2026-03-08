@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class EventProceduresReportPdf
-  attr_reader :pdf, :items, :amount, :title, :email
+  attr_reader :pdf, :items, :amount, :title, :email, :hide_values
 
-  def initialize(pdf:, items:, amount:, title:, email:)
+  def initialize(pdf:, items:, amount:, title:, email:, hide_values: false) # rubocop:disable Metrics/ParameterLists
     @pdf = pdf
     @items = items
     @amount = amount
     @title = title
     @email = email
+    @hide_values = hide_values
     @header_footer_height = 100
     @line_spacing = 15
     @text_box_padding = 10
@@ -31,7 +32,7 @@ class EventProceduresReportPdf
 
   def add_footer
     pdf.go_to_page(pdf.page_count)
-    FooterPdf.new(pdf: pdf, amount: amount).generate
+    FooterPdf.new(pdf: pdf, amount: amount, hide_values: hide_values).generate
   end
 
   def add_body
@@ -84,6 +85,8 @@ class EventProceduresReportPdf
   end
 
   def item_amount(item)
+    return "" if hide_values
+
     item.total_amount.format(thousands_separator: ".", decimal_mark: ",")
   end
 end

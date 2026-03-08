@@ -42,7 +42,8 @@ module Api
           relation: event_procedures,
           amount: total_amount_cents,
           entity_name: permitted_query_params[:entity_name],
-          email: current_user.email
+          email: current_user.email,
+          hide_values: hide_values?
         ).generate_pdf
       end
 
@@ -58,8 +59,13 @@ module Api
           relation: medical_shifts,
           amount: total_amount_cents,
           entity_name: permitted_query_params[:entity_name],
-          email: current_user.email
+          email: current_user.email,
+          hide_values: hide_values?
         ).generate_pdf
+      end
+
+      def hide_values?
+        permitted_query_params[:hide_values] == "true"
       end
 
       def permitted_query_params
@@ -71,6 +77,8 @@ module Api
           :paid,
           :entity_name,
           :disposition,
+          :hide_values,
+          ids: [],
           hospital: [:name],
           health_insurance: [:name]
         ).to_h
