@@ -54,5 +54,43 @@ RSpec.describe "PdfReports" do
         )
       end
     end
+
+    context "with hide_values param" do
+      it "returns a PDF for event_procedures" do
+        create(:event_procedure, user: user)
+        get path, params: { entity_name: "event_procedures", hide_values: "true" }, headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to eq("application/pdf")
+      end
+
+      it "returns a PDF for medical_shifts" do
+        create(:medical_shift, user: user)
+        get path, params: { entity_name: "medical_shifts", hide_values: "true" }, headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to eq("application/pdf")
+      end
+    end
+
+    context "with ids param" do
+      it "returns PDF with only selected event_procedures" do
+        procedures = create_list(:event_procedure, 3, user: user)
+        selected = procedures.first(2)
+        get path, params: { entity_name: "event_procedures", ids: selected.map(&:id) }, headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to eq("application/pdf")
+      end
+
+      it "returns PDF with only selected medical_shifts" do
+        shifts = create_list(:medical_shift, 3, user: user)
+        selected = shifts.first(2)
+        get path, params: { entity_name: "medical_shifts", ids: selected.map(&:id) }, headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to eq("application/pdf")
+      end
+    end
   end
 end

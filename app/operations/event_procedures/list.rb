@@ -32,6 +32,7 @@ module EventProcedures
       query = apply_year_filter(query)
       query = apply_hospital_filter(query)
       query = apply_health_insurance_filter(query)
+      query = apply_ids_filter(query)
       apply_paid_filter(query)
     end
 
@@ -57,6 +58,10 @@ module EventProcedures
       else
         query
       end
+    end
+
+    def apply_ids_filter(query)
+      params[:ids].present? ? query.where(id: params[:ids]) : query
     end
   end
 end
