@@ -27,6 +27,7 @@ class EventProcedure < ApplicationRecord
   scope :date_between, EventProcedures::ByDateBetween
   scope :by_hospital_name, EventProcedures::ByHospitalNameQuery
   scope :by_health_insurance_name, EventProcedures::ByHealthInsuranceNameQuery
+  scope :by_patient, EventProcedures::ByPatientQuery
 
   validates :date, presence: true
   validates :patient_service_number, presence: true

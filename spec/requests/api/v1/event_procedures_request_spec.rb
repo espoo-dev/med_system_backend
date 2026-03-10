@@ -119,6 +119,26 @@ RSpec.describe "EventProcedures" do
       end
     end
 
+    context "when has filters by patient name" do
+      it "returns event_procedures for patients matching the name" do
+        joao = create(:patient, name: "João Silva", user: user)
+        maria = create(:patient, name: "Maria Souza", user: user)
+        create(:event_procedure, patient: joao, user_id: user.id)
+        create(:event_procedure, patient: maria, user_id: user.id)
+
+        get path, params: { patient: { name: "João" } }, headers: headers
+
+        expect(response.parsed_body["event_procedures"].length).to eq(1)
+        expect(response.parsed_body["event_procedures"].first["patient"]).to eq("João Silva")
+      end
+
+      it "returns empty when no patient matches the name" do
+        get path, params: { patient: { name: "Zélia" } }, headers: headers
+
+        expect(response.parsed_body["event_procedures"]).to be_empty
+      end
+    end
+
     context "when has pagination via page and per_page" do
       before do
         procedure = create(:procedure, custom: true, user: user, amount_cents: 5000)

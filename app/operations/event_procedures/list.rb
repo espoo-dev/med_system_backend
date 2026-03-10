@@ -32,6 +32,7 @@ module EventProcedures
       query = apply_year_filter(query)
       query = apply_hospital_filter(query)
       query = apply_health_insurance_filter(query)
+      query = apply_patient_filter(query)
       query = apply_ids_filter(query)
       apply_paid_filter(query)
     end
@@ -58,6 +59,10 @@ module EventProcedures
       else
         query
       end
+    end
+
+    def apply_patient_filter(query)
+      params.dig(:patient, :name).present? ? query.by_patient(patient_name: params[:patient][:name]) : query
     end
 
     def apply_ids_filter(query)

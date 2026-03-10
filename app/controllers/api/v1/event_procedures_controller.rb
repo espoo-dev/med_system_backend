@@ -96,7 +96,8 @@ module Api
           :year,
           :paid,
           hospital: [:name],
-          health_insurance: [:name]
+          health_insurance: [:name],
+          patient: [:name]
         ).to_h
       end
 
