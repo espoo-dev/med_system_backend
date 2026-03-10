@@ -119,6 +119,20 @@ RSpec.describe EventProcedures::List, type: :operation do
       it { expect(result.event_procedures).to eq [EventProcedure.last] }
     end
 
+    context "when has filters by patient name" do
+      it "returns event_procedures for patients matching the name" do
+        user = create(:user)
+        joao = create(:patient, name: "João Silva", user: user)
+        maria = create(:patient, name: "Maria Souza", user: user)
+        ep_joao = create(:event_procedure, patient: joao, user: user)
+        _ep_maria = create(:event_procedure, patient: maria, user: user)
+
+        result = described_class.result(scope: EventProcedure.all, params: { patient: { name: "João" } })
+
+        expect(result.event_procedures).to contain_exactly(ep_joao)
+      end
+    end
+
     describe "event_procedures_unpaginated" do
       context "when there are event procedures outside of pagination" do
         let!(:event_procedures) { create_list(:event_procedure, 11) }
