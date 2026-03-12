@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_20_153000) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_12_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "cbhpm_procedures", force: :cascade do |t|
     t.bigint "cbhpm_id", null: false

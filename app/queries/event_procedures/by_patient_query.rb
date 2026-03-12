@@ -10,7 +10,7 @@ module EventProcedures
     end
 
     def call
-      relation.joins(:patient).where("patients.name ILIKE ?", "%#{patient_name}%")
+      relation.joins(:patient).where("unaccent(patients.name) ILIKE unaccent(?)", "%#{patient_name}%")
     end
   end
 end
