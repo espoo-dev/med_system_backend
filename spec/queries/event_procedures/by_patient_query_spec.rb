@@ -26,6 +26,16 @@ RSpec.describe EventProcedures::ByPatientQuery do
 
         expect(query).to contain_exactly(ep)
       end
+
+      it "performs accent-insensitive matching" do
+        user = create(:user)
+        patient = create(:patient, name: "João Silva", user: user)
+        ep = create(:event_procedure, user: user, patient: patient)
+
+        query = described_class.call(patient_name: "Joao")
+
+        expect(query).to contain_exactly(ep)
+      end
     end
 
     context "when patient name does not match any patient" do
