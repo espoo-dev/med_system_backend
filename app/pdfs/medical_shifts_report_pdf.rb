@@ -70,7 +70,7 @@ class MedicalShiftsReportPdf
   end
 
   def truncate_text(text, length = 35)
-    text.length > length ? "#..." : text
+    text.length > length ? "#{text[0, length]}..." : text
   end
 
   def item_shift(item)

@@ -40,7 +40,7 @@ module Api
 
       def destroy
         authorize(patient)
-        result = Patients::Destroy.result(id: patient.id.to_s)
+        result = Patients::Destroy.result(id: patient.id.to_s, scope: policy_scope(Patient))
 
         if result.success?
           deleted_successfully_render(result.patient)

@@ -186,7 +186,7 @@ RSpec.describe "Patients" do
             { error: "Error message." }
           )
 
-          allow(Patients::Destroy).to receive(:result).with(id: patient.id.to_s).and_return(result_object)
+          allow(Patients::Destroy).to receive(:result).with(hash_including(id: patient.id.to_s)).and_return(result_object)
 
           delete "/api/v1/patients/#{patient.id}", headers: headers
 

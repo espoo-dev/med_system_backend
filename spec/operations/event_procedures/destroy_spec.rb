@@ -19,27 +19,29 @@ RSpec.describe EventProcedures::Destroy, type: :operation do
     context "when event_procedure cannot be destroyed" do
       let!(:event_procedure) { create(:event_procedure) }
 
-      it "is failure" do
-        allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
-        allow(event_procedure).to receive(:destroy).and_return(false)
+      before do
+        allow_any_instance_of(EventProcedure).to receive(:destroy).and_return(false) # rubocop:disable RSpec/AnyInstance
+      end
 
+      it "is failure" do
         expect(described_class.result(id: event_procedure.id.to_s)).to be_failure
       end
 
       it "does not destroy event_procedure" do
-        allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
-        allow(event_procedure).to receive(:destroy).and_return(false)
-
         expect { described_class.result(id: event_procedure.id.to_s) }.not_to change(EventProcedure, :count)
       end
 
       it "returns error message" do
-        allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
-        allow(event_procedure).to receive(:destroy).and_return(false)
+        expect(described_class.result(id: event_procedure.id.to_s).error).to eq(:cannot_destroy)
+      end
+    end
 
-        result = described_class.result(id: event_procedure.id.to_s)
+    context "when event_procedure is outside the given scope" do
+      let!(:event_procedure) { create(:event_procedure) }
+      let(:empty_scope) { EventProcedure.none }
 
-        expect(result.error).to eq(:cannot_destroy)
+      it "raises ActiveRecord::RecordNotFound" do
+        expect { described_class.result(id: event_procedure.id.to_s, scope: empty_scope) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

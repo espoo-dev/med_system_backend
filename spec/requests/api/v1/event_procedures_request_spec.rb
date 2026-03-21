@@ -593,26 +593,29 @@ RSpec.describe "EventProcedures" do
 
       include_examples "delete request returns ok", EventProcedure
 
-      context "when event_procedure cannot be destroyed" do
-        it "returns unprocessable_content" do
-          event_procedure = create(:event_procedure, user_id: user.id)
+      context "when trying to destroy another user's event_procedure" do
+        let(:event_procedure) { create(:event_procedure, user_id: create(:user).id) }
 
-          allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
-          allow(event_procedure).to receive(:destroy).and_return(false)
-
+        it "returns not_found to prevent ID enumeration" do
           delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
+          expect(response).to have_http_status(:not_found)
+        end
+      end
 
+      context "when event_procedure cannot be destroyed" do
+        let(:event_procedure) { create(:event_procedure, user_id: user.id) }
+
+        before do
+          allow_any_instance_of(EventProcedure).to receive(:destroy).and_return(false) # rubocop:disable RSpec/AnyInstance
+        end
+
+        it "returns unprocessable_content" do
+          delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error message" do
-          event_procedure = create(:event_procedure, user_id: user.id)
-
-          allow(EventProcedure).to receive(:find).with(event_procedure.id.to_s).and_return(event_procedure)
-          allow(event_procedure).to receive(:destroy).and_return(false)
-
           delete "/api/v1/event_procedures/#{event_procedure.id}", headers: headers
-
           expect(response.parsed_body).to eq("cannot_destroy")
         end
       end

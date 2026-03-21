@@ -19,25 +19,29 @@ RSpec.describe Hospitals::Destroy, type: :operation do
     context "when hospital cannot be destroyed" do
       let!(:hospital) { create(:hospital) }
 
-      it "is failure" do
-        allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
-        allow(hospital).to receive(:destroy).and_return(false)
+      before do
+        allow_any_instance_of(Hospital).to receive(:destroy).and_return(false) # rubocop:disable RSpec/AnyInstance
+      end
 
+      it "is failure" do
         expect(described_class.result(id: hospital.id.to_s)).to be_failure
       end
 
       it "does not destroy hospital" do
-        allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
-        allow(hospital).to receive(:destroy).and_return(false)
-
         expect { described_class.result(id: hospital.id.to_s) }.not_to change(Hospital, :count)
       end
 
       it "returns error cannot_destroy" do
-        allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
-        allow(hospital).to receive(:destroy).and_return(false)
-
         expect(described_class.result(id: hospital.id.to_s).error).to eq(:cannot_destroy)
+      end
+    end
+
+    context "when hospital is outside the given scope" do
+      let!(:hospital) { create(:hospital) }
+      let(:empty_scope) { Hospital.none }
+
+      it "raises ActiveRecord::RecordNotFound" do
+        expect { described_class.result(id: hospital.id.to_s, scope: empty_scope) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
