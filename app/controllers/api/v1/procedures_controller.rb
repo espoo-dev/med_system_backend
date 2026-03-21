@@ -38,7 +38,7 @@ module Api
 
       def destroy
         authorize(procedure)
-        result = Procedures::Destroy.result(id: procedure.id.to_s)
+        result = Procedures::Destroy.result(id: procedure.id.to_s, scope: policy_scope(Procedure))
 
         if result.success?
           deleted_successfully_render(result.procedure)

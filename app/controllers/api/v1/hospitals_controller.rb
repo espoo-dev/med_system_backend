@@ -36,7 +36,7 @@ module Api
 
       def destroy
         authorize(hospital)
-        result = Hospitals::Destroy.result(id: hospital.id.to_s)
+        result = Hospitals::Destroy.result(id: hospital.id.to_s, scope: policy_scope(Hospital))
 
         if result.success?
           deleted_successfully_render(result.hospital)

@@ -19,8 +19,8 @@ RSpec.describe MedicalShifts::Destroy, type: :operation do
       let(:medical_shift) { create(:medical_shift) }
 
       before do
-        allow(MedicalShift).to receive(:find).with(medical_shift.id.to_s).and_return(medical_shift)
-        allow(medical_shift).to receive(:destroy).and_return(false)
+        medical_shift
+        allow_any_instance_of(MedicalShift).to receive(:destroy).and_return(false) # rubocop:disable RSpec/AnyInstance
       end
 
       it { expect(result).to be_failure }
@@ -28,7 +28,18 @@ RSpec.describe MedicalShifts::Destroy, type: :operation do
       it { expect(result.error).to eq(:cannot_destroy) }
     end
 
-    context "when event_procedure with given id doesn't exist" do
+    context "when medical_shift is outside the given scope" do
+      let(:medical_shift) { create(:medical_shift) }
+      let(:empty_scope) { MedicalShift.none }
+
+      it "raises ActiveRecord::RecordNotFound" do
+        expect do
+          described_class.result(id: medical_shift.id.to_s, scope: empty_scope)
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "when medical_shift with given id doesn't exist" do
       subject(:result) { described_class.result(id: "nonexistent") }
 
       it { expect { result }.to raise_error(ActiveRecord::RecordNotFound) }

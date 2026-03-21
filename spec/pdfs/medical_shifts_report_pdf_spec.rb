@@ -23,6 +23,39 @@ RSpec.describe MedicalShiftsReportPdf, type: :pdf do
     end
   end
 
+  context "when hospital name exceeds 35 characters" do
+    it "truncates the name with ellipsis" do
+      long_name = "A" * 36
+      medical_shift = create(:medical_shift, user_id: user.id, hospital_name: long_name)
+      pdf = Prawn::Document.new
+
+      described_class.new(
+        pdf: pdf, amount: amount, items: [medical_shift], title: "Plantões", email: user.email
+      ).generate
+      rendered_pdf = pdf.render
+      text_analysis = PDF::Inspector::Text.analyze(rendered_pdf)
+
+      expect(text_analysis.strings).to include("#{long_name[0, 35]}...")
+      expect(text_analysis.strings).not_to include(long_name)
+    end
+  end
+
+  context "when hospital name is within 35 characters" do
+    it "displays the name without truncation" do
+      short_name = "A" * 35
+      medical_shift = create(:medical_shift, user_id: user.id, hospital_name: short_name)
+      pdf = Prawn::Document.new
+
+      described_class.new(
+        pdf: pdf, amount: amount, items: [medical_shift], title: "Plantões", email: user.email
+      ).generate
+      rendered_pdf = pdf.render
+      text_analysis = PDF::Inspector::Text.analyze(rendered_pdf)
+
+      expect(text_analysis.strings).to include(short_name)
+    end
+  end
+
   context "when hide_values is true" do
     it "does not include monetary values in the report" do
       pdf = Prawn::Document.new

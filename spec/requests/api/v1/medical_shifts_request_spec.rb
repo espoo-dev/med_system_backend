@@ -412,10 +412,17 @@ RSpec.describe "MedicalShifts" do
         it { expect(response.parsed_body[:error]).to include("Couldn't find MedicalShift with 'id'=#{fake_id}") }
       end
 
+      context "when trying to destroy another user's medical_shift" do
+        let(:medical_shift) { create(:medical_shift, user: create(:user)) }
+
+        before { delete path, headers: headers }
+
+        it { expect(response).to have_http_status(:not_found) }
+      end
+
       context "when medical_shift cannot be destroyed" do
         before do
-          allow(MedicalShift).to receive(:find).with(medical_shift.id.to_s).and_return(medical_shift)
-          allow(medical_shift).to receive(:destroy).and_return(false)
+          allow_any_instance_of(MedicalShift).to receive(:destroy).and_return(false) # rubocop:disable RSpec/AnyInstance
 
           delete path, headers: headers
         end

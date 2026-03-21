@@ -173,21 +173,17 @@ RSpec.describe "Hospitals" do
       include_examples "delete request returns ok", Hospital
 
       context "when hospital cannot be destroyed" do
+        before do
+          allow_any_instance_of(Hospital).to receive(:destroy).and_return(false) # rubocop:disable RSpec/AnyInstance
+        end
+
         it "returns unprocessable_content" do
-          allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
-          allow(hospital).to receive(:destroy).and_return(false)
-
           delete path, headers: headers
-
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns errors" do
-          allow(Hospital).to receive(:find).with(hospital.id.to_s).and_return(hospital)
-          allow(hospital).to receive(:destroy).and_return(false)
-
           delete path, headers: headers
-
           expect(response.parsed_body).to eq("cannot_destroy")
         end
       end

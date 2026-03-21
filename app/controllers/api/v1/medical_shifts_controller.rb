@@ -68,7 +68,7 @@ module Api
       def destroy
         authorize(medical_shift)
 
-        result = MedicalShifts::Destroy.result(id: medical_shift.id.to_s)
+        result = MedicalShifts::Destroy.result(id: medical_shift.id.to_s, scope: policy_scope(MedicalShift))
 
         if result.success?
           deleted_successfully_render(result.medical_shift)

@@ -128,22 +128,27 @@ RSpec.describe "Procedures" do
     context "when user is authenticated" do
       include_examples "delete request returns ok", Procedure
 
-      context "when procedure cannot be destroyed" do
-        it "returns unprocessable_content" do
-          allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
-          allow(procedure).to receive(:destroy).and_return(false)
+      context "when trying to destroy another user's procedure" do
+        let(:procedure) { create(:procedure, user: create(:user)) }
 
+        it "returns not_found to prevent ID enumeration" do
           delete path, headers: headers
+          expect(response).to have_http_status(:not_found)
+        end
+      end
 
+      context "when procedure cannot be destroyed" do
+        before do
+          allow_any_instance_of(Procedure).to receive(:destroy).and_return(false) # rubocop:disable RSpec/AnyInstance
+        end
+
+        it "returns unprocessable_content" do
+          delete path, headers: headers
           expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "returns error messages" do
-          allow(Procedure).to receive(:find).with(procedure.id.to_s).and_return(procedure)
-          allow(procedure).to receive(:destroy).and_return(false)
-
           delete path, headers: headers
-
           expect(response.parsed_body).to eq("cannot_destroy")
         end
       end
