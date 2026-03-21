@@ -41,7 +41,9 @@ RSpec.describe Patients::Destroy, type: :operation do
       let(:empty_scope) { Patient.none }
 
       it "raises ActiveRecord::RecordNotFound" do
-        expect { described_class.result(id: patient.id.to_s, scope: empty_scope) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect do
+          described_class.result(id: patient.id.to_s, scope: empty_scope)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
