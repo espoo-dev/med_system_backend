@@ -2,6 +2,8 @@
 
 module EventProcedures
   class Create < Actor
+    include AssociationResolvable
+
     input :attributes, type: Hash
     input :user_id, type: Integer
 
@@ -35,9 +37,9 @@ module EventProcedures
     end
 
     def event_procedure_attributes
-      patient = find_or_create_patient
-      procedure = find_or_create_procedure
-      health_insurance = find_or_create_health_insurance
+      patient = find_or_create_patient(attributes[:patient_attributes])
+      procedure = find_or_create_procedure(attributes[:procedure_attributes])
+      health_insurance = find_or_create_health_insurance(attributes[:health_insurance_attributes])
 
       validate_procedure(procedure)
       validate_health_insurance(health_insurance)
@@ -71,18 +73,6 @@ module EventProcedures
           procedure_id: procedure.id,
           health_insurance_id: health_insurance.id
         )
-    end
-
-    def find_or_create_health_insurance
-      HealthInsurances::FindOrCreate.result(params: attributes[:health_insurance_attributes]).health_insurance
-    end
-
-    def find_or_create_patient
-      Patients::FindOrCreate.result(params: attributes[:patient_attributes]).patient
-    end
-
-    def find_or_create_procedure
-      Procedures::FindOrCreate.result(params: attributes[:procedure_attributes]).procedure
     end
 
     def log_success

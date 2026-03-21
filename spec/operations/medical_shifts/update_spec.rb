@@ -24,6 +24,14 @@ RSpec.describe MedicalShifts::Update, type: :operation do
       end
     end
 
+    context "when medical_shift with given id does not exist" do
+      it "raises ActiveRecord::RecordNotFound" do
+        expect do
+          described_class.result(id: "non-existent-id", attributes: {})
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
     context "with invalid attributes" do
       it "is failure" do
         medical_shift = create(:medical_shift, workload: MedicalShifts::Workloads::SIX)
