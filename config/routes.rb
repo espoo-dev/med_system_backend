@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   extend OauthRoutes
   mount Sidekiq::Web => "/sidekiq"
 
+  get "/suporte", to: "pages#support", as: :support
+  get "/politica-de-privacidade", to: "pages#privacy_policy", as: :privacy_policy
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :event_procedures, only: %i[index create update destroy]
