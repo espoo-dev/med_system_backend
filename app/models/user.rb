@@ -18,4 +18,13 @@ class User < ApplicationRecord
   has_many :health_insurances, dependent: :destroy
 
   validates :email, uniqueness: { case_sensitive: false }
+
+  private
+
+  # Send Devise emails (confirmation, reset password, etc.) through Active Job
+  # so SMTP failures are retried in the background instead of breaking the
+  # request (e.g. sign_up). See config/initializers/active_job.rb for the adapter.
+  def send_devise_notification(notification, *)
+    devise_mailer.send(notification, self, *).deliver_later
+  end
 end

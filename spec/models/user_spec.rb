@@ -53,6 +53,29 @@ RSpec.describe User do
     end
   end
 
+  describe "devise notifications delivery" do
+    it "does not deliver devise emails synchronously" do
+      expect { create(:user) }.not_to change(ActionMailer::Base.deliveries, :size)
+    end
+
+    it "delivers devise notifications via deliver_later" do
+      user = create(:user)
+      message = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+      mailer = instance_double(Devise::Mailer, confirmation_instructions: message)
+      allow(user).to receive(:devise_mailer).and_return(mailer)
+
+      expect(message).to receive(:deliver_later)
+
+      user.send(:send_devise_notification, :confirmation_instructions, "token", {})
+    end
+
+    it "delivers the email once the background job runs" do
+      Sidekiq::Testing.inline! do
+        expect { create(:user) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
+    end
+  end
+
   describe "password reset" do
     let(:user) { create(:user, email: "test@email.com") }
 
@@ -61,7 +84,9 @@ RSpec.describe User do
     end
 
     it "sends password reset email" do
-      expect { user.send_reset_password_instructions }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      Sidekiq::Testing.inline! do
+        expect { user.send_reset_password_instructions }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
     end
 
     it "generates reset password token" do

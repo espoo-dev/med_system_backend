@@ -101,7 +101,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.sendgrid.net",
+    address: "smtp.resend.com",
     port: 587,
     domain: "meusprocedimentos.com.br",
     user_name: Rails.application.credentials.dig(:smtp, :username),
