@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "simplecov"
 
 SimpleCov.start do
@@ -12,6 +10,9 @@ SimpleCov.start do
   add_filter "config"
   add_filter %r{^/spec/}
   add_filter "app/channels"
+  add_filter "app/dashboards"
+
+  minimum_coverage 100
 end
 
 SimpleCov.at_exit do
