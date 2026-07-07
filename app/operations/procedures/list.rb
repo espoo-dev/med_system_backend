@@ -9,7 +9,7 @@ module Procedures
     output :procedures, type: Enumerable
 
     def call
-      self.procedures = filtered_query.order(created_at: :desc).page(params[:page]).per(params[:per_page])
+      self.procedures = filtered_query.order(created_at: :desc, id: :desc).page(params[:page]).per(params[:per_page])
     end
 
     private

@@ -25,6 +25,18 @@ RSpec.describe MedicalShifts::List, type: :operation do
         expect(result.medical_shifts).to eq [tomorrow_medical_shift, today_medical_shift, yesterday_medical_shift]
       end
 
+      it "orders by id desc as a tiebreaker when start_date is equal" do
+        user = create(:user)
+        same_date = Time.zone.today
+        first_medical_shift = create(:medical_shift, start_date: same_date, user: user)
+        second_medical_shift = create(:medical_shift, start_date: same_date, user: user)
+        third_medical_shift = create(:medical_shift, start_date: same_date, user: user)
+
+        result = described_class.result(scope: MedicalShift.all, params: {})
+
+        expect(result.medical_shifts).to eq [third_medical_shift, second_medical_shift, first_medical_shift]
+      end
+
       context "when has pagination via page and per_page" do
         it "returns the medical_shifts paginated" do
           user = create(:user)

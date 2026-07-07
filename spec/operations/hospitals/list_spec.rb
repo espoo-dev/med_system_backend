@@ -25,6 +25,17 @@ RSpec.describe Hospitals::List, type: :operation do
         ]
       )
     end
+
+    it "orders by id desc as a tiebreaker when created_at is equal" do
+      same_time = Time.zone.today
+      first_hospital = create(:hospital, created_at: same_time)
+      second_hospital = create(:hospital, created_at: same_time)
+      third_hospital = create(:hospital, created_at: same_time)
+
+      result = described_class.result
+
+      expect(result.hospitals).to eq [third_hospital, second_hospital, first_hospital]
+    end
   end
 
   context "when has pagination via page and per_page" do

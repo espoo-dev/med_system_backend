@@ -8,7 +8,7 @@ module Patients
     output :patients, type: Enumerable
 
     def call
-      self.patients = scope.order(created_at: :desc).page(params[:page]).per(params[:per_page])
+      self.patients = scope.order(created_at: :desc, id: :desc).page(params[:page]).per(params[:per_page])
     end
   end
 end

@@ -25,6 +25,17 @@ RSpec.describe Patients::List, type: :operation do
         ]
       )
     end
+
+    it "orders by id desc as a tiebreaker when created_at is equal" do
+      same_time = Time.zone.today
+      first_patient = create(:patient, created_at: same_time)
+      second_patient = create(:patient, created_at: same_time)
+      third_patient = create(:patient, created_at: same_time)
+
+      result = described_class.result(scope: Patient.all)
+
+      expect(result.patients).to eq [third_patient, second_patient, first_patient]
+    end
   end
 
   context "when has pagination via page and per_page" do

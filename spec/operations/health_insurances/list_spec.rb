@@ -26,6 +26,17 @@ RSpec.describe HealthInsurances::List, type: :operation do
       )
     end
 
+    it "orders by id desc as a tiebreaker when created_at is equal" do
+      same_time = Time.zone.today
+      first_health_insurance = create(:health_insurance, created_at: same_time)
+      second_health_insurance = create(:health_insurance, created_at: same_time)
+      third_health_insurance = create(:health_insurance, created_at: same_time)
+
+      result = described_class.result
+
+      expect(result.health_insurances).to eq [third_health_insurance, second_health_insurance, first_health_insurance]
+    end
+
     context "when filtering by user" do
       it "returns only health insurances for the specified user" do
         user1 = create(:user)

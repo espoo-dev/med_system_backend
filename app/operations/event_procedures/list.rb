@@ -9,7 +9,7 @@ module EventProcedures
     output :event_procedures_unpaginated, type: Enumerable
 
     def call
-      self.event_procedures_unpaginated = filtered_query.order(date: :desc)
+      self.event_procedures_unpaginated = filtered_query.order(date: :desc, id: :desc)
       self.event_procedures = event_procedures_unpaginated.page(params[:page]).per(params[:per_page])
     end
 

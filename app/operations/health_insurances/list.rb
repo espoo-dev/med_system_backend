@@ -9,7 +9,8 @@ module HealthInsurances
     output :health_insurances, type: Enumerable
 
     def call
-      self.health_insurances = filtered_query.order(created_at: :desc).page(params[:page]).per(params[:per_page])
+      self.health_insurances = filtered_query.order(created_at: :desc, id: :desc)
+        .page(params[:page]).per(params[:per_page])
     end
 
     private

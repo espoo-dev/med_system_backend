@@ -26,6 +26,17 @@ RSpec.describe Procedures::List, type: :operation do
       )
     end
 
+    it "orders by id desc as a tiebreaker when created_at is equal" do
+      same_time = Time.zone.today
+      first_procedure = create(:procedure, created_at: same_time)
+      second_procedure = create(:procedure, created_at: same_time)
+      third_procedure = create(:procedure, created_at: same_time)
+
+      result = described_class.result
+
+      expect(result.procedures).to eq [third_procedure, second_procedure, first_procedure]
+    end
+
     it "returns all procedures ignoring default per_page value" do
       procedures = create_list(:procedure, 26)
 

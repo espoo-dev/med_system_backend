@@ -21,6 +21,18 @@ RSpec.describe EventProcedures::List, type: :operation do
       expect(result.event_procedures).to eq [tomorrow_event, today_event, yesterday_event]
     end
 
+    it "orders by id desc as a tiebreaker when dates are equal" do
+      user = create(:user)
+      same_date = Time.zone.today
+      first_event = create(:event_procedure, date: same_date, user: user)
+      second_event = create(:event_procedure, date: same_date, user: user)
+      third_event = create(:event_procedure, date: same_date, user: user)
+
+      result = described_class.result(scope: EventProcedure.all, params: {})
+
+      expect(result.event_procedures).to eq [third_event, second_event, first_event]
+    end
+
     it "includes the associations" do # rubocop:disable RSpec/MultipleExpectations
       user = create(:user)
       procedure = create(:procedure, name: "Tireoidectomia")
