@@ -108,6 +108,84 @@ RSpec.describe MedicalShiftRecurrences::Cancel, type: :operation do
       end
     end
 
+    context "when destroy returns false without raising (e.g. an aborted callback)" do
+      it "fails" do
+        allow(recurrence).to receive(:destroy).and_return(false)
+
+        result = described_class.result(medical_shift_recurrence: recurrence)
+
+        expect(result.success?).to be false
+        expect(result.error).to eq("Failed to destroy recurrence")
+      end
+
+      it "does not report shifts as cancelled" do
+        allow(recurrence).to receive(:destroy).and_return(false)
+
+        result = described_class.result(medical_shift_recurrence: recurrence)
+
+        expect(result.shifts_cancelled).to eq(0)
+        expect(result.cancelled_shift_ids).to eq([])
+      end
+
+      it "logs the failure as an error" do
+        allow(recurrence).to receive(:destroy).and_return(false)
+
+        expect(Rails.logger).to receive(:error).with(/Failed to destroy recurrence/)
+
+        described_class.result(medical_shift_recurrence: recurrence)
+      end
+    end
+
+    context "when a future shift fails to destroy" do
+      let!(:future_shifts) { recurrence.medical_shifts.where("start_date >= ?", Date.current).to_a }
+      let(:failing_shift) { future_shifts.first }
+
+      before do
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(MedicalShift).to receive(:destroy).and_wrap_original do |original, *args|
+          original.receiver.id == failing_shift.id ? false : original.call(*args)
+        end
+        # rubocop:enable RSpec/AnyInstance
+      end
+
+      it "fails" do
+        result = described_class.result(medical_shift_recurrence: recurrence)
+
+        expect(result.success?).to be false
+      end
+
+      it "returns a descriptive error" do
+        result = described_class.result(medical_shift_recurrence: recurrence)
+
+        expect(result.error).to eq("Failed to destroy all future shifts")
+      end
+
+      it "rolls back the recurrence destroy" do
+        described_class.result(medical_shift_recurrence: recurrence)
+
+        expect(recurrence.reload.deleted?).to be false
+      end
+
+      it "rolls back the other shifts already destroyed in the same attempt" do
+        described_class.result(medical_shift_recurrence: recurrence)
+
+        expect(MedicalShift.where(id: future_shifts.map(&:id)).count).to eq(future_shifts.count)
+      end
+
+      it "does not report shifts as cancelled" do
+        result = described_class.result(medical_shift_recurrence: recurrence)
+
+        expect(result.shifts_cancelled).to eq(0)
+        expect(result.cancelled_shift_ids).to eq([])
+      end
+
+      it "logs the failure as an error" do
+        expect(Rails.logger).to receive(:error).with(/Failed to destroy all future shifts/)
+
+        described_class.result(medical_shift_recurrence: recurrence)
+      end
+    end
+
     context "when recurrence is already deleted" do
       before do
         recurrence.destroy
@@ -129,6 +207,13 @@ RSpec.describe MedicalShiftRecurrences::Cancel, type: :operation do
         expect do
           described_class.result(medical_shift_recurrence: recurrence)
         end.not_to change(MedicalShift.with_deleted, :count)
+      end
+
+      it "logs the failure as a warning, not an error" do
+        expect(Rails.logger).to receive(:warn).with(/Recurrence already cancelled/)
+        expect(Rails.logger).not_to receive(:error)
+
+        described_class.result(medical_shift_recurrence: recurrence)
       end
     end
 

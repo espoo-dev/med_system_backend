@@ -25,7 +25,15 @@ namespace :medical_shift_recurrences do # rubocop:disable Metrics/BlockLength
       puts "-" * 80
       puts ""
 
-      result = MedicalShiftRecurrences::GeneratePending.result
+      # Marks any PaperTrail::Version created during this run with a source that
+      # isn't a user-authenticated API request, so it can be told apart later.
+      # Scoped to a block (rather than set directly) so the request-local state
+      # is restored afterward even if this task ever runs on a long-lived
+      # worker thread instead of its own process.
+      result = PaperTrail.request(
+        whodunnit: "rake:generate_pending",
+        controller_info: { source: "rake:generate_pending" }
+      ) { MedicalShiftRecurrences::GeneratePending.result }
 
       Rails.logger.info "[MedicalShiftRecurrences] Processed: #{result.processed} recurrences"
       Rails.logger.info "[MedicalShiftRecurrences] Shifts created: #{result.shifts_created}"
