@@ -10,6 +10,7 @@ module Api
 
       before_action :authenticate_devise_api_token!
       before_action :set_paper_trail_whodunnit
+      before_action :log_authenticated_request
 
       rescue_from Pundit::NotAuthorizedError, with: :render_unauthorized
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
@@ -29,6 +30,21 @@ module Api
 
       def render_bad_request(exception)
         render json: { error: exception.message }, status: :bad_request
+      end
+
+      private
+
+      # Tags aren't reliable for user_id here: Rails computes config.log_tags once,
+      # in the Rack middleware, before authenticate_devise_api_token! runs.
+      # Logging it explicitly keeps user_id and request_id on the same line.
+      def log_authenticated_request
+        Rails.logger.info("user_id=#{current_user&.id} request_id=#{request.request_id}")
+      end
+
+      # PaperTrail::Rails::Controller wires this into set_paper_trail_controller_info
+      # automatically; the returned keys must match columns on the versions table.
+      def info_for_paper_trail
+        { source: "api_request", request_id: request.request_id }
       end
     end
   end

@@ -67,14 +67,16 @@ module MedicalShiftRecurrences
 
     def log_success
       Rails.logger.info(
-        ">>> MedicalShiftRecurrence created successfully. ID: #{medical_shift_recurrence.id}, " \
-        "User ID: #{user_id}, Shifts Created: #{shifts_created.count}"
+        "MedicalShiftRecurrences::Create succeeded " \
+        "recurrence_id=#{medical_shift_recurrence.id} user_id=#{user_id} " \
+        "shifts_created_count=#{shifts_created.count} shifts_created_ids=#{shifts_created.map(&:id)}"
       )
     end
 
     def log_error(errors)
       Rails.logger.error(
-        ">>> Failed to create MedicalShiftRecurrence. User ID: #{user_id}, Errors: #{errors.join(', ')}"
+        "MedicalShiftRecurrences::Create failed " \
+        "user_id=#{user_id} errors=#{errors.join(', ')}"
       )
     end
   end

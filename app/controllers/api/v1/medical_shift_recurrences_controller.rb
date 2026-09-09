@@ -35,7 +35,7 @@ module Api
 
       def destroy
         authorize(@recurrence)
-        result = MedicalShiftRecurrences::Cancel.call(
+        result = MedicalShiftRecurrences::Cancel.result(
           medical_shift_recurrence: @recurrence
         )
 
